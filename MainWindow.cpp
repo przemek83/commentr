@@ -2,7 +2,7 @@
 #include <QStyleFactory>
 #include <QFileDialog>
 #include <QPushButton>
-#include <QDesktopWidget>
+//#include <QDesktopWidget>
 #include <QClipboard>
 #include <QLabel>
 #include <QMessageBox>
@@ -10,6 +10,7 @@
 #include <QKeyEvent>
 #include <QLineEdit>
 #include <QTabBar>
+#include <QActionGroup>
 //#include <QtAndroidExtras/QAndroidJniObject>
 
 #include "qftp.h"

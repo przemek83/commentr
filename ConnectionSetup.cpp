@@ -52,7 +52,7 @@ void ConnectionSetup::setupLineEdits()
 {
     hostLineEdit_ = new EnhancedLineEdit(this);
     hostLineEdit_->setPlaceholderText("example.com");
-    QRegExp hostRegExp(QRegExp("([^\\s/?\\.#-]+\\.?)+(/[^\\s]*)?$@iS"));
+    QRegularExpression hostRegExp(QRegularExpression("([^\\s/?\\.#-]+\\.?)+(/[^\\s]*)?$@iS"));
     hostLineEdit_->setValidator(new QRegExpValidator(hostRegExp, hostLineEdit_));
     hostLineEdit_->setInputMethodHints(Qt::ImhNoPredictiveText);
     ui->verticalLayout->insertWidget(2, hostLineEdit_);

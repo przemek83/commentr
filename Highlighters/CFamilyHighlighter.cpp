@@ -2,13 +2,13 @@
 
 CFamilyHighlighter::CFamilyHighlighter(QObject *parent) :
     Highlighter(parent),
-    commentStartExpression_(QRegExp("/\\*")),
-    commentEndExpression_(QRegExp("\\*/"))
+    commentStartExpression_(QRegularExpression("/\\*")),
+    commentEndExpression_(QRegularExpression("\\*/"))
 {
     multiLineCommentFormat_.setForeground(Qt::red);
 
     singleLineCommentRule_.format.setForeground(Qt::red);
-    singleLineCommentRule_.pattern = QRegExp("//[^\n]*");
+    singleLineCommentRule_.pattern = QRegularExpression("//[^\n]*");
 }
 
 CFamilyHighlighter::~CFamilyHighlighter()
@@ -23,7 +23,7 @@ void CFamilyHighlighter::initFunctionsRules()
     QTextCharFormat functionFormat;
     functionFormat.setFontItalic(true);
     functionFormat.setForeground(Qt::blue);
-    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+\\s*(?=\\()");
+    rule.pattern = QRegularExpression("\\b[A-Za-z0-9_]+\\s*(?=\\()");
     rule.format = functionFormat;
     highlightingRules_.append(rule);
 }
@@ -34,8 +34,8 @@ void CFamilyHighlighter::initQuotationRules()
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    //rule.pattern = QRegExp("(\"([^\"]|\\\\\")*\"|\'([^\']|\\\\\')*\')");
-    rule.pattern = QRegExp("(\"([^\"]|\\\\\")*\"|\'([^\']|\\\\\')*\')");
+    //rule.pattern = QRegularExpression("(\"([^\"]|\\\\\")*\"|\'([^\']|\\\\\')*\')");
+    rule.pattern = QRegularExpression("(\"([^\"]|\\\\\")*\"|\'([^\']|\\\\\')*\')");
     rule.format = quotationFormat;
     highlightingRules_.append(rule);
 }
@@ -43,7 +43,7 @@ void CFamilyHighlighter::initQuotationRules()
 void CFamilyHighlighter::commentBlock(const QString& text)
 {
     //Single line comment.
-    const QRegExp& expression = singleLineCommentRule_.pattern;
+    const QRegularExpression& expression = singleLineCommentRule_.pattern;
     int index = expression.indexIn(text);
     if (index >= 0)
     {

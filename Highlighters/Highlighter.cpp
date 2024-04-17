@@ -29,7 +29,7 @@ void Highlighter::highlightBlock(const QString& text)
 
     foreach (const HighlightingRule &rule, highlightingRules_)
     {
-        const QRegExp& expression = rule.pattern;
+        const QRegularExpression& expression = rule.pattern;
         int index = expression.indexIn(text);
         while (index >= 0)
         {
@@ -51,7 +51,7 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
     }
 
     QString str = line.simplified();
-    QStringList wordsList = str.split(QRegExp("([^\\w,^\\\\]|(?=\\\\))+"),
+    QStringList wordsList = str.split(QRegularExpression("([^\\w,^\\\\]|(?=\\\\))+"),
                                       QString::SkipEmptyParts);
     foreach(QString word, wordsList)
     {
@@ -59,10 +59,10 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
              false == SpellChecker::getInstance().checkWord(word) )
         {
             int l = -1, number = 0;
-            number = line.count(QRegExp("\\b" + word + "\\b"));
+            number = line.count(QRegularExpression("\\b" + word + "\\b"));
             for ( int j=0; j < number; ++j )
             {
-                l = line.indexOf(QRegExp("\\b" + word + "\\b"), minIndex + l + 1);
+                l = line.indexOf(QRegularExpression("\\b" + word + "\\b"), minIndex + l + 1);
                 if ( l >= 0 )
                 {
                     setFormat(l, word.length(), spellCheckFormat_);

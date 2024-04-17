@@ -4,7 +4,7 @@ PythonHighlighter::PythonHighlighter(QObject * parent) :
     Highlighter(parent)
 {
     singleLineCommentRule_.format.setForeground(Qt::red);
-    singleLineCommentRule_.pattern = QRegExp("#[^\n]*");
+    singleLineCommentRule_.pattern = QRegularExpression("#[^\n]*");
 }
 
 PythonHighlighter::~PythonHighlighter()
@@ -31,7 +31,7 @@ void PythonHighlighter::initRules()
     HighlightingRule rule;
     foreach (const QString &pattern, keywordPatterns)
     {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules_.append(rule);
     }
@@ -39,7 +39,7 @@ void PythonHighlighter::initRules()
     QTextCharFormat functionFormat;
     functionFormat.setFontItalic(true);
     functionFormat.setForeground(Qt::blue);
-    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+\\s*(?=\\()");
+    rule.pattern = QRegularExpression("\\b[A-Za-z0-9_]+\\s*(?=\\()");
     rule.format = functionFormat;
     highlightingRules_.append(rule);
 
@@ -47,7 +47,7 @@ void PythonHighlighter::initRules()
     quotationFormat.setForeground(Qt::darkGreen);
     QString regexp =
         QString("(\"[^\"]*\"|\'[^\']*\'|\'\'\'[^\'\'\']*\'\'\'|\"\"\"[^\"\"\"]*\"\"\")");
-    rule.pattern = QRegExp(regexp);
+    rule.pattern = QRegularExpression(regexp);
     rule.format = quotationFormat;
     highlightingRules_.append(rule);
 }
@@ -55,7 +55,7 @@ void PythonHighlighter::initRules()
 void PythonHighlighter::commentBlock(const QString& text)
 {
     //Single line comment.
-    const QRegExp& expression = singleLineCommentRule_.pattern;
+    const QRegularExpression& expression = singleLineCommentRule_.pattern;
     int index = expression.indexIn(text);
     if (index >= 0)
     {

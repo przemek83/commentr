@@ -714,7 +714,7 @@ void CodeViewer::keyPressEvent(QKeyEvent* e)
         QString line = textCursor().block().text();
 
         QPlainTextEdit::keyPressEvent(e);
-        insertPlainText(line.left(line.indexOf(QRegExp("\\S"))));
+        insertPlainText(line.left(line.indexOf(QRegularExpression("\\S"))));
 //        e->accept();
 //        repaint();
         return;

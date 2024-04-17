@@ -58,7 +58,7 @@ void CplusPlusHighlighter::initRules()
 
     foreach (const QString &pattern, keywordPatterns)
     {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules_.append(rule);
     }
@@ -66,7 +66,7 @@ void CplusPlusHighlighter::initRules()
     QTextCharFormat classFormat;
     classFormat.setFontWeight(QFont::Bold);
     classFormat.setForeground(Qt::darkMagenta);
-    rule.pattern = QRegExp("\\bQ[A-Za-z]+\\b");
+    rule.pattern = QRegularExpression("\\bQ[A-Za-z]+\\b");
     rule.format = classFormat;
     highlightingRules_.append(rule);
 

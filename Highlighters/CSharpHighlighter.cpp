@@ -53,7 +53,7 @@ void CSharpHighlighter::initRules()
 
     foreach (const QString &pattern, keywordPatterns)
     {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules_.append(rule);
     }

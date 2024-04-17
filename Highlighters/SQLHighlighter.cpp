@@ -2,13 +2,13 @@
 
 SQLHighlighter::SQLHighlighter(QObject * parent) :
     Highlighter(parent),
-    commentStartExpression_(QRegExp("/\\*")),
-    commentEndExpression_(QRegExp("\\*/"))
+    commentStartExpression_(QRegularExpression("/\\*")),
+    commentEndExpression_(QRegularExpression("\\*/"))
 {
     multiLineCommentFormat_.setForeground(Qt::red);
 
     singleLineCommentRule_.format.setForeground(Qt::red);
-    singleLineCommentRule_.pattern = QRegExp("--[^\n]*");
+    singleLineCommentRule_.pattern = QRegularExpression("--[^\n]*");
 }
 
 SQLHighlighter::~SQLHighlighter()
@@ -75,14 +75,14 @@ void SQLHighlighter::initRules()
     HighlightingRule rule;
     foreach (const QString &pattern, keywordPatterns)
     {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules_.append(rule);
     }
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegExp("(\"[^\"]*\"|\'[^\']*\')");
+    rule.pattern = QRegularExpression("(\"[^\"]*\"|\'[^\']*\')");
     rule.format = quotationFormat;
     highlightingRules_.append(rule);
 }
@@ -98,7 +98,7 @@ void SQLHighlighter::highlightBlock(const QString& text)
     QString lower(text.toLower());
     foreach (const HighlightingRule &rule, highlightingRules_)
     {
-        const QRegExp& expression = rule.pattern;
+        const QRegularExpression& expression = rule.pattern;
         int index = expression.indexIn(lower);
         while (index >= 0)
         {
@@ -114,7 +114,7 @@ void SQLHighlighter::highlightBlock(const QString& text)
 void SQLHighlighter::commentBlock(const QString& text)
 {
     //Single line comment.
-    const QRegExp& expression = singleLineCommentRule_.pattern;
+    const QRegularExpression& expression = singleLineCommentRule_.pattern;
     int index = expression.indexIn(text);
     if (index >= 0)
     {

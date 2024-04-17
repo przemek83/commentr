@@ -2,13 +2,13 @@
 
 JavaScriptHighlighter::JavaScriptHighlighter(QObject * parent) :
     Highlighter(parent),
-    commentStartExpression_(QRegExp("/\\*")),
-    commentEndExpression_(QRegExp("\\*/"))
+    commentStartExpression_(QRegularExpression("/\\*")),
+    commentEndExpression_(QRegularExpression("\\*/"))
 {
     multiLineCommentFormat_.setForeground(Qt::red);
 
     singleLineCommentRule_.format.setForeground(Qt::red);
-    singleLineCommentRule_.pattern = QRegExp("//[^\n]*");
+    singleLineCommentRule_.pattern = QRegularExpression("//[^\n]*");
 }
 
 JavaScriptHighlighter::~JavaScriptHighlighter()
@@ -22,7 +22,7 @@ void JavaScriptHighlighter::initRules()
     QTextCharFormat functionFormat;
     functionFormat.setFontItalic(true);
     functionFormat.setForeground(Qt::blue);
-    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+\\s*(?=\\()");
+    rule.pattern = QRegularExpression("\\b[A-Za-z0-9_]+\\s*(?=\\()");
     rule.format = functionFormat;
     highlightingRules_.append(rule);
 
@@ -49,14 +49,14 @@ void JavaScriptHighlighter::initRules()
 
     foreach (const QString &pattern, keywordPatterns)
     {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules_.append(rule);
     }
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegExp("(\"([^\"]|\\\\\")*\"|\'([^\']|\\\\\')*\')");
+    rule.pattern = QRegularExpression("(\"([^\"]|\\\\\")*\"|\'([^\']|\\\\\')*\')");
     rule.format = quotationFormat;
     highlightingRules_.append(rule);
 }
@@ -64,11 +64,12 @@ void JavaScriptHighlighter::initRules()
 void JavaScriptHighlighter::commentBlock(const QString& text)
 {
     //Single line comment.
-    const QRegExp& expression = singleLineCommentRule_.pattern;
-    int index = expression.indexIn(text);
-    if (index >= 0)
+    const QRegularExpression& expression = singleLineCommentRule_.pattern;
+    QRegularExpressionMatch match = expression.match(text);
+    if (match.hasMatch())
     {
-        int length = expression.matchedLength();
+        int length = match.capturedLength();
+        int index = match.capturedStart();
         setFormat(index, length, singleLineCommentRule_.format);
         checkSpellingInBlock(index, text);
     }

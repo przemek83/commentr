@@ -1,6 +1,8 @@
 #ifndef CFAMILYHIGHLIGHTER_H
 #define CFAMILYHIGHLIGHTER_H
 
+#include <QRegularExpression>
+
 #include "Highlighter.h"
 
 class CFamilyHighlighter : public Highlighter
@@ -20,9 +22,9 @@ protected:
 private:
     Q_DISABLE_COPY(CFamilyHighlighter)
 
-    QRegExp commentStartExpression_;
+    QRegularExpression commentStartExpression_;
 
-    QRegExp commentEndExpression_;
+    QRegularExpression commentEndExpression_;
 
     QTextCharFormat multiLineCommentFormat_;
 

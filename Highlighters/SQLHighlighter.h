@@ -20,9 +20,9 @@ protected:
 private:
     Q_DISABLE_COPY(SQLHighlighter)
 
-    QRegExp commentStartExpression_;
+    QRegularExpression commentStartExpression_;
 
-    QRegExp commentEndExpression_;
+    QRegularExpression commentEndExpression_;
 
     QTextCharFormat multiLineCommentFormat_;
 

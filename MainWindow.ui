@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>371</width>
+    <height>305</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="mainScreen">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="tabsClosable">
+           <bool>false</bool>
+          </property>
+          <property name="movable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>371</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuRecent_files">
+     <property name="title">
+      <string>Recent local files</string>
+     </property>
+    </widget>
+    <addaction name="actionNew"/>
+    <addaction name="actionOpen_file"/>
+    <addaction name="menuRecent_files"/>
+    <addaction name="actionSave_file"/>
+    <addaction name="actionSave_as"/>
+    <addaction name="actionCloseFile"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionQT_LGPL_license"/>
+   </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <widget class="QMenu" name="menuTabs_alignment">
+     <property name="title">
+      <string>Tabs alignment</string>
+     </property>
+    </widget>
+    <widget class="QMenu" name="menuInterface">
+     <property name="title">
+      <string>Interface size</string>
+     </property>
+     <addaction name="actionDecrease50"/>
+     <addaction name="actionDecrease25"/>
+     <addaction name="actionDecrease10"/>
+     <addaction name="actionIncrease10"/>
+     <addaction name="actionIncrease25"/>
+     <addaction name="actionIncrease50"/>
+    </widget>
+    <widget class="QMenu" name="menuToolbar">
+     <property name="title">
+      <string>Toolbar</string>
+     </property>
+     <widget class="QMenu" name="menuCustomize">
+      <property name="title">
+       <string>Customize</string>
+      </property>
+      <addaction name="actionToolbarKeyboard"/>
+      <addaction name="actionToolbarFile_Operations"/>
+      <addaction name="actionToolbarUndo_redo"/>
+      <addaction name="actionToolbarCut_copy_paste"/>
+      <addaction name="actionToolbarZoom_in_out"/>
+      <addaction name="actionToolbarSearch"/>
+     </widget>
+     <widget class="QMenu" name="menuToolbarOrientation">
+      <property name="title">
+       <string>Orientation</string>
+      </property>
+      <addaction name="actionToolbarNorth"/>
+      <addaction name="actionToolbarSouth"/>
+      <addaction name="actionToolbarWest"/>
+      <addaction name="actionToolbarEast"/>
+     </widget>
+     <addaction name="actionShowToolbar"/>
+     <addaction name="menuCustomize"/>
+     <addaction name="menuToolbarOrientation"/>
+    </widget>
+    <widget class="QMenu" name="menuLanguage_mode">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <addaction name="actionLangC_Cpp"/>
+     <addaction name="actionLangCSharp"/>
+     <addaction name="actionLangJava"/>
+     <addaction name="actionLangJavaScript"/>
+     <addaction name="actionLangNone"/>
+     <addaction name="actionLangObjective_C"/>
+     <addaction name="actionLangPHP"/>
+     <addaction name="actionLangPython"/>
+     <addaction name="actionLangSQL"/>
+     <addaction name="actionLangVBasic"/>
+    </widget>
+    <addaction name="menuInterface"/>
+    <addaction name="menuTabs_alignment"/>
+    <addaction name="menuToolbar"/>
+    <addaction name="actionCheck_spelling_in_comments"/>
+    <addaction name="actionLine_wrap"/>
+    <addaction name="actionKeyboard_after_tap"/>
+    <addaction name="menuLanguage_mode"/>
+    <addaction name="actionConnection_setup"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionPaste"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_hide_keyboard"/>
+    <addaction name="actionZoom_in"/>
+    <addaction name="actionZoom_out"/>
+    <addaction name="actionSearch"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuOptions"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <property name="windowTitle">
+    <string>Toolbar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionShow_hide_keyboard"/>
+   <addaction name="actionNew"/>
+   <addaction name="actionOpen_file"/>
+   <addaction name="actionSave_file"/>
+   <addaction name="actionSave_as"/>
+   <addaction name="actionCloseFile"/>
+   <addaction name="actionZoom_in"/>
+   <addaction name="actionZoom_out"/>
+   <addaction name="actionSearch"/>
+   <addaction name="actionUndo"/>
+   <addaction name="actionPaste"/>
+   <addaction name="actionCopy"/>
+   <addaction name="actionRedo"/>
+   <addaction name="actionCut"/>
+  </widget>
+  <action name="actionOpen_file">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/open.png</normaloff>:/Icons/open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open file</string>
+   </property>
+   <property name="toolTip">
+    <string>Open file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSave_file">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/save.png</normaloff>:/Icons/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save file</string>
+   </property>
+   <property name="toolTip">
+    <string>Save edited file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="actionZoom_out">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/zoomOut.png</normaloff>:/Icons/zoomOut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom out</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom out</string>
+   </property>
+  </action>
+  <action name="actionZoom_in">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/zoomIn.png</normaloff>:/Icons/zoomIn.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom in</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom in</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/search.png</normaloff>:/Icons/search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+   <property name="toolTip">
+    <string>Search</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/undo.png</normaloff>:/Icons/undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="toolTip">
+    <string>Undo action</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/redo.png</normaloff>:/Icons/redo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="toolTip">
+    <string>Redo action</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/cut.png</normaloff>:/Icons/cut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="toolTip">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/copy.png</normaloff>:/Icons/copy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/paste.png</normaloff>:/Icons/paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="toolTip">
+    <string>Paste</string>
+   </property>
+  </action>
+  <action name="actionTabsWest">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>West</string>
+   </property>
+   <property name="toolTip">
+    <string>Align tabs west</string>
+   </property>
+  </action>
+  <action name="actionTabsEast">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>East</string>
+   </property>
+   <property name="toolTip">
+    <string>Align tabs east</string>
+   </property>
+  </action>
+  <action name="actionTabsNorth">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>North</string>
+   </property>
+   <property name="toolTip">
+    <string>Align tabs north</string>
+   </property>
+  </action>
+  <action name="actionTabsSouth">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>South</string>
+   </property>
+   <property name="toolTip">
+    <string>Align tabs south</string>
+   </property>
+  </action>
+  <action name="actionDecrease50">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>- 50%</string>
+   </property>
+   <property name="toolTip">
+    <string>Decrease size by 50%</string>
+   </property>
+  </action>
+  <action name="actionDecrease25">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>- 25%</string>
+   </property>
+   <property name="toolTip">
+    <string>Decrease size by 25%</string>
+   </property>
+  </action>
+  <action name="actionDecrease10">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>- 10%</string>
+   </property>
+   <property name="toolTip">
+    <string>Decrease size by 10%</string>
+   </property>
+  </action>
+  <action name="actionIncrease10">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>+ 10%</string>
+   </property>
+   <property name="toolTip">
+    <string>Increase size by 10%</string>
+   </property>
+  </action>
+  <action name="actionIncrease25">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>+ 25%</string>
+   </property>
+   <property name="toolTip">
+    <string>Increase size by 25%</string>
+   </property>
+  </action>
+  <action name="actionToolbarFile_Operations">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>File Operations</string>
+   </property>
+  </action>
+  <action name="actionToolbarCut_copy_paste">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Cut, copy, paste</string>
+   </property>
+  </action>
+  <action name="actionToolbarZoom_in_out">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Zoom in and out</string>
+   </property>
+  </action>
+  <action name="actionToolbarUndo_redo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Undo and redo</string>
+   </property>
+   <property name="toolTip">
+    <string>Undo and redo</string>
+   </property>
+  </action>
+  <action name="actionToolbarSearch">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+  </action>
+  <action name="actionCheck_spelling_in_comments">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Check spelling</string>
+   </property>
+  </action>
+  <action name="actionLine_wrap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Line wrap</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="toolTip">
+    <string>Exit application</string>
+   </property>
+  </action>
+  <action name="actionShowToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show</string>
+   </property>
+   <property name="toolTip">
+    <string>Show toolbar</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/new.png</normaloff>:/Icons/new.png</iconset>
+   </property>
+   <property name="text">
+    <string>New file</string>
+   </property>
+   <property name="toolTip">
+    <string>New file</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/saveAs.png</normaloff>:/Icons/saveAs.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save file as</string>
+   </property>
+   <property name="toolTip">
+    <string>Save edited file as</string>
+   </property>
+  </action>
+  <action name="actionLangC_Cpp">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>C/C++</string>
+   </property>
+   <property name="toolTip">
+    <string>C/C++</string>
+   </property>
+  </action>
+  <action name="actionLangJava">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Java</string>
+   </property>
+   <property name="toolTip">
+    <string>Java</string>
+   </property>
+  </action>
+  <action name="actionLangObjective_C">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Objective-C</string>
+   </property>
+   <property name="toolTip">
+    <string>Objective-C</string>
+   </property>
+  </action>
+  <action name="actionLangCSharp">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>C#</string>
+   </property>
+   <property name="toolTip">
+    <string>C Sharp</string>
+   </property>
+  </action>
+  <action name="actionLangPHP">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>PHP</string>
+   </property>
+   <property name="toolTip">
+    <string>PHP</string>
+   </property>
+  </action>
+  <action name="actionLangVBasic">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Visual Basic</string>
+   </property>
+   <property name="toolTip">
+    <string>Visual Basic</string>
+   </property>
+  </action>
+  <action name="actionLangPython">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Python</string>
+   </property>
+   <property name="toolTip">
+    <string>Python</string>
+   </property>
+  </action>
+  <action name="actionLangSQL">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Transact-SQL</string>
+   </property>
+   <property name="toolTip">
+    <string>Transact-SQL</string>
+   </property>
+  </action>
+  <action name="actionLangJavaScript">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>JavaScript</string>
+   </property>
+   <property name="toolTip">
+    <string>JavaScript</string>
+   </property>
+  </action>
+  <action name="actionLangNone">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Plain text</string>
+   </property>
+   <property name="toolTip">
+    <string>Plain text</string>
+   </property>
+  </action>
+  <action name="actionToolbarNorth">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>North</string>
+   </property>
+  </action>
+  <action name="actionToolbarSouth">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>South</string>
+   </property>
+  </action>
+  <action name="actionToolbarWest">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>West</string>
+   </property>
+  </action>
+  <action name="actionToolbarEast">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>East</string>
+   </property>
+  </action>
+  <action name="actionQT_LGPL_license">
+   <property name="text">
+    <string>QT LGPL license</string>
+   </property>
+  </action>
+  <action name="actionIncrease50">
+   <property name="text">
+    <string>+ 50%</string>
+   </property>
+   <property name="toolTip">
+    <string>Increase size by 50%</string>
+   </property>
+  </action>
+  <action name="actionCloseFile">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/close.png</normaloff>:/Icons/close.png</iconset>
+   </property>
+   <property name="text">
+    <string>Close file</string>
+   </property>
+   <property name="toolTip">
+    <string>Close current file</string>
+   </property>
+  </action>
+  <action name="actionShow_hide_keyboard">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/keyboard.png</normaloff>:/Icons/keyboard.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show/hide keyboard</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/hide keyboard</string>
+   </property>
+  </action>
+  <action name="actionToolbarKeyboard">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Keyboard toggle</string>
+   </property>
+   <property name="toolTip">
+    <string>Keyboard toggle</string>
+   </property>
+  </action>
+  <action name="actionKeyboard_after_tap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Keyboard after tap</string>
+   </property>
+   <property name="toolTip">
+    <string>Show keyboard after tap</string>
+   </property>
+  </action>
+  <action name="actionConnection_setup">
+   <property name="text">
+    <string>Connection setup</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="Resources/resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

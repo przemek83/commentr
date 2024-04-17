@@ -1,0 +1,434 @@
+#include <QDebug>
+#include <QFileIconProvider>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QScrollEvent>
+#include <QScrollBar>
+#include <QScroller>
+
+#include "ExplorerFtp.h"
+#include "File.h"
+#include "Config.h"
+#include "Common.h"
+
+ExplorerFtp::ExplorerFtp(bool open, QWidget* parent) :
+     QListWidget(parent), Explorer(open), ftp_(NULL)
+{
+    horizontalScrollBar()->setStyleSheet(Common::getStyleSheet());
+    verticalScrollBar()->setStyleSheet(Common::getStyleSheet());
+
+    //Set proper initial icon.
+    setWrapping(!Config::getInstance().listViewInBrowser());
+
+    setSortingEnabled(true);
+
+    //progressDialog_.setParent(this);
+    progressDialog_.setVisible(false);
+
+    //When progress dialog is set set to modal it cores at end of download.
+    //progressDialog_.setModal(true);
+
+    progressDialog_.setRange(0, 0);
+    //QTBUG-47042
+    progressDialog_.reset();
+
+    connect(&progressDialog_,
+            SIGNAL(canceled()),
+            this,
+            SLOT(cancelDownload()));
+
+    setupList(this);
+}
+
+ExplorerFtp::~ExplorerFtp()
+{
+    if( NULL != ftp_ )
+    {
+        delete ftp_;
+    }
+}
+
+void ExplorerFtp::setPath(QString path)
+{
+    if( path.isEmpty() )
+    {
+        path = Common::rootPath();
+    }
+
+    if( currentPath_ == path )
+    {
+        return;
+    }
+
+    Common::centerWidget(this, &progressDialog_);
+    progressDialog_.setVisible(true);
+
+    newPath_ = path;
+    ftp_->cd(path);
+}
+
+QString ExplorerFtp::getCurrentPath()
+{
+    return currentPath_;
+}
+
+bool ExplorerFtp::fileIsValid(QString /*file*/)
+{
+    return false;
+}
+
+bool ExplorerFtp::isWrapping()
+{
+    return QListWidget::isWrapping();
+}
+
+void ExplorerFtp::setWrapping(bool wrapping)
+{
+    QListWidget::setWrapping(wrapping);
+}
+
+void ExplorerFtp::initialize()
+{
+    ftp_ = new QFtp();
+
+    connect(ftp_, SIGNAL(commandFinished(int,bool)),
+            this, SLOT(ftpCommandFinished(int,bool)));
+    connect(ftp_, SIGNAL(listInfo(QUrlInfo)),
+            this, SLOT(addToList(QUrlInfo)));
+    connect(ftp_, SIGNAL(dataTransferProgress(qint64,qint64)),
+            this, SLOT(updateDataTransferProgress(qint64,qint64)));
+
+    ftp_->setTransferMode(QFtp::Passive);
+    ftp_->connectToHost(Config::getInstance().ftpHost());
+    QString login = Config::getInstance().ftpLogin();
+    QString password = Config::getInstance().ftpPassword();
+    ftp_->login(login, password);
+}
+
+bool ExplorerFtp::initialized()
+{
+    return NULL != ftp_;
+}
+
+void ExplorerFtp::performOperationOnFile(QString filePath)
+{
+    //TODO Check if item exist and than perform correct action.
+
+    if( true == open_ )
+    {
+        fileBuffer_.open(QIODevice:: ReadWrite);
+        ftp_->get(filePath, &fileBuffer_);
+    }
+    else
+    {
+        QString fileName = File::filePathToFileName(filePath);
+        QList<QListWidgetItem *> items =
+            findItems(fileName, Qt::MatchCaseSensitive | Qt::MatchFixedString);
+
+        if( 1 != items.size() )
+        {
+            Q_ASSERT(false);
+            return;
+        }
+
+        Item* item = static_cast<Item*>(items.front());
+
+        QString baseName = File::fileNameToBaseName(item->text());
+        QString suffix = File::fileNameToSuffix(item->text());
+        File* file = new File(Common::SOURCE_FTP,
+                              currentPath_,
+                              baseName,
+                              suffix,
+                              NULL);
+
+        ftp_->close();
+
+        emit filePrepared(file);
+    }
+}
+
+void ExplorerFtp::resizeEvent(QResizeEvent* event)
+{
+    QListWidget::resizeEvent(event);
+    Common::centerWidget(this, &progressDialog_);
+}
+
+QListView* ExplorerFtp::getListView()
+{
+    return this;
+}
+
+void ExplorerFtp::listViewItemClicked(const QModelIndex& index)
+{
+    Item* itemClicked = static_cast<Item*>(item(index.row()));
+
+    if( false == itemClicked->isDir() )
+    {
+        QString pathToUse = getPathToUse(itemClicked);
+
+        emit pathChanged(pathToUse);
+    }
+}
+
+void ExplorerFtp::ftpCommandFinished(int, bool error)
+{
+    switch( ftp_->currentCommand() )
+    {
+        case QFtp::ConnectToHost:
+        {
+            if( true == error )
+            {
+                QMessageBox::information(this, tr("FTP"),
+                    tr("Unable to connect to the FTP server.\n"
+                        "Error: %1").arg(ftp_->errorString()));
+
+                return;
+            }
+
+            break;
+        }
+
+        case QFtp::Login:
+        {
+            if( true == error )
+            {
+                QMessageBox::information(this, tr("FTP"),
+                    tr("Unable to login. Wrong user or password.\n"
+                        "Error: %1").arg(ftp_->errorString()));
+                return;
+            }
+
+            if( true == currentPath_.isEmpty() )
+            {
+                newPath_ = Common::rootPath();
+                ftp_->cd(Common::rootPath());
+            }
+            else
+            {
+                 ftp_->cd(currentPath_);
+            }
+            break;
+        }
+
+        case QFtp::Cd:
+        {
+            itemsList_.clear();
+            ftp_->list();
+            break;
+        }
+
+        case QFtp::List:
+        {
+            progressDialog_.setVisible(false);
+            clear();
+
+            //Change path successful. Change current path.
+            currentPath_ = newPath_;
+            if( false == currentPath_.isEmpty() &&
+                currentPath_ != Common::rootPath() )
+            {
+                Item* item = new Item("..", true, true, true);
+                addItem(item);
+            }
+
+            foreach(Item* itemOnlist, itemsList_)
+            {
+                addItem(itemOnlist);
+            }
+
+            emit pathChanged(currentPath_);
+
+            break;
+        }
+
+        case QFtp::Get:
+        {
+            progressDialog_.setVisible(false);
+            progressDialog_.setRange(0, 0);
+            //QTBUG-47042
+            progressDialog_.reset();
+
+            Item* item = static_cast<Item*>(currentItem());
+            QString baseName = File::fileNameToBaseName(item->text());
+            QString suffix = File::fileNameToSuffix(item->text());
+
+            File* file = new File(Common::SOURCE_FTP,
+                                  currentPath_,
+                                  baseName,
+                                  suffix,
+                                  new QString(fileBuffer_.buffer()));
+            ftp_->close();
+            emit filePrepared(file);
+            break;
+        }
+
+        default:
+        {
+            break;
+        }
+    }
+}
+
+QString ExplorerFtp::getPathToUse(Item* itemClicked)
+{
+    QString pathToUse = currentPath_;
+    if( false == pathToUse.isEmpty() &&
+        pathToUse != Common::rootPath() )
+    {
+        pathToUse.append("/");
+    }
+    pathToUse.append(itemClicked->text());
+
+    return pathToUse;
+}
+
+void ExplorerFtp::itemActivated(QModelIndex index)
+{
+    Item* itemClicked = static_cast<Item*>(item(index.row()));
+
+    if( false == itemClicked->readable() )
+    {
+        QMessageBox::information(this, tr("FTP"),
+            tr("No permissions to open: ") + itemClicked->text());
+        return;
+    }
+
+    //Do "cd ..".
+    if( itemClicked->text() == ".." )
+    {
+        Common::centerWidget(this, &progressDialog_);
+        progressDialog_.setVisible(true);
+
+        newPath_ = currentPath_.left(currentPath_.lastIndexOf('/'));
+        if (newPath_.isEmpty())
+        {
+            newPath_ = Common::rootPath();
+            ftp_->cd(Common::rootPath());
+        }
+        else
+        {
+            ftp_->cd(newPath_);
+        }
+
+        return;
+    }
+
+    QString pathToUse = getPathToUse(itemClicked);
+    if( true == itemClicked->isDir() )
+    {
+        setPath(pathToUse);
+    }
+    else
+    {
+        performOperationOnFile(pathToUse);
+    }
+}
+
+void ExplorerFtp::addToList(const QUrlInfo& urlInfo)
+{
+    //Ignore returned by server ".." and ".".
+    if( ".." == urlInfo.name() || "." == urlInfo.name() )
+    {
+        return;
+    }
+
+    itemsList_.append(new Item(urlInfo.name(),
+                               urlInfo.isDir(),
+                               urlInfo.isReadable(),
+                               urlInfo.isWritable()));
+}
+
+void ExplorerFtp::updateDataTransferProgress(qint64 readBytes,
+                                             qint64 totalBytes)
+{
+    if( false == progressDialog_.isVisible() )
+    {
+        Common::centerWidget(this, &progressDialog_);
+        progressDialog_.setVisible(true);
+    }
+    progressDialog_.setMaximum(totalBytes);
+    progressDialog_.setValue(readBytes);
+}
+
+void ExplorerFtp::cancelDownload()
+{
+    ftp_->abort();
+    ftp_->clearPendingCommands();
+    ftp_->deleteLater();
+
+    //Recreate QFtp (abort is not working as it should).
+    initialize();
+
+    //Disable all items.
+    for(int i = 0; i < count(); ++i)
+    {
+        QListWidgetItem* currentItem = item(i);
+        currentItem->setFlags( currentItem->flags() & ~Qt::ItemIsEnabled );
+    }
+
+    newPath_ = currentPath_;
+}
+
+ExplorerFtp::Item::Item(const QString& text,
+                        bool dir,
+                        bool readable,
+                        bool writeable) :
+    QListWidgetItem(text), readable_(readable), writeable_(writeable)
+{
+    const static QFileIconProvider iconsProvider;
+    if( true == dir )
+    {
+        setIcon(iconsProvider.icon(QFileIconProvider::Folder));
+    }
+    else
+    {
+        setIcon(iconsProvider.icon(QFileIconProvider::File));
+    }
+
+    setData(Qt::UserRole, QVariant(dir));
+
+    //Italic for items without permissions.
+    if( false == readable_ )
+    {
+        QFont itemFont(font());
+        itemFont.setItalic(true);
+        setFont(itemFont);
+    }
+}
+
+ExplorerFtp::Item::~Item()
+{
+
+}
+
+bool ExplorerFtp::Item::operator<(const QListWidgetItem& other) const
+{
+    bool otherIsDir = other.data(Qt::UserRole).toBool();
+    bool currentIsDir = isDir();
+    if( (true == otherIsDir && true == currentIsDir) ||
+        (false == otherIsDir && false == currentIsDir) )
+    {
+        return text() < other.text();
+    }
+    else
+    {
+        return currentIsDir;
+    }
+}
+
+bool ExplorerFtp::Item::isDir() const
+{
+    return data(Qt::UserRole).toBool();
+}
+
+bool ExplorerFtp::Item::writeable() const
+{
+    return writeable_;
+}
+
+bool ExplorerFtp::Item::readable() const
+{
+    return readable_;
+}

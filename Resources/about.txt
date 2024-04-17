@@ -1,0 +1,6 @@
+CommentR was created in C++ using Qt library.
+
+If you have any feedback, new ideas, suggestions, bug to report or just want to say "Hello", feel free to contact me using pisklak83@gmail.com.
+
+Application was created using Qt on LGPL license. Copy of license can be opened via help menu of this application.
+More about Qt can be found on qt-project.org.

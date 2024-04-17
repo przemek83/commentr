@@ -6,7 +6,7 @@
 
 CONFIG += c++11
 
-QT += network core gui #androidextras opengl
+QT += network core gui widgets #androidextras opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

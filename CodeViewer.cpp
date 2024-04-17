@@ -9,6 +9,7 @@
 #include <QScrollBar>
 #include <QScrollEvent>
 #include <QGestureRecognizer>
+#include <QRegularExpression>
 
 #include "CodeViewer.h"
 #include "CursorPointerTextEdit.h"

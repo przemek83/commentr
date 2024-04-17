@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QKeyEvent>
+#include <QStyle>
 
 #include "EditorTabPage.h"
 #include "ui_EditorTabPage.h"

@@ -27,5 +27,6 @@ bool SpellChecker::checkWord(QString& word)
 
 void SpellChecker::initDictionary(const QString& dictionaryFile)
 {
-    dictionary_ = QSet<QString>::fromList(dictionaryFile.split('\n'));
+    QStringList words = dictionaryFile.split('\n');
+    dictionary_ = QSet<QString>(words.begin(), words.end());
 }

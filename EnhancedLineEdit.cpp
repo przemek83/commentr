@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QGestureEvent>
+#include <QGuiApplication>
 
 #include "EnhancedLineEdit.h"
 #include "CursorPointerLineEdit.h"
@@ -96,7 +97,7 @@ void EnhancedLineEdit::resizeEvent(QResizeEvent* event)
 void EnhancedLineEdit::resetPointerRange()
 {
     QPoint newPosition = getPositionForVisualPointer();
-    int textWidth = fontMetrics().width(text());
+    int textWidth = QFontMetricsF(QGuiApplication::font()).horizontalAdvance(text());
     int textPlusMarginsWidth =
         textWidth + leftTextMargin_ + rightTextMargin_ + 2 * builtInTextMargin_;
     bool scrollingNeeded = (textPlusMarginsWidth > width());

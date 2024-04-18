@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <QApplication>
 #include <QSplashScreen>
 #include <QScrollerProperties>
@@ -11,10 +9,7 @@
 #include "SpellChecker.h"
 #include "Config.h"
 #include "ProxyStyle.h"
-#include "Defines.h"
 #include "Common.h"
-
-#include "qftp.h"
 
 int main(int argc, char *argv[])
 {

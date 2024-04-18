@@ -2,7 +2,6 @@
 #include <QStyleFactory>
 #include <QFileDialog>
 #include <QPushButton>
-//#include <QDesktopWidget>
 #include <QClipboard>
 #include <QLabel>
 #include <QMessageBox>
@@ -11,18 +10,13 @@
 #include <QLineEdit>
 #include <QTabBar>
 #include <QActionGroup>
-//#include <QtAndroidExtras/QAndroidJniObject>
-
-#include "qftp.h"
 
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "Config.h"
-#include "SpellChecker.h"
 #include "ProxyStyle.h"
 #include "Highlighters/Highlighter.h"
 #include "FileBrowser/BrowseFilesWidget.h"
-#include "Defines.h"
 #include "Common.h"
 #include "CodeViewer.h"
 #include "ConnectionSetup.h"

@@ -617,7 +617,7 @@ int CodeViewer::lineNumberAreaWidth()
 {
     int digits = QString::number(qMax(1, blockCount())).length();
 
-    int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+    int space = 3 + QFontMetricsF(QGuiApplication::font()).horizontalAdvance(QLatin1Char('9')) * digits;
     return space;
 }
 

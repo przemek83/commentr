@@ -2,6 +2,7 @@
 #include <QPen>
 #include <QDebug>
 #include <QMouseEvent>
+#include <QPainterPath>
 
 #include "CursorPointerSelector.h"
 

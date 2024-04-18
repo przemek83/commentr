@@ -4,7 +4,7 @@
 #include <QDebug>
 
 #include "Common.h"
-#include "Defines.h"
+// #include "Defines.h"
 
 const int Common::timerFireInterval_ = 200;
 
@@ -37,7 +37,7 @@ QString Common::loadFile(QString name)
     }
 
     QTextStream stream(&file);
-    stream.setCodec("UTF-8");
+    stream.setEncoding(QStringConverter::Utf8);
     return stream.readAll();
 }
 
@@ -58,7 +58,7 @@ QString Common::saveFile(QString fileName, QString& data)
     }
 
     QTextStream stream(&file);
-    stream.setCodec("UTF-8");
+    stream.setEncoding(QStringConverter::Utf8);
     stream << data;
 
     file.close();

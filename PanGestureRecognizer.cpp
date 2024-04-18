@@ -14,8 +14,8 @@ QGesture* PanGestureRecognizer::create(QObject* target)
 
 const QList<QTouchEvent::TouchPoint>& PanGestureRecognizer::getTouchPoints(QEvent* event)
 {
-    const QTouchEvent* touchEvent = static_cast<const QTouchEvent*>(event);
-    const QList<QTouchEvent::TouchPoint>& touchPoints = touchEvent->touchPoints();
+    QTouchEvent* touchEvent = static_cast<QTouchEvent*>(event);
+    const QList<QTouchEvent::TouchPoint>& touchPoints = touchEvent->points();
 
     return touchPoints;
 }
@@ -54,13 +54,13 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(QGesture* state, QObj
             {
                 panGesture->setLastOffset(panGesture->offset());
 
-                QPointF resultPoint = touchPoints.first().pos() - touchPoints.first().startPos();
+                QPointF resultPoint = touchPoints.first().position() - touchPoints.first().pressPosition();
                 panGesture->setOffset(resultPoint);
 
                 if (panGesture->offset().x() > 10  || panGesture->offset().y() > 10 ||
                     panGesture->offset().x() < -10 || panGesture->offset().y() < -10)
                 {
-                    panGesture->setHotSpot(touchPoints.first().startScreenPos());
+                    panGesture->setHotSpot(touchPoints.first().globalPressPosition());
                     result = QGestureRecognizer::TriggerGesture;
                 }
                 else
@@ -82,7 +82,7 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(QGesture* state, QObj
                 {
                     panGesture->setLastOffset(panGesture->offset());
 
-                    QPointF resultPoint = touchPoints.first().pos() - touchPoints.first().startPos();
+                    QPointF resultPoint = touchPoints.first().position() - touchPoints.first().pressPosition();
                     panGesture->setOffset(resultPoint);
                 }
 

@@ -5,7 +5,8 @@
 #include <QDebug>
 #include <QApplication>
 #include <QSettings>
-#include <QDesktopWidget>
+#include <QScreen>
+//#include <QDesktopWidget>
 
 #include "Config.h"
 #include "Common.h"
@@ -274,9 +275,11 @@ void Config::setDefaultFont()
 
 void Config::determineUiSize()
 {
+    QScreen* screen = QGuiApplication::primaryScreen();
+    QRect availableGeometry = screen->availableGeometry();
     int biggerSize =
-            qMax(QApplication::desktop()->screenGeometry().width(),
-                 QApplication::desktop()->screenGeometry().height());
+            qMax(availableGeometry.width(),
+                 availableGeometry.height());
 
     //Aim in 3/4 of wider screen dimension for 15 icons.
     uiSize_ = biggerSize * 3 / 4 / 15;

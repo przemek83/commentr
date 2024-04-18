@@ -30,12 +30,11 @@ void Highlighter::highlightBlock(const QString& text)
     foreach (const HighlightingRule &rule, highlightingRules_)
     {
         const QRegularExpression& expression = rule.pattern;
-        int index = expression.indexIn(text);
-        while (index >= 0)
+        for (const auto& match : expression.globalMatch(text))
         {
-            int length = expression.matchedLength();
+            int length = match.capturedLength();
+            int index = match.capturedStart();
             setFormat(index, length, rule.format);
-            index = expression.indexIn(text, index + length);
         }
     }
 
@@ -52,7 +51,7 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
 
     QString str = line.simplified();
     QStringList wordsList = str.split(QRegularExpression("([^\\w,^\\\\]|(?=\\\\))+"),
-                                      QString::SkipEmptyParts);
+                                       Qt::SkipEmptyParts);
     foreach(QString word, wordsList)
     {
         if ( word.length() > 1 && false == word.startsWith('\\') &&

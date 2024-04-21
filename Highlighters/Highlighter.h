@@ -32,6 +32,8 @@ protected:
 
     bool initialized_;
 
+    void singleLineComment(const QString& text, const HighlightingRule& rule);
+
 private:
     Q_DISABLE_COPY(Highlighter)
 

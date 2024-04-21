@@ -71,6 +71,19 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
     }
 }
 
+void Highlighter::singleLineComment(const QString& text, const HighlightingRule& rule)
+{
+    const QRegularExpression& expression = rule.pattern;
+    QRegularExpressionMatch match = expression.match(text);
+    if (match.hasMatch())
+    {
+        int length = match.capturedLength();
+        int index = match.capturedStart();
+        setFormat(index, length, rule.format);
+        checkSpellingInBlock(index, text);
+    }
+}
+
 void Highlighter::setSpellChecking(bool check)
 {
     spellChecking_ = check;

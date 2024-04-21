@@ -85,14 +85,6 @@ void BasicHighlighter::initRules()
 
 void BasicHighlighter::commentBlock(const QString& text)
 {
-    //Single line comment.
-    const QRegularExpression& expression = singleLineCommentRule_.pattern;
-    int index = expression.indexIn(text);
-    if (index >= 0)
-    {
-        int length = expression.matchedLength();
-        setFormat(index, length, singleLineCommentRule_.format);
-        checkSpellingInBlock(index, text);
-    }
+    singleLineComment(text, singleLineCommentRule_);
 }
 

@@ -2,11 +2,7 @@
 #define CONNECTIONSETUP_H
 
 #include <QFile>
-#include <QNetworkConfigurationManager>
 #include <QWidget>
-#include <QNetworkSession>
-
-#include "qftp.h"
 
 class EnhancedLineEdit;
 

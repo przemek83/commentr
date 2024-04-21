@@ -1,9 +1,8 @@
 #include <QDebug>
-#include <QNetworkConfiguration>
-#include <QSettings>
-#include <QNetworkSession>
 #include <QMessageBox>
-#include <QRegExpValidator>
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
+#include <QSettings>
 
 #include "ConnectionSetup.h"
 #include "ui_ConnectionSetup.h"
@@ -53,7 +52,7 @@ void ConnectionSetup::setupLineEdits()
     hostLineEdit_ = new EnhancedLineEdit(this);
     hostLineEdit_->setPlaceholderText("example.com");
     QRegularExpression hostRegExp(QRegularExpression("([^\\s/?\\.#-]+\\.?)+(/[^\\s]*)?$@iS"));
-    hostLineEdit_->setValidator(new QRegExpValidator(hostRegExp, hostLineEdit_));
+    hostLineEdit_->setValidator(new QRegularExpressionValidator(hostRegExp, hostLineEdit_));
     hostLineEdit_->setInputMethodHints(Qt::ImhNoPredictiveText);
     ui->verticalLayout->insertWidget(2, hostLineEdit_);
 

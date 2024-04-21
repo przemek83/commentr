@@ -4,6 +4,7 @@
 #include <QScroller>
 #include <QDebug>
 #include <QEasingCurve>
+#include <QStyleFactory>
 
 #include "MainWindow.h"
 #include "SpellChecker.h"
@@ -17,6 +18,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("CommentR Demo");
 #else
     QCoreApplication::setApplicationName("CommentR");
+#endif
+
+#ifdef Q_OS_WIN
+    qputenv("QT_QPA_PLATFORM", "windows:darkmode=0");
 #endif
 
     //Loads config on getInstance.

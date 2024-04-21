@@ -97,18 +97,14 @@ void SQLHighlighter::highlightBlock(const QString& text)
 
     QString lower(text.toLower());
 
-    // TODO
-    // foreach (const HighlightingRule &rule, highlightingRules_)
-    // {
-    //     const QRegularExpression& expression = rule.pattern;
-    //     int index = expression.indexIn(lower);
-    //     while (index >= 0)
-    //     {
-    //         int length = expression.matchedLength();
-    //         setFormat(index, length, rule.format);
-    //         index = expression.indexIn(lower, index + length);
-    //     }
-    // }
+    foreach (const HighlightingRule& rule, highlightingRules_) {
+        const QRegularExpression& expression = rule.startPattern;
+        for (const auto& match : expression.globalMatch(text)) {
+            int length = match.capturedLength();
+            int index = match.capturedStart();
+            setFormat(index, length, rule.format);
+        }
+    }
 
     commentBlock(lower);
 }

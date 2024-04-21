@@ -20,7 +20,8 @@ protected:
 
     struct HighlightingRule
     {
-        QRegularExpression pattern;
+        QRegularExpression startPattern;
+        QRegularExpression endPattern;
         QTextCharFormat format;
     };
 
@@ -33,6 +34,8 @@ protected:
     bool initialized_;
 
     void singleLineComment(const QString& text, const HighlightingRule& rule);
+
+    void multiLineComment(const QString& text, const HighlightingRule& rule);
 
 private:
     Q_DISABLE_COPY(Highlighter)

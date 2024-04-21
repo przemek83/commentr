@@ -25,6 +25,8 @@ private:
 //    QTextCharFormat multiLineCommentFormat_;
 
     HighlightingRule singleLineCommentRule_;
+
+    HighlightingRule multiLineCommentRule_;
 };
 
 #endif // PYTHONHIGHLIGHTER_H

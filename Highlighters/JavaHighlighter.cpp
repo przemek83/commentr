@@ -40,7 +40,7 @@ void JavaHighlighter::initRules()
 
     foreach (const QString &pattern, keywordPatterns)
     {
-        rule.pattern = QRegularExpression(pattern);
+        rule.startPattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules_.append(rule);
     }

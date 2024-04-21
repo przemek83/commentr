@@ -18,13 +18,9 @@ protected:
 private:
     Q_DISABLE_COPY(PhpHighlighter)
 
-    QRegularExpression commentStartExpression_;
-
-    QRegularExpression commentEndExpression_;
-
-    QTextCharFormat multiLineCommentFormat_;
-
     HighlightingRule singleLineCommentRule_;
+
+    HighlightingRule multiLineCommentRule_;
 };
 
 #endif // PHPHIGHLIGHTER_H

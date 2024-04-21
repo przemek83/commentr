@@ -22,13 +22,9 @@ protected:
 private:
     Q_DISABLE_COPY(CFamilyHighlighter)
 
-    QRegularExpression commentStartExpression_;
-
-    QRegularExpression commentEndExpression_;
-
-    QTextCharFormat multiLineCommentFormat_;
-
     HighlightingRule singleLineCommentRule_;
+
+    HighlightingRule multiLineCommentRule_;
 };
 
 #endif // CFAMILYHIGHLIGHTER_H

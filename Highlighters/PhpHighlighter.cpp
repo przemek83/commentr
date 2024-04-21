@@ -1,14 +1,14 @@
 #include "PhpHighlighter.h"
 
-PhpHighlighter::PhpHighlighter(QObject * parent) :
-    Highlighter(parent),
-    commentStartExpression_(QRegularExpression("/\\*")),
-    commentEndExpression_(QRegularExpression("\\*/"))
+PhpHighlighter::PhpHighlighter(QObject *parent)
+    : Highlighter(parent)
 {
-    multiLineCommentFormat_.setForeground(Qt::red);
-
     singleLineCommentRule_.format.setForeground(Qt::red);
-    singleLineCommentRule_.pattern = QRegularExpression("(//[^\n]*|#[^\n]*)");
+    singleLineCommentRule_.startPattern = QRegularExpression("(//[^\n]*|#[^\n]*)");
+
+    multiLineCommentRule_.startPattern = QRegularExpression("/\\*");
+    multiLineCommentRule_.endPattern = QRegularExpression("\\*/");
+    multiLineCommentRule_.format.setForeground(Qt::red);
 }
 
 PhpHighlighter::~PhpHighlighter()
@@ -48,7 +48,7 @@ void PhpHighlighter::initRules()
     HighlightingRule rule;
     foreach (const QString &pattern, keywordPatterns)
     {
-        rule.pattern = QRegularExpression(pattern);
+        rule.startPattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
         highlightingRules_.append(rule);
     }
@@ -56,56 +56,19 @@ void PhpHighlighter::initRules()
     QTextCharFormat functionFormat;
     functionFormat.setFontItalic(true);
     functionFormat.setForeground(Qt::blue);
-    rule.pattern = QRegularExpression("\\b[A-Za-z0-9_]+\\s*(?=\\()");
+    rule.startPattern = QRegularExpression("\\b[A-Za-z0-9_]+\\s*(?=\\()");
     rule.format = functionFormat;
     highlightingRules_.append(rule);
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegularExpression("(\"([^\"]|\\\\\")*\"|\'([^\']|\\\\\')*\')");
+    rule.startPattern = QRegularExpression("(\"([^\"]|\\\\\")*\"|\'([^\']|\\\\\')*\')");
     rule.format = quotationFormat;
     highlightingRules_.append(rule);
 }
 
 void PhpHighlighter::commentBlock(const QString& text)
 {
-    //Single line comment.
-    const QRegularExpression& expression = singleLineCommentRule_.pattern;
-    int index = expression.indexIn(text);
-    if (index >= 0)
-    {
-        int length = expression.matchedLength();
-        setFormat(index, length, singleLineCommentRule_.format);
-        checkSpellingInBlock(index, text);
-    }
-
-    //Multi line comment.
-    setCurrentBlockState(0);
-
-    int startIndex = 0;
-    if( previousBlockState() != 1 )
-    {
-        startIndex = commentStartExpression_.indexIn(text);
-    }
-
-    while (startIndex >= 0)
-    {
-        int endIndex = commentEndExpression_.indexIn(text, startIndex);
-        int commentLength;
-        if (endIndex == -1)
-        {
-            setCurrentBlockState(1);
-            commentLength = text.length() - startIndex;
-        }
-        else
-        {
-            commentLength = endIndex - startIndex
-                            + commentEndExpression_.matchedLength();
-        }
-
-        setFormat(startIndex, commentLength, multiLineCommentFormat_);
-        checkSpellingInBlock(startIndex, text);
-        startIndex =
-            commentStartExpression_.indexIn(text, startIndex + commentLength);
-    }
+    singleLineComment(text, singleLineCommentRule_);
+    multiLineComment(text, multiLineCommentRule_);
 }

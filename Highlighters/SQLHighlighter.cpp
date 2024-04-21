@@ -89,24 +89,8 @@ void SQLHighlighter::initRules()
 
 void SQLHighlighter::highlightBlock(const QString& text)
 {
-    if( false == initialized_ )
-    {
-        initRules();
-        initialized_ = true;
-    }
-
     QString lower(text.toLower());
-
-    foreach (const HighlightingRule& rule, highlightingRules_) {
-        const QRegularExpression& expression = rule.startPattern;
-        for (const auto& match : expression.globalMatch(text)) {
-            int length = match.capturedLength();
-            int index = match.capturedStart();
-            setFormat(index, length, rule.format);
-        }
-    }
-
-    commentBlock(lower);
+    Highlighter::highlightBlock(lower);
 }
 
 void SQLHighlighter::commentBlock(const QString& text)

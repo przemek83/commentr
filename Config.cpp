@@ -81,8 +81,6 @@ void Config::save()
     setValue(settings, CONFIG_FTP_PASSWORD, ftpPassword_);
     setValue(settings, CONFIG_SAVE_FTP_PASSWORD, saveFtpPassword_);
     setValue(settings, CONFIG_RECENT_FILES, recentFiles_);
-
-    settings.sync();
 }
 
 void Config::setValue(QSettings& settings, ConfigNames name, QVariant value)

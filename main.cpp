@@ -14,11 +14,8 @@
 
 int main(int argc, char *argv[])
 {
-#ifdef DEMO
-    QCoreApplication::setApplicationName("CommentR Demo");
-#else
+    QCoreApplication::setOrganizationName("Ble");
     QCoreApplication::setApplicationName("CommentR");
-#endif
 
 #ifdef Q_OS_WIN
     qputenv("QT_QPA_PLATFORM", "windows:darkmode=0");

@@ -8,23 +8,21 @@ class ProxyStyle : public QProxyStyle
 public:
     ProxyStyle(QString &name);
 
-    virtual ~ProxyStyle();
-
     int pixelMetric(PixelMetric metric,
                     const QStyleOption* option,
-                    const QWidget* widget) const;
+                    const QWidget* widget) const override;
 
     QSize sizeFromContents(ContentsType type,
                            const QStyleOption* option,
-                           const QSize & contentsSize,
-                           const QWidget * widget = 0) const;
+                           const QSize& contentsSize,
+                           const QWidget* widget = 0) const override;
 
     static void updateUisize();
 
     void drawPrimitive(PrimitiveElement element,
                        const QStyleOption* option,
                        QPainter* painter,
-                       const QWidget* widget = 0) const;
+                       const QWidget* widget = 0) const override;
 
 private:
     Q_DISABLE_COPY(ProxyStyle)

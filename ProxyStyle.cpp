@@ -12,11 +12,6 @@ ProxyStyle::ProxyStyle(QString& name) : QProxyStyle(name)
 
 }
 
-ProxyStyle::~ProxyStyle()
-{
-
-}
-
 QSize ProxyStyle::sizeFromContents(ContentsType type,
                                    const QStyleOption* option,
                                    const QSize & contentsSize,

@@ -27,7 +27,7 @@ public:
 private:
     Q_DISABLE_COPY(ProxyStyle)
 
-    static int actualUisize_;
+    static float actualUisize_;
 };
 
 #endif // PROXYSTYLE_H

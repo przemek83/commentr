@@ -813,43 +813,43 @@ void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
 
 void MainWindow::on_actionDecrease50_triggered()
 {
-    int currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(qRound(currentSize * .5));
+    float currentSize = Config::getInstance().uiSize();
+    Config::getInstance().setUiSize(currentSize * .5);
     ProxyStyle::updateUisize();
 }
 
 void MainWindow::on_actionDecrease25_triggered()
 {
-    int currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(qRound(currentSize * .75));
+    float currentSize = Config::getInstance().uiSize();
+    Config::getInstance().setUiSize(currentSize * .75);
     ProxyStyle::updateUisize();
 }
 
 void MainWindow::on_actionDecrease10_triggered()
 {
-    int currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(qRound(currentSize * .90));
+    float currentSize = Config::getInstance().uiSize();
+    Config::getInstance().setUiSize(currentSize * .90);
     ProxyStyle::updateUisize();
 }
 
 void MainWindow::on_actionIncrease10_triggered()
 {
-    int currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(qRound(currentSize * 1.1));
+    float currentSize = Config::getInstance().uiSize();
+    Config::getInstance().setUiSize(currentSize * 1.1);
     ProxyStyle::updateUisize();
 }
 
 void MainWindow::on_actionIncrease25_triggered()
 {
-    int currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(qRound(currentSize * 1.25));
+    float currentSize = Config::getInstance().uiSize();
+    Config::getInstance().setUiSize(currentSize * 1.25);
     ProxyStyle::updateUisize();
 }
 
 void MainWindow::on_actionIncrease50_triggered()
 {
-    int currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(qRound(currentSize * 1.5));
+    float currentSize = Config::getInstance().uiSize();
+    Config::getInstance().setUiSize(currentSize * 1.5);
     ProxyStyle::updateUisize();
 }
 

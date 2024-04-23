@@ -5,7 +5,7 @@
 #include "ProxyStyle.h"
 #include "Config.h"
 
-int ProxyStyle::actualUisize_ = 36;
+float ProxyStyle::actualUisize_ = 1.;
 
 ProxyStyle::ProxyStyle(QString& name) : QProxyStyle(name)
 {
@@ -24,18 +24,18 @@ QSize ProxyStyle::sizeFromContents(ContentsType type,
     //Items in browsers and buttons.
     if( CT_ItemViewItem == type )
     {
-        return QSize(defaultSize.width(), actualUisize_);
+        return QSize(defaultSize.width(), defaultSize.height() * actualUisize_);
     }
 
     if( CT_PushButton == type )
     {
-        return QSize(defaultSize.width(), qRound(actualUisize_ * 3.0 / 4.0));
+        return QSize(defaultSize.width(), qRound(defaultSize.height() * actualUisize_ * 3.0 / 4.0));
     }
 
     //Lineedit.
     if( CT_LineEdit == type )
     {
-        return QSize(defaultSize.width(), qRound(actualUisize_ * 2.0 / 3.0));
+        return QSize(defaultSize.width(), qRound(defaultSize.height() * actualUisize_ * 2.0 / 3.0));
     }
 
 //    if( CT_ToolButton == type  )
@@ -47,8 +47,7 @@ QSize ProxyStyle::sizeFromContents(ContentsType type,
     //Checkbox.
     if( CT_CheckBox == type )
     {
-        return QSize(defaultSize.width(),
-                     qRound(actualUisize_ * 5.0 / 9.0));
+        return QSize(defaultSize.width(), qRound(defaultSize.height() * actualUisize_ * 5.0 / 9.0));
     }
 
     return defaultSize;
@@ -58,11 +57,13 @@ int ProxyStyle::pixelMetric(PixelMetric metric,
                             const QStyleOption* option,
                             const QWidget* widget) const
 {
+    int pixelMetric = QProxyStyle::pixelMetric(metric, option, widget);
+
     //Scroll bars width/height and tab bar scroll buttons.
     if( PM_ScrollBarExtent == metric ||
         PM_TabBarScrollButtonWidth == metric )
     {
-        return qRound(actualUisize_ * 5.0 / 6.0);
+        return qRound(pixelMetric * actualUisize_ * 5.0 / 6.0);
     }
 
     //Toolbar handle and ">>" button.
@@ -71,38 +72,37 @@ int ProxyStyle::pixelMetric(PixelMetric metric,
         PM_TabCloseIndicatorWidth == metric ||
         PM_TabCloseIndicatorHeight == metric */)
     {
-        return qRound(actualUisize_ * 5.0 / 9.0);
+        return qRound(pixelMetric * actualUisize_);
     }
 
     //Toolbar buttons and icons in file browser.
     if( PM_ListViewIconSize == metric )
     {
-        return qRound(actualUisize_ * 4.0 / 5.0);
+        return qRound(pixelMetric * actualUisize_);
     }
 
     if( PM_ToolBarIconSize == metric )
     {
-        return actualUisize_;
+        return pixelMetric * actualUisize_;
     }
 
     if( PM_ButtonIconSize == metric )
     {
-        return qRound(actualUisize_ * 3.0 / 4.0);
+        return qRound(pixelMetric * actualUisize_);
     }
 
     //CheckBox square dimensions.
-    if( PM_IndicatorWidth == metric ||
-        PM_IndicatorHeight == metric )
-    {
-        return qRound(actualUisize_ * 5.0 / 9.0);
+    if (PM_IndicatorWidth == metric || PM_IndicatorHeight == metric) {
+        return qRound(pixelMetric * actualUisize_);
     }
 
-    return QProxyStyle::pixelMetric(metric, option, widget);
+    return pixelMetric;
 }
 
 void ProxyStyle::updateUisize()
 {
-    actualUisize_ = Config::getInstance().uiSize();
+    actualUisize_ = Config::getInstance().uiSize() > 0 ? Config::getInstance().uiSize()
+                                                       : actualUisize_;
 
     QString styleSetInConfig(Config::getInstance().style());
     qApp->setStyle(new ProxyStyle(styleSetInConfig));

@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
     //Can be used only after QApplication construction.
     if( true == Config::getInstance().firstUse() )
     {
-        Config::getInstance().determineUiSize();
         Config::getInstance().setDefaultFont();
         ProxyStyle::updateUisize();
     }

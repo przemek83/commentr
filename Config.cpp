@@ -97,7 +97,7 @@ void Config::load()
     tabsPosition_ = static_cast<QTabWidget::TabPosition>(tabPosition);
 
     fieldName = configNames_[CONFIG_UI_SIZE];
-    uiSize_ = settings.value(fieldName, QVariant(0)).toInt();
+    uiSize_ = settings.value(fieldName, QVariant(1.)).toFloat();
 
     fieldName = configNames_[CONFIG_STYLE];
     style_ = settings.value(fieldName, QVariant("Fusion")).toString();
@@ -271,20 +271,6 @@ void Config::setDefaultFont()
     fontSize_ = QApplication::font().pointSizeF();
 }
 
-void Config::determineUiSize()
-{
-    QScreen* screen = QGuiApplication::primaryScreen();
-    QRect availableGeometry = screen->availableGeometry();
-    int biggerSize =
-            qMax(availableGeometry.width(),
-                 availableGeometry.height());
-
-    //Aim in 3/4 of wider screen dimension for 15 icons.
-    uiSize_ = biggerSize * 3 / 4 / 15;
-
-    return;
-}
-
 float Config::fontSize() const
 {
     return fontSize_;
@@ -405,12 +391,12 @@ void Config::setStyle(const QString &style)
     style_ = style;
 }
 
-int Config::uiSize() const
+float Config::uiSize() const
 {
     return uiSize_;
 }
 
-void Config::setUiSize(const int &uiSize)
+void Config::setUiSize(const float& uiSize)
 {
     uiSize_ = uiSize;
 }

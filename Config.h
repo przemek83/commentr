@@ -16,8 +16,8 @@ public:
     QTabWidget::TabPosition getTabPosition() const;
     void setTabPosition(QTabWidget::TabPosition position);
 
-    int uiSize() const;
-    void setUiSize(const int &uiSize);
+    float uiSize() const;
+    void setUiSize(const float &uiSize);
 
     QString style() const;
     void setStyle(const QString &style);
@@ -45,8 +45,6 @@ public:
 
     bool firstUse() const;
     void setFirstUse(bool firstUse);
-
-    void determineUiSize();
 
     void setDefaultFont();
 
@@ -130,7 +128,7 @@ private:
 
     QString style_;
 
-    int uiSize_;
+    float uiSize_;
 
     bool toolbarFileAdded_;
 

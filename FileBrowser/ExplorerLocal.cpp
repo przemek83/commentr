@@ -238,10 +238,6 @@ QString ExplorerLocal::getCurrentPath()
 
     QString path =
         QString(fileModel->fileInfo(rootIndex()).canonicalFilePath());
-    if( false == path.endsWith(Common::rootPath()) )
-    {
-        path += Common::rootPath();
-    }
 
     return path;
 }

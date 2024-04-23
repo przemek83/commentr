@@ -2,13 +2,12 @@
 #include <QTextStream>
 #include <QWidget>
 #include <QDebug>
+#include <QCoreApplication>
+#include <QStandardPaths>
 
 #include "Common.h"
-// #include "Defines.h"
 
 const int Common::timerFireInterval_ = 200;
-
-const char* Common::rootPath_ = "/";
 
 const int Common::maxRecentFiles_ = 7;
 
@@ -23,7 +22,8 @@ Common::~Common()
 }
 const QString Common::rootPath()
 {
-    const static QString rootPath = QString(rootPath_);
+    const static QString rootPath
+        = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).constFirst();
     return rootPath;
 }
 

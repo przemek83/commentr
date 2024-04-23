@@ -43,8 +43,6 @@ private:
 
     static const int timerFireInterval_;
 
-    const static char* rootPath_;
-
     const static int maxRecentFiles_;
 };
 

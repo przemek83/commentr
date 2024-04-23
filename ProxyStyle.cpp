@@ -29,13 +29,13 @@ QSize ProxyStyle::sizeFromContents(ContentsType type,
 
     if( CT_PushButton == type )
     {
-        return QSize(defaultSize.width(), qRound(defaultSize.height() * actualUisize_ * 3.0 / 4.0));
+        return QSize(defaultSize.width(), qRound(defaultSize.height() * actualUisize_));
     }
 
     //Lineedit.
     if( CT_LineEdit == type )
     {
-        return QSize(defaultSize.width(), qRound(defaultSize.height() * actualUisize_ * 2.0 / 3.0));
+        return QSize(defaultSize.width(), qRound(defaultSize.height() * actualUisize_));
     }
 
 //    if( CT_ToolButton == type  )
@@ -47,7 +47,7 @@ QSize ProxyStyle::sizeFromContents(ContentsType type,
     //Checkbox.
     if( CT_CheckBox == type )
     {
-        return QSize(defaultSize.width(), qRound(defaultSize.height() * actualUisize_ * 5.0 / 9.0));
+        return QSize(defaultSize.width(), qRound(defaultSize.height() * actualUisize_));
     }
 
     return defaultSize;

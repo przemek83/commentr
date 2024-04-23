@@ -31,10 +31,9 @@ CursorEater::~CursorEater()
 
 bool CursorEater::eventFilter(QObject *obj, QEvent *event)
 {
-    if( QEvent::MouseButtonPress == event->type() ||
-        QEvent::MouseButtonRelease == event->type()// ||
-        /*QEvent::MouseMove == event->type()*/ )
-    {
+    if (QEvent::MouseButtonPress == event->type()
+        || QEvent::MouseButtonRelease == event->type() // ||
+        /*QEvent::MouseMove == event->type()*/) {
         return true;
     }
 
@@ -52,7 +51,7 @@ CodeViewer::CodeViewer(QWidget *parent) :
 
     initVisualPointers();
 
-    viewport()->installEventFilter(new CursorEater(viewport()));
+    //viewport()->installEventFilter(new CursorEater(viewport()));
 
     QFont font;
     font.setFamily(QStringLiteral("Courier"));

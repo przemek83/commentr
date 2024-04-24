@@ -99,8 +99,9 @@ CodeViewer::~CodeViewer()
 
 void CodeViewer::grabGestures()
 {
-    viewport()->grabGesture(Qt::TapGesture);
-    viewport()->grabGesture(Qt::TapAndHoldGesture);
+    // Do not grab tap and trap and hold as in new Qt it seems stock behaviour is working.
+    // viewport()->grabGesture(Qt::TapGesture);
+    // viewport()->grabGesture(Qt::TapAndHoldGesture);
     viewport()->grabGesture(Qt::PinchGesture);
 
     QGestureRecognizer::unregisterRecognizer(Qt::PanGesture);

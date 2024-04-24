@@ -214,6 +214,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionMenu"/>
    <addaction name="actionShow_hide_keyboard"/>
    <addaction name="actionNew"/>
    <addaction name="actionOpen_file"/>
@@ -852,6 +853,18 @@
   <action name="actionConnection_setup">
    <property name="text">
     <string>Connection setup</string>
+   </property>
+  </action>
+  <action name="actionMenu">
+   <property name="icon">
+    <iconset resource="Resources/resources.qrc">
+     <normaloff>:/Icons/menu.png</normaloff>:/Icons/menu.png</iconset>
+   </property>
+   <property name="text">
+    <string>Menu</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
    </property>
   </action>
  </widget>

@@ -20,5 +20,6 @@
         <file>undo.png</file>
         <file>zoomIn.png</file>
         <file>zoomOut.png</file>
+        <file>menu.png</file>
     </qresource>
 </RCC>

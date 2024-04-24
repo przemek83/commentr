@@ -246,6 +246,8 @@ private slots:
 
     void openRecentFile();
 
+    void on_actionMenu_triggered();
+
 signals:
     void windowResized();
 };

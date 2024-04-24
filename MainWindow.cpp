@@ -545,6 +545,8 @@ void MainWindow::rebuildToolbar()
 {
     ui->mainToolBar->clear();
 
+    ui->mainToolBar->addAction(ui->actionMenu);
+
     const Config& config = Config::getInstance();
 
     if( true == config.toolbarKeyboardAdded() )
@@ -1219,4 +1221,14 @@ void MainWindow::on_actionConnection_setup_triggered()
     setAvailableFunctionalitiesForMainWindow(false);
 
     ui->stackedWidget->setCurrentIndex(PAGE_CONNECTION_SETUP);
+}
+
+void MainWindow::on_actionMenu_triggered()
+{
+    QMenu menu;
+    menu.addMenu(ui->menuFile);
+    menu.addMenu(ui->menuEdit);
+    menu.addMenu(ui->menuOptions);
+    menu.addMenu(ui->menuHelp);
+    menu.exec(QCursor::pos());
 }

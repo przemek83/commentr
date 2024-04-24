@@ -197,8 +197,6 @@ private slots:
 
     void on_actionToolbarKeyboard_triggered(bool checked);
 
-    void on_actionKeyboard_after_tap_triggered(bool checked);
-
     void on_actionConnection_setup_triggered();
 
     void closeCurrentTab();

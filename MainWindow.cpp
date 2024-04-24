@@ -146,7 +146,6 @@ void MainWindow::initMenus()
 
     ui->actionCheck_spelling_in_comments->setChecked(config.checkSpelling());
     ui->actionLine_wrap->setChecked(config.lineWrap());
-    ui->actionKeyboard_after_tap->setChecked(config.keyboardAfterTap());
     ui->mainToolBar->setVisible(config.showToolbar());
     ui->actionShowToolbar->setChecked(config.showToolbar());
 }
@@ -900,11 +899,6 @@ void MainWindow::on_actionCheck_spelling_in_comments_triggered(bool checked)
     {
         highlighter->rehighlight();
     }
-}
-
-void MainWindow::on_actionKeyboard_after_tap_triggered(bool checked)
-{
-    Config::getInstance().setKeyboardAfterTap(checked);
 }
 
 void MainWindow::on_actionLine_wrap_triggered(bool checked)

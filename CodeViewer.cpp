@@ -411,11 +411,6 @@ void CodeViewer::manageTapGesture(QTapGesture* gesture)
         {
             setVisibleCursorPointer(true);
         }
-
-        if( true == Config::getInstance().keyboardAfterTap() )
-        {
-            QGuiApplication::inputMethod()->show();
-        }
     }
 }
 

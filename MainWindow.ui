@@ -173,7 +173,6 @@
     <addaction name="menuToolbar"/>
     <addaction name="actionCheck_spelling_in_comments"/>
     <addaction name="actionLine_wrap"/>
-    <addaction name="actionKeyboard_after_tap"/>
     <addaction name="menuLanguage_mode"/>
     <addaction name="actionConnection_setup"/>
    </widget>
@@ -834,20 +833,6 @@
    </property>
    <property name="toolTip">
     <string>Keyboard toggle</string>
-   </property>
-  </action>
-  <action name="actionKeyboard_after_tap">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Keyboard after tap</string>
-   </property>
-   <property name="toolTip">
-    <string>Show keyboard after tap</string>
    </property>
   </action>
   <action name="actionConnection_setup">

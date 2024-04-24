@@ -29,7 +29,6 @@ const char* Config::configNames_[] =
     "toolbarposition",
     "fontsize",
     "listViewInBrowser",
-    "keyboardAfterTap",
     "lastdir",
     "ftpHost",
     "ftpLogin",
@@ -74,7 +73,6 @@ void Config::save()
     setValue(settings, CONFIG_TOOLBAR_POSITION, static_cast<int>(toolbarArea_));
     setValue(settings, CONFIG_FONT_SIZE, fontSize_);
     setValue(settings, CONFIG_LIST_VIEW_IN_BROWSER, listViewInBrowser_);
-    setValue(settings, CONFIG_KEYBOARD_AFTER_TAP, keyboardAfterTap_);
     setValue(settings, CONFIG_LAST_DIR, lastPickedDir_);
     setValue(settings, CONFIG_FTP_HOST, ftpHost_);
     setValue(settings, CONFIG_FTP_LOGIN, ftpLogin_);
@@ -143,9 +141,6 @@ void Config::load()
 
     fieldName = configNames_[CONFIG_LIST_VIEW_IN_BROWSER];
     listViewInBrowser_ = settings.value(fieldName, QVariant(true)).toBool();
-
-    fieldName = configNames_[CONFIG_KEYBOARD_AFTER_TAP];
-    keyboardAfterTap_ = settings.value(fieldName, QVariant(true)).toBool();
 
     fieldName = configNames_[CONFIG_LAST_DIR];
     lastPickedDir_ = settings.value(fieldName, QVariant("/")).toString();
@@ -233,16 +228,6 @@ QString Config::lastPickedDir() const
 void Config::setLastPickedDir(const QString &lastPickedDir)
 {
     lastPickedDir_ = lastPickedDir;
-}
-
-bool Config::keyboardAfterTap() const
-{
-    return keyboardAfterTap_;
-}
-
-void Config::setKeyboardAfterTap(bool keyboardAfterTap)
-{
-    keyboardAfterTap_ = keyboardAfterTap;
 }
 
 bool Config::toolbarKeyboardAdded() const

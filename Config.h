@@ -63,9 +63,6 @@ public:
     bool toolbarKeyboardAdded() const;
     void setToolbarKeyboardAdded(bool toolbarKeyboardAdded);
 
-    bool keyboardAfterTap() const;
-    void setKeyboardAfterTap(bool keyboardAfterTap);
-
     QString lastPickedDir() const;
     void setLastPickedDir(const QString &lastPickedDir);
 
@@ -113,7 +110,6 @@ private:
         CONFIG_TOOLBAR_POSITION,
         CONFIG_FONT_SIZE,
         CONFIG_LIST_VIEW_IN_BROWSER,
-        CONFIG_KEYBOARD_AFTER_TAP,
         CONFIG_LAST_DIR,
         CONFIG_FTP_HOST,
         CONFIG_FTP_LOGIN,

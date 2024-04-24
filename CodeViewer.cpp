@@ -63,10 +63,7 @@ CodeViewer::CodeViewer(QWidget *parent) :
 
     lineNumberArea_ = new LineNumberArea(this);
 
-    connect(this,
-            SIGNAL(blockCountChanged(int)),
-            this,
-            SLOT(updateLineNumberAreaWidth(int)));
+    connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
 
     connect(this,
             SIGNAL(updateRequest(QRect,int)),
@@ -222,20 +219,16 @@ bool CodeViewer::event(QEvent *event)
                     break;
                 }
 
-                case Qt::TapGesture:
-                {
+                case Qt::TapGesture: {
                     manageTapGesture(static_cast<QTapGesture*>(gesture));
                     break;
                 }
 
-                case Qt::TapAndHoldGesture:
-                {
-                    if( Qt::GestureFinished == gesture->state() )
-                    {
-                        QTapAndHoldGesture* tapAndHoldGesture =
-                            static_cast<QTapAndHoldGesture*>(gesture);
-                        if( true == manageTapAndHoldGesture(tapAndHoldGesture) )
-                        {
+                case Qt::TapAndHoldGesture: {
+                    if (Qt::GestureFinished == gesture->state()) {
+                        QTapAndHoldGesture* tapAndHoldGesture = static_cast<QTapAndHoldGesture*>(
+                            gesture);
+                        if (true == manageTapAndHoldGesture(tapAndHoldGesture)) {
                             ignoreNextTapGesture_ = true;
                         }
                     }
@@ -405,8 +398,7 @@ void CodeViewer::manageTapGesture(QTapGesture* gesture)
 {
     if(Qt::GestureFinished == gesture->state() )
     {
-        if( true == ignoreNextTapGesture_ )
-        {
+        if (true == ignoreNextTapGesture_) {
             ignoreNextTapGesture_ = false;
             return;
         }
@@ -428,16 +420,14 @@ void CodeViewer::manageTapGesture(QTapGesture* gesture)
 
 bool CodeViewer::manageTapAndHoldGesture(QTapAndHoldGesture* gesture)
 {
-    if(Qt::GestureFinished == gesture->state())
-    {
+    if (Qt::GestureFinished == gesture->state()) {
         QPoint point = mapFromGlobal(gesture->position().toPoint());
         QPoint properPoint = QPoint(point.x() - lineNumberArea_->width(), point.y());
         QTextCursor cursor = cursorForPosition(properPoint);
         cursor.select(QTextCursor::WordUnderCursor);
         setTextCursor(cursor);
 
-        if( 0 != document()->characterCount() )
-        {
+        if (0 != document()->characterCount()) {
             setVisibleSelectionPointers(true);
         }
 
@@ -445,10 +435,10 @@ bool CodeViewer::manageTapAndHoldGesture(QTapAndHoldGesture* gesture)
     }
 
     //Needed?
-//    if( true == Config::getInstance().keyboardAfterTap() )
-//    {
-//        QGuiApplication::inputMethod()->show();
-//    }
+    //    if( true == Config::getInstance().keyboardAfterTap() )
+    //    {
+    //        QGuiApplication::inputMethod()->show();
+    //    }
 
     return false;
 }
@@ -622,7 +612,13 @@ int CodeViewer::lineNumberAreaWidth()
 
 void CodeViewer::updateLineNumberAreaWidth(int /*newBlockCount*/)
 {
-    setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
+// Disable temporarily line number area on Android.
+#ifdef Q_OS_ANDROID
+    int lineNumbersWidth = 0;
+#else
+    int lineNumbersWidth = lineNumberAreaWidth();
+#endif
+    setViewportMargins(lineNumbersWidth, 0, 0, 0);
 }
 
 void CodeViewer::updateLineNumberArea(const QRect& rect, int dy)
@@ -652,10 +648,7 @@ void CodeViewer::resizeEvent(QResizeEvent *e)
     QPlainTextEdit::resizeEvent(e);
 
     QRect cr = contentsRect();
-    lineNumberArea_->setGeometry(QRect(cr.left(),
-                                       cr.top(),
-                                       lineNumberAreaWidth(),
-                                       cr.height()));
+    lineNumberArea_->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 
     centerCursor();
     updateVisualPointersPositions();
@@ -663,19 +656,21 @@ void CodeViewer::resizeEvent(QResizeEvent *e)
 
 void CodeViewer::lineNumberAreaPaintEvent(QPaintEvent* event)
 {
+// Disable temporarily line number area on Android.
+#ifdef Q_OS_ANDROID
+    return;
+#endif
+
     QPainter painter(lineNumberArea_);
     painter.fillRect(event->rect(), Qt::lightGray);
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
-    int top =
-        qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
+    int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
     int bottom = top + qRound(blockBoundingRect(block).height());
 
-    while (block.isValid() && top <= event->rect().bottom())
-    {
-        if (block.isVisible() && bottom >= event->rect().top())
-        {
+    while (block.isValid() && top <= event->rect().bottom()) {
+        if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
             painter.setPen(Qt::black);
             painter.drawText(0,

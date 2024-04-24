@@ -77,21 +77,16 @@ private:
     class LineNumberArea : public QWidget
     {
     public:
-        LineNumberArea(CodeViewer *editor) : QWidget(editor)
+        LineNumberArea(CodeViewer* editor)
+            : QWidget(editor)
         {
             codeEditor_ = editor;
         }
 
-        QSize sizeHint() const
-        {
-            return QSize(codeEditor_->lineNumberAreaWidth(), 0);
-        }
+        QSize sizeHint() const { return QSize(codeEditor_->lineNumberAreaWidth(), 0); }
 
     protected:
-        void paintEvent(QPaintEvent *event)
-        {
-            codeEditor_->lineNumberAreaPaintEvent(event);
-        }
+        void paintEvent(QPaintEvent* event) { codeEditor_->lineNumberAreaPaintEvent(event); }
 
     private:
         CodeViewer* codeEditor_;

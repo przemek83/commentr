@@ -95,9 +95,6 @@ private:
      */
     void createAndShowBrowseFilesWidget(bool openFileMode);
 
-    //QInputMethod isVisible() method is not working. This is workaround.
-    bool virtualKeyboardVisible_;
-
     ///Counter used at new file creation.
     int newFileCounter_;
 

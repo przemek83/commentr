@@ -58,8 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
             this,
             SLOT(focusHasChanged(QWidget*,QWidget*)));
 
-    virtualKeyboardVisible_ = false;
-
     initFtpConnectionSetup();
 }
 
@@ -1181,13 +1179,9 @@ void MainWindow::on_actionShow_hide_keyboard_triggered()
     }
 
     QInputMethod* input = QGuiApplication::inputMethod();
-    virtualKeyboardVisible_ = !virtualKeyboardVisible_;
-    if( true == virtualKeyboardVisible_ )
-    {
+    if (input->isVisible()) {
         input->hide();
-    }
-    else
-    {
+    } else {
         input->show();
     }
 }

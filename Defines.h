@@ -3,4 +3,6 @@
 
 //#define DEMO
 
+//#define FTP
+
 #endif // DEFINES_H

@@ -5,11 +5,12 @@
 #include <QListWidgetItem>
 #include <QBuffer>
 #include <QProgressDialog>
-#include "qftp.h"
 
 #include "Explorer.h"
 
 class File;
+class QFtp;
+class QUrlInfo;
 
 class ExplorerFtp : public QListWidget, public Explorer
 {
@@ -17,7 +18,7 @@ class ExplorerFtp : public QListWidget, public Explorer
 public:
     ExplorerFtp(bool open, QWidget* parent = 0);
 
-    virtual ~ExplorerFtp();
+    ~ExplorerFtp() override;
 
     virtual void setPath(QString path);
 
@@ -57,7 +58,7 @@ protected slots:
 private:
     Q_DISABLE_COPY(ExplorerFtp)
 
-    QFtp* ftp_;
+    QFtp* ftp_{nullptr};
 
     class Item : public QListWidgetItem
     {
@@ -95,7 +96,9 @@ private:
     QProgressDialog progressDialog_;
 
 private slots:
+#ifdef FTP
     void addToList(const QUrlInfo& urlInfo);
+#endif
 
     void cancelDownload();
 

@@ -6,22 +6,23 @@
 
 #include "File.h"
 #include "FtpFileSaver.h"
-#include "Config.h"
 
 FtpFileSaver::FtpFileSaver(QObject *parent) :
     QObject(parent), fileToSave_(NULL)
 {
-    connect(&ftp_, SIGNAL(commandFinished(int,bool)),
-            this, SLOT(ftpCommandFinished(int,bool)));
-    connect(&ftp_, SIGNAL(dataTransferProgress(qint64,qint64)),
-            this, SLOT(updateDataTransferProgress(qint64,qint64)));
+#ifdef FTP
+    connect(&ftp_, SIGNAL(commandFinished(int, bool)), this, SLOT(ftpCommandFinished(int, bool)));
+    connect(&ftp_,
+            SIGNAL(dataTransferProgress(qint64, qint64)),
+            this,
+            SLOT(updateDataTransferProgress(qint64, qint64)));
+    ftp_.setTransferMode(QFtp::Passive);
+#endif
 
     progressDialog_.setVisible(false);
     progressDialog_.setModal(true);
     progressDialog_.setRange(0, 0);
     progressDialog_.setCancelButton(NULL);
-
-    ftp_.setTransferMode(QFtp::Passive);
 }
 
 FtpFileSaver::~FtpFileSaver()
@@ -35,26 +36,33 @@ FtpFileSaver::~FtpFileSaver()
 void FtpFileSaver::saveFile(File* file)
 {
     fileToSave_ = file;
+
+#ifdef FTP
     ftp_.connectToHost(Config::getInstance().ftpHost());
-    ftp_.login(Config::getInstance().ftpLogin(),
-               Config::getInstance().ftpPassword());
+    ftp_.login(Config::getInstance().ftpLogin(), Config::getInstance().ftpPassword());
     ftp_.cd(fileToSave_->path());
+#endif
 
     ///Create QByteArray and init buffer for file transfer.
     QByteArray byteBuffer;
     byteBuffer.clear();
-    byteBuffer.append(*fileToSave_->content());
+    byteBuffer.append(fileToSave_->content()->toStdString());
     buffer_.setData(byteBuffer);
     buffer_.open(QIODevice::ReadOnly);
+
+#ifdef FTP
     ftp_.put(&buffer_, fileToSave_->getName());
+#endif
 }
 
-void FtpFileSaver::checkConnection(QString host,
-                                   QString login,
-                                   QString password)
+void FtpFileSaver::checkConnection([[maybe_unused]] QString host,
+                                   [[maybe_unused]]QString login,
+                                   [[maybe_unused]]QString password)
 {
+#ifdef FTP
     ftp_.connectToHost(host);
     ftp_.login(login, password);
+#endif
 }
 
 void FtpFileSaver::finish(bool success, QString error)
@@ -63,8 +71,11 @@ void FtpFileSaver::finish(bool success, QString error)
     {
         QMessageBox::information(Common::getMainWindow(this), tr("FTP"), error);
     }
+
+#ifdef FTP
     ftp_.clearPendingCommands();
     ftp_.close();
+#endif
     emit operationFinished(success);
 }
 
@@ -73,62 +84,60 @@ void FtpFileSaver::windowResized()
     Common::centerWidget(this, &progressDialog_);
 }
 
-void FtpFileSaver::ftpCommandFinished(int, bool error)
+void FtpFileSaver::ftpCommandFinished(int, [[maybe_unused]] bool error)
 {
-    switch( ftp_.currentCommand() )
-    {
-        case QFtp::ConnectToHost:
-        {
-            if( true == error )
-            {
-                finish(false, tr("Unable to connect to the FTP server.\n"
-                                 "Error: %1").arg(ftp_.errorString()));
-                return;
-            }
-
-            break;
+#ifdef FTP
+    switch (ftp_.currentCommand()) {
+    case QFtp::ConnectToHost: {
+        if (true == error) {
+            finish(false,
+                   tr("Unable to connect to the FTP server.\n"
+                      "Error: %1")
+                       .arg(ftp_.errorString()));
+            return;
         }
 
-        case QFtp::Login:
-        {
-            if( true == error )
-            {
-                finish(false, tr("Unable to login. Wrong user or password.\n"
-                                 "Error: %1").arg(ftp_.errorString()));
-                return;
-            }
-
-            if( NULL == fileToSave_ )
-            {
-                emit operationFinished(true);
-                return;
-            }
-
-            break;
-        }
-
-        case QFtp::Cd:
-        {
-            if( true == error )
-            {
-                finish(false, tr("Unable to change directory.\n"
-                                 "Error: %1").arg(ftp_.errorString()));
-                return;
-            }
-            break;
-        }
-
-        case QFtp::Put:
-        {
-            finish(true, "");
-            break;
-        }
-
-        default:
-        {
-            break;
-        }
+        break;
     }
+
+    case QFtp::Login: {
+        if (true == error) {
+            finish(false,
+                   tr("Unable to login. Wrong user or password.\n"
+                      "Error: %1")
+                       .arg(ftp_.errorString()));
+            return;
+        }
+
+        if (NULL == fileToSave_) {
+            emit operationFinished(true);
+            return;
+        }
+
+        break;
+    }
+
+    case QFtp::Cd: {
+        if (true == error) {
+            finish(false,
+                   tr("Unable to change directory.\n"
+                      "Error: %1")
+                       .arg(ftp_.errorString()));
+            return;
+        }
+        break;
+    }
+
+    case QFtp::Put: {
+        finish(true, "");
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+#endif
 }
 
 void FtpFileSaver::updateDataTransferProgress(qint64 readBytes, qint64 totalBytes)

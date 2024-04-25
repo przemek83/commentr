@@ -3,7 +3,6 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QScrollEvent>
 #include <QScrollBar>
 #include <QScroller>
@@ -13,8 +12,9 @@
 #include "Config.h"
 #include "Common.h"
 
-ExplorerFtp::ExplorerFtp(bool open, QWidget* parent) :
-     QListWidget(parent), Explorer(open), ftp_(NULL)
+ExplorerFtp::ExplorerFtp(bool open, QWidget* parent)
+    : QListWidget(parent)
+    , Explorer(open)
 {
     horizontalScrollBar()->setStyleSheet(Common::getStyleSheet());
     verticalScrollBar()->setStyleSheet(Common::getStyleSheet());
@@ -44,10 +44,10 @@ ExplorerFtp::ExplorerFtp(bool open, QWidget* parent) :
 
 ExplorerFtp::~ExplorerFtp()
 {
-    if( NULL != ftp_ )
-    {
+#ifdef FTP
+    if (ftp_)
         delete ftp_;
-    }
+#endif
 }
 
 void ExplorerFtp::setPath(QString path)
@@ -66,7 +66,10 @@ void ExplorerFtp::setPath(QString path)
     progressDialog_.setVisible(true);
 
     newPath_ = path;
+
+#ifdef FTP
     ftp_->cd(path);
+#endif
 }
 
 QString ExplorerFtp::getCurrentPath()
@@ -91,25 +94,27 @@ void ExplorerFtp::setWrapping(bool wrapping)
 
 void ExplorerFtp::initialize()
 {
+#ifdef FTP
     ftp_ = new QFtp();
 
-    connect(ftp_, SIGNAL(commandFinished(int,bool)),
-            this, SLOT(ftpCommandFinished(int,bool)));
-    connect(ftp_, SIGNAL(listInfo(QUrlInfo)),
-            this, SLOT(addToList(QUrlInfo)));
-    connect(ftp_, SIGNAL(dataTransferProgress(qint64,qint64)),
-            this, SLOT(updateDataTransferProgress(qint64,qint64)));
+    connect(ftp_, SIGNAL(commandFinished(int, bool)), this, SLOT(ftpCommandFinished(int, bool)));
+    connect(ftp_, SIGNAL(listInfo(QUrlInfo)), this, SLOT(addToList(QUrlInfo)));
+    connect(ftp_,
+            SIGNAL(dataTransferProgress(qint64, qint64)),
+            this,
+            SLOT(updateDataTransferProgress(qint64, qint64)));
 
     ftp_->setTransferMode(QFtp::Passive);
     ftp_->connectToHost(Config::getInstance().ftpHost());
     QString login = Config::getInstance().ftpLogin();
     QString password = Config::getInstance().ftpPassword();
     ftp_->login(login, password);
+#endif
 }
 
 bool ExplorerFtp::initialized()
 {
-    return NULL != ftp_;
+    return ftp_ != nullptr;
 }
 
 void ExplorerFtp::performOperationOnFile(QString filePath)
@@ -119,7 +124,9 @@ void ExplorerFtp::performOperationOnFile(QString filePath)
     if( true == open_ )
     {
         fileBuffer_.open(QIODevice:: ReadWrite);
+#ifdef FTP
         ftp_->get(filePath, &fileBuffer_);
+#endif
     }
     else
     {
@@ -143,7 +150,9 @@ void ExplorerFtp::performOperationOnFile(QString filePath)
                               suffix,
                               NULL);
 
+#ifdef FTP
         ftp_->close();
+#endif
 
         emit filePrepared(file);
     }
@@ -172,103 +181,94 @@ void ExplorerFtp::listViewItemClicked(const QModelIndex& index)
     }
 }
 
-void ExplorerFtp::ftpCommandFinished(int, bool error)
+void ExplorerFtp::ftpCommandFinished(int, [[maybe_unused]] bool error)
 {
-    switch( ftp_->currentCommand() )
-    {
-        case QFtp::ConnectToHost:
-        {
-            if( true == error )
-            {
-                QMessageBox::information(this, tr("FTP"),
-                    tr("Unable to connect to the FTP server.\n"
-                        "Error: %1").arg(ftp_->errorString()));
+#ifdef FTP
+    switch (ftp_->currentCommand()) {
+    case QFtp::ConnectToHost: {
+        if (true == error) {
+            QMessageBox::information(this,
+                                     tr("FTP"),
+                                     tr("Unable to connect to the FTP server.\n"
+                                        "Error: %1")
+                                         .arg(ftp_->errorString()));
 
-                return;
-            }
-
-            break;
+            return;
         }
 
-        case QFtp::Login:
-        {
-            if( true == error )
-            {
-                QMessageBox::information(this, tr("FTP"),
-                    tr("Unable to login. Wrong user or password.\n"
-                        "Error: %1").arg(ftp_->errorString()));
-                return;
-            }
-
-            if( true == currentPath_.isEmpty() )
-            {
-                newPath_ = Common::rootPath();
-                ftp_->cd(Common::rootPath());
-            }
-            else
-            {
-                 ftp_->cd(currentPath_);
-            }
-            break;
-        }
-
-        case QFtp::Cd:
-        {
-            itemsList_.clear();
-            ftp_->list();
-            break;
-        }
-
-        case QFtp::List:
-        {
-            progressDialog_.setVisible(false);
-            clear();
-
-            //Change path successful. Change current path.
-            currentPath_ = newPath_;
-            if( false == currentPath_.isEmpty() &&
-                currentPath_ != Common::rootPath() )
-            {
-                Item* item = new Item("..", true, true, true);
-                addItem(item);
-            }
-
-            foreach(Item* itemOnlist, itemsList_)
-            {
-                addItem(itemOnlist);
-            }
-
-            emit pathChanged(currentPath_);
-
-            break;
-        }
-
-        case QFtp::Get:
-        {
-            progressDialog_.setVisible(false);
-            progressDialog_.setRange(0, 0);
-            //QTBUG-47042
-            progressDialog_.reset();
-
-            Item* item = static_cast<Item*>(currentItem());
-            QString baseName = File::fileNameToBaseName(item->text());
-            QString suffix = File::fileNameToSuffix(item->text());
-
-            File* file = new File(Common::SOURCE_FTP,
-                                  currentPath_,
-                                  baseName,
-                                  suffix,
-                                  new QString(fileBuffer_.buffer()));
-            ftp_->close();
-            emit filePrepared(file);
-            break;
-        }
-
-        default:
-        {
-            break;
-        }
+        break;
     }
+
+    case QFtp::Login: {
+        if (true == error) {
+            QMessageBox::information(this,
+                                     tr("FTP"),
+                                     tr("Unable to login. Wrong user or password.\n"
+                                        "Error: %1")
+                                         .arg(ftp_->errorString()));
+            return;
+        }
+
+        if (true == currentPath_.isEmpty()) {
+            newPath_ = Common::rootPath();
+            ftp_->cd(Common::rootPath());
+        } else {
+            ftp_->cd(currentPath_);
+        }
+        break;
+    }
+
+    case QFtp::Cd: {
+        itemsList_.clear();
+        ftp_->list();
+        break;
+    }
+
+    case QFtp::List: {
+        progressDialog_.setVisible(false);
+        clear();
+
+        //Change path successful. Change current path.
+        currentPath_ = newPath_;
+        if (false == currentPath_.isEmpty() && currentPath_ != Common::rootPath()) {
+            Item* item = new Item("..", true, true, true);
+            addItem(item);
+        }
+
+        foreach (Item* itemOnlist, itemsList_) {
+            addItem(itemOnlist);
+        }
+
+        emit pathChanged(currentPath_);
+
+        break;
+    }
+
+    case QFtp::Get: {
+        progressDialog_.setVisible(false);
+        progressDialog_.setRange(0, 0);
+        //QTBUG-47042
+        progressDialog_.reset();
+
+        Item* item = static_cast<Item*>(currentItem());
+        QString baseName = File::fileNameToBaseName(item->text());
+        QString suffix = File::fileNameToSuffix(item->text());
+
+        File* file = new File(Common::SOURCE_FTP,
+                              currentPath_,
+                              baseName,
+                              suffix,
+                              new QString(fileBuffer_.buffer()));
+        ftp_->close();
+        emit filePrepared(file);
+        break;
+    }
+
+    default: {
+        break;
+    }
+    }
+#endif
 }
 
 QString ExplorerFtp::getPathToUse(Item* itemClicked)
@@ -305,11 +305,15 @@ void ExplorerFtp::itemActivated(QModelIndex index)
         if (newPath_.isEmpty())
         {
             newPath_ = Common::rootPath();
+#ifdef FTP
             ftp_->cd(Common::rootPath());
+#endif
         }
         else
         {
+#ifdef FTP
             ftp_->cd(newPath_);
+#endif
         }
 
         return;
@@ -326,19 +330,18 @@ void ExplorerFtp::itemActivated(QModelIndex index)
     }
 }
 
+#ifdef FTP
 void ExplorerFtp::addToList(const QUrlInfo& urlInfo)
 {
     //Ignore returned by server ".." and ".".
-    if( ".." == urlInfo.name() || "." == urlInfo.name() )
-    {
+    if (".." == urlInfo.name() || "." == urlInfo.name()) {
         return;
     }
 
-    itemsList_.append(new Item(urlInfo.name(),
-                               urlInfo.isDir(),
-                               urlInfo.isReadable(),
-                               urlInfo.isWritable()));
+    itemsList_.append(
+        new Item(urlInfo.name(), urlInfo.isDir(), urlInfo.isReadable(), urlInfo.isWritable()));
 }
+#endif
 
 void ExplorerFtp::updateDataTransferProgress(qint64 readBytes,
                                              qint64 totalBytes)
@@ -354,9 +357,11 @@ void ExplorerFtp::updateDataTransferProgress(qint64 readBytes,
 
 void ExplorerFtp::cancelDownload()
 {
+#ifdef FTP
     ftp_->abort();
     ftp_->clearPendingCommands();
     ftp_->deleteLater();
+#endif
 
     //Recreate QFtp (abort is not working as it should).
     initialize();

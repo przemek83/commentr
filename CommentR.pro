@@ -27,16 +27,16 @@ win32: {
 }
 
 #FTP
-FTP_ROOT = D:/Programowanie/CommentR/qtftp/
-INCLUDEPATH += $${FTP_ROOT}include
-LIBS += -L$${FTP_ROOT}lib/$$ARCH_DIR
-CONFIG(debug, debug|release) {
-    LIBS += -lqtftp
-    ANDROID_EXTRA_LIBS = $${FTP_ROOT}lib/$$ARCH_DIR/debug/libqtftp.so
-} else {
-    LIBS += -lqtftp
-    ANDROID_EXTRA_LIBS = $${FTP_ROOT}lib/$$ARCH_DIR/libqtftp.so
-}
+# FTP_ROOT = D:/Programowanie/CommentR/qtftp/
+# INCLUDEPATH += $${FTP_ROOT}include
+# LIBS += -L$${FTP_ROOT}lib/$$ARCH_DIR
+# CONFIG(debug, debug|release) {
+#     LIBS += -lqtftp
+#     ANDROID_EXTRA_LIBS = $${FTP_ROOT}lib/$$ARCH_DIR/debug/libqtftp.so
+# } else {
+#     LIBS += -lqtftp
+#     ANDROID_EXTRA_LIBS = $${FTP_ROOT}lib/$$ARCH_DIR/libqtftp.so
+# }
 
 TARGET = CommentR
 TEMPLATE = app

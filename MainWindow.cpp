@@ -11,17 +11,18 @@
 #include <QTabBar>
 #include <QActionGroup>
 
-#include "MainWindow.h"
-#include "ui_MainWindow.h"
-#include "Config.h"
-#include "ProxyStyle.h"
-#include "Highlighters/Highlighter.h"
-#include "FileBrowser/BrowseFilesWidget.h"
-#include "Common.h"
 #include "CodeViewer.h"
+#include "Common.h"
+#include "Config.h"
 #include "ConnectionSetup.h"
+#include "Defines.h"
 #include "File.h"
+#include "FileBrowser/BrowseFilesWidget.h"
 #include "FtpFileSaver.h"
+#include "Highlighters/Highlighter.h"
+#include "MainWindow.h"
+#include "ProxyStyle.h"
+#include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::MainWindow), newFileCounter_(0)
@@ -58,7 +59,9 @@ MainWindow::MainWindow(QWidget *parent) :
             this,
             SLOT(focusHasChanged(QWidget*,QWidget*)));
 
+#ifdef FTP
     initFtpConnectionSetup();
+#endif
 }
 
 MainWindow::~MainWindow()

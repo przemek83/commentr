@@ -174,7 +174,6 @@
     <addaction name="actionCheck_spelling_in_comments"/>
     <addaction name="actionLine_wrap"/>
     <addaction name="menuLanguage_mode"/>
-    <addaction name="actionConnection_setup"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">

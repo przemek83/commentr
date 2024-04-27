@@ -38,23 +38,18 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget *parent) :
                              //QIcon(":Icons/close.png"),
                              "local");
 
+#ifdef FTP
     ExplorerFtp* ftp = new ExplorerFtp(open, ui->tabWidget);
 
-    connect(ftp,
-            SIGNAL(filePrepared(File*)),
-            this,
-            SIGNAL(filePrepared(File*)));
+    connect(ftp, SIGNAL(filePrepared(File*)), this, SIGNAL(filePrepared(File*)));
 
-    connect(ftp,
-            SIGNAL(pathChanged(QString)),
-            filePathLineEdit_,
-            SLOT(setText(QString)));
+    connect(ftp, SIGNAL(pathChanged(QString)), filePathLineEdit_, SLOT(setText(QString)));
 
     ui->tabWidget->insertTab(static_cast<int>(Common::SOURCE_FTP),
                              ftp,
                              //QIcon(":Icons/close.png"),
                              "ftp");
-
+#endif
 
     setProperIconForViewButton();
 

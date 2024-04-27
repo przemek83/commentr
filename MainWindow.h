@@ -44,12 +44,7 @@ private:
 
     void manageActions(bool tabExist);
 
-    enum StackedPage
-    {
-        PAGE_MAIN = 0,
-        PAGE_CONNECTION_SETUP,
-        PAGE_FILE_BROWSER
-    };
+    enum StackedPage { PAGE_MAIN = 0, PAGE_FILE_BROWSER, PAGE_CONNECTION_SETUP };
 
     void initMenus();
 

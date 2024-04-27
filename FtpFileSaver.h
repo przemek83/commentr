@@ -5,6 +5,8 @@
 #include <QObject>
 #include <QProgressDialog>
 
+#include "Defines.h"
+
 #ifdef FTP
 #include "qftp.h"
 #endif

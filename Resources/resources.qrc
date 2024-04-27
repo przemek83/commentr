@@ -22,4 +22,15 @@
         <file>zoomOut.png</file>
         <file>menu.png</file>
     </qresource>
+    <qresource prefix="/samples">
+        <file>samples/sample.cpp</file>
+        <file>samples/sample.cs</file>
+        <file>samples/sample.java</file>
+        <file>samples/sample.js</file>
+        <file>samples/sample.m</file>
+        <file>samples/sample.php</file>
+        <file>samples/sample.py</file>
+        <file>samples/sample.sql</file>
+        <file>samples/sample.vb</file>
+    </qresource>
 </RCC>

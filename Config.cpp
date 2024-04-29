@@ -143,7 +143,7 @@ void Config::load()
     listViewInBrowser_ = settings.value(fieldName, QVariant(true)).toBool();
 
     fieldName = configNames_[CONFIG_LAST_DIR];
-    lastPickedDir_ = settings.value(fieldName, QVariant("/")).toString();
+    lastPickedDir_ = settings.value(fieldName, QVariant("")).toString();
 
     fieldName = configNames_[CONFIG_FTP_HOST];
     ftpHost_ = settings.value(fieldName, QVariant("")).toString();

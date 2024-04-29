@@ -1,9 +1,10 @@
+#include <QCoreApplication>
+#include <QDebug>
 #include <QFile>
+#include <QFileInfo>
+#include <QStandardPaths>
 #include <QTextStream>
 #include <QWidget>
-#include <QDebug>
-#include <QCoreApplication>
-#include <QStandardPaths>
 
 #include "Common.h"
 
@@ -22,9 +23,14 @@ Common::~Common()
 }
 const QString Common::rootPath()
 {
-    const static QString rootPath
-        = QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation).constFirst();
-    return rootPath;
+    const QStringList potentialPaths{
+        QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation)};
+    for (const auto& path : potentialPaths) {
+        const QFileInfo currentPath(path);
+        if (currentPath.isDir() && currentPath.isWritable())
+            return path;
+    }
+    return potentialPaths.constFirst();
 }
 
 QString Common::loadFile(QString name)

@@ -69,8 +69,7 @@ void ExplorerLocal::initialize()
 
     //Set proper initialization path.
     QString initPath = Config::getInstance().lastPickedDir();
-    if( false == fileModel->index(initPath).isValid() )
-    {
+    if (initPath.isEmpty()) {
         initPath = Common::rootPath();
     }
 

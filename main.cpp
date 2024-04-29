@@ -1,16 +1,40 @@
 #include <QApplication>
-#include <QSplashScreen>
-#include <QScrollerProperties>
-#include <QScroller>
 #include <QDebug>
+#include <QDir>
 #include <QEasingCurve>
+#include <QScroller>
+#include <QScrollerProperties>
+#include <QSplashScreen>
+#include <QStandardPaths>
 #include <QStyleFactory>
 
-#include "MainWindow.h"
-#include "SpellChecker.h"
-#include "Config.h"
-#include "ProxyStyle.h"
 #include "Common.h"
+#include "Config.h"
+#include "MainWindow.h"
+#include "ProxyStyle.h"
+#include "SpellChecker.h"
+
+namespace {
+void placeSamples()
+{
+    const QString samplesPath{":/samples/samples/"};
+    const QStringList potentialPaths{
+        QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation)};
+    for (const auto &path : potentialPaths) {
+        const QFileInfo currentPath(path);
+        if (currentPath.isDir() && !currentPath.isWritable())
+            continue;
+
+        const QDir allSamples(samplesPath);
+        for (const auto &sample : allSamples.entryList()) {
+            QFile file(samplesPath + sample);
+            file.copy(currentPath.absoluteFilePath() + "/" + sample);
+        }
+
+        return;
+    }
+}
+} // namespace
 
 int main(int argc, char *argv[])
 {
@@ -27,10 +51,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     //Can be used only after QApplication construction.
-    if( true == Config::getInstance().firstUse() )
-    {
+    if (true == Config::getInstance().firstUse()) {
         Config::getInstance().setDefaultFont();
         ProxyStyle::updateUisize();
+        placeSamples();
     }
 
 //    //Do not allow size lower than 5 (historical reason).

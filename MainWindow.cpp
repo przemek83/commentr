@@ -1157,13 +1157,13 @@ void MainWindow::on_actionAbout_triggered()
     createNewTab(file);
 }
 
-void MainWindow::on_actionQT_LGPL_license_triggered()
+void MainWindow::on_actionQt_license_triggered()
 {
     File* file = new File(Common::SOURCE_NOT_SET,
                           "",
-                          "QT LGPL license",
+                          "Qt license",
                           "",
-                          new QString(Common::loadFile(":/LICENSE.LGPL")));
+                          new QString(Common::loadFile(":/LICENSE")));
 
     createNewTab(file);
 }

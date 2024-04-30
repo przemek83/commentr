@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>about.txt</file>
-        <file>LICENSE.LGPL</file>
+        <file>LICENSE</file>
         <file>style.css</file>
         <file>uk.dic</file>
     </qresource>

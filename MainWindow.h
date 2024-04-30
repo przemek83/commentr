@@ -186,7 +186,7 @@ private slots:
 
     void on_actionToolbarEast_triggered();
 
-    void on_actionQT_LGPL_license_triggered();
+    void on_actionQt_license_triggered();
 
     void on_actionShow_hide_keyboard_triggered();
 

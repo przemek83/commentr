@@ -100,7 +100,7 @@
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
-    <addaction name="actionQT_LGPL_license"/>
+    <addaction name="actionQt_license"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
@@ -774,9 +774,12 @@
     <string>East</string>
    </property>
   </action>
-  <action name="actionQT_LGPL_license">
+  <action name="actionQt_license">
    <property name="text">
-    <string>QT LGPL license</string>
+    <string>Qt license</string>
+   </property>
+   <property name="toolTip">
+    <string>Qt license</string>
    </property>
   </action>
   <action name="actionIncrease50">

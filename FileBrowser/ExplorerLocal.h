@@ -50,6 +50,8 @@ private:
 
     void initModelAndView();
 
+    QString currentItem_;
+
 private slots:
     void directoryLoaded(const QString& path);
 

@@ -26,6 +26,11 @@ void Explorer::setupList(QListView* listView)
 #endif
 
     QObject::connect(listView,
+                     SIGNAL(clicked(QModelIndex)),
+                     listView,
+                     SLOT(itemActivated(QModelIndex)));
+
+    QObject::connect(listView,
                      SIGNAL(doubleClicked(QModelIndex)),
                      listView,
                      SLOT(itemActivated(QModelIndex)));

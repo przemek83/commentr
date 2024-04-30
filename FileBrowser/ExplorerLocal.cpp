@@ -144,29 +144,27 @@ void ExplorerLocal::itemActivated(QModelIndex index)
     QFileSystemModel* fileModel =
         static_cast<QFileSystemModel*>(model());
 
-    QString canonicalFilePath(fileModel->fileInfo(index).canonicalFilePath());
-    if( fileModel->isDir(index) )
-    {
+    if (currentItem_ != index.data()) {
+        currentItem_ = index.data().toString();
+        return;
+    }
 
-        if( index.data().toString() == ".." )
-        {
+    currentItem_.clear();
+
+    QString canonicalFilePath(fileModel->fileInfo(index).canonicalFilePath());
+    if (fileModel->isDir(index)) {
+        if (index.data().toString() == "..") {
             setRootIndex(fileModel->index(canonicalFilePath));
-            QModelIndex newRootIndex =
-                fileModel->index(0, 0, rootIndex());
+            QModelIndex newRootIndex = fileModel->index(0, 0, rootIndex());
             setCurrentIndex(newRootIndex);
-        }
-        else
-        {
-            if( true == directoryIsAccessible(canonicalFilePath) )
-            {
+        } else {
+            if (true == directoryIsAccessible(canonicalFilePath)) {
                 setRootIndex(index);
             }
         }
 
         emit pathChanged(getCurrentPath());
-    }
-    else
-    {
+    } else {
         performOperationOnFile(canonicalFilePath);
     }
 }

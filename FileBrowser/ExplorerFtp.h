@@ -6,7 +6,7 @@
 #include <QBuffer>
 #include <QProgressDialog>
 
-#include "Defines.h"
+#include "../Defines.h"
 #include "Explorer.h"
 
 class File;

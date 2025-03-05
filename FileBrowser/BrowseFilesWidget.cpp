@@ -2,15 +2,15 @@
 #include <QDebug>
 #include <QMessageBox>
 
+#include "../Common.h"
+#include "../Config.h"
+#include "../EnhancedLineEdit.h"
+#include "../File.h"
 #include "BrowseFilesWidget.h"
-#include "ui_BrowseFilesWidget.h"
-#include "Config.h"
-#include "EnhancedLineEdit.h"
-#include "Common.h"
-#include "ExplorerLocal.h"
 #include "Explorer.h"
 #include "ExplorerFtp.h"
-#include "File.h"
+#include "ExplorerLocal.h"
+#include "ui_BrowseFilesWidget.h"
 
 BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget *parent) :
     QWidget(parent),

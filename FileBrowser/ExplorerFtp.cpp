@@ -7,10 +7,10 @@
 #include <QScrollBar>
 #include <QScroller>
 
+#include "../Common.h"
+#include "../Config.h"
+#include "../File.h"
 #include "ExplorerFtp.h"
-#include "File.h"
-#include "Config.h"
-#include "Common.h"
 
 ExplorerFtp::ExplorerFtp(bool open, QWidget* parent)
     : QListWidget(parent)

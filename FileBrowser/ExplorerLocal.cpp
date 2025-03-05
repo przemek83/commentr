@@ -8,10 +8,10 @@
 #include <QEvent>
 #include <QMouseEvent>
 
+#include "../Common.h"
+#include "../Config.h"
+#include "../File.h"
 #include "ExplorerLocal.h"
-#include "Config.h"
-#include "Common.h"
-#include "File.h"
 
 ExplorerLocal::ExplorerLocal(bool open, QWidget* parent) :
     QListView(parent), Explorer(open)

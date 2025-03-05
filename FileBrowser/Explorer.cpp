@@ -3,8 +3,8 @@
 #include <QDebug>
 #include <QTimer>
 
+#include "../Common.h"
 #include "Explorer.h"
-#include "Common.h"
 
 Explorer::Explorer(bool open) :
     open_(open)

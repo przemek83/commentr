@@ -98,22 +98,19 @@ set(${PROJECT_NAME}_SOURCES
     PanGestureRecognizer.h
 )
 
-# Add UI files
-set(FORMS
+set(${PROJECT_NAME}_UI
     MainWindow.ui
     EditorTabPage.ui
     FileBrowser/BrowseFilesWidget.ui
     ConnectionSetup.ui
 )
 
-qt_add_resources(${PROJECT_NAME}_RESOURCES Resources/resources.qrc)
-
-# Add other files
-set(OTHER_FILES
+set(${PROJECT_NAME}_OTHER_FILES
     android/AndroidManifest.xml
     comment.rc
 )
 
-add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES} ${FORMS} ${OTHER_FILES} ${${PROJECT_NAME}_RESOURCES})
+qt_add_resources(${PROJECT_NAME}_RESOURCES Resources/resources.qrc)
 
+add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_UI} ${${PROJECT_NAME}_OTHER_FILES} ${${PROJECT_NAME}_RESOURCES})
 target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)

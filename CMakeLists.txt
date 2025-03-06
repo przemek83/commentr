@@ -31,7 +31,6 @@ endif()
 
 # Add source files
 set(${PROJECT_NAME}_SOURCES
-    main.cpp
     MainWindow.cpp
     MainWindow.h
     CodeViewer.cpp
@@ -112,5 +111,11 @@ set(${PROJECT_NAME}_OTHER_FILES
 
 qt_add_resources(${PROJECT_NAME}_RESOURCES Resources/resources.qrc)
 
-add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_UI} ${${PROJECT_NAME}_OTHER_FILES} ${${PROJECT_NAME}_RESOURCES})
-target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
+add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_UI})
+target_link_libraries(${PROJECT_NAME}-lib PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
+
+add_executable(${PROJECT_NAME} main.cpp ${${PROJECT_NAME}_RESOURCES} ${${PROJECT_NAME}_OTHER_FILES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}-lib Qt6::Widgets)
+
+# enable_testing()
+# add_subdirectory(tests)

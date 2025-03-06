@@ -30,76 +30,71 @@ else()
 endif()
 
 # Add source files
-set(SOURCES
+set(${PROJECT_NAME}_SOURCES
     main.cpp
     MainWindow.cpp
-    CodeViewer.cpp
-    SpellChecker.cpp
-    EditorTabPage.cpp
-    Config.cpp
-    ProxyStyle.cpp
-    Highlighters/SQLHighlighter.cpp
-    Highlighters/PythonHighlighter.cpp
-    Highlighters/PhpHighlighter.cpp
-    Highlighters/ObjectiveCHighlighter.cpp
-    Highlighters/JavaScriptHighlighter.cpp
-    Highlighters/JavaHighlighter.cpp
-    Highlighters/Highlighter.cpp
-    Highlighters/CSharpHighlighter.cpp
-    Highlighters/CplusPlusHighlighter.cpp
-    Highlighters/CFamilyHighlighter.cpp
-    Highlighters/BasicHighlighter.cpp
-    BackButtonHandler.cpp
-    CursorPointer.cpp
-    EnhancedLineEdit.cpp
-    CursorPointerLineEdit.cpp
-    CursorPointerTextEdit.cpp
-    CursorPointerSelector.cpp
-    Common.cpp
-    FileBrowser/BrowseFilesWidget.cpp
-    ConnectionSetup.cpp
-    FileBrowser/Explorer.cpp
-    FileBrowser/ExplorerLocal.cpp
-    FileBrowser/ExplorerFtp.cpp
-    File.cpp
-    FtpFileSaver.cpp
-    PanGestureRecognizer.cpp
-)
-
-# Add header files
-set(HEADERS
     MainWindow.h
+    CodeViewer.cpp
     CodeViewer.h
+    SpellChecker.cpp
     SpellChecker.h
+    EditorTabPage.cpp
     EditorTabPage.h
+    Config.cpp
     Config.h
+    ProxyStyle.cpp
     ProxyStyle.h
+    Highlighters/SQLHighlighter.cpp
     Highlighters/SQLHighlighter.h
+    Highlighters/PythonHighlighter.cpp
     Highlighters/PythonHighlighter.h
+    Highlighters/PhpHighlighter.cpp
     Highlighters/PhpHighlighter.h
+    Highlighters/ObjectiveCHighlighter.cpp
     Highlighters/ObjectiveCHighlighter.h
+    Highlighters/JavaScriptHighlighter.cpp
     Highlighters/JavaScriptHighlighter.h
+    Highlighters/JavaHighlighter.cpp
     Highlighters/JavaHighlighter.h
+    Highlighters/Highlighter.cpp
     Highlighters/Highlighter.h
+    Highlighters/CSharpHighlighter.cpp
     Highlighters/CSharpHighlighter.h
+    Highlighters/CplusPlusHighlighter.cpp
     Highlighters/CplusPlusHighlighter.h
+    Highlighters/CFamilyHighlighter.cpp
     Highlighters/CFamilyHighlighter.h
+    Highlighters/BasicHighlighter.cpp
     Highlighters/BasicHighlighter.h
-    Defines.h
+    BackButtonHandler.cpp
     BackButtonHandler.h
+    CursorPointer.cpp
     CursorPointer.h
+    EnhancedLineEdit.cpp
     EnhancedLineEdit.h
+    CursorPointerLineEdit.cpp
     CursorPointerLineEdit.h
+    CursorPointerTextEdit.cpp
     CursorPointerTextEdit.h
+    CursorPointerSelector.cpp
     CursorPointerSelector.h
+    Common.cpp
     Common.h
+    FileBrowser/BrowseFilesWidget.cpp
     FileBrowser/BrowseFilesWidget.h
+    ConnectionSetup.cpp
     ConnectionSetup.h
+    FileBrowser/Explorer.cpp
     FileBrowser/Explorer.h
+    FileBrowser/ExplorerLocal.cpp
     FileBrowser/ExplorerLocal.h
+    FileBrowser/ExplorerFtp.cpp
     FileBrowser/ExplorerFtp.h
+    File.cpp
     File.h
+    FtpFileSaver.cpp
     FtpFileSaver.h
+    PanGestureRecognizer.cpp
     PanGestureRecognizer.h
 )
 
@@ -119,6 +114,6 @@ set(OTHER_FILES
     comment.rc
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FORMS} ${OTHER_FILES} ${${PROJECT_NAME}_RESOURCES})
+add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES} ${FORMS} ${OTHER_FILES} ${${PROJECT_NAME}_RESOURCES})
 
 target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)

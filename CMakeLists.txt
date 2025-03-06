@@ -111,10 +111,7 @@ set(FORMS
     ConnectionSetup.ui
 )
 
-# Add resource files
-set(RESOURCES
-    Resources/resources.qrc
-)
+qt_add_resources(${PROJECT_NAME}_RESOURCES Resources/resources.qrc)
 
 # Add other files
 set(OTHER_FILES
@@ -122,6 +119,6 @@ set(OTHER_FILES
     comment.rc
 )
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FORMS} ${RESOURCES} ${OTHER_FILES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FORMS} ${OTHER_FILES} ${${PROJECT_NAME}_RESOURCES})
 
 target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)

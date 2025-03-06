@@ -31,77 +31,77 @@ endif()
 
 # Add source files
 set(${PROJECT_NAME}_SOURCES
-    MainWindow.cpp
-    MainWindow.h
-    CodeViewer.cpp
-    CodeViewer.h
-    SpellChecker.cpp
-    SpellChecker.h
-    EditorTabPage.cpp
-    EditorTabPage.h
-    Config.cpp
-    Config.h
-    ProxyStyle.cpp
-    ProxyStyle.h
-    Highlighters/SQLHighlighter.cpp
-    Highlighters/SQLHighlighter.h
-    Highlighters/PythonHighlighter.cpp
-    Highlighters/PythonHighlighter.h
-    Highlighters/PhpHighlighter.cpp
-    Highlighters/PhpHighlighter.h
-    Highlighters/ObjectiveCHighlighter.cpp
-    Highlighters/ObjectiveCHighlighter.h
-    Highlighters/JavaScriptHighlighter.cpp
-    Highlighters/JavaScriptHighlighter.h
-    Highlighters/JavaHighlighter.cpp
-    Highlighters/JavaHighlighter.h
-    Highlighters/Highlighter.cpp
-    Highlighters/Highlighter.h
-    Highlighters/CSharpHighlighter.cpp
-    Highlighters/CSharpHighlighter.h
-    Highlighters/CplusPlusHighlighter.cpp
-    Highlighters/CplusPlusHighlighter.h
-    Highlighters/CFamilyHighlighter.cpp
-    Highlighters/CFamilyHighlighter.h
-    Highlighters/BasicHighlighter.cpp
-    Highlighters/BasicHighlighter.h
-    BackButtonHandler.cpp
-    BackButtonHandler.h
-    CursorPointer.cpp
-    CursorPointer.h
-    EnhancedLineEdit.cpp
-    EnhancedLineEdit.h
-    CursorPointerLineEdit.cpp
-    CursorPointerLineEdit.h
-    CursorPointerTextEdit.cpp
-    CursorPointerTextEdit.h
-    CursorPointerSelector.cpp
-    CursorPointerSelector.h
-    Common.cpp
-    Common.h
-    FileBrowser/BrowseFilesWidget.cpp
-    FileBrowser/BrowseFilesWidget.h
-    ConnectionSetup.cpp
-    ConnectionSetup.h
-    FileBrowser/Explorer.cpp
-    FileBrowser/Explorer.h
-    FileBrowser/ExplorerLocal.cpp
-    FileBrowser/ExplorerLocal.h
-    FileBrowser/ExplorerFtp.cpp
-    FileBrowser/ExplorerFtp.h
-    File.cpp
-    File.h
-    FtpFileSaver.cpp
-    FtpFileSaver.h
-    PanGestureRecognizer.cpp
-    PanGestureRecognizer.h
+    src/MainWindow.cpp
+    src/MainWindow.h
+    src/CodeViewer.cpp
+    src/CodeViewer.h
+    src/SpellChecker.cpp
+    src/SpellChecker.h
+    src/EditorTabPage.cpp
+    src/EditorTabPage.h
+    src/Config.cpp
+    src/Config.h
+    src/ProxyStyle.cpp
+    src/ProxyStyle.h
+    src/Highlighters/SQLHighlighter.cpp
+    src/Highlighters/SQLHighlighter.h
+    src/Highlighters/PythonHighlighter.cpp
+    src/Highlighters/PythonHighlighter.h
+    src/Highlighters/PhpHighlighter.cpp
+    src/Highlighters/PhpHighlighter.h
+    src/Highlighters/ObjectiveCHighlighter.cpp
+    src/Highlighters/ObjectiveCHighlighter.h
+    src/Highlighters/JavaScriptHighlighter.cpp
+    src/Highlighters/JavaScriptHighlighter.h
+    src/Highlighters/JavaHighlighter.cpp
+    src/Highlighters/JavaHighlighter.h
+    src/Highlighters/Highlighter.cpp
+    src/Highlighters/Highlighter.h
+    src/Highlighters/CSharpHighlighter.cpp
+    src/Highlighters/CSharpHighlighter.h
+    src/Highlighters/CplusPlusHighlighter.cpp
+    src/Highlighters/CplusPlusHighlighter.h
+    src/Highlighters/CFamilyHighlighter.cpp
+    src/Highlighters/CFamilyHighlighter.h
+    src/Highlighters/BasicHighlighter.cpp
+    src/Highlighters/BasicHighlighter.h
+    src/BackButtonHandler.cpp
+    src/BackButtonHandler.h
+    src/CursorPointer.cpp
+    src/CursorPointer.h
+    src/EnhancedLineEdit.cpp
+    src/EnhancedLineEdit.h
+    src/CursorPointerLineEdit.cpp
+    src/CursorPointerLineEdit.h
+    src/CursorPointerTextEdit.cpp
+    src/CursorPointerTextEdit.h
+    src/CursorPointerSelector.cpp
+    src/CursorPointerSelector.h
+    src/Common.cpp
+    src/Common.h
+    src/FileBrowser/BrowseFilesWidget.cpp
+    src/FileBrowser/BrowseFilesWidget.h
+    src/ConnectionSetup.cpp
+    src/ConnectionSetup.h
+    src/FileBrowser/Explorer.cpp
+    src/FileBrowser/Explorer.h
+    src/FileBrowser/ExplorerLocal.cpp
+    src/FileBrowser/ExplorerLocal.h
+    src/FileBrowser/ExplorerFtp.cpp
+    src/FileBrowser/ExplorerFtp.h
+    src/File.cpp
+    src/File.h
+    src/FtpFileSaver.cpp
+    src/FtpFileSaver.h
+    src/PanGestureRecognizer.cpp
+    src/PanGestureRecognizer.h
 )
 
 set(${PROJECT_NAME}_UI
-    MainWindow.ui
-    EditorTabPage.ui
-    FileBrowser/BrowseFilesWidget.ui
-    ConnectionSetup.ui
+    src/MainWindow.ui
+    src/EditorTabPage.ui
+    src/FileBrowser/BrowseFilesWidget.ui
+    src/ConnectionSetup.ui
 )
 
 set(${PROJECT_NAME}_OTHER_FILES
@@ -114,7 +114,7 @@ qt_add_resources(${PROJECT_NAME}_RESOURCES Resources/resources.qrc)
 add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_UI})
 target_link_libraries(${PROJECT_NAME}-lib PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
 
-add_executable(${PROJECT_NAME} main.cpp ${${PROJECT_NAME}_RESOURCES} ${${PROJECT_NAME}_OTHER_FILES})
+add_executable(${PROJECT_NAME} src/main.cpp ${${PROJECT_NAME}_RESOURCES} ${${PROJECT_NAME}_OTHER_FILES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}-lib Qt6::Widgets)
 
 # enable_testing()

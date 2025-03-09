@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets Network Test)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network Test)
 qt_standard_project_setup()
 
@@ -29,7 +30,6 @@ else()
     endif()
 endif()
 
-# Add source files
 set(${PROJECT_NAME}_SOURCES
     src/MainWindow.cpp
     src/MainWindow.h
@@ -111,11 +111,33 @@ set(${PROJECT_NAME}_OTHER_FILES
 
 qt_add_resources(${PROJECT_NAME}_RESOURCES res/resources.qrc)
 
-add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_UI})
-target_link_libraries(${PROJECT_NAME}-lib PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
+if(${ANDROID})
+    qt_add_executable(${PROJECT_NAME}
+        MANUAL_FINALIZATION
+        ${${PROJECT_NAME}_SOURCES}
+    )
+   set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+                ${CMAKE_CURRENT_SOURCE_DIR}/android)
+else()
+    add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_UI})
+    target_link_libraries(${PROJECT_NAME}-lib PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
 
-add_executable(${PROJECT_NAME} src/main.cpp ${${PROJECT_NAME}_RESOURCES} ${${PROJECT_NAME}_OTHER_FILES})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}-lib Qt6::Widgets)
+    add_executable(${PROJECT_NAME} src/main.cpp ${${PROJECT_NAME}_RESOURCES} ${${PROJECT_NAME}_OTHER_FILES})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}-lib Qt6::Widgets)
+endif()
+
+
+include(GNUInstallDirs)
+install(TARGETS ${PROJECT_NAME}
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+if(${ANDROID})
+    target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
+    qt_finalize_executable(${PROJECT_NAME})
+endif()
 
 # enable_testing()
 # add_subdirectory(tests)

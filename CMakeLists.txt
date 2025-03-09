@@ -109,7 +109,7 @@ set(${PROJECT_NAME}_OTHER_FILES
     comment.rc
 )
 
-qt_add_resources(${PROJECT_NAME}_RESOURCES Resources/resources.qrc)
+qt_add_resources(${PROJECT_NAME}_RESOURCES res/resources.qrc)
 
 add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_UI})
 target_link_libraries(${PROJECT_NAME}-lib PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)

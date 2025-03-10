@@ -14,8 +14,6 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets Network Test)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network Test)
 qt_standard_project_setup()
 
-add_definitions(-DQT_WIDGETS_LIB)
-
 if(${ANDROID})
     if(${ANDROID_ABI} STREQUAL "armeabi-v7a")
         set(ARCH_DIR "armeabi-v7a")

@@ -103,6 +103,7 @@ set(${PROJECT_NAME}_UI
     src/FileBrowser/BrowseFilesWidget.ui
     src/ConnectionSetup.ui
 )
+source_group("UI Files" FILES ${${PROJECT_NAME}_UI})
 
 set(${PROJECT_NAME}_OTHER_FILES
     android/AndroidManifest.xml

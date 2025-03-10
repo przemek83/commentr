@@ -114,7 +114,7 @@ qt_add_resources(${PROJECT_NAME}_RESOURCES res/resources.qrc)
 if(${ANDROID})
     qt_add_executable(${PROJECT_NAME}
         MANUAL_FINALIZATION
-        ${${PROJECT_NAME}_SOURCES}
+        src/main.cpp ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_UI} ${${PROJECT_NAME}_RESOURCES} ${${PROJECT_NAME}_OTHER_FILES}
     )
    set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
                 ${CMAKE_CURRENT_SOURCE_DIR}/android)

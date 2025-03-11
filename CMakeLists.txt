@@ -22,10 +22,6 @@ if(${ANDROID})
     elseif(${ANDROID_ABI} STREQUAL "x86")
         set(ARCH_DIR "x86")
     endif()
-else()
-    if(WIN32)
-        set(ARCH_DIR "windows")
-    endif()
 endif()
 
 set(${PROJECT_NAME}_SOURCES

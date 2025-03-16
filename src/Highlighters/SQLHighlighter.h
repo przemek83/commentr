@@ -9,11 +9,11 @@ public:
     explicit SQLHighlighter(QObject* parent = 0);
 
 protected:
-    virtual void highlightBlock(const QString& text);
+    void highlightBlock(const QString& text) override;
 
-    virtual void initRules();
+    void initRules() override;
 
-    virtual void commentBlock(const QString& text);
+    void commentBlock(const QString& text) override;
 
 private:
     Q_DISABLE_COPY(SQLHighlighter)

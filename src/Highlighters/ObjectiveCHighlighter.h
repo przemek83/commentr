@@ -9,7 +9,7 @@ public:
     explicit ObjectiveCHighlighter(QObject* parent = 0);
 
 protected:
-    virtual void initRules();
+    void initRules() override;
 
 private:
     Q_DISABLE_COPY(ObjectiveCHighlighter)

@@ -11,7 +11,7 @@ public:
     explicit CFamilyHighlighter(QObject* parent);
 
 protected:
-    virtual void commentBlock(const QString& text);
+    void commentBlock(const QString& text) override;
 
     void initFunctionsRules();
 

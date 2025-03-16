@@ -31,6 +31,9 @@ if(${ANDROID})
     endif()
 endif()
 
+include_directories(src/Highlighters)
+add_subdirectory(src/Highlighters)
+
 set(${PROJECT_NAME}_SOURCES
     src/MainWindow.cpp
     src/MainWindow.h
@@ -44,28 +47,6 @@ set(${PROJECT_NAME}_SOURCES
     src/Config.h
     src/ProxyStyle.cpp
     src/ProxyStyle.h
-    src/Highlighters/SQLHighlighter.cpp
-    src/Highlighters/SQLHighlighter.h
-    src/Highlighters/PythonHighlighter.cpp
-    src/Highlighters/PythonHighlighter.h
-    src/Highlighters/PhpHighlighter.cpp
-    src/Highlighters/PhpHighlighter.h
-    src/Highlighters/ObjectiveCHighlighter.cpp
-    src/Highlighters/ObjectiveCHighlighter.h
-    src/Highlighters/JavaScriptHighlighter.cpp
-    src/Highlighters/JavaScriptHighlighter.h
-    src/Highlighters/JavaHighlighter.cpp
-    src/Highlighters/JavaHighlighter.h
-    src/Highlighters/Highlighter.cpp
-    src/Highlighters/Highlighter.h
-    src/Highlighters/CSharpHighlighter.cpp
-    src/Highlighters/CSharpHighlighter.h
-    src/Highlighters/CplusPlusHighlighter.cpp
-    src/Highlighters/CplusPlusHighlighter.h
-    src/Highlighters/CFamilyHighlighter.cpp
-    src/Highlighters/CFamilyHighlighter.h
-    src/Highlighters/BasicHighlighter.cpp
-    src/Highlighters/BasicHighlighter.h
     src/BackButtonHandler.cpp
     src/BackButtonHandler.h
     src/CursorPointer.cpp
@@ -121,17 +102,15 @@ if(${ANDROID})
     set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 
-    target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
+    target_link_libraries(${PROJECT_NAME} PRIVATE highlighters Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
     qt_finalize_executable(${PROJECT_NAME})
 else()
     add_library (${PROJECT_NAME}-lib STATIC ${${PROJECT_NAME}_SOURCES} ${${PROJECT_NAME}_UI})
-    target_link_libraries(${PROJECT_NAME}-lib PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
+    target_link_libraries(${PROJECT_NAME}-lib PRIVATE highlighters Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Network)
 
     add_executable(${PROJECT_NAME} src/main.cpp ${${PROJECT_NAME}_RESOURCES} ${${PROJECT_NAME}_OTHER_FILES})
     target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}-lib Qt6::Widgets)
-endif()
 
-if(NOT ${ANDROID})
     enable_testing()
     add_subdirectory(tests)
 endif()

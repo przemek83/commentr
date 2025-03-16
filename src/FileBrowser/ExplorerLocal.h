@@ -11,39 +11,39 @@ class ExplorerLocal : public QListView, public Explorer
 {
     Q_OBJECT
 public:
-    ExplorerLocal(bool open, QWidget *parent = 0);
+    ExplorerLocal(bool open, QWidget* parent = 0);
 
-    virtual ~ExplorerLocal();
+    ~ExplorerLocal() override;
 
-    virtual void setPath(QString path);
+    void setPath(QString path) override;
 
-    virtual bool fileIsValid(QString file);
+    bool fileIsValid(QString file) override;
 
-    virtual bool isWrapping();
+    bool isWrapping() override;
 
-    virtual void setWrapping(bool wrapping);
+    void setWrapping(bool wrapping) override;
 
-    virtual QString getCurrentPath();
+    QString getCurrentPath() override;
 
-    virtual void initialize();
+    void initialize() override;
 
-    virtual bool initialized();
+    bool initialized() override;
 
-    virtual void performOperationOnFile(QString filePath);
+    void performOperationOnFile(QString filePath) override;
 
 protected:
-    virtual QListView* getListView();
+    QListView* getListView() override;
 
     /**
      * @brief update path lineEdit if file was clicked.
      * @param index idex clicked.
      */
-    virtual void listViewItemClicked(const QModelIndex &index);
+    void listViewItemClicked(const QModelIndex& index) override;
 
-    virtual void mouseMoveEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event) override;
 
 protected slots:
-    virtual void itemActivated(QModelIndex index);
+    virtual void itemActivated(QModelIndex index) override;
 
 private:
     Q_DISABLE_COPY(ExplorerLocal)
@@ -63,4 +63,4 @@ signals:
     void filePrepared(File* file);
 };
 
-#endif // EXPLORERLOCAL_H
+#endif  // EXPLORERLOCAL_H

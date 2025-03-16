@@ -7,7 +7,8 @@ class EnhancedLineEdit;
 class Explorer;
 class File;
 
-namespace Ui {
+namespace Ui
+{
 class BrowseFilesWidget;
 }
 
@@ -15,14 +16,14 @@ class BrowseFilesWidget : public QWidget
 {
     Q_OBJECT
 public:
-    BrowseFilesWidget(bool open, QWidget *parent = 0);
+    BrowseFilesWidget(bool open, QWidget* parent = 0);
 
-    virtual ~BrowseFilesWidget();
+    ~BrowseFilesWidget() override;
 
 private:
     Q_DISABLE_COPY(BrowseFilesWidget)
 
-    Ui::BrowseFilesWidget *ui;
+    Ui::BrowseFilesWidget* ui;
 
     void initLineEdit();
 
@@ -37,7 +38,7 @@ private:
 private slots:
     void filePathReturnPressed();
 
-    void filePathTextChanged(const QString &arg1);
+    void filePathTextChanged(const QString& arg1);
 
     void on_changeView_clicked();
 
@@ -46,11 +47,11 @@ private slots:
 signals:
     void cancelAction();
 
-//    void fileOrDirNotAccessible(QString name);
+    //    void fileOrDirNotAccessible(QString name);
 
     void filePrepared(File* file);
 
     void configureFtpConnection();
 };
 
-#endif // BROWSEFILESWIDGET_H
+#endif  // BROWSEFILESWIDGET_H

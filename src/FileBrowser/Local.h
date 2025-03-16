@@ -13,32 +13,33 @@ class Local : public QTableView, public Explorer
 {
     Q_OBJECT
 public:
-    explicit Local(bool open, QWidget *parent = 0);
+    explicit Local(bool open, QWidget* parent = 0);
 
-    virtual ~Local();
+    ~Local() override;
 
-    virtual void setPath(QString path);
+    void setPath(QString path) override;
 
-    virtual QString getCurrentPath();
+    QString getCurrentPath() override;
 
-    virtual bool fileIsValid(QString file);
+    bool fileIsValid(QString file) override;
 
-    virtual bool isWrapping();
+    bool isWrapping() override;
 
-    virtual void setWrapping(bool wrapping);
+    void setWrapping(bool wrapping) override;
 
 protected:
-//    virtual void currentChanged(const QModelIndex& current,
-//                                const QModelIndex& previous);
+    //    virtual void currentChanged(const QModelIndex& current,
+    //                                const QModelIndex& previous);
 
-    virtual void selectionChanged(const QItemSelection& selected,
-                                  const QItemSelection& deselected);
+    void selectionChanged(const QItemSelection& selected,
+                          const QItemSelection& deselected) override;
+
 private:
     Q_DISABLE_COPY(Local)
 
     void initModelAndView();
 
-    void listViewItemClicked(const QModelIndex &index);
+    void listViewItemClicked(const QModelIndex& index);
 
     bool timeForSecondClickIsUp_;
 
@@ -61,4 +62,4 @@ signals:
     void pathChanged(QString newPath);
 };
 
-#endif // LOCAL_H
+#endif  // LOCAL_H

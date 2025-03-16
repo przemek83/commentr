@@ -1,9 +1,9 @@
 #ifndef EXPLORERFTP_H
 #define EXPLORERFTP_H
 
+#include <QBuffer>
 #include <QListWidget>
 #include <QListWidgetItem>
-#include <QBuffer>
 #include <QProgressDialog>
 
 #include "../Defines.h"
@@ -21,40 +21,40 @@ public:
 
     ~ExplorerFtp() override;
 
-    virtual void setPath(QString path);
+    void setPath(QString path) override;
 
-    virtual QString getCurrentPath();
+    QString getCurrentPath() override;
 
-    ///Check if given file can be used as in/out file.
-    virtual bool fileIsValid(QString file);
+    /// Check if given file can be used as in/out file.
+    bool fileIsValid(QString file) override;
 
-    virtual bool isWrapping();
+    bool isWrapping() override;
 
-    virtual void setWrapping(bool wrapping);
+    void setWrapping(bool wrapping) override;
 
-    virtual void initialize();
+    void initialize() override;
 
-    virtual bool initialized();
+    bool initialized() override;
 
-    virtual void performOperationOnFile(QString filePath);
+    void performOperationOnFile(QString filePath) override;
 
 protected:
-    virtual void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent* event) override;
 
-    virtual QListView* getListView();
+    QListView* getListView() override;
 
     /**
      * @brief update path lineEdit if file was clicked.
      * @param index idex clicked.
      */
-    virtual void listViewItemClicked(const QModelIndex &index);
+    virtual void listViewItemClicked(const QModelIndex& index);
 
 protected slots:
     void updateDataTransferProgress(qint64 readBytes, qint64 totalBytes);
 
     void ftpCommandFinished(int, bool error);
 
-    virtual void itemActivated(QModelIndex index);
+    void itemActivated(QModelIndex index) override;
 
 private:
     Q_DISABLE_COPY(ExplorerFtp)
@@ -84,10 +84,10 @@ private:
 
     QString getPathToUse(Item* itemClicked);
 
-    //Current path of browser.
+    // Current path of browser.
     QString currentPath_;
 
-    //New path used by cd command.
+    // New path used by cd command.
     QString newPath_;
 
     QList<Item*> itemsList_;
@@ -109,4 +109,4 @@ signals:
     void pathChanged(QString newPath);
 };
 
-#endif // EXPLORERFTP_H
+#endif  // EXPLORERFTP_H

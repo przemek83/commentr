@@ -6,9 +6,7 @@
 class SQLHighlighter : public Highlighter
 {
 public:
-    explicit  SQLHighlighter(QObject *parent = 0);
-
-    virtual ~SQLHighlighter();
+    explicit SQLHighlighter(QObject* parent = 0);
 
 protected:
     virtual void highlightBlock(const QString& text);
@@ -25,4 +23,4 @@ private:
     HighlightingRule multiLineCommentRule_;
 };
 
-#endif // SQLHIGHLIGHTER_H
+#endif  // SQLHIGHLIGHTER_H

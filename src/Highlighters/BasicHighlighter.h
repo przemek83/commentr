@@ -6,9 +6,7 @@
 class BasicHighlighter : public Highlighter
 {
 public:
-    explicit  BasicHighlighter(QObject *parent = 0);
-
-    virtual ~BasicHighlighter();
+    explicit BasicHighlighter(QObject* parent = 0);
 
 protected:
     virtual void initRules();
@@ -21,4 +19,4 @@ private:
     HighlightingRule singleLineCommentRule_;
 };
 
-#endif // BASICHIGHLIGHTER_H
+#endif  // BASICHIGHLIGHTER_H

@@ -7,9 +7,7 @@
 class Highlighter : public QSyntaxHighlighter
 {
 public:
-    explicit Highlighter(QObject *parent);
-
-    virtual ~Highlighter();
+    explicit Highlighter(QObject* parent);
 
     static void setSpellChecking(bool check);
 
@@ -29,7 +27,7 @@ protected:
 
     virtual void commentBlock(const QString& text) = 0;
 
-    void checkSpellingInBlock(int minIndex, const QString &line);
+    void checkSpellingInBlock(int minIndex, const QString& line);
 
     bool initialized_;
 
@@ -45,4 +43,4 @@ private:
     static bool spellChecking_;
 };
 
-#endif // HIGHLIGHTER_H
+#endif  // HIGHLIGHTER_H

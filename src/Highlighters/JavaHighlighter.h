@@ -6,16 +6,13 @@
 class JavaHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit JavaHighlighter(QObject *parent = 0);
-
-    virtual ~JavaHighlighter();
+    explicit JavaHighlighter(QObject* parent = 0);
 
 protected:
     virtual void initRules();
 
 private:
     Q_DISABLE_COPY(JavaHighlighter)
-
 };
 
-#endif // JAVAHIGHLIGHTER_H
+#endif  // JAVAHIGHLIGHTER_H

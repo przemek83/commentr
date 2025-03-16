@@ -6,9 +6,7 @@
 class PhpHighlighter : public Highlighter
 {
 public:
-    explicit  PhpHighlighter(QObject *parent = 0);
-
-    virtual ~PhpHighlighter();
+    explicit PhpHighlighter(QObject* parent = 0);
 
 protected:
     virtual void initRules();
@@ -23,4 +21,4 @@ private:
     HighlightingRule multiLineCommentRule_;
 };
 
-#endif // PHPHIGHLIGHTER_H
+#endif  // PHPHIGHLIGHTER_H

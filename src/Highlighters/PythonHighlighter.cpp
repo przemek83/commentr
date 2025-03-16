@@ -1,15 +1,9 @@
 #include "PythonHighlighter.h"
 
-PythonHighlighter::PythonHighlighter(QObject * parent) :
-    Highlighter(parent)
+PythonHighlighter::PythonHighlighter(QObject* parent) : Highlighter(parent)
 {
     singleLineCommentRule_.format.setForeground(Qt::red);
     singleLineCommentRule_.startPattern = QRegularExpression("#[^\n]*");
-}
-
-PythonHighlighter::~PythonHighlighter()
-{
-
 }
 
 void PythonHighlighter::initRules()
@@ -19,17 +13,19 @@ void PythonHighlighter::initRules()
     keywordFormat.setFontWeight(QFont::Bold);
     QStringList keywordPatterns;
 
-    keywordPatterns << "\\band\\b" << "\\bdel\\b" << "\\bfrom\\b" <<
-        "\\bnot\\b" << "\\bwhile\\b" << "\\bas\\b" << "\\belif\\b" <<
-        "\\bglobal\\b" << "\\bor\\b" << "\\bwith\\b" << "\\bassert\\b" <<
-        "\\belse\\b" << "\\bif\\b" << "\\bpass\\b" << "\\byield\\b" <<
-        "\\bbreak\\b" << "\\bexcept\\b" << "\\bimport\\b" << "\\bprint\\b" <<
-        "\\bclass\\b" << "\\bexec\\b" << "\\bin\\b" << "\\braise\\b" <<
-        "\\bcontinue\\b" << "\\bfinally\\b" << "\\bis\\b" << "\\breturn\\b" <<
-        "\\bdef\\b" << "\\bfor\\b" << "\\blambda\\b" << "\\btry\\b";
+    keywordPatterns << "\\band\\b" << "\\bdel\\b" << "\\bfrom\\b" << "\\bnot\\b"
+                    << "\\bwhile\\b" << "\\bas\\b" << "\\belif\\b"
+                    << "\\bglobal\\b" << "\\bor\\b" << "\\bwith\\b"
+                    << "\\bassert\\b" << "\\belse\\b" << "\\bif\\b"
+                    << "\\bpass\\b" << "\\byield\\b" << "\\bbreak\\b"
+                    << "\\bexcept\\b" << "\\bimport\\b" << "\\bprint\\b"
+                    << "\\bclass\\b" << "\\bexec\\b" << "\\bin\\b"
+                    << "\\braise\\b" << "\\bcontinue\\b" << "\\bfinally\\b"
+                    << "\\bis\\b" << "\\breturn\\b" << "\\bdef\\b"
+                    << "\\bfor\\b" << "\\blambda\\b" << "\\btry\\b";
 
     HighlightingRule rule;
-    foreach (const QString &pattern, keywordPatterns)
+    foreach (const QString& pattern, keywordPatterns)
     {
         rule.startPattern = QRegularExpression(pattern);
         rule.format = keywordFormat;
@@ -45,8 +41,9 @@ void PythonHighlighter::initRules()
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    QString regexp =
-        QString("(\"[^\"]*\"|\'[^\']*\'|\'\'\'[^\'\'\']*\'\'\'|\"\"\"[^\"\"\"]*\"\"\")");
+    QString regexp = QString(
+        "(\"[^\"]*\"|\'[^\']*\'|\'\'\'[^\'\'\']*\'\'\'|\"\"\"[^\"\"\"]*"
+        "\"\"\")");
     rule.startPattern = QRegularExpression(regexp);
     rule.format = quotationFormat;
     highlightingRules_.append(rule);
@@ -56,5 +53,3 @@ void PythonHighlighter::commentBlock(const QString& text)
 {
     singleLineComment(text, singleLineCommentRule_);
 }
-
-

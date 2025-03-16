@@ -8,9 +8,7 @@
 class CFamilyHighlighter : public Highlighter
 {
 public:
-    explicit CFamilyHighlighter(QObject *parent);
-
-    virtual ~CFamilyHighlighter();
+    explicit CFamilyHighlighter(QObject* parent);
 
 protected:
     virtual void commentBlock(const QString& text);
@@ -27,4 +25,4 @@ private:
     HighlightingRule multiLineCommentRule_;
 };
 
-#endif // CFAMILYHIGHLIGHTER_H
+#endif  // CFAMILYHIGHLIGHTER_H

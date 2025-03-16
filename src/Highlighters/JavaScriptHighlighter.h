@@ -6,9 +6,7 @@
 class JavaScriptHighlighter : public Highlighter
 {
 public:
-    explicit  JavaScriptHighlighter(QObject *parent = 0);
-
-    virtual ~JavaScriptHighlighter();
+    explicit JavaScriptHighlighter(QObject* parent = 0);
 
 protected:
     virtual void initRules();
@@ -23,4 +21,4 @@ private:
     HighlightingRule multiLineCommentRule_;
 };
 
-#endif // JAVASCRIPTHIGHLIGHTER_H
+#endif  // JAVASCRIPTHIGHLIGHTER_H

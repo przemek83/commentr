@@ -6,9 +6,7 @@
 class PythonHighlighter : public Highlighter
 {
 public:
-    explicit  PythonHighlighter(QObject *parent = 0);
-
-    virtual ~PythonHighlighter();
+    explicit PythonHighlighter(QObject* parent = 0);
 
 protected:
     virtual void initRules();
@@ -18,15 +16,15 @@ protected:
 private:
     Q_DISABLE_COPY(PythonHighlighter)
 
-//    QRegularExpression commentStartExpression_;
+    //    QRegularExpression commentStartExpression_;
 
-//    QRegularExpression commentEndExpression_;
+    //    QRegularExpression commentEndExpression_;
 
-//    QTextCharFormat multiLineCommentFormat_;
+    //    QTextCharFormat multiLineCommentFormat_;
 
     HighlightingRule singleLineCommentRule_;
 
     HighlightingRule multiLineCommentRule_;
 };
 
-#endif // PYTHONHIGHLIGHTER_H
+#endif  // PYTHONHIGHLIGHTER_H

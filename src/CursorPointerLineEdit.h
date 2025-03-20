@@ -7,30 +7,31 @@ class CursorPointerLineEdit : public CursorPointer
 {
     Q_OBJECT
 public:
-    explicit CursorPointerLineEdit(int addLeftMargin, QWidget *parent = 0);
+    explicit CursorPointerLineEdit(int addLeftMargin, QWidget* parent = 0);
 
-    virtual ~CursorPointerLineEdit();
+    ~CursorPointerLineEdit() override;
 
-    virtual void moveVisualPointer(int x, int y);
+    void moveVisualPointer(int x, int y) override;
 
     void setScrollingNeeded(bool scrollingNeeded);
 
 protected:
-    virtual QPoint calcMovePoint(QPoint mousePos);
+    QPoint calcMovePoint(QPoint mousePos) override;
 
-    virtual void positionChanged(QMouseEvent* event);
+    void positionChanged(QMouseEvent* event) override;
 
 private:
     Q_DISABLE_COPY(CursorPointerLineEdit)
 
-    ///Magic margin needed in some situations.
+    /// Magic margin needed in some situations.
     int margin_;
 
-    ///Flag informing that text is bigger than linenedit size, scrolling needed.
+    /// Flag informing that text is bigger than linenedit size, scrolling
+    /// needed.
     bool scrollingNeeded_;
 
-    ///Left margin of text. Needed in calculations.
+    /// Left margin of text. Needed in calculations.
     int addLeftMargin_;
 };
 
-#endif // CURSORPOINTERLINEEDIT_H
+#endif  // CURSORPOINTERLINEEDIT_H

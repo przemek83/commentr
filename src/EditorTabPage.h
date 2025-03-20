@@ -3,7 +3,8 @@
 
 #include <QWidget>
 
-namespace Ui {
+namespace Ui
+{
 class EditorTabPage;
 }
 
@@ -31,7 +32,7 @@ public:
 
     EditorTabPage(File* file, float fontSize, QWidget* parent = 0);
 
-    virtual ~EditorTabPage();
+    ~EditorTabPage() override;
 
     void flipFindVisibility();
 
@@ -73,12 +74,12 @@ public:
     File* getCurrentFileCopy();
 
 protected:
-    virtual void keyPressEvent(QKeyEvent* event);
+    void keyPressEvent(QKeyEvent* event) override;
 
 private:
     Q_DISABLE_COPY(EditorTabPage)
 
-    Ui::EditorTabPage *ui;
+    Ui::EditorTabPage* ui;
 
     CodeViewer* codeViewer_;
 
@@ -119,4 +120,4 @@ signals:
     void copyCutAvailable(bool);
 };
 
-#endif // EDITORTABPAGE_H
+#endif  // EDITORTABPAGE_H

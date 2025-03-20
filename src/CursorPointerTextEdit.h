@@ -7,16 +7,16 @@ class CursorPointerTextEdit : public CursorPointer
 {
     Q_OBJECT
 public:
-    explicit CursorPointerTextEdit(QWidget *parent = 0);
+    explicit CursorPointerTextEdit(QWidget* parent = 0);
 
-    virtual ~CursorPointerTextEdit();
+    ~CursorPointerTextEdit() override;
 
-    virtual void moveVisualPointer(int x, int y);
+    void moveVisualPointer(int x, int y) override;
 
 protected:
-    virtual QPoint calcMovePoint(QPoint mousePos);
+    QPoint calcMovePoint(QPoint mousePos) override;
 
-    virtual void positionChanged(QMouseEvent* event);
+    void positionChanged(QMouseEvent* event) override;
 
     virtual QPoint calculateNewPosition(QPoint movePoint);
 
@@ -29,4 +29,4 @@ private slots:
     void allowEmitPointerMoved();
 };
 
-#endif // CURSORPOINTERTEXTEDIT_H
+#endif  // CURSORPOINTERTEXTEDIT_H

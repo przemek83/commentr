@@ -17,7 +17,7 @@ class ConnectionSetup : public QWidget
 public:
     explicit ConnectionSetup(QWidget* parent = 0);
 
-    virtual ~ConnectionSetup();
+    ~ConnectionSetup() override;
 
 public slots:
     void setVisible(bool visible) override;

@@ -12,9 +12,9 @@ public:
     PanGestureRecognizer();
 
 private:
-    virtual QGesture* create(QObject* target) override;
-    virtual Result recognize(QGesture* state, QObject* watched, QEvent* event) override;
+    QGesture* create(QObject* target) override;
+    Result recognize(QGesture* state, QObject* watched, QEvent* event) override;
     const QList<QTouchEvent::TouchPoint>& getTouchPoints(QEvent* event);
 };
 
-#endif // PANGESTURERECOGNIZER_H
+#endif  // PANGESTURERECOGNIZER_H

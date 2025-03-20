@@ -14,18 +14,18 @@ public:
     };
 
     explicit CursorPointerSelector(CursorDirection direction,
-                                   QWidget *parent = 0);
+                                   QWidget* parent = 0);
 
-    virtual ~CursorPointerSelector();
+    ~CursorPointerSelector() override;
 
-    virtual void moveVisualPointer(int x, int y);
+    void moveVisualPointer(int x, int y) override;
 
 protected:
-    virtual void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent* event) override;
 
-    virtual void updateSize();
+    void updateSize() override;
 
-    virtual QPoint calculateOffset(QMouseEvent* event);
+    QPoint calculateOffset(QMouseEvent* event) override;
 
     virtual QPoint calculateNewPosition(QPoint movePoint);
 
@@ -35,4 +35,4 @@ private:
     CursorDirection diretion_;
 };
 
-#endif // CURSORPOINTERSELECTOR_H
+#endif  // CURSORPOINTERSELECTOR_H

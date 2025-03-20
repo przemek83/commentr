@@ -10,25 +10,25 @@ class EnhancedLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    explicit EnhancedLineEdit(QWidget *parent = 0);
+    explicit EnhancedLineEdit(QWidget* parent = 0);
 
-    virtual ~EnhancedLineEdit();
+    ~EnhancedLineEdit() override;
 
 protected:
-    virtual void mouseReleaseEvent(QMouseEvent* e);
+    void mouseReleaseEvent(QMouseEvent* e) override;
 
-    virtual void focusOutEvent(QFocusEvent* event);
+    void focusOutEvent(QFocusEvent* event) override;
 
-    virtual void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent* event) override;
 
-    virtual bool event(QEvent* event);
+    bool event(QEvent* event) override;
 
-    virtual void changeEvent(QEvent* event);
+    void changeEvent(QEvent* event) override;
 
 private:
     Q_DISABLE_COPY(EnhancedLineEdit)
 
-    ///Visual cursor.
+    /// Visual cursor.
     CursorPointerLineEdit* cursorPointer_;
 
     QWidget* mainWindow_;
@@ -43,7 +43,7 @@ private:
 
     int rightTextMargin_;
 
-    ///Magic number built in QT impacting text position.
+    /// Magic number built in QT impacting text position.
     int builtInTextMargin_;
 
     void updateMarginSize();
@@ -56,4 +56,4 @@ private slots:
     void matchPointerToCursorPosition();
 };
 
-#endif // ENHANCEDLINEEDIT_H
+#endif  // ENHANCEDLINEEDIT_H

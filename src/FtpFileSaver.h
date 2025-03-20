@@ -17,15 +17,13 @@ class FtpFileSaver : public QObject
 {
     Q_OBJECT
 public:
-    explicit FtpFileSaver(QObject *parent = 0);
+    explicit FtpFileSaver(QObject* parent = 0);
 
-    virtual ~FtpFileSaver();
+    ~FtpFileSaver() override;
 
     void saveFile(File* file);
 
-    void checkConnection(QString host,
-                         QString login,
-                         QString password);
+    void checkConnection(QString host, QString login, QString password);
 
 protected slots:
     void ftpCommandFinished(int, bool error);
@@ -43,10 +41,10 @@ private:
     QFtp ftp_;
 #endif
 
-    ///pointer to file which need to be saved.
+    /// pointer to file which need to be saved.
     File* fileToSave_;
 
-    ///Buffer used for file transfer.
+    /// Buffer used for file transfer.
     QBuffer buffer_;
 
 private slots:
@@ -56,4 +54,4 @@ signals:
     void operationFinished(bool success);
 };
 
-#endif // FTPFILESAVER_H
+#endif  // FTPFILESAVER_H

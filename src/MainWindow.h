@@ -1,13 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QFileInfo>
 #include <QMainWindow>
 #include <QModelIndex>
-#include <QFileInfo>
 
 #include "EditorTabPage.h"
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -23,19 +24,19 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget* parent = 0);
 
-    virtual ~MainWindow();
+    ~MainWindow() override;
 
 protected:
-    virtual void keyReleaseEvent(QKeyEvent* e);
+    void keyReleaseEvent(QKeyEvent* e) override;
 
-    virtual void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent* event) override;
 
 private:
     Q_DISABLE_COPY(MainWindow)
 
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
 
     /**
      * @brief create tab for FTP connection setup 9host, login, password).
@@ -44,7 +45,12 @@ private:
 
     void manageActions(bool tabExist);
 
-    enum StackedPage { PAGE_MAIN = 0, PAGE_FILE_BROWSER, PAGE_CONNECTION_SETUP };
+    enum StackedPage
+    {
+        PAGE_MAIN = 0,
+        PAGE_FILE_BROWSER,
+        PAGE_CONNECTION_SETUP
+    };
 
     void initMenus();
 
@@ -90,7 +96,7 @@ private:
      */
     void createAndShowBrowseFilesWidget(bool openFileMode);
 
-    ///Counter used at new file creation.
+    /// Counter used at new file creation.
     int newFileCounter_;
 
 private slots:
@@ -242,4 +248,4 @@ signals:
     void windowResized();
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

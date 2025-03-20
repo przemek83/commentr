@@ -27,7 +27,7 @@ protected:
 
     QPoint calculateOffset(QMouseEvent* event) override;
 
-    virtual QPoint calculateNewPosition(QPoint movePoint);
+    QPoint calculateNewPosition(QPoint movePoint) override;
 
 private:
     Q_DISABLE_COPY(CursorPointerSelector)

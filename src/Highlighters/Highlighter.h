@@ -12,7 +12,7 @@ public:
     static void setSpellChecking(bool check);
 
 protected:
-    virtual void highlightBlock(const QString& text);
+    void highlightBlock(const QString& text) override;
 
     virtual void initRules() = 0;
 

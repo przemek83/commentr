@@ -83,7 +83,7 @@ public:
 
 private:
     Config();
-    virtual ~Config();
+    ~Config() override;
     Q_DISABLE_COPY(Config)
 
     void load();

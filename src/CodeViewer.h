@@ -22,7 +22,7 @@ class CursorEater : public QObject
 public:
     explicit CursorEater(QObject* parent);
 
-    virtual ~CursorEater();
+    ~CursorEater() override;
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
@@ -82,13 +82,11 @@ private:
             codeEditor_ = editor;
         }
 
-        QSize sizeHint() const
-        {
-            return QSize(codeEditor_->lineNumberAreaWidth(), 0);
-        }
+        QSize sizeHint() const override { return QSize(codeEditor_->lineNumberAreaWidth(), 0); }
 
     protected:
-        void paintEvent(QPaintEvent* event)
+        void paintEvent(
+            QPaintEvent* event) override
         {
             codeEditor_->lineNumberAreaPaintEvent(event);
         }

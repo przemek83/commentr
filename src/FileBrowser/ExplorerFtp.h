@@ -47,7 +47,7 @@ protected:
      * @brief update path lineEdit if file was clicked.
      * @param index idex clicked.
      */
-    virtual void listViewItemClicked(const QModelIndex& index);
+    void listViewItemClicked(const QModelIndex& index) override;
 
 protected slots:
     void updateDataTransferProgress(qint64 readBytes, qint64 totalBytes);
@@ -66,9 +66,9 @@ private:
     public:
         Item(const QString& text, bool dir, bool readable, bool writeable);
 
-        virtual ~Item();
+        ~Item() override;
 
-        virtual bool operator<(const QListWidgetItem& other) const;
+        bool operator<(const QListWidgetItem& other) const override;
 
         bool isDir() const;
 

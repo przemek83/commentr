@@ -43,7 +43,7 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
 
 protected slots:
-    virtual void itemActivated(QModelIndex index) override;
+    void itemActivated(QModelIndex index) override;
 
 private:
     Q_DISABLE_COPY(ExplorerLocal)

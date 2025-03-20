@@ -6,7 +6,8 @@
 
 class EnhancedLineEdit;
 
-namespace Ui {
+namespace Ui
+{
 class ConnectionSetup;
 }
 
@@ -14,15 +15,15 @@ class ConnectionSetup : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ConnectionSetup(QWidget *parent = 0);
+    explicit ConnectionSetup(QWidget* parent = 0);
 
     virtual ~ConnectionSetup();
 
 public slots:
-    virtual void setVisible(bool visible);
+    void setVisible(bool visible) override;
 
 private:
-    Ui::ConnectionSetup *ui;
+    Ui::ConnectionSetup* ui;
 
     Q_DISABLE_COPY(ConnectionSetup)
 
@@ -48,4 +49,4 @@ private slots:
     void on_saveInfoCheckBox_toggled(bool checked);
 };
 
-#endif // CONNECTIONSETUP_H
+#endif  // CONNECTIONSETUP_H

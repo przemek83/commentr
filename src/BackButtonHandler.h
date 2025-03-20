@@ -5,17 +5,17 @@
 
 class BackButtonHandler : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit BackButtonHandler(QObject* parent);
 
-    virtual ~BackButtonHandler();
+    ~BackButtonHandler() override;
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
     Q_DISABLE_COPY(BackButtonHandler)
 };
 
-#endif // BACKBUTTONHANDLER_H
+#endif  // BACKBUTTONHANDLER_H

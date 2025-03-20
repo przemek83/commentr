@@ -7,9 +7,9 @@ class CursorPointer : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CursorPointer(QWidget *parent = 0);
+    explicit CursorPointer(QWidget* parent = 0);
 
-    virtual ~CursorPointer();
+    ~CursorPointer() override;
 
     virtual void moveVisualPointer(int x, int y) = 0;
 
@@ -20,27 +20,27 @@ public:
     void showCursor();
 
 protected:
-    virtual void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent* event) override;
 
-    virtual void mousePressEvent(QMouseEvent* event);
+    void mousePressEvent(QMouseEvent* event) override;
 
-    virtual void mouseMoveEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event) override;
 
-    virtual void mouseReleaseEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent* event) override;
 
-    virtual void changeEvent(QEvent* event);
+    void changeEvent(QEvent* event) override;
 
     virtual QPoint calcMovePoint(QPoint mousePos) = 0;
 
     virtual void positionChanged(QMouseEvent* event) = 0;
 
-    ///Middle of pointer saved on click.
+    /// Middle of pointer saved on click.
     QPoint offset_;
 
-    ///Range of text in lineedit where pointer can move.
+    /// Range of text in lineedit where pointer can move.
     QRect range_;
 
-    ///Size of pointer.
+    /// Size of pointer.
     int size_;
 
     virtual void updateSize();
@@ -58,4 +58,4 @@ signals:
     void mouseReleased();
 };
 
-#endif // CURSORPOINTER_H
+#endif  // CURSORPOINTER_H

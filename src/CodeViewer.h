@@ -1,8 +1,8 @@
 #ifndef CODEVIEWER_H
 #define CODEVIEWER_H
 
-#include <QPlainTextEdit>
 #include <QObject>
+#include <QPlainTextEdit>
 
 class QPaintEvent;
 class QResizeEvent;
@@ -18,14 +18,14 @@ class CursorPointer;
 
 class CursorEater : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit CursorEater(QObject* parent);
 
     virtual ~CursorEater();
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
     Q_DISABLE_COPY(CursorEater)
@@ -35,37 +35,37 @@ class CodeViewer : public QPlainTextEdit
 {
     Q_OBJECT
 public:
-    explicit CodeViewer(QWidget *parent = 0);
+    explicit CodeViewer(QWidget* parent = 0);
 
-    virtual ~CodeViewer();
+    ~CodeViewer() override;
 
     void zoom(float zoomFactor);
 
     void updateVisualPointersPositions();
 
 protected:
-//    virtual void mouseReleaseEvent(QMouseEvent* event);
+    //    virtual void mouseReleaseEvent(QMouseEvent* event);
 
-    virtual void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent* event) override;
 
-    virtual void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event) override;
 
-    virtual void keyPressEvent(QKeyEvent* e);
+    void keyPressEvent(QKeyEvent* e) override;
 
-    virtual bool event(QEvent* event);
+    bool event(QEvent* event) override;
 
-    virtual void scrollContentsBy(int dx, int dy);
+    void scrollContentsBy(int dx, int dy) override;
 
-    virtual void focusOutEvent(QFocusEvent* e);
+    void focusOutEvent(QFocusEvent* e) override;
 
-    virtual void focusInEvent(QFocusEvent* e);
+    void focusInEvent(QFocusEvent* e) override;
 
 private:
     Q_DISABLE_COPY(CodeViewer)
 
     int lineNumberAreaWidth();
 
-    void lineNumberAreaPaintEvent(QPaintEvent *event);
+    void lineNumberAreaPaintEvent(QPaintEvent* event);
 
     // Visual cursor.
     CursorPointerTextEdit* cursorPointer_;
@@ -77,16 +77,21 @@ private:
     class LineNumberArea : public QWidget
     {
     public:
-        LineNumberArea(CodeViewer* editor)
-            : QWidget(editor)
+        LineNumberArea(CodeViewer* editor) : QWidget(editor)
         {
             codeEditor_ = editor;
         }
 
-        QSize sizeHint() const { return QSize(codeEditor_->lineNumberAreaWidth(), 0); }
+        QSize sizeHint() const
+        {
+            return QSize(codeEditor_->lineNumberAreaWidth(), 0);
+        }
 
     protected:
-        void paintEvent(QPaintEvent* event) { codeEditor_->lineNumberAreaPaintEvent(event); }
+        void paintEvent(QPaintEvent* event)
+        {
+            codeEditor_->lineNumberAreaPaintEvent(event);
+        }
 
     private:
         CodeViewer* codeEditor_;
@@ -158,7 +163,7 @@ private slots:
      */
     void cursorPosHasChanged();
 
-//    void virtualKeyboardShown();
+    //    void virtualKeyboardShown();
 };
 
-#endif // CODEVIEWER_H
+#endif  // CODEVIEWER_H

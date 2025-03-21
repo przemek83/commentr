@@ -2,44 +2,34 @@
 #include <QKeyEvent>
 #include <QStyle>
 
-#include "EditorTabPage.h"
-#include "ui_EditorTabPage.h"
+#include "BackButtonHandler.h"
 #include "CodeViewer.h"
-#include "Highlighters/CplusPlusHighlighter.h"
-#include "Highlighters/JavaHighlighter.h"
-#include "Highlighters/Highlighter.h"
-#include "Highlighters/ObjectiveCHighlighter.h"
-#include "Highlighters/CSharpHighlighter.h"
-#include "Highlighters/PhpHighlighter.h"
+#include "Config.h"
+#include "EditorTabPage.h"
+#include "File.h"
 #include "Highlighters/BasicHighlighter.h"
+#include "Highlighters/CSharpHighlighter.h"
+#include "Highlighters/CplusPlusHighlighter.h"
+#include "Highlighters/Highlighter.h"
+#include "Highlighters/JavaHighlighter.h"
+#include "Highlighters/JavaScriptHighlighter.h"
+#include "Highlighters/ObjectiveCHighlighter.h"
+#include "Highlighters/PhpHighlighter.h"
 #include "Highlighters/PythonHighlighter.h"
 #include "Highlighters/SQLHighlighter.h"
-#include "Highlighters/JavaScriptHighlighter.h"
-#include "BackButtonHandler.h"
-#include "File.h"
-#include "Config.h"
+#include "ui_EditorTabPage.h"
 
-const char* EditorTabPage::modeNames_[] =
-{
-    "Plain text",
-    "C/C++",
-    "Java",
-    "Objective-C",
-    "C#",
-    "PHP",
-    "Visual Basic",
-    "Python",
-    "SQL",
-    "JavaScript"
-};
+const char* EditorTabPage::modeNames_[] = {
+    "Plain text", "C/C++",        "Java",   "Objective-C", "C#",
+    "PHP",        "Visual Basic", "Python", "SQL",         "JavaScript"};
 
-EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent) :
-    QWidget(parent),
-    ui(new Ui::EditorTabPage),
-    undoAvailable_(false),
-    redoAvailable_(false),
-    selectionEmpty_(true),
-    file_(file)
+EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
+    : QWidget(parent),
+      ui(new Ui::EditorTabPage),
+      undoAvailable_(false),
+      redoAvailable_(false),
+      selectionEmpty_(true),
+      file_(file)
 {
     ui->setupUi(this);
 
@@ -66,32 +56,22 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent) :
 
     connect(ui->prev, SIGNAL(clicked()), this, SLOT(searchPrev()));
 
-    connect(ui->searchLineEdit,
-            SIGNAL(textChanged(QString)),
-            this,
+    connect(ui->searchLineEdit, SIGNAL(textChanged(QString)), this,
             SLOT(searchStringChanged(QString)));
 
-    connect(ui->searchLineEdit,
-            SIGNAL(returnPressed()),
-            this,
+    connect(ui->searchLineEdit, SIGNAL(returnPressed()), this,
             SLOT(searchNext()));
 
-    connect(codeViewer_,
-            SIGNAL(redoAvailable(bool)),
-            this,
+    connect(codeViewer_, SIGNAL(redoAvailable(bool)), this,
             SLOT(redoAvailabilityChanged(bool)));
 
-    connect(codeViewer_,
-            SIGNAL(undoAvailable(bool)),
-            this,
+    connect(codeViewer_, SIGNAL(undoAvailable(bool)), this,
             SLOT(undoAvailabilityChanged(bool)));
 
-    connect(codeViewer_,
-            SIGNAL(copyAvailable(bool)),
-            this,
+    connect(codeViewer_, SIGNAL(copyAvailable(bool)), this,
             SLOT(copyAndCutAvailable(bool)));
 
-    //Init highlighter.
+    // Init highlighter.
     setMode(detectModeUsingSuffix(file->suffix()));
 
     ui->searchLineEdit->setInputMethodHints(Qt::ImhNoPredictiveText);
@@ -105,7 +85,7 @@ EditorTabPage::~EditorTabPage()
 {
     delete ui;
 
-    if( NULL != file_ )
+    if (file_ != nullptr)
     {
         delete file_;
     }
@@ -113,36 +93,34 @@ EditorTabPage::~EditorTabPage()
 
 void EditorTabPage::keyPressEvent(QKeyEvent* event)
 {
-    if( true == event->matches(QKeySequence::Find) )
+    if (true == event->matches(QKeySequence::Find))
     {
-       flipFindVisibility();
+        flipFindVisibility();
     }
     QWidget::keyPressEvent(event);
 }
 
-EditorTabPage::EditorMode EditorTabPage::mode() const
-{
-    return mode_;
-}
+EditorTabPage::EditorMode EditorTabPage::mode() const { return mode_; }
 
-void EditorTabPage::setMode(const EditorMode &mode)
+void EditorTabPage::setMode(const EditorMode& mode)
 {
-    if( mode == mode_)
+    if (mode == mode_)
     {
         return;
     }
 
     mode_ = mode;
 
-    QList<QSyntaxHighlighter*> highlighters = findChildren<QSyntaxHighlighter*>();
-    foreach( QSyntaxHighlighter* highlighter, highlighters )
+    QList<QSyntaxHighlighter*> highlighters =
+        findChildren<QSyntaxHighlighter*>();
+    foreach (QSyntaxHighlighter* highlighter, highlighters)
     {
         delete highlighter;
     }
 
     Highlighter* highlighter = getHighlighterForEditorMode(mode);
 
-    if( NULL != highlighter )
+    if (highlighter != nullptr)
     {
         highlighter->setDocument(codeViewer_->document());
     }
@@ -152,13 +130,13 @@ void EditorTabPage::flipFindVisibility()
 {
     ui->findWidget->setVisible(!ui->findWidget->isVisible());
 
-    if( true == ui->findWidget->isVisible() )
+    if (true == ui->findWidget->isVisible())
     {
         ui->searchLineEdit->setFocus();
     }
 }
 
-//16.4.2018 Needed?
+// 16.4.2018 Needed?
 void EditorTabPage::zoom(bool in)
 {
     codeViewer_->zoom(in ? 1 : -1);
@@ -169,14 +147,14 @@ void EditorTabPage::zoom(bool in)
 void EditorTabPage::searchNext()
 {
     QTextDocument::FindFlags flags;
-    if( false == ui->ignoreCase->isChecked() )
+    if (false == ui->ignoreCase->isChecked())
     {
         flags |= QTextDocument::FindCaseSensitively;
     }
 
     bool found = codeViewer_->find(ui->searchLineEdit->text(), flags);
 
-    if( false == found )
+    if (false == found)
     {
         codeViewer_->moveCursor(QTextCursor::Start);
         codeViewer_->find(ui->searchLineEdit->text(), flags);
@@ -190,13 +168,13 @@ void EditorTabPage::searchNext()
 void EditorTabPage::searchPrev()
 {
     QTextDocument::FindFlags flags = QTextDocument::FindBackward;
-    if( false == ui->ignoreCase->isChecked() )
+    if (false == ui->ignoreCase->isChecked())
     {
         flags |= QTextDocument::FindCaseSensitively;
     }
 
     bool found = codeViewer_->find(ui->searchLineEdit->text(), flags);
-    if( false == found )
+    if (false == found)
     {
         codeViewer_->moveCursor(QTextCursor::End);
         codeViewer_->find(ui->searchLineEdit->text(), flags);
@@ -209,29 +187,21 @@ void EditorTabPage::searchPrev()
 
 void EditorTabPage::searchStringChanged(QString /*string*/)
 {
-//    qDebug() << "Window" << parentWidget()->geometry() << mapToGlobal(QPoint(0,0));
+    //    qDebug() << "Window" << parentWidget()->geometry() <<
+    //    mapToGlobal(QPoint(0,0));
 
     QTextCursor cursor = codeViewer_->textCursor();
     cursor.setPosition(cursor.anchor());
     codeViewer_->setTextCursor(cursor);
     searchNext();
-    //codeViewer_->scrollToSelection();
+    // codeViewer_->scrollToSelection();
 }
 
-bool EditorTabPage::undoAvailable()
-{
-    return undoAvailable_;
-}
+bool EditorTabPage::undoAvailable() { return undoAvailable_; }
 
-bool EditorTabPage::redoAvailable()
-{
-    return redoAvailable_;
-}
+bool EditorTabPage::redoAvailable() { return redoAvailable_; }
 
-bool EditorTabPage::selectionEmpty()
-{
-    return selectionEmpty_;
-}
+bool EditorTabPage::selectionEmpty() { return selectionEmpty_; }
 
 void EditorTabPage::redoAvailabilityChanged(bool available)
 {
@@ -247,15 +217,9 @@ void EditorTabPage::undoAvailabilityChanged(bool available)
     emit undoAvailable(undoAvailable_);
 }
 
-void EditorTabPage::redo()
-{
-    codeViewer_->redo();
-}
+void EditorTabPage::redo() { codeViewer_->redo(); }
 
-void EditorTabPage::undo()
-{
-    codeViewer_->undo();
-}
+void EditorTabPage::undo() { codeViewer_->undo(); }
 
 void EditorTabPage::copyAndCutAvailable(bool available)
 {
@@ -264,24 +228,15 @@ void EditorTabPage::copyAndCutAvailable(bool available)
     emit copyCutAvailable(available);
 }
 
-void EditorTabPage::copy()
-{
-    codeViewer_->copy();
-}
+void EditorTabPage::copy() { codeViewer_->copy(); }
 
-void EditorTabPage::cut()
-{
-    codeViewer_->cut();
-}
+void EditorTabPage::cut() { codeViewer_->cut(); }
 
-void EditorTabPage::paste()
-{
-    codeViewer_->paste();
-}
+void EditorTabPage::paste() { codeViewer_->paste(); }
 
 void EditorTabPage::setLineWrap(bool wrap)
 {
-    if( true == wrap )
+    if (true == wrap)
     {
         codeViewer_->setLineWrapMode(QPlainTextEdit::WidgetWidth);
     }
@@ -299,19 +254,13 @@ void EditorTabPage::changeFile(File* file)
     file_->setSuffix(file->suffix());
 }
 
-QString EditorTabPage::getCurrentText()
-{
-    return codeViewer_->toPlainText();
-}
+QString EditorTabPage::getCurrentText() { return codeViewer_->toPlainText(); }
 
-QString EditorTabPage::getModeName()
-{
-    return modeNames_[mode_];
-}
+QString EditorTabPage::getModeName() { return modeNames_[mode_]; }
 
 Highlighter* EditorTabPage::getHighlighterForEditorMode(EditorMode mode)
 {
-    switch(mode)
+    switch (mode)
     {
         case EDITOR_MODE_C_CPP:
         {
@@ -360,7 +309,7 @@ Highlighter* EditorTabPage::getHighlighterForEditorMode(EditorMode mode)
 
         default:
         {
-            return NULL;
+            return nullptr;
         }
     }
 }
@@ -372,64 +321,61 @@ void EditorTabPage::refreshVisualIndicators()
 
 File* EditorTabPage::getCurrentFileCopy()
 {
-    //TODO: Performance issue due to copy of content?
-    File* file = new File(file_->source(),
-                          file_->path(),
-                          file_->baseName(),
-                          file_->suffix(),
-                          new QString(codeViewer_->toPlainText()));
+    // TODO: Performance issue due to copy of content?
+    File* file =
+        new File(file_->source(), file_->path(), file_->baseName(),
+                 file_->suffix(), new QString(codeViewer_->toPlainText()));
 
     return file;
 }
 
 EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(QString suffix)
 {
-    if( suffix == "java" )
+    if (suffix == "java")
     {
         return EditorTabPage::EDITOR_MODE_JAVA;
     }
 
-    if( suffix == "c" || suffix == "cpp" || suffix == "h" || suffix == "hpp" ||
-        suffix == "cc" || suffix == "cxx" || suffix == "c++" || suffix == "moc" )
+    if (suffix == "c" || suffix == "cpp" || suffix == "h" || suffix == "hpp" ||
+        suffix == "cc" || suffix == "cxx" || suffix == "c++" || suffix == "moc")
     {
         return EditorTabPage::EDITOR_MODE_C_CPP;
     }
 
-    if( suffix == "m" )
+    if (suffix == "m")
     {
         return EditorTabPage::EDITOR_MODE_OBJECTIVE_C;
     }
 
-    if( suffix == "cs" )
+    if (suffix == "cs")
     {
         return EditorTabPage::EDITOR_MODE_C_SHARP;
     }
 
-    if( suffix == "php" )
+    if (suffix == "php")
     {
         return EditorTabPage::EDITOR_MODE_PHP;
     }
 
-    if( suffix == "bas" || suffix == "cls" || suffix == "vb" )
+    if (suffix == "bas" || suffix == "cls" || suffix == "vb")
     {
         return EditorTabPage::EDITOR_MODE_VISUAL_BASIC;
     }
 
-    if( suffix == "py" )
+    if (suffix == "py")
     {
         return EditorTabPage::EDITOR_MODE_PYTHON;
     }
 
-    if( suffix == "sql" )
+    if (suffix == "sql")
     {
         return EditorTabPage::EDITOR_MODE_SQL;
     }
 
-    if( suffix == "js" )
+    if (suffix == "js")
     {
         return EditorTabPage::EDITOR_MODE_JAVASCRIPT;
     }
 
     return EditorTabPage::EDITOR_MODE_PLAIN_TEXT;
 }
-

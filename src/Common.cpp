@@ -12,20 +12,15 @@ const int Common::timerFireInterval_ = 200;
 
 const int Common::maxRecentFiles_ = 7;
 
-Common::Common()
-{
+Common::Common() {}
 
-}
-
-Common::~Common()
-{
-
-}
+Common::~Common() {}
 const QString Common::rootPath()
 {
-    const QStringList potentialPaths{
-        QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation)};
-    for (const auto& path : potentialPaths) {
+    const QStringList potentialPaths{QStandardPaths::standardLocations(
+        QStandardPaths::AppLocalDataLocation)};
+    for (const auto& path : potentialPaths)
+    {
         const QFileInfo currentPath(path);
         if (currentPath.isDir() && currentPath.isWritable())
             return path;
@@ -37,7 +32,7 @@ QString Common::loadFile(QString name)
 {
     QFile file(name);
 
-    if( false == file.open(QIODevice::ReadOnly) )
+    if (false == file.open(QIODevice::ReadOnly))
     {
         return "";
     }
@@ -55,7 +50,7 @@ QString Common::saveFile(QString fileName, QString& data)
 
     QFile file(fileName);
 
-    if( false == file.open(QIODevice::WriteOnly | QIODevice::Truncate) )
+    if (false == file.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
         QString error(QObject::tr("Saving file failed. Can't open: "));
         error.append(fileName);
@@ -77,15 +72,12 @@ QString Common::getStyleSheet()
     return stylesheet;
 }
 
-int Common::timerFireInterval()
-{
-    return timerFireInterval_;
-}
+int Common::timerFireInterval() { return timerFireInterval_; }
 
 QWidget* Common::getMainWindow(QObject* startObject)
 {
     QObject* object = startObject;
-    while(NULL != object->parent())
+    while (object->parent() != nullptr)
     {
         object = object->parent();
     }
@@ -100,10 +92,7 @@ void Common::centerWidget(QObject* hierarchyObject, QWidget* widgetToCenter)
     widgetToCenter->move(applicationCenter - widgetToCenter->rect().center());
 }
 
-int Common::getMaxRecentFiles()
-{
-    return maxRecentFiles_;
-}
+int Common::getMaxRecentFiles() { return maxRecentFiles_; }
 
 float Common::normalizeFont(float fontSize)
 {

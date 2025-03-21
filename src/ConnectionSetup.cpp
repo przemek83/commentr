@@ -4,18 +4,18 @@
 #include <QRegularExpressionValidator>
 #include <QSettings>
 
-#include "ConnectionSetup.h"
-#include "ui_ConnectionSetup.h"
 #include "Config.h"
-#include "FtpFileSaver.h"
+#include "ConnectionSetup.h"
 #include "EnhancedLineEdit.h"
+#include "FtpFileSaver.h"
+#include "ui_ConnectionSetup.h"
 
-ConnectionSetup::ConnectionSetup(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::ConnectionSetup),
-    hostLineEdit_(NULL),
-    loginLineEdit_(NULL),
-    passwordLineEdit_(NULL)
+ConnectionSetup::ConnectionSetup(QWidget* parent)
+    : QWidget(parent),
+      ui(new Ui::ConnectionSetup),
+      hostLineEdit_(nullptr),
+      loginLineEdit_(nullptr),
+      passwordLineEdit_(nullptr)
 {
     ui->setupUi(this);
 
@@ -28,10 +28,7 @@ ConnectionSetup::ConnectionSetup(QWidget *parent) :
     connect(ui->cancelButton, SIGNAL(clicked()), this, SIGNAL(cancel()));
 }
 
-ConnectionSetup::~ConnectionSetup()
-{
-    delete ui;
-}
+ConnectionSetup::~ConnectionSetup() { delete ui; }
 
 void ConnectionSetup::setVisible(bool visible)
 {
@@ -40,9 +37,9 @@ void ConnectionSetup::setVisible(bool visible)
     loginLineEdit_->setText(instance.ftpLogin());
     passwordLineEdit_->setText(instance.ftpPassword());
 
-//    hostLineEdit_->setText("test.rebex.net");
-//    loginLineEdit_->setText("demo");
-//    passwordLineEdit_->setText("password");
+    //    hostLineEdit_->setText("test.rebex.net");
+    //    loginLineEdit_->setText("demo");
+    //    passwordLineEdit_->setText("password");
 
     QWidget::setVisible(visible);
 }
@@ -51,8 +48,10 @@ void ConnectionSetup::setupLineEdits()
 {
     hostLineEdit_ = new EnhancedLineEdit(this);
     hostLineEdit_->setPlaceholderText("example.com");
-    QRegularExpression hostRegExp(QRegularExpression("([^\\s/?\\.#-]+\\.?)+(/[^\\s]*)?$@iS"));
-    hostLineEdit_->setValidator(new QRegularExpressionValidator(hostRegExp, hostLineEdit_));
+    QRegularExpression hostRegExp(
+        QRegularExpression("([^\\s/?\\.#-]+\\.?)+(/[^\\s]*)?$@iS"));
+    hostLineEdit_->setValidator(
+        new QRegularExpressionValidator(hostRegExp, hostLineEdit_));
     hostLineEdit_->setInputMethodHints(Qt::ImhNoPredictiveText);
     ui->verticalLayout->insertWidget(2, hostLineEdit_);
 
@@ -72,7 +71,7 @@ void ConnectionSetup::on_okButton_clicked()
     instance.setFtpLogin(loginLineEdit_->text());
 
     bool savePasswordChecked = ui->saveInfoCheckBox->isChecked();
-    if( true == savePasswordChecked )
+    if (true == savePasswordChecked)
     {
         instance.setFtpPassword(passwordLineEdit_->text());
     }
@@ -92,20 +91,17 @@ void ConnectionSetup::on_checkButton_clicked()
 
     FtpFileSaver* ftpChecker = new FtpFileSaver(this);
 
-    connect(ftpChecker,
-            SIGNAL(operationFinished(bool)),
-            this,
+    connect(ftpChecker, SIGNAL(operationFinished(bool)), this,
             SLOT(checkFinished(bool)));
 
-    ftpChecker->checkConnection(hostLineEdit_->text(),
-                                loginLineEdit_->text(),
+    ftpChecker->checkConnection(hostLineEdit_->text(), loginLineEdit_->text(),
                                 passwordLineEdit_->text());
 }
 
 void ConnectionSetup::checkFinished(bool result)
 {
     sender()->deleteLater();
-    if( true == result )
+    if (true == result)
     {
         QMessageBox::information(this, "FTP", "Connection OK.");
     }
@@ -115,15 +111,13 @@ void ConnectionSetup::checkFinished(bool result)
 
 void ConnectionSetup::on_saveInfoCheckBox_toggled(bool checked)
 {
-    if( true == checked )
+    if (true == checked)
     {
         QString msg = tr("Password will be saved as plain text. Save?");
         QMessageBox::StandardButton answer =
-            QMessageBox::question(this,
-                                  tr("Confirm"),
-                                  msg);
+            QMessageBox::question(this, tr("Confirm"), msg);
 
-        if( QMessageBox::No == answer )
+        if (QMessageBox::No == answer)
         {
             ui->saveInfoCheckBox->setChecked(false);
         }

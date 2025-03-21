@@ -2,31 +2,27 @@
 #include <QGestureEvent>
 #include <QGuiApplication>
 
-#include "EnhancedLineEdit.h"
-#include "CursorPointerLineEdit.h"
 #include "Config.h"
+#include "CursorPointerLineEdit.h"
+#include "EnhancedLineEdit.h"
 
-EnhancedLineEdit::EnhancedLineEdit(QWidget *parent) :
-    QLineEdit(parent), leftTextMargin_(5), rightTextMargin_(10),
-    builtInTextMargin_(4)
+EnhancedLineEdit::EnhancedLineEdit(QWidget* parent)
+    : QLineEdit(parent),
+      leftTextMargin_(5),
+      rightTextMargin_(10),
+      builtInTextMargin_(4)
 {
     cursorPointer_ = new CursorPointerLineEdit(leftTextMargin_ + 6, parent);
 
     mainWindow_ = getMainWindow();
 
-    connect(this,
-            SIGNAL(textChanged(QString)),
-            this,
+    connect(this, SIGNAL(textChanged(QString)), this,
             SLOT(textWasChanged(QString)));
 
-    connect(cursorPointer_,
-            SIGNAL(pointerMoved(QPoint)),
-            this,
+    connect(cursorPointer_, SIGNAL(pointerMoved(QPoint)), this,
             SLOT(pointerMoved(QPoint)));
 
-    connect(cursorPointer_,
-            SIGNAL(mouseReleased()),
-            this,
+    connect(cursorPointer_, SIGNAL(mouseReleased()), this,
             SLOT(matchPointerToCursorPosition()));
 
     updateMarginSize();
@@ -37,14 +33,11 @@ EnhancedLineEdit::EnhancedLineEdit(QWidget *parent) :
     setSizePolicy(sizePolicy);
 }
 
-EnhancedLineEdit::~EnhancedLineEdit()
-{
-
-}
+EnhancedLineEdit::~EnhancedLineEdit() {}
 
 bool EnhancedLineEdit::event(QEvent* event)
 {
-    if( event->type() == QEvent::MouseMove )
+    if (event->type() == QEvent::MouseMove)
     {
         event->ignore();
         return true;
@@ -55,7 +48,7 @@ bool EnhancedLineEdit::event(QEvent* event)
 
 void EnhancedLineEdit::mouseReleaseEvent(QMouseEvent* e)
 {
-    if( false == text().isEmpty() && false == isReadOnly() )
+    if (false == text().isEmpty() && false == isReadOnly())
     {
         cursorPointer_->show();
         cursorPointer_->raise();
@@ -65,15 +58,15 @@ void EnhancedLineEdit::mouseReleaseEvent(QMouseEvent* e)
 
     QLineEdit::mouseReleaseEvent(e);
 
-    //If toolbar is shown on main screen wrong results generated.
-    //Problem wil be solved when file browser will be rebuild on show.
+    // If toolbar is shown on main screen wrong results generated.
+    // Problem wil be solved when file browser will be rebuild on show.
     resetPointerRange();
 }
 
 QWidget* EnhancedLineEdit::getMainWindow()
 {
     QWidget* widget = this;
-    while(NULL != widget->parentWidget())
+    while (widget->parentWidget() != nullptr)
     {
         widget = widget->parentWidget();
     }
@@ -97,17 +90,16 @@ void EnhancedLineEdit::resizeEvent(QResizeEvent* event)
 void EnhancedLineEdit::resetPointerRange()
 {
     QPoint newPosition = getPositionForVisualPointer();
-    int textWidth = QFontMetricsF(QGuiApplication::font()).horizontalAdvance(text());
+    int textWidth =
+        QFontMetricsF(QGuiApplication::font()).horizontalAdvance(text());
     int textPlusMarginsWidth =
         textWidth + leftTextMargin_ + rightTextMargin_ + 2 * builtInTextMargin_;
     bool scrollingNeeded = (textPlusMarginsWidth > width());
 
-    //Create rectangle for lineedit input. use  leftTextMargin_  + 6 px
-    //because of text margins.
-    QRect rect(newPosition.x(),
-               newPosition.y(),
-               qMin(textWidth + leftTextMargin_  + 6, width()),
-               0);
+    // Create rectangle for lineedit input. use  leftTextMargin_  + 6 px
+    // because of text margins.
+    QRect rect(newPosition.x(), newPosition.y(),
+               qMin(textWidth + leftTextMargin_ + 6, width()), 0);
 
     cursorPointer_->setRange(rect);
     cursorPointer_->setScrollingNeeded(scrollingNeeded);
@@ -115,19 +107,19 @@ void EnhancedLineEdit::resetPointerRange()
 
 QPoint EnhancedLineEdit::getPositionForVisualPointer()
 {
-    //Position of lineedit in application.
+    // Position of lineedit in application.
     QPoint lineEditPosInMain(mapToGlobal(QPoint(0, 0)) - mainWindow_->pos());
 
     QRect mainGeometry = mainWindow_->geometry();
     QRect mainFrameGeometry = mainWindow_->frameGeometry();
 
-    //Difference between frame and mainwindow.
+    // Difference between frame and mainwindow.
     int shiftY = mainFrameGeometry.y() - mainGeometry.y();
 
-    //Width of Application frame (desktops).
-    int frameWidth = (mainFrameGeometry.width() - mainGeometry.width())/2;
+    // Width of Application frame (desktops).
+    int frameWidth = (mainFrameGeometry.width() - mainGeometry.width()) / 2;
 
-    //Calculate new position of visual pointer. Sub 1 px to match cursor pos.
+    // Calculate new position of visual pointer. Sub 1 px to match cursor pos.
     int newX = lineEditPosInMain.x() - frameWidth - 1;
     int newY = lineEditPosInMain.y() + shiftY + height();
 
@@ -156,8 +148,8 @@ void EnhancedLineEdit::changeEvent(QEvent* event)
 {
     QLineEdit::changeEvent(event);
 
-    //If toolbar is shown on main screen wrong results generated.
-    if( QEvent::StyleChange == event->type() )
+    // If toolbar is shown on main screen wrong results generated.
+    if (QEvent::StyleChange == event->type())
     {
         updateMarginSize();
 
@@ -169,6 +161,6 @@ void EnhancedLineEdit::updateMarginSize()
 {
     rightTextMargin_ = Config::getInstance().uiSize() / 2;
 
-    //Add margins to enable scrolling.
+    // Add margins to enable scrolling.
     setTextMargins(leftTextMargin_, 0, rightTextMargin_, 0);
 }

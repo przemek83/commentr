@@ -6,7 +6,6 @@
 #include <QListWidgetItem>
 #include <QProgressDialog>
 
-#include "../Defines.h"
 #include "Explorer.h"
 
 class File;

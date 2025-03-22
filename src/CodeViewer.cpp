@@ -1,83 +1,72 @@
-#include <math.h>
-#include <QPainter>
-#include <QTextBlock>
-#include <QDebug>
+#include "CodeViewer.h"
+
 #include <QGestureEvent>
-#include <QScroller>
+#include <QGestureRecognizer>
 #include <QGuiApplication>
-#include <QTimer>
+#include <QPainter>
+#include <QRegularExpression>
 #include <QScrollBar>
 #include <QScrollEvent>
-#include <QGestureRecognizer>
-#include <QRegularExpression>
+#include <QScroller>
+#include <QTextBlock>
+#include <QTimer>
 
-#include "CodeViewer.h"
-#include "CursorPointerTextEdit.h"
-#include "CursorPointerSelector.h"
-#include "Config.h"
 #include "Common.h"
+#include "Config.h"
+#include "CursorPointerSelector.h"
+#include "CursorPointerTextEdit.h"
 #include "PanGestureRecognizer.h"
 
-CursorEater::CursorEater(QObject* parent):
-    QObject(parent)
+CursorEater::CursorEater(QObject* parent) : QObject(parent) {}
+
+CursorEater::~CursorEater() {}
+
+bool CursorEater::eventFilter(QObject* obj, QEvent* event)
 {
-
-}
-
-CursorEater::~CursorEater()
-{
-
-}
-
-bool CursorEater::eventFilter(QObject *obj, QEvent *event)
-{
-    if (QEvent::MouseButtonPress == event->type()
-        || QEvent::MouseButtonRelease == event->type() // ||
-        /*QEvent::MouseMove == event->type()*/) {
+    if (QEvent::MouseButtonPress == event->type() ||
+        QEvent::MouseButtonRelease == event->type()  // ||
+        /*QEvent::MouseMove == event->type()*/)
+    {
         return true;
     }
 
-    //Standard event processing.
+    // Standard event processing.
     return QObject::eventFilter(obj, event);
 }
 
-CodeViewer::CodeViewer(QWidget *parent) :
-    QPlainTextEdit(parent),
-    ignoreNextTapGesture_(false),
-    cursorShownBeforeFocusLost_(false),
-    selectorsShownBeforeFocusLost_(false)//,
+CodeViewer::CodeViewer(QWidget* parent)
+    : QPlainTextEdit(parent),
+      ignoreNextTapGesture_(false),
+      cursorShownBeforeFocusLost_(false),
+      selectorsShownBeforeFocusLost_(false)  //,
 {
     mainWindow_ = Common::getMainWindow(this);
 
     initVisualPointers();
 
-    //viewport()->installEventFilter(new CursorEater(viewport()));
+    // viewport()->installEventFilter(new CursorEater(viewport()));
 
     QFont font;
     font.setFamily(QStringLiteral("Courier"));
     setFont(font);
 
     setLineWrapMode(QPlainTextEdit::NoWrap);
-    setTextInteractionFlags(Qt::TextSelectableByKeyboard |
-                            Qt::TextEditable);
+    setTextInteractionFlags(Qt::TextSelectableByKeyboard | Qt::TextEditable);
 
     lineNumberArea_ = new LineNumberArea(this);
 
-    connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
+    connect(this, SIGNAL(blockCountChanged(int)), this,
+            SLOT(updateLineNumberAreaWidth(int)));
 
-    connect(this,
-            SIGNAL(updateRequest(QRect,int)),
-            this,
-            SLOT(updateLineNumberArea(QRect,int)));
+    connect(this, SIGNAL(updateRequest(QRect, int)), this,
+            SLOT(updateLineNumberArea(QRect, int)));
 
     updateLineNumberAreaWidth(0);
 
-    connect(this,
-            SIGNAL(cursorPositionChanged()),
-            this,
+    connect(this, SIGNAL(cursorPositionChanged()), this,
             SLOT(cursorPosHasChanged()));
 
-    //Hide cursors, select current line.
+    // Hide cursors, select current line.
     cursorPosHasChanged();
 
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
@@ -86,73 +75,57 @@ CodeViewer::CodeViewer(QWidget *parent) :
 
     setInputMethodHints(Qt::ImhNoPredictiveText);
 
-    //In case of setting styleSheet to whole CodeEditor there is problem
-    //with font size in LineNumberArea.
+    // In case of setting styleSheet to whole CodeEditor there is problem
+    // with font size in LineNumberArea.
     horizontalScrollBar()->setStyleSheet(Common::getStyleSheet());
     verticalScrollBar()->setStyleSheet(Common::getStyleSheet());
 }
 
-CodeViewer::~CodeViewer()
-{
-    delete cursorPointer_;
-}
+CodeViewer::~CodeViewer() { delete cursorPointer_; }
 
 void CodeViewer::grabGestures()
 {
-    // Do not grab tap and trap and hold as in new Qt it seems stock behaviour is working.
-    // viewport()->grabGesture(Qt::TapGesture);
+    // Do not grab tap and trap and hold as in new Qt it seems stock behaviour
+    // is working. viewport()->grabGesture(Qt::TapGesture);
     // viewport()->grabGesture(Qt::TapAndHoldGesture);
     viewport()->grabGesture(Qt::PinchGesture);
 
     QGestureRecognizer::unregisterRecognizer(Qt::PanGesture);
     PanGestureRecognizer* panGestureRecognizer = new PanGestureRecognizer();
-    Qt::GestureType gestureType = QGestureRecognizer::registerRecognizer(panGestureRecognizer);
+    Qt::GestureType gestureType =
+        QGestureRecognizer::registerRecognizer(panGestureRecognizer);
     viewport()->grabGesture(gestureType);
 }
 
 void CodeViewer::initVisualPointers()
 {
-    //Cursor pointer.
+    // Cursor pointer.
     cursorPointer_ = new CursorPointerTextEdit(mainWindow_);
 
-    connect(cursorPointer_,
-            SIGNAL(pointerMoved(QPoint)),
-            this,
+    connect(cursorPointer_, SIGNAL(pointerMoved(QPoint)), this,
             SLOT(pointerMoved(QPoint)));
 
-    connect(cursorPointer_,
-            SIGNAL(mouseReleased()),
-            this,
+    connect(cursorPointer_, SIGNAL(mouseReleased()), this,
             SLOT(matchPointerToCursorPosition()));
 
-    //Cursor pointer on selection.
-    cursorSelector_ =
-        new CursorPointerSelector(CursorPointerSelector::CURSOR_DIRECTION_RIGHT,
-                                  mainWindow_);
+    // Cursor pointer on selection.
+    cursorSelector_ = new CursorPointerSelector(
+        CursorPointerSelector::CURSOR_DIRECTION_RIGHT, mainWindow_);
 
-    connect(cursorSelector_,
-            SIGNAL(pointerMoved(QPoint)),
-            this,
+    connect(cursorSelector_, SIGNAL(pointerMoved(QPoint)), this,
             SLOT(pointerMoved(QPoint)));
 
-    connect(cursorSelector_,
-            SIGNAL(mouseReleased()),
-            this,
+    connect(cursorSelector_, SIGNAL(mouseReleased()), this,
             SLOT(matchPointerToCursorPosition()));
 
-    //Anchor pointer on selection.
-    anchorSelector_ =
-        new CursorPointerSelector(CursorPointerSelector::CURSOR_DIRECTION_LEFT,
-                                  mainWindow_);
+    // Anchor pointer on selection.
+    anchorSelector_ = new CursorPointerSelector(
+        CursorPointerSelector::CURSOR_DIRECTION_LEFT, mainWindow_);
 
-    connect(anchorSelector_,
-            SIGNAL(pointerMoved(QPoint)),
-            this,
+    connect(anchorSelector_, SIGNAL(pointerMoved(QPoint)), this,
             SLOT(pointerMoved(QPoint)));
 
-    connect(anchorSelector_,
-            SIGNAL(mouseReleased()),
-            this,
+    connect(anchorSelector_, SIGNAL(mouseReleased()), this,
             SLOT(matchPointerToCursorPosition()));
 }
 
@@ -175,35 +148,34 @@ void CodeViewer::cursorPosHasChanged()
     setExtraSelections(extraSelections);
 }
 
-bool CodeViewer::event(QEvent *event)
+bool CodeViewer::event(QEvent* event)
 {
-//Code from QPlainTextEdit for pan gesture.
-//    if (e->type() == QEvent::Gesture)
-//    {
-//        QGestureEvent *ge = static_cast<QGestureEvent *>(e);
-//        QPanGesture *g = static_cast<QPanGesture *>(ge->gesture(Qt::PanGesture));
-//        if (g)
-//        {
-//            QScrollBar *hBar = horizontalScrollBar();
-//            QScrollBar *vBar = verticalScrollBar();
-//            if (g->state() == Qt::GestureStarted)
-//                d->originalOffsetY = vBar->value();
-//            QPointF offset = g->offset();
-//            if (!offset.isNull())
-//            {
-//                if (QApplication::isRightToLeft())
-//                    offset.rx() *= -1;
-//                // QPlainTextEdit scrolls by lines only in vertical direction
-//                QFontMetrics fm(document()->defaultFont());
-//                int lineHeight = fm.height();
-//                int newX = hBar->value() - g->delta().x();
-//                int newY = d->originalOffsetY - offset.y()/lineHeight;
-//                hBar->setValue(newX);
-//                vBar->setValue(newY);
-//            }
-//        }
-//        return true;
-//    }
+    // Code from QPlainTextEdit for pan gesture.
+    //     if (e->type() == QEvent::Gesture)
+    //     {
+    //         QGestureEvent *ge = static_cast<QGestureEvent *>(e);
+    //         QPanGesture *g = static_cast<QPanGesture
+    //         *>(ge->gesture(Qt::PanGesture)); if (g)
+    //         {
+    //             QScrollBar *hBar = horizontalScrollBar();
+    //             QScrollBar *vBar = verticalScrollBar();
+    //             if (g->state() == Qt::GestureStarted)
+    //                 d->originalOffsetY = vBar->value();
+    //             QPointF offset = g->offset();
+    //             if (!offset.isNull())
+    //             {
+    //                 if (QApplication::isRightToLeft())
+    //                     offset.rx() *= -1;
+    //                 // QPlainTextEdit scrolls by lines only in vertical
+    //                 direction QFontMetrics fm(document()->defaultFont()); int
+    //                 lineHeight = fm.height(); int newX = hBar->value() -
+    //                 g->delta().x(); int newY = d->originalOffsetY -
+    //                 offset.y()/lineHeight; hBar->setValue(newX);
+    //                 vBar->setValue(newY);
+    //             }
+    //         }
+    //         return true;
+    //     }
 
     if (event->type() == QEvent::Gesture)
     {
@@ -212,7 +184,7 @@ bool CodeViewer::event(QEvent *event)
 
         foreach (QGesture* gesture, gestures)
         {
-            switch(gesture->gestureType())
+            switch (gesture->gestureType())
             {
                 case Qt::PinchGesture:
                 {
@@ -220,16 +192,20 @@ bool CodeViewer::event(QEvent *event)
                     break;
                 }
 
-                case Qt::TapGesture: {
+                case Qt::TapGesture:
+                {
                     manageTapGesture(static_cast<QTapGesture*>(gesture));
                     break;
                 }
 
-                case Qt::TapAndHoldGesture: {
-                    if (Qt::GestureFinished == gesture->state()) {
-                        QTapAndHoldGesture* tapAndHoldGesture = static_cast<QTapAndHoldGesture*>(
-                            gesture);
-                        if (true == manageTapAndHoldGesture(tapAndHoldGesture)) {
+                case Qt::TapAndHoldGesture:
+                {
+                    if (Qt::GestureFinished == gesture->state())
+                    {
+                        QTapAndHoldGesture* tapAndHoldGesture =
+                            static_cast<QTapAndHoldGesture*>(gesture);
+                        if (true == manageTapAndHoldGesture(tapAndHoldGesture))
+                        {
                             ignoreNextTapGesture_ = true;
                         }
                     }
@@ -261,7 +237,7 @@ void CodeViewer::pointerMoved(QPoint pos)
     CursorPointerTextEdit* senderCursorPointer =
         static_cast<CursorPointerTextEdit*>(sender());
 
-    if( senderCursorPointer == cursorPointer_ )
+    if (senderCursorPointer == cursorPointer_)
     {
         QTextCursor cursor = cursorForPosition(pos - positionShiftMain());
         setTextCursor(cursor);
@@ -270,23 +246,23 @@ void CodeViewer::pointerMoved(QPoint pos)
     {
         int anchor = -1;
         int cursor = -1;
-        if( senderCursorPointer == cursorSelector_ )
+        if (senderCursorPointer == cursorSelector_)
         {
             anchor = textCursor().anchor();
             cursor = cursorForPosition(pos - positionShiftMain()).position();
         }
         else
         {
-            //Anchor moved.
+            // Anchor moved.
             anchor = cursorForPosition(pos - positionShiftMain()).position();
             cursor = textCursor().position();
         }
 
-        //Sliding pointers.
+        // Sliding pointers.
         bool updatePointer = false;
-        if( anchor > cursor )
+        if (anchor > cursor)
         {
-            if( senderCursorPointer == cursorSelector_ )
+            if (senderCursorPointer == cursorSelector_)
             {
                 anchor = cursor;
             }
@@ -302,12 +278,12 @@ void CodeViewer::pointerMoved(QPoint pos)
         cursorToSet.setPosition(cursor, QTextCursor::KeepAnchor);
         setTextCursor(cursorToSet);
 
-        //Sliding pointers.
-        if( true == updatePointer )
+        // Sliding pointers.
+        if (true == updatePointer)
         {
-            //If anchor was moved than match cursor.
-            //If cursor was moved by user than match anchor to it.
-            if( senderCursorPointer == cursorSelector_ )
+            // If anchor was moved than match cursor.
+            // If cursor was moved by user than match anchor to it.
+            if (senderCursorPointer == cursorSelector_)
             {
                 moveVisualPointer(anchorSelector_);
             }
@@ -320,9 +296,9 @@ void CodeViewer::pointerMoved(QPoint pos)
 }
 
 ////Temporary for desktops debug.
-//void CodeViewer::mouseReleaseEvent(QMouseEvent* event)
+// void CodeViewer::mouseReleaseEvent(QMouseEvent* event)
 //{
-//    qDebug() << "mouseReleaseEvent" << event->pos();
+//     qDebug() << "mouseReleaseEvent" << event->pos();
 
 //    if( true == ignoreNextTapGesture_ )
 //    {
@@ -352,7 +328,7 @@ void CodeViewer::focusOutEvent(QFocusEvent* e)
 
 void CodeViewer::focusInEvent(QFocusEvent* e)
 {
-    if( true == cursorShownBeforeFocusLost_ )
+    if (true == cursorShownBeforeFocusLost_)
     {
         setVisibleCursorPointer(cursorShownBeforeFocusLost_);
     }
@@ -372,7 +348,8 @@ void CodeViewer::managePinchGesture(QPinchGesture* gesture)
         {
             const double originalFontSize = Config::getInstance().fontSize();
             const double totalScaleFactor = gesture->totalScaleFactor();
-            const int expectedFontSize = round(Common::normalizeFont(originalFontSize * totalScaleFactor));
+            const int expectedFontSize = round(
+                Common::normalizeFont(originalFontSize * totalScaleFactor));
             const int currentFontSize = fontInfo().pointSizeF();
             const int change = expectedFontSize - currentFontSize;
 
@@ -391,15 +368,15 @@ void CodeViewer::managePinchGesture(QPinchGesture* gesture)
         {
             break;
         }
-
     }
 }
 
 void CodeViewer::manageTapGesture(QTapGesture* gesture)
 {
-    if(Qt::GestureFinished == gesture->state() )
+    if (Qt::GestureFinished == gesture->state())
     {
-        if (true == ignoreNextTapGesture_) {
+        if (true == ignoreNextTapGesture_)
+        {
             ignoreNextTapGesture_ = false;
             return;
         }
@@ -407,7 +384,7 @@ void CodeViewer::manageTapGesture(QTapGesture* gesture)
         QTextCursor cursor = cursorForPosition(gesture->position().toPoint());
         setTextCursor(cursor);
 
-        if( 0 != document()->characterCount() )
+        if (0 != document()->characterCount())
         {
             setVisibleCursorPointer(true);
         }
@@ -416,41 +393,44 @@ void CodeViewer::manageTapGesture(QTapGesture* gesture)
 
 bool CodeViewer::manageTapAndHoldGesture(QTapAndHoldGesture* gesture)
 {
-    if (Qt::GestureFinished == gesture->state()) {
+    if (Qt::GestureFinished == gesture->state())
+    {
         QPoint point = mapFromGlobal(gesture->position().toPoint());
-        QPoint properPoint = QPoint(point.x() - lineNumberArea_->width(), point.y());
+        QPoint properPoint =
+            QPoint(point.x() - lineNumberArea_->width(), point.y());
         QTextCursor cursor = cursorForPosition(properPoint);
         cursor.select(QTextCursor::WordUnderCursor);
         setTextCursor(cursor);
 
-        if (0 != document()->characterCount()) {
+        if (0 != document()->characterCount())
+        {
             setVisibleSelectionPointers(true);
         }
 
         return true;
     }
 
-    //Needed?
-    //    if( true == Config::getInstance().keyboardAfterTap() )
-    //    {
-    //        QGuiApplication::inputMethod()->show();
-    //    }
+    // Needed?
+    //     if( true == Config::getInstance().keyboardAfterTap() )
+    //     {
+    //         QGuiApplication::inputMethod()->show();
+    //     }
 
     return false;
 }
 
 void CodeViewer::updateVisualPointersPositions()
 {
-    if( true == cursorPointer_->isVisible() )
+    if (true == cursorPointer_->isVisible())
     {
         moveVisualPointer(cursorPointer_);
     }
 
-    if( true == cursorSelector_->isVisible() )
+    if (true == cursorSelector_->isVisible())
     {
         moveVisualPointer(cursorSelector_);
 
-        if( true == anchorIsInRange() )
+        if (true == anchorIsInRange())
         {
             moveVisualPointer(anchorSelector_);
             anchorSelector_->setVisible(true);
@@ -493,13 +473,14 @@ void CodeViewer::updateVisualPointersPositions()
 
     int lastVisibleBlockNumber = currentBlockNumber;
 
-    int numberOfBlocksVisible = lastVisibleBlockNumber - firstVisibleBlockNumber;
+    int numberOfBlocksVisible = lastVisibleBlockNumber -
+firstVisibleBlockNumber;
 
     qDebug() << __FUNCTION__ << "count" << numberOfBlocks << "first" <<
                 firstVisibleBlockNumber << "last" << lastVisibleBlockNumber <<
-                "cursor" << cursorBlockNumber << "visible" << numberOfBlocksVisible <<
-                "cursorDx" << cursorDx << "lastVisibleDx" << lastVisibleDx << "diff" <<
-                cursorDx - twoLinesUpDx;
+                "cursor" << cursorBlockNumber << "visible" <<
+numberOfBlocksVisible << "cursorDx" << cursorDx << "lastVisibleDx" <<
+lastVisibleDx << "diff" << cursorDx - twoLinesUpDx;
 
     scroll(0, cursorDx - twoLinesUpDx);
     //ensureCursorVisible();
@@ -515,30 +496,29 @@ void CodeViewer::matchPointerToCursorPosition()
 
 void CodeViewer::moveVisualPointer(CursorPointer* cursorPointer)
 {
-    if( cursorPointer == anchorSelector_ )
+    if (cursorPointer == anchorSelector_)
     {
         QTextCursor cursor = textCursor();
         cursor.setPosition(cursor.anchor());
         QRect cursorRectangle = cursorRect(cursor);
-        QPoint anchorPos = mapToParent(cursorRectangle.topLeft()) + positionShiftMain();
-        anchorSelector_->moveVisualPointer(anchorPos.x(),
-                                           anchorPos.y());
+        QPoint anchorPos =
+            mapToParent(cursorRectangle.topLeft()) + positionShiftMain();
+        anchorSelector_->moveVisualPointer(anchorPos.x(), anchorPos.y());
     }
     else
     {
         QRect cursorRectangle = cursorRect();
         QPoint leftTop = mapToParent(cursorRectangle.topLeft());
         QPoint newPosition = leftTop + positionShiftMain();
-        cursorPointer->moveVisualPointer(newPosition.x(),
-                                         newPosition.y());
+        cursorPointer->moveVisualPointer(newPosition.x(), newPosition.y());
     }
 }
 
 void CodeViewer::hideAllPointersIfNotDragged()
 {
-    if( false == cursorPointer_->dragged() &&
+    if (false == cursorPointer_->dragged() &&
         false == cursorSelector_->dragged() &&
-        false == anchorSelector_->dragged() )
+        false == anchorSelector_->dragged())
     {
         hideAllCursorPointers();
     }
@@ -560,11 +540,11 @@ QPoint CodeViewer::positionShiftMain()
     QRect mainGeometry = mainWindow_->geometry();
     QRect mainFrameGeometry = mainWindow_->frameGeometry();
 
-    //Difference between frame and mainwindow.
+    // Difference between frame and mainwindow.
     int shiftY = mainFrameGeometry.y() - mainGeometry.y();
 
-    //Width of Application frame (desktops).
-    int frameWidth = (mainFrameGeometry.width() - mainGeometry.width())/2;
+    // Width of Application frame (desktops).
+    int frameWidth = (mainFrameGeometry.width() - mainGeometry.width()) / 2;
 
     QPoint shift = positonInMain + QPoint(lineNumberArea_->width() - frameWidth,
                                           cursorRectangle.height() + shiftY);
@@ -602,7 +582,9 @@ int CodeViewer::lineNumberAreaWidth()
 {
     int digits = QString::number(qMax(1, blockCount())).length();
 
-    int space = 3 + QFontMetricsF(QGuiApplication::font()).horizontalAdvance(QLatin1Char('9')) * digits;
+    int space = 3 + QFontMetricsF(QGuiApplication::font())
+                            .horizontalAdvance(QLatin1Char('9')) *
+                        digits;
     return space;
 }
 
@@ -621,15 +603,13 @@ void CodeViewer::updateLineNumberArea(const QRect& rect, int dy)
 {
     if (0 != dy)
     {
-        //Scrolling when dy != 0.
+        // Scrolling when dy != 0.
         lineNumberArea_->scroll(0, dy);
     }
     else
     {
-        //Just update.
-        lineNumberArea_->update(0,
-                                rect.y(),
-                                lineNumberArea_->width(),
+        // Just update.
+        lineNumberArea_->update(0, rect.y(), lineNumberArea_->width(),
                                 rect.height());
     }
 
@@ -639,12 +619,13 @@ void CodeViewer::updateLineNumberArea(const QRect& rect, int dy)
     }
 }
 
-void CodeViewer::resizeEvent(QResizeEvent *e)
+void CodeViewer::resizeEvent(QResizeEvent* e)
 {
     QPlainTextEdit::resizeEvent(e);
 
     QRect cr = contentsRect();
-    lineNumberArea_->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+    lineNumberArea_->setGeometry(
+        QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 
     centerCursor();
     updateVisualPointersPositions();
@@ -662,19 +643,18 @@ void CodeViewer::lineNumberAreaPaintEvent(QPaintEvent* event)
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
-    int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
+    int top =
+        qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
     int bottom = top + qRound(blockBoundingRect(block).height());
 
-    while (block.isValid() && top <= event->rect().bottom()) {
-        if (block.isVisible() && bottom >= event->rect().top()) {
+    while (block.isValid() && top <= event->rect().bottom())
+    {
+        if (block.isVisible() && bottom >= event->rect().top())
+        {
             QString number = QString::number(blockNumber + 1);
             painter.setPen(Qt::black);
-            painter.drawText(0,
-                             top,
-                             lineNumberArea_->width(),
-                             fontMetrics().height(),
-                             Qt::AlignRight,
-                             number);
+            painter.drawText(0, top, lineNumberArea_->width(),
+                             fontMetrics().height(), Qt::AlignRight, number);
         }
 
         block = block.next();
@@ -689,9 +669,8 @@ void CodeViewer::paintEvent(QPaintEvent* event)
     QPlainTextEdit::paintEvent(event);
     const QRect rect = event->rect();
     const QFont font = currentCharFormat().font();
-    int x80 = qRound(QFontMetricsF(font).averageCharWidth() * 80.0)
-            + contentOffset().x()
-            + document()->documentMargin();
+    int x80 = qRound(QFontMetricsF(font).averageCharWidth() * 80.0) +
+              contentOffset().x() + document()->documentMargin();
     QPainter painter(viewport());
     painter.setPen(QPen("gray"));
     painter.drawLine(x80, rect.top(), x80, rect.bottom());
@@ -700,14 +679,14 @@ void CodeViewer::paintEvent(QPaintEvent* event)
 void CodeViewer::keyPressEvent(QKeyEvent* e)
 {
     int key = e->key();
-    if( Qt::Key_Return == key || Qt::Key_Enter == key )
+    if (Qt::Key_Return == key || Qt::Key_Enter == key)
     {
         QString line = textCursor().block().text();
 
         QPlainTextEdit::keyPressEvent(e);
         insertPlainText(line.left(line.indexOf(QRegularExpression("\\S"))));
-//        e->accept();
-//        repaint();
+        //        e->accept();
+        //        repaint();
         return;
     }
 
@@ -719,7 +698,7 @@ bool CodeViewer::anchorIsInRange()
     QTextBlock firstBlock = firstVisibleBlock();
     QTextCursor cursor = textCursor();
     cursor.setPosition(cursor.anchor());
-    if( cursor.blockNumber() < firstBlock.blockNumber() )
+    if (cursor.blockNumber() < firstBlock.blockNumber())
     {
         return false;
     }
@@ -729,7 +708,7 @@ bool CodeViewer::anchorIsInRange()
 
 void CodeViewer::setVisibleCursorPointer(bool visible)
 {
-    if( true == visible )
+    if (true == visible)
     {
         moveVisualPointer(cursorPointer_);
     }
@@ -744,7 +723,7 @@ void CodeViewer::setVisibleSelectionPointers(bool visible)
 {
     cursorPointer_->setVisible(false);
 
-    if( true == visible )
+    if (true == visible)
     {
         moveVisualPointer(anchorSelector_);
         moveVisualPointer(cursorSelector_);

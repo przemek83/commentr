@@ -4,18 +4,14 @@
 
 #include "BackButtonHandler.h"
 
-BackButtonHandler::BackButtonHandler(QObject* parent) : QObject(parent) {}
-
-BackButtonHandler::~BackButtonHandler() {}
-
-bool BackButtonHandler::eventFilter(QObject* obj, QEvent* event)
+bool BackButtonHandler::eventFilter(QObject* watched, QEvent* event)
 {
     if (event->type() == QEvent::KeyRelease)
     {
-        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-        if (keyEvent != nullptr && Qt::Key_Back == keyEvent->key())
+        const auto* keyEvent{dynamic_cast<QKeyEvent*>(event)};
+        if ((keyEvent != nullptr) && (keyEvent->key() == Qt::Key_Back))
         {
-            QWidget* widget = static_cast<QWidget*>(obj);
+            auto* widget{dynamic_cast<QWidget*>(watched)};
             if (widget != nullptr)
             {
                 widget->clearFocus();
@@ -25,5 +21,5 @@ bool BackButtonHandler::eventFilter(QObject* obj, QEvent* event)
     }
 
     // standard event processing
-    return QObject::eventFilter(obj, event);
+    return QObject::eventFilter(watched, event);
 }

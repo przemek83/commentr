@@ -7,15 +7,10 @@ class BackButtonHandler : public QObject
 {
     Q_OBJECT
 public:
-    explicit BackButtonHandler(QObject* parent);
-
-    ~BackButtonHandler() override;
+    using QObject::QObject;
 
 protected:
-    bool eventFilter(QObject* obj, QEvent* event) override;
-
-private:
-    Q_DISABLE_COPY(BackButtonHandler)
+    bool eventFilter(QObject* watched, QEvent* event) override;
 };
 
 #endif  // BACKBUTTONHANDLER_H

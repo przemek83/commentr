@@ -162,7 +162,7 @@ bool CodeViewer::event(QEvent* event)
 
     if (event->type() == QEvent::Gesture)
     {
-        QGestureEvent* gestureEvent = static_cast<QGestureEvent*>(event);
+        auto* gestureEvent{dynamic_cast<QGestureEvent*>(event)};
         QList<QGesture*> gestures = gestureEvent->gestures();
 
         foreach (QGesture* gesture, gestures)
@@ -171,13 +171,13 @@ bool CodeViewer::event(QEvent* event)
             {
                 case Qt::PinchGesture:
                 {
-                    managePinchGesture(static_cast<QPinchGesture*>(gesture));
+                    managePinchGesture(dynamic_cast<QPinchGesture*>(gesture));
                     break;
                 }
 
                 case Qt::TapGesture:
                 {
-                    manageTapGesture(static_cast<QTapGesture*>(gesture));
+                    manageTapGesture(dynamic_cast<QTapGesture*>(gesture));
                     break;
                 }
 
@@ -185,12 +185,11 @@ bool CodeViewer::event(QEvent* event)
                 {
                     if (Qt::GestureFinished == gesture->state())
                     {
-                        QTapAndHoldGesture* tapAndHoldGesture =
-                            static_cast<QTapAndHoldGesture*>(gesture);
-                        if (true == manageTapAndHoldGesture(tapAndHoldGesture))
-                        {
+                        auto* tapAndHoldGesture{
+                            dynamic_cast<QTapAndHoldGesture*>(gesture)};
+
+                        if (manageTapAndHoldGesture(tapAndHoldGesture))
                             ignoreNextTapGesture_ = true;
-                        }
                     }
 
                     break;
@@ -217,8 +216,7 @@ bool CodeViewer::event(QEvent* event)
 
 void CodeViewer::pointerMoved(QPoint pos)
 {
-    CursorPointerTextEdit* senderCursorPointer =
-        static_cast<CursorPointerTextEdit*>(sender());
+    auto* senderCursorPointer{dynamic_cast<CursorPointerTextEdit*>(sender())};
 
     if (senderCursorPointer == cursorPointer_)
     {
@@ -246,13 +244,9 @@ void CodeViewer::pointerMoved(QPoint pos)
         if (anchor > cursor)
         {
             if (senderCursorPointer == cursorSelector_)
-            {
                 anchor = cursor;
-            }
             else
-            {
                 cursor = anchor;
-            }
             updatePointer = true;
         }
 
@@ -262,18 +256,14 @@ void CodeViewer::pointerMoved(QPoint pos)
         setTextCursor(cursorToSet);
 
         // Sliding pointers.
-        if (true == updatePointer)
+        if (updatePointer)
         {
             // If anchor was moved than match cursor.
             // If cursor was moved by user than match anchor to it.
             if (senderCursorPointer == cursorSelector_)
-            {
                 moveVisualPointer(anchorSelector_);
-            }
             else
-            {
                 moveVisualPointer(cursorSelector_);
-            }
         }
     }
 }

@@ -16,21 +16,6 @@ class QTapAndHoldGesture;
 class CursorPointerSelector;
 class CursorPointer;
 
-class CursorEater : public QObject
-{
-    Q_OBJECT
-public:
-    explicit CursorEater(QObject* parent);
-
-    ~CursorEater() override;
-
-protected:
-    bool eventFilter(QObject* obj, QEvent* event) override;
-
-private:
-    Q_DISABLE_COPY(CursorEater)
-};
-
 class CodeViewer : public QPlainTextEdit
 {
     Q_OBJECT
@@ -82,11 +67,13 @@ private:
             codeEditor_ = editor;
         }
 
-        QSize sizeHint() const override { return QSize(codeEditor_->lineNumberAreaWidth(), 0); }
+        QSize sizeHint() const override
+        {
+            return QSize(codeEditor_->lineNumberAreaWidth(), 0);
+        }
 
     protected:
-        void paintEvent(
-            QPaintEvent* event) override
+        void paintEvent(QPaintEvent* event) override
         {
             codeEditor_->lineNumberAreaPaintEvent(event);
         }

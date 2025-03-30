@@ -17,23 +17,6 @@
 #include "CursorPointerTextEdit.h"
 #include "PanGestureRecognizer.h"
 
-CursorEater::CursorEater(QObject* parent) : QObject(parent) {}
-
-CursorEater::~CursorEater() {}
-
-bool CursorEater::eventFilter(QObject* obj, QEvent* event)
-{
-    if (QEvent::MouseButtonPress == event->type() ||
-        QEvent::MouseButtonRelease == event->type()  // ||
-        /*QEvent::MouseMove == event->type()*/)
-    {
-        return true;
-    }
-
-    // Standard event processing.
-    return QObject::eventFilter(obj, event);
-}
-
 CodeViewer::CodeViewer(QWidget* parent)
     : QPlainTextEdit(parent),
       ignoreNextTapGesture_(false),

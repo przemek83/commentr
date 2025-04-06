@@ -53,11 +53,11 @@ private:
     void lineNumberAreaPaintEvent(QPaintEvent* event);
 
     // Visual cursor.
-    CursorPointerTextEdit* cursorPointer_;
+    CursorPointerTextEdit* cursorPointer_{nullptr};
 
-    CursorPointerSelector* cursorSelector_;
+    CursorPointerSelector* cursorSelector_{nullptr};
 
-    CursorPointerSelector* anchorSelector_;
+    CursorPointerSelector* anchorSelector_{nullptr};
 
     class LineNumberArea : public QWidget
     {

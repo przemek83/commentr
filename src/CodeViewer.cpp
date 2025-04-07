@@ -27,8 +27,6 @@ CodeViewer::CodeViewer(QWidget* parent)
 
     initVisualPointers();
 
-    // viewport()->installEventFilter(new CursorEater(viewport()));
-
     QFont font;
     font.setFamily(QStringLiteral("Courier"));
     setFont(font);
@@ -68,9 +66,8 @@ CodeViewer::~CodeViewer() { delete cursorPointer_; }
 
 void CodeViewer::grabGestures()
 {
-    // Do not grab tap and trap and hold as in new Qt it seems stock behaviour
-    // is working. viewport()->grabGesture(Qt::TapGesture);
-    // viewport()->grabGesture(Qt::TapAndHoldGesture);
+    // Do not grab tap and tap and hold as in new Qt it seems stock behaviour
+    // is working.
     viewport()->grabGesture(Qt::PinchGesture);
 
     QGestureRecognizer::unregisterRecognizer(Qt::PanGesture);
@@ -133,33 +130,6 @@ void CodeViewer::cursorPosHasChanged()
 
 bool CodeViewer::event(QEvent* event)
 {
-    // Code from QPlainTextEdit for pan gesture.
-    //     if (e->type() == QEvent::Gesture)
-    //     {
-    //         QGestureEvent *ge = static_cast<QGestureEvent *>(e);
-    //         QPanGesture *g = static_cast<QPanGesture
-    //         *>(ge->gesture(Qt::PanGesture)); if (g)
-    //         {
-    //             QScrollBar *hBar = horizontalScrollBar();
-    //             QScrollBar *vBar = verticalScrollBar();
-    //             if (g->state() == Qt::GestureStarted)
-    //                 d->originalOffsetY = vBar->value();
-    //             QPointF offset = g->offset();
-    //             if (!offset.isNull())
-    //             {
-    //                 if (QApplication::isRightToLeft())
-    //                     offset.rx() *= -1;
-    //                 // QPlainTextEdit scrolls by lines only in vertical
-    //                 direction QFontMetrics fm(document()->defaultFont()); int
-    //                 lineHeight = fm.height(); int newX = hBar->value() -
-    //                 g->delta().x(); int newY = d->originalOffsetY -
-    //                 offset.y()/lineHeight; hBar->setValue(newX);
-    //                 vBar->setValue(newY);
-    //             }
-    //         }
-    //         return true;
-    //     }
-
     if (event->type() == QEvent::Gesture)
     {
         auto* gestureEvent{dynamic_cast<QGestureEvent*>(event)};
@@ -268,27 +238,6 @@ void CodeViewer::pointerMoved(QPoint pos)
     }
 }
 
-////Temporary for desktops debug.
-// void CodeViewer::mouseReleaseEvent(QMouseEvent* event)
-//{
-//     qDebug() << "mouseReleaseEvent" << event->pos();
-
-//    if( true == ignoreNextTapGesture_ )
-//    {
-//        ignoreNextTapGesture_ = false;
-//        return;
-//    }
-
-//    QTextCursor cursor =
-//        cursorForPosition(event->pos());
-//    setTextCursor(cursor);
-
-//    if( 0 != document()->characterCount() )
-//    {
-//        setVisibleCursorPointer(true);
-//    }
-//}
-
 void CodeViewer::focusOutEvent(QFocusEvent* e)
 {
     cursorShownBeforeFocusLost_ = cursorPointer_->isVisible();
@@ -379,12 +328,6 @@ bool CodeViewer::manageTapAndHoldGesture(QTapAndHoldGesture* gesture)
         return true;
     }
 
-    // Needed?
-    //     if( true == Config::getInstance().keyboardAfterTap() )
-    //     {
-    //         QGuiApplication::inputMethod()->show();
-    //     }
-
     return false;
 }
 
@@ -410,52 +353,6 @@ void CodeViewer::updateVisualPointersPositions()
         }
     }
 }
-
-/*void CodeViewer::scrollToSelection()
-{
-    int numberOfBlocks = blockCount();
-    QTextBlock block = firstVisibleBlock();
-    int firstVisibleBlockNumber = block.blockNumber();
-    int currentBlockNumber = firstVisibleBlockNumber;
-    int top =
-        qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
-    int bottom = top + qRound(blockBoundingRect(block).height());
-    int cursorBlockNumber = textCursor().blockNumber();
-    int cursorDx = 0;
-    int twoLinesUpDx = 0;
-    int beforeLastVisibleDx = 0;
-    int lastVisibleDx = 0;
-    while( block.isValid() && top <= contentsRect().bottom() )
-    {
-        block = block.next();
-        if( cursorBlockNumber == block.blockNumber() )
-        {
-            cursorDx = bottom;
-        }
-        top = bottom;
-        twoLinesUpDx = beforeLastVisibleDx;
-        beforeLastVisibleDx = lastVisibleDx;
-        lastVisibleDx = top;
-        bottom = top + qRound(blockBoundingRect(block).height());
-        ++currentBlockNumber;
-    }
-
-    int lastVisibleBlockNumber = currentBlockNumber;
-
-    int numberOfBlocksVisible = lastVisibleBlockNumber -
-firstVisibleBlockNumber;
-
-    qDebug() << __FUNCTION__ << "count" << numberOfBlocks << "first" <<
-                firstVisibleBlockNumber << "last" << lastVisibleBlockNumber <<
-                "cursor" << cursorBlockNumber << "visible" <<
-numberOfBlocksVisible << "cursorDx" << cursorDx << "lastVisibleDx" <<
-lastVisibleDx << "diff" << cursorDx - twoLinesUpDx;
-
-    scroll(0, cursorDx - twoLinesUpDx);
-    //ensureCursorVisible();
-    ensureCursorVisible();
-    qDebug() << viewport();
-}*/
 
 void CodeViewer::matchPointerToCursorPosition()
 {
@@ -637,8 +534,6 @@ void CodeViewer::keyPressEvent(QKeyEvent* e)
 
         QPlainTextEdit::keyPressEvent(e);
         insertPlainText(line.left(line.indexOf(QRegularExpression("\\S"))));
-        //        e->accept();
-        //        repaint();
         return;
     }
 

@@ -29,7 +29,6 @@ public:
     void updateVisualPointersPositions();
 
 protected:
-    //    virtual void mouseReleaseEvent(QMouseEvent* event);
 
     void resizeEvent(QResizeEvent* event) override;
 
@@ -147,8 +146,6 @@ private slots:
      * @brief React when cursor position in editor was changed.
      */
     void cursorPosHasChanged();
-
-    //    void virtualKeyboardShown();
 };
 
 #endif  // CODEVIEWER_H

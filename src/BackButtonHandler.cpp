@@ -20,6 +20,5 @@ bool BackButtonHandler::eventFilter(QObject* watched, QEvent* event)
         }
     }
 
-    // standard event processing
     return QObject::eventFilter(watched, event);
 }

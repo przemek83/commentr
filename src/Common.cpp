@@ -12,9 +12,6 @@ const int Common::timerFireInterval_ = 200;
 
 const int Common::maxRecentFiles_ = 7;
 
-Common::Common() {}
-
-Common::~Common() {}
 const QString Common::rootPath()
 {
     const QStringList potentialPaths{QStandardPaths::standardLocations(

@@ -28,22 +28,18 @@ public:
 
     static QWidget* getMainWindow(QObject* startObject);
 
-    static void centerWidget(QObject* hierarchyObject,
-                                     QWidget* widgetToCenter);
+    static void centerWidget(QObject* hierarchyObject, QWidget* widgetToCenter);
 
     static int getMaxRecentFiles();
 
     static float normalizeFont(float fontSize);
 
 private:
-    Common();
-    virtual ~Common();
-    Common(const Common &);
-    Common &operator=(const Common &);
+    Common() = default;
 
     static const int timerFireInterval_;
 
     const static int maxRecentFiles_;
 };
 
-#endif // COMMON_H
+#endif  // COMMON_H

@@ -29,11 +29,11 @@ private:
 
     void setupLineEdits();
 
-    EnhancedLineEdit* hostLineEdit_;
+    EnhancedLineEdit* hostLineEdit_{nullptr};
 
-    EnhancedLineEdit* loginLineEdit_;
+    EnhancedLineEdit* loginLineEdit_{nullptr};
 
-    EnhancedLineEdit* passwordLineEdit_;
+    EnhancedLineEdit* passwordLineEdit_{nullptr};
 
 signals:
     void accept();

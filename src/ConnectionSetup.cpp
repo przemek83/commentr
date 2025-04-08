@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QMessageBox>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
@@ -11,11 +10,7 @@
 #include "ui_ConnectionSetup.h"
 
 ConnectionSetup::ConnectionSetup(QWidget* parent)
-    : QWidget(parent),
-      ui(new Ui::ConnectionSetup),
-      hostLineEdit_(nullptr),
-      loginLineEdit_(nullptr),
-      passwordLineEdit_(nullptr)
+    : QWidget(parent), ui(new Ui::ConnectionSetup)
 {
     ui->setupUi(this);
 
@@ -37,6 +32,7 @@ void ConnectionSetup::setVisible(bool visible)
     loginLineEdit_->setText(instance.ftpLogin());
     passwordLineEdit_->setText(instance.ftpPassword());
 
+    // Uncomment to set default values for testing.
     //    hostLineEdit_->setText("test.rebex.net");
     //    loginLineEdit_->setText("demo");
     //    passwordLineEdit_->setText("password");
@@ -71,14 +67,10 @@ void ConnectionSetup::on_okButton_clicked()
     instance.setFtpLogin(loginLineEdit_->text());
 
     bool savePasswordChecked = ui->saveInfoCheckBox->isChecked();
-    if (true == savePasswordChecked)
-    {
+    if (savePasswordChecked)
         instance.setFtpPassword(passwordLineEdit_->text());
-    }
     else
-    {
         instance.setFtpPassword("");
-    }
 
     Config::getInstance().setSaveFtpPassword(savePasswordChecked);
 
@@ -101,25 +93,21 @@ void ConnectionSetup::on_checkButton_clicked()
 void ConnectionSetup::checkFinished(bool result)
 {
     sender()->deleteLater();
-    if (true == result)
-    {
+    if (result)
         QMessageBox::information(this, "FTP", "Connection OK.");
-    }
 
     ui->checkButton->setEnabled(true);
 }
 
 void ConnectionSetup::on_saveInfoCheckBox_toggled(bool checked)
 {
-    if (true == checked)
+    if (checked)
     {
         QString msg = tr("Password will be saved as plain text. Save?");
         QMessageBox::StandardButton answer =
             QMessageBox::question(this, tr("Confirm"), msg);
 
         if (QMessageBox::No == answer)
-        {
             ui->saveInfoCheckBox->setChecked(false);
-        }
     }
 }

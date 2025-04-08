@@ -84,19 +84,14 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
 EditorTabPage::~EditorTabPage()
 {
     delete ui;
-
-    if (file_ != nullptr)
-    {
-        delete file_;
-    }
+    delete file_;
 }
 
 void EditorTabPage::keyPressEvent(QKeyEvent* event)
 {
-    if (true == event->matches(QKeySequence::Find))
-    {
+    if (event->matches(QKeySequence::Find))
         flipFindVisibility();
-    }
+
     QWidget::keyPressEvent(event);
 }
 
@@ -105,35 +100,27 @@ EditorTabPage::EditorMode EditorTabPage::mode() const { return mode_; }
 void EditorTabPage::setMode(const EditorMode& mode)
 {
     if (mode == mode_)
-    {
         return;
-    }
 
     mode_ = mode;
 
-    QList<QSyntaxHighlighter*> highlighters =
-        findChildren<QSyntaxHighlighter*>();
+    QList<QSyntaxHighlighter*> highlighters{
+        findChildren<QSyntaxHighlighter*>()};
     foreach (QSyntaxHighlighter* highlighter, highlighters)
-    {
         delete highlighter;
-    }
 
-    Highlighter* highlighter = getHighlighterForEditorMode(mode);
+    Highlighter* highlighter{getHighlighterForEditorMode(mode)};
 
     if (highlighter != nullptr)
-    {
         highlighter->setDocument(codeViewer_->document());
-    }
 }
 
 void EditorTabPage::flipFindVisibility()
 {
     ui->findWidget->setVisible(!ui->findWidget->isVisible());
 
-    if (true == ui->findWidget->isVisible())
-    {
+    if (ui->findWidget->isVisible())
         ui->searchLineEdit->setFocus();
-    }
 }
 
 // 16.4.2018 Needed?
@@ -147,61 +134,47 @@ void EditorTabPage::zoom(bool in)
 void EditorTabPage::searchNext()
 {
     QTextDocument::FindFlags flags;
-    if (false == ui->ignoreCase->isChecked())
-    {
+    if (!ui->ignoreCase->isChecked())
         flags |= QTextDocument::FindCaseSensitively;
-    }
 
-    bool found = codeViewer_->find(ui->searchLineEdit->text(), flags);
+    const bool found{codeViewer_->find(ui->searchLineEdit->text(), flags)};
 
-    if (false == found)
+    if (!found)
     {
         codeViewer_->moveCursor(QTextCursor::Start);
         codeViewer_->find(ui->searchLineEdit->text(), flags);
     }
-    /*else
-    {
-        codeViewer_->scrollToSelection();
-    }*/
 }
 
 void EditorTabPage::searchPrev()
 {
     QTextDocument::FindFlags flags = QTextDocument::FindBackward;
-    if (false == ui->ignoreCase->isChecked())
+    if (!ui->ignoreCase->isChecked())
     {
         flags |= QTextDocument::FindCaseSensitively;
     }
 
-    bool found = codeViewer_->find(ui->searchLineEdit->text(), flags);
-    if (false == found)
+    const bool found{codeViewer_->find(ui->searchLineEdit->text(), flags)};
+    if (!found)
     {
         codeViewer_->moveCursor(QTextCursor::End);
         codeViewer_->find(ui->searchLineEdit->text(), flags);
     }
-    /*else
-    {
-        codeViewer_->scrollToSelection();
-    }*/
 }
 
 void EditorTabPage::searchStringChanged(QString /*string*/)
 {
-    //    qDebug() << "Window" << parentWidget()->geometry() <<
-    //    mapToGlobal(QPoint(0,0));
-
     QTextCursor cursor = codeViewer_->textCursor();
     cursor.setPosition(cursor.anchor());
     codeViewer_->setTextCursor(cursor);
     searchNext();
-    // codeViewer_->scrollToSelection();
 }
 
-bool EditorTabPage::undoAvailable() { return undoAvailable_; }
+bool EditorTabPage::undoAvailable() const { return undoAvailable_; }
 
-bool EditorTabPage::redoAvailable() { return redoAvailable_; }
+bool EditorTabPage::redoAvailable() const { return redoAvailable_; }
 
-bool EditorTabPage::selectionEmpty() { return selectionEmpty_; }
+bool EditorTabPage::selectionEmpty() const { return selectionEmpty_; }
 
 void EditorTabPage::redoAvailabilityChanged(bool available)
 {
@@ -236,14 +209,10 @@ void EditorTabPage::paste() { codeViewer_->paste(); }
 
 void EditorTabPage::setLineWrap(bool wrap)
 {
-    if (true == wrap)
-    {
+    if (wrap)
         codeViewer_->setLineWrapMode(QPlainTextEdit::WidgetWidth);
-    }
     else
-    {
         codeViewer_->setLineWrapMode(QPlainTextEdit::NoWrap);
-    }
 }
 
 void EditorTabPage::changeFile(File* file)
@@ -332,50 +301,32 @@ File* EditorTabPage::getCurrentFileCopy()
 EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(QString suffix)
 {
     if (suffix == "java")
-    {
         return EditorTabPage::EDITOR_MODE_JAVA;
-    }
 
     if (suffix == "c" || suffix == "cpp" || suffix == "h" || suffix == "hpp" ||
         suffix == "cc" || suffix == "cxx" || suffix == "c++" || suffix == "moc")
-    {
         return EditorTabPage::EDITOR_MODE_C_CPP;
-    }
 
     if (suffix == "m")
-    {
         return EditorTabPage::EDITOR_MODE_OBJECTIVE_C;
-    }
 
     if (suffix == "cs")
-    {
         return EditorTabPage::EDITOR_MODE_C_SHARP;
-    }
 
     if (suffix == "php")
-    {
         return EditorTabPage::EDITOR_MODE_PHP;
-    }
 
     if (suffix == "bas" || suffix == "cls" || suffix == "vb")
-    {
         return EditorTabPage::EDITOR_MODE_VISUAL_BASIC;
-    }
 
     if (suffix == "py")
-    {
         return EditorTabPage::EDITOR_MODE_PYTHON;
-    }
 
     if (suffix == "sql")
-    {
         return EditorTabPage::EDITOR_MODE_SQL;
-    }
 
     if (suffix == "js")
-    {
         return EditorTabPage::EDITOR_MODE_JAVASCRIPT;
-    }
 
     return EditorTabPage::EDITOR_MODE_PLAIN_TEXT;
 }

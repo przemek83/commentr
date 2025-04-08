@@ -38,15 +38,15 @@ public:
 
     void zoom(bool in);
 
-    bool undoAvailable();
+    bool undoAvailable() const;
 
-    bool redoAvailable();
+    bool redoAvailable() const;
 
     void redo();
 
     void undo();
 
-    bool selectionEmpty();
+    bool selectionEmpty() const;
 
     void copy();
 

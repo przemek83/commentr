@@ -33,8 +33,6 @@ EnhancedLineEdit::EnhancedLineEdit(QWidget* parent)
     setSizePolicy(sizePolicy);
 }
 
-EnhancedLineEdit::~EnhancedLineEdit() {}
-
 bool EnhancedLineEdit::event(QEvent* event)
 {
     if (event->type() == QEvent::MouseMove)
@@ -48,7 +46,7 @@ bool EnhancedLineEdit::event(QEvent* event)
 
 void EnhancedLineEdit::mouseReleaseEvent(QMouseEvent* e)
 {
-    if (false == text().isEmpty() && false == isReadOnly())
+    if (!text().isEmpty() && !isReadOnly())
     {
         cursorPointer_->show();
         cursorPointer_->raise();
@@ -67,9 +65,7 @@ QWidget* EnhancedLineEdit::getMainWindow()
 {
     QWidget* widget = this;
     while (widget->parentWidget() != nullptr)
-    {
         widget = widget->parentWidget();
-    }
 
     return widget;
 }
@@ -152,7 +148,6 @@ void EnhancedLineEdit::changeEvent(QEvent* event)
     if (QEvent::StyleChange == event->type())
     {
         updateMarginSize();
-
         resetPointerRange();
     }
 }

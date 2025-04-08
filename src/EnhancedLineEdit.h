@@ -12,8 +12,6 @@ class EnhancedLineEdit : public QLineEdit
 public:
     explicit EnhancedLineEdit(QWidget* parent = 0);
 
-    ~EnhancedLineEdit() override;
-
 protected:
     void mouseReleaseEvent(QMouseEvent* e) override;
 
@@ -43,7 +41,7 @@ private:
 
     int rightTextMargin_;
 
-    /// Magic number built in QT impacting text position.
+    /// Magic number built in Qt impacting text position.
     int builtInTextMargin_;
 
     void updateMarginSize();

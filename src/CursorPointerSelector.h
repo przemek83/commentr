@@ -16,8 +16,6 @@ public:
     explicit CursorPointerSelector(CursorDirection direction,
                                    QWidget* parent = 0);
 
-    ~CursorPointerSelector() override;
-
     void moveVisualPointer(int x, int y) override;
 
 protected:

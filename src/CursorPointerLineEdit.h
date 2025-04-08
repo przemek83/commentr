@@ -9,8 +9,6 @@ class CursorPointerLineEdit : public CursorPointer
 public:
     explicit CursorPointerLineEdit(int addLeftMargin, QWidget* parent = 0);
 
-    ~CursorPointerLineEdit() override;
-
     void moveVisualPointer(int x, int y) override;
 
     void setScrollingNeeded(bool scrollingNeeded);

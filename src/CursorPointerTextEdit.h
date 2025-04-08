@@ -9,8 +9,6 @@ class CursorPointerTextEdit : public CursorPointer
 public:
     explicit CursorPointerTextEdit(QWidget* parent = 0);
 
-    ~CursorPointerTextEdit() override;
-
     void moveVisualPointer(int x, int y) override;
 
 protected:

@@ -1,14 +1,14 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <QTabWidget>
 #include <QObject>
+#include <QTabWidget>
 
 class QSettings;
 
 class Config : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     static Config& getInstance();
@@ -17,10 +17,10 @@ public:
     void setTabPosition(QTabWidget::TabPosition position);
 
     float uiSize() const;
-    void setUiSize(const float &uiSize);
+    void setUiSize(const float& uiSize);
 
     QString style() const;
-    void setStyle(const QString &style);
+    void setStyle(const QString& style);
 
     bool toolbarFileAdded() const;
     void setToolbarFileAdded(bool toolbarFileAdded);
@@ -52,7 +52,7 @@ public:
     void setShowToolbar(bool showToolbar);
 
     Qt::ToolBarArea toolbarArea() const;
-    void setToolbarArea(const Qt::ToolBarArea &toolbarArea);
+    void setToolbarArea(const Qt::ToolBarArea& toolbarArea);
 
     float fontSize() const;
     void setFontSize(float fontSize);
@@ -64,16 +64,16 @@ public:
     void setToolbarKeyboardAdded(bool toolbarKeyboardAdded);
 
     QString lastPickedDir() const;
-    void setLastPickedDir(const QString &lastPickedDir);
+    void setLastPickedDir(const QString& lastPickedDir);
 
     QString ftpHost() const;
     void setFtpHost(const QString& ftpHost);
 
     QString ftpLogin() const;
-    void setFtpLogin(const QString &ftpLogin);
+    void setFtpLogin(const QString& ftpLogin);
 
     QString ftpPassword() const;
-    void setFtpPassword(const QString &ftpPassword);
+    void setFtpPassword(const QString& ftpPassword);
 
     bool saveFtpPassword() const;
     void setSaveFtpPassword(bool saveFtpPassword);
@@ -83,15 +83,14 @@ public:
 
 private:
     Config();
-    ~Config() override;
     Q_DISABLE_COPY(Config)
 
     void load();
 
-    ///Names used.
+    /// Names used.
     const static char* configNames_[];
 
-    ///Enum used for names.
+    /// Enum used for names.
     enum ConfigNames
     {
         CONFIG_TABS_POSITION = 0,
@@ -150,7 +149,7 @@ private:
 
     float fontSize_;
 
-    //If true one column list view in file browser, if false multi column view.
+    // If true one column list view in file browser, if false multi column view.
     bool listViewInBrowser_;
 
     bool keyboardAfterTap_;
@@ -171,4 +170,4 @@ private slots:
     void save();
 };
 
-#endif // CONFIG_H
+#endif  // CONFIG_H

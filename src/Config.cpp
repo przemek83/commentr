@@ -1,52 +1,26 @@
+#include <QApplication>
+#include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QScreen>
+#include <QSettings>
 #include <QString>
 #include <QtXml/QDomDocument>
-#include <QFile>
-#include <QDir>
-#include <QDebug>
-#include <QApplication>
-#include <QSettings>
-#include <QScreen>
-//#include <QDesktopWidget>
 
-#include "Config.h"
 #include "Common.h"
+#include "Config.h"
 
-const char* Config::configNames_[] =
-{
-    "tabsPosition",
-    "uiSize",
-    "style",
-    "toolbar/file",
-    "toolbar/undoRedo",
-    "toolbar/copyPasteCut",
-    "toolbar/zoom",
-    "toolbar/search",
-    "toolbar/keyboard",
-    "checkSpelling",
-    "lineWrap",
-    "firstUse",
-    "showtoolbar",
-    "toolbarposition",
-    "fontsize",
-    "listViewInBrowser",
-    "lastdir",
-    "ftpHost",
-    "ftpLogin",
-    "ftpPassword",
-    "saveftppassword",
-    "recentFileList"
-};
+const char* Config::configNames_[] = {
+    "tabsPosition",      "uiSize",           "style",
+    "toolbar/file",      "toolbar/undoRedo", "toolbar/copyPasteCut",
+    "toolbar/zoom",      "toolbar/search",   "toolbar/keyboard",
+    "checkSpelling",     "lineWrap",         "firstUse",
+    "showtoolbar",       "toolbarposition",  "fontsize",
+    "listViewInBrowser", "lastdir",          "ftpHost",
+    "ftpLogin",          "ftpPassword",      "saveftppassword",
+    "recentFileList"};
 
-Config::Config() :
-    QObject()
-{
-    load();
-}
-
-Config::~Config()
-{
-
-}
+Config::Config() { load(); }
 
 Config& Config::getInstance()
 {
@@ -62,7 +36,8 @@ void Config::save()
     setValue(settings, CONFIG_STYLE, style_);
     setValue(settings, CONFIG_TOOLBAR_FILE, toolbarFileAdded_);
     setValue(settings, CONFIG_TOOLBAR_UNDO_REDO, toolbarUndoRedoAdded_);
-    setValue(settings, CONFIG_TOOLBAR_COPY_PASTE_CUT, toolbarCopyPasteCutAdded_);
+    setValue(settings, CONFIG_TOOLBAR_COPY_PASTE_CUT,
+             toolbarCopyPasteCutAdded_);
     setValue(settings, CONFIG_TOOLBAR_ZOOM, toolbarZoomAdded_);
     setValue(settings, CONFIG_TOOLBAR_SEARCH, toolbarSearchAdded_);
     setValue(settings, CONFIG_TOOLBAR_KEYBOARD, toolbarKeyboardAdded_);
@@ -107,7 +82,8 @@ void Config::load()
     toolbarUndoRedoAdded_ = settings.value(fieldName, QVariant(true)).toBool();
 
     fieldName = configNames_[CONFIG_TOOLBAR_COPY_PASTE_CUT];
-    toolbarCopyPasteCutAdded_ = settings.value(fieldName, QVariant(true)).toBool();
+    toolbarCopyPasteCutAdded_ =
+        settings.value(fieldName, QVariant(true)).toBool();
 
     fieldName = configNames_[CONFIG_TOOLBAR_ZOOM];
     toolbarZoomAdded_ = settings.value(fieldName, QVariant(false)).toBool();
@@ -132,8 +108,9 @@ void Config::load()
 
     fieldName = configNames_[CONFIG_TOOLBAR_POSITION];
     int toolbarPosition =
-        settings.value(fieldName,
-                       QVariant(static_cast<int>(Qt::TopToolBarArea))).toInt();
+        settings
+            .value(fieldName, QVariant(static_cast<int>(Qt::TopToolBarArea)))
+            .toInt();
     toolbarArea_ = static_cast<Qt::ToolBarArea>(toolbarPosition);
 
     fieldName = configNames_[CONFIG_FONT_SIZE];
@@ -158,20 +135,18 @@ void Config::load()
     saveFtpPassword_ = settings.value(fieldName, QVariant(false)).toBool();
 
     fieldName = configNames_[CONFIG_RECENT_FILES];
-    recentFiles_ = settings.value(fieldName, QVariant(QStringList())).toStringList();
+    recentFiles_ =
+        settings.value(fieldName, QVariant(QStringList())).toStringList();
 }
 
-const QStringList& Config::getRecentFiles() const
-{
-    return recentFiles_;
-}
+const QStringList& Config::getRecentFiles() const { return recentFiles_; }
 
 void Config::addFilePathToRecentFiles(const QString& filePath)
 {
     static const int maxRecentFiles = Common::getMaxRecentFiles();
     if (recentFiles_.contains(filePath) == false)
     {
-        if(recentFiles_.size() >= maxRecentFiles)
+        if (recentFiles_.size() >= maxRecentFiles)
         {
             recentFiles_.removeLast();
         }
@@ -179,157 +154,100 @@ void Config::addFilePathToRecentFiles(const QString& filePath)
     }
 }
 
-bool Config::saveFtpPassword() const
-{
-    return saveFtpPassword_;
-}
+bool Config::saveFtpPassword() const { return saveFtpPassword_; }
 
 void Config::setSaveFtpPassword(bool saveFtpPassword)
 {
     saveFtpPassword_ = saveFtpPassword;
 }
 
-
 QString Config::ftpHost() const
 {
-    return ftpHost_;//"mirror.one.com";
+    // Example ftpHost: "mirror.one.com"
+    return ftpHost_;
 }
 
-void Config::setFtpHost(const QString& ftpHost)
-{
-    ftpHost_ = ftpHost;
-}
+void Config::setFtpHost(const QString& ftpHost) { ftpHost_ = ftpHost; }
 
-QString Config::ftpPassword() const
-{
-    return ftpPassword_;
-}
+QString Config::ftpPassword() const { return ftpPassword_; }
 
-void Config::setFtpPassword(const QString &ftpPassword)
+void Config::setFtpPassword(const QString& ftpPassword)
 {
     ftpPassword_ = ftpPassword;
 }
 
 QString Config::ftpLogin() const
 {
-    return ftpLogin_;//"anonymous";
+    // Example ftpLogin: "anonymous"
+    return ftpLogin_;
 }
 
-void Config::setFtpLogin(const QString &ftpLogin)
-{
-    ftpLogin_ = ftpLogin;
-}
+void Config::setFtpLogin(const QString& ftpLogin) { ftpLogin_ = ftpLogin; }
 
-QString Config::lastPickedDir() const
-{
-    return lastPickedDir_;
-}
+QString Config::lastPickedDir() const { return lastPickedDir_; }
 
-void Config::setLastPickedDir(const QString &lastPickedDir)
+void Config::setLastPickedDir(const QString& lastPickedDir)
 {
     lastPickedDir_ = lastPickedDir;
 }
 
-bool Config::toolbarKeyboardAdded() const
-{
-    return toolbarKeyboardAdded_;
-}
+bool Config::toolbarKeyboardAdded() const { return toolbarKeyboardAdded_; }
 
 void Config::setToolbarKeyboardAdded(bool toolbarKeyboardAdded)
 {
     toolbarKeyboardAdded_ = toolbarKeyboardAdded;
 }
 
-
-bool Config::listViewInBrowser() const
-{
-    return listViewInBrowser_;
-}
+bool Config::listViewInBrowser() const { return listViewInBrowser_; }
 
 void Config::setListViewInBrowser(bool listViewInBrowser)
 {
     listViewInBrowser_ = listViewInBrowser;
 }
 
-void Config::setDefaultFont()
-{
-    fontSize_ = QApplication::font().pointSizeF();
-}
+void Config::setDefaultFont() { fontSize_ = QApplication::font().pointSizeF(); }
 
-float Config::fontSize() const
-{
-    return fontSize_;
-}
+float Config::fontSize() const { return fontSize_; }
 
 void Config::setFontSize(float fontSize)
 {
     fontSize_ = Common::normalizeFont(fontSize);
 }
 
-Qt::ToolBarArea Config::toolbarArea() const
-{
-    return toolbarArea_;
-}
+Qt::ToolBarArea Config::toolbarArea() const { return toolbarArea_; }
 
-void Config::setToolbarArea(const Qt::ToolBarArea &toolbarArea)
+void Config::setToolbarArea(const Qt::ToolBarArea& toolbarArea)
 {
     toolbarArea_ = toolbarArea;
 }
 
-bool Config::showToolbar() const
-{
-    return showToolbar_;
-}
+bool Config::showToolbar() const { return showToolbar_; }
 
-void Config::setShowToolbar(bool showToolbar)
-{
-    showToolbar_ = showToolbar;
-}
+void Config::setShowToolbar(bool showToolbar) { showToolbar_ = showToolbar; }
 
-bool Config::firstUse() const
-{
-    return firstUse_;
-}
+bool Config::firstUse() const { return firstUse_; }
 
-void Config::setFirstUse(bool firstUse)
-{
-    firstUse_ = firstUse;
-}
+void Config::setFirstUse(bool firstUse) { firstUse_ = firstUse; }
 
-bool Config::lineWrap() const
-{
-    return lineWrap_;
-}
+bool Config::lineWrap() const { return lineWrap_; }
 
-void Config::setLineWrap(bool lineWrap)
-{
-    lineWrap_ = lineWrap;
-}
+void Config::setLineWrap(bool lineWrap) { lineWrap_ = lineWrap; }
 
-bool Config::checkSpelling() const
-{
-    return checkSpelling_;
-}
+bool Config::checkSpelling() const { return checkSpelling_; }
 
 void Config::setCheckSpelling(bool checkSpelling)
 {
     checkSpelling_ = checkSpelling;
 }
 
-bool Config::toolbarSearchAdded() const
-{
-    return toolbarSearchAdded_;
-}
+bool Config::toolbarSearchAdded() const { return toolbarSearchAdded_; }
 
 void Config::setToolbarSearchAdded(bool toolbarSearchAdded)
 {
     toolbarSearchAdded_ = toolbarSearchAdded;
 }
 
-bool Config::toolbarZoomAdded() const
-{
-    return toolbarZoomAdded_;
-}
+bool Config::toolbarZoomAdded() const { return toolbarZoomAdded_; }
 
 void Config::setToolbarZoomAdded(bool toolbarZoomAdded)
 {
@@ -346,50 +264,29 @@ void Config::setToolbarCopyPasteCutAdded(bool toolbarCopyPasteCutAdded)
     toolbarCopyPasteCutAdded_ = toolbarCopyPasteCutAdded;
 }
 
-bool Config::toolbarUndoRedoAdded() const
-{
-    return toolbarUndoRedoAdded_;
-}
+bool Config::toolbarUndoRedoAdded() const { return toolbarUndoRedoAdded_; }
 
 void Config::setToolbarUndoRedoAdded(bool toolbarUndoRedoAdded)
 {
     toolbarUndoRedoAdded_ = toolbarUndoRedoAdded;
 }
 
-bool Config::toolbarFileAdded() const
-{
-    return toolbarFileAdded_;
-}
+bool Config::toolbarFileAdded() const { return toolbarFileAdded_; }
 
 void Config::setToolbarFileAdded(bool toolbarFileAdded)
 {
     toolbarFileAdded_ = toolbarFileAdded;
 }
 
-QString Config::style() const
-{
-    return style_;
-}
+QString Config::style() const { return style_; }
 
-void Config::setStyle(const QString &style)
-{
-    style_ = style;
-}
+void Config::setStyle(const QString& style) { style_ = style; }
 
-float Config::uiSize() const
-{
-    return uiSize_;
-}
+float Config::uiSize() const { return uiSize_; }
 
-void Config::setUiSize(const float& uiSize)
-{
-    uiSize_ = uiSize;
-}
+void Config::setUiSize(const float& uiSize) { uiSize_ = uiSize; }
 
-QTabWidget::TabPosition Config::getTabPosition() const
-{
-    return tabsPosition_;
-}
+QTabWidget::TabPosition Config::getTabPosition() const { return tabsPosition_; }
 
 void Config::setTabPosition(QTabWidget::TabPosition position)
 {

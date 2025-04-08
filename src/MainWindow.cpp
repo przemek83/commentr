@@ -629,8 +629,8 @@ void MainWindow::on_actionCopy_triggered()
 
 void MainWindow::on_actionCut_triggered()
 {
-    EditorTabPage* currentTab =
-        static_cast<EditorTabPage*>(ui->tabWidget->currentWidget());
+    auto* currentTab{
+        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
     {
@@ -641,13 +641,11 @@ void MainWindow::on_actionCut_triggered()
 
 void MainWindow::on_actionPaste_triggered()
 {
-    EditorTabPage* currentTab =
-        static_cast<EditorTabPage*>(ui->tabWidget->currentWidget());
+    auto* currentTab{
+        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
-    {
         currentTab->paste();
-    }
 }
 
 void MainWindow::on_actionTabsWest_triggered()
@@ -675,13 +673,11 @@ void MainWindow::changeTabPosition(QTabWidget::TabPosition position)
     ui->tabWidget->setTabPosition(position);
     Config::getInstance().setTabPosition(position);
 
-    EditorTabPage* currentTab =
-        static_cast<EditorTabPage*>(ui->tabWidget->currentWidget());
+    auto* currentTab{
+        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
-    {
         currentTab->refreshVisualIndicators();
-    }
 }
 
 void MainWindow::on_actionOpen_file_triggered()
@@ -698,22 +694,18 @@ void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
 {
     setAvailableFunctionalitiesForMainWindow(false);
 
-    BrowseFilesWidget* browseFilesWidget =
-        new BrowseFilesWidget(openFileMode, ui->stackedWidget);
+    auto* browseFilesWidget{
+        new BrowseFilesWidget(openFileMode, ui->stackedWidget)};
 
     connect(browseFilesWidget, SIGNAL(cancelAction()), this,
             SLOT(showMainPage()));
 
-    if (true == openFileMode)
-    {
+    if (openFileMode)
         connect(browseFilesWidget, SIGNAL(filePrepared(File*)), this,
                 SLOT(createNewTab(File*)));
-    }
     else
-    {
         connect(browseFilesWidget, SIGNAL(filePrepared(File*)), this,
                 SLOT(saveFileFromTab(File*)));
-    }
 
     connect(browseFilesWidget, SIGNAL(configureFtpConnection()), this,
             SLOT(on_actionConnection_setup_triggered()));
@@ -807,30 +799,26 @@ void MainWindow::on_actionCheck_spelling_in_comments_triggered(bool checked)
 
     Highlighter::setSpellChecking(checked);
 
-    QList<Highlighter*> highlighters = findChildren<Highlighter*>();
+    QList<Highlighter*> highlighters{findChildren<Highlighter*>()};
     foreach (Highlighter* highlighter, highlighters)
-    {
         highlighter->rehighlight();
-    }
 }
 
 void MainWindow::on_actionLine_wrap_triggered(bool checked)
 {
     Config::getInstance().setLineWrap(checked);
 
-    QList<EditorTabPage*> pages = ui->tabWidget->findChildren<EditorTabPage*>();
+    QList<EditorTabPage*> pages{ui->tabWidget->findChildren<EditorTabPage*>()};
     foreach (EditorTabPage* page, pages)
-    {
         page->setLineWrap(checked);
-    }
 }
 
 void MainWindow::on_actionExit_triggered()
 {
-    QMessageBox::StandardButton answer =
-        QMessageBox::question(this, tr("Quit"), tr("Quit CommentR?"));
+    QMessageBox::StandardButton answer{
+        QMessageBox::question(this, tr("Quit"), tr("Quit CommentR?"))};
 
-    if (QMessageBox::No == answer)
+    if (answer == QMessageBox::No)
         return;
 
     QCoreApplication::quit();
@@ -838,12 +826,12 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionSave_file_triggered()
 {
-    EditorTabPage* currentTab =
-        static_cast<EditorTabPage*>(ui->tabWidget->currentWidget());
+    auto* currentTab{
+        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
     {
-        File* file = currentTab->getCurrentFileCopy();
+        File* file{currentTab->getCurrentFileCopy()};
         switch (file->source())
         {
             case Common::SOURCE_NOT_SET:
@@ -885,13 +873,11 @@ void MainWindow::on_actionShowToolbar_triggered(bool checked)
 
 void MainWindow::changeModeForCurrentTab(EditorTabPage::EditorMode mode)
 {
-    EditorTabPage* currentTab =
-        static_cast<EditorTabPage*>(ui->tabWidget->currentWidget());
+    auto* currentTab{
+        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
-    {
         currentTab->setMode(mode);
-    }
 }
 
 void MainWindow::setProperLangActionForMode(EditorTabPage::EditorMode mode)
@@ -1043,26 +1029,26 @@ void MainWindow::on_actionNew_triggered()
 {
     showMainPage();
 
-    File* file = new File(Common::SOURCE_NOT_SET, "",
-                          tr("File") + QString::number(++newFileCounter_), "",
-                          new QString(""));
+    File* file{new File(Common::SOURCE_NOT_SET, "",
+                        tr("File") + QString::number(++newFileCounter_), "",
+                        new QString(""))};
 
     createNewTab(file);
 }
 
 void MainWindow::on_actionAbout_triggered()
 {
-    File* file = new File(Common::SOURCE_NOT_SET, "",
-                          "About " + QCoreApplication::applicationName(), "",
-                          new QString(Common::loadFile(":/about.txt")));
+    File* file{new File(Common::SOURCE_NOT_SET, "",
+                        "About " + QCoreApplication::applicationName(), "",
+                        new QString(Common::loadFile(":/about.txt")))};
 
     createNewTab(file);
 }
 
 void MainWindow::on_actionQt_license_triggered()
 {
-    File* file = new File(Common::SOURCE_NOT_SET, "", "Qt license", "",
-                          new QString(Common::loadFile(":/LICENSE")));
+    File* file{new File(Common::SOURCE_NOT_SET, "", "Qt license", "",
+                        new QString(Common::loadFile(":/LICENSE")))};
 
     createNewTab(file);
 }
@@ -1070,31 +1056,18 @@ void MainWindow::on_actionQt_license_triggered()
 void MainWindow::on_actionShow_hide_keyboard_triggered()
 {
     if (ui->stackedWidget->currentIndex() != PAGE_MAIN)
-    {
         return;
-    }
 
-    QInputMethod* input = QGuiApplication::inputMethod();
-    if (input->isVisible())
-    {
-        input->hide();
-    }
-    else
-    {
-        input->show();
-    }
+    QInputMethod* input{QGuiApplication::inputMethod()};
+    input->setVisible(!input->isVisible());
 }
 
 void MainWindow::setAvailableFunctionalitiesForMainWindow(bool visible)
 {
-    if (true == visible)
-    {
+    if (visible)
         ui->mainToolBar->setVisible(ui->actionShowToolbar->isChecked());
-    }
     else
-    {
         ui->mainToolBar->setVisible(false);
-    }
 
     ui->menuEdit->setEnabled(visible);
     ui->actionShowToolbar->setEnabled(visible);
@@ -1103,9 +1076,9 @@ void MainWindow::setAvailableFunctionalitiesForMainWindow(bool visible)
 
 void MainWindow::focusHasChanged(QWidget* /*old*/, QWidget* now)
 {
-    CodeViewer* codeViewer = dynamic_cast<CodeViewer*>(now);
-    QLineEdit* lineEdit = dynamic_cast<QLineEdit*>(now);
-    bool keyboardFocusWidget = (lineEdit != nullptr || codeViewer != nullptr);
+    auto* codeViewer{dynamic_cast<CodeViewer*>(now)};
+    auto* lineEdit{dynamic_cast<QLineEdit*>(now)};
+    bool keyboardFocusWidget{lineEdit != nullptr || codeViewer != nullptr};
     ui->actionShow_hide_keyboard->setEnabled(keyboardFocusWidget);
 }
 

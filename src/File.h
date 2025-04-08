@@ -9,10 +9,7 @@
 class File
 {
 public:
-    File(Common::Source source,
-         QString path,
-         QString name,
-         QString suffix,
+    File(Common::Source source, QString path, QString name, QString suffix,
          QString* content);
 
     virtual ~File();
@@ -44,7 +41,7 @@ public:
      * @brief create from base name and suffix name of file.
      * @return file name.
      */
-    QString getName();
+    QString getName() const;
 
     QString dump();
 
@@ -74,4 +71,4 @@ private:
     QString* content_;
 };
 
-#endif // FILE_H
+#endif  // FILE_H

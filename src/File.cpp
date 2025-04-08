@@ -1,24 +1,16 @@
-#include <QDebug>
-
 #include "File.h"
 
 File::File(Common::Source source, QString path, QString name, QString suffix,
            QString* content)
     : source_(source),
-      path_(path),
-      baseName_(name),
-      suffix_(suffix),
+      path_(std::move(path)),
+      baseName_(std::move(name)),
+      suffix_(std::move(suffix)),
       content_(content)
 {
 }
 
-File::~File()
-{
-    if (content_ != nullptr)
-    {
-        delete content_;
-    }
-}
+File::~File() { delete content_; }
 
 Common::Source File::source() const { return source_; }
 
@@ -51,7 +43,7 @@ QString File::getFilePath() const
     QString filePath(path());
     filePath += '/';
     filePath += baseName();
-    if (false == suffix().isEmpty())
+    if (!suffix().isEmpty())
     {
         filePath += '.';
         filePath += suffix();
@@ -59,11 +51,11 @@ QString File::getFilePath() const
     return filePath;
 }
 
-QString File::getName()
+QString File::getName() const
 {
     QString fileName;
     fileName += baseName();
-    if (false == suffix().isEmpty())
+    if (!suffix().isEmpty())
     {
         fileName += '.';
         fileName += suffix();
@@ -103,35 +95,31 @@ QString File::filePathToSuffix(QString filePath)
 
 QString File::fileNameToBaseName(QString fileName)
 {
-    int lastDotIndex = fileName.lastIndexOf('.');
+    qsizetype lastDotIndex{fileName.lastIndexOf('.')};
     // In case when file start with '.'.
     if (lastDotIndex == 0)
-    {
         lastDotIndex = -1;
-    }
+
     QString baseName = fileName;
 
     // If found.
-    if (-1 != lastDotIndex)
-    {
+    if (lastDotIndex != -1)
         baseName.truncate(lastDotIndex);
-    }
 
     return baseName;
 }
 
 QString File::fileNameToSuffix(QString fileName)
 {
-    int lastDotIndex = fileName.lastIndexOf('.');
+    qsizetype lastDotIndex{fileName.lastIndexOf('.')};
     // In case when file start with '.'.
     if (lastDotIndex == 0)
-    {
         lastDotIndex = -1;
-    }
+
     QString suffix("");
 
     // If found.
-    if (-1 != lastDotIndex)
+    if (lastDotIndex != -1)
     {
         suffix = fileName;
         suffix.remove(0, lastDotIndex + 1);

@@ -6,7 +6,7 @@
 class PythonHighlighter : public Highlighter
 {
 public:
-    explicit PythonHighlighter(QObject* parent = 0);
+    explicit PythonHighlighter(QObject* parent = nullptr);
 
 protected:
     void initRules() override;

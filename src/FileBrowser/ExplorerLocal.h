@@ -11,7 +11,7 @@ class ExplorerLocal : public QListView, public Explorer
 {
     Q_OBJECT
 public:
-    ExplorerLocal(bool open, QWidget* parent = 0);
+    ExplorerLocal(bool open, QWidget* parent = nullptr);
 
     ~ExplorerLocal() override;
 

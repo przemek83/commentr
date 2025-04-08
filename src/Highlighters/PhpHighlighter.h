@@ -6,7 +6,7 @@
 class PhpHighlighter : public Highlighter
 {
 public:
-    explicit PhpHighlighter(QObject* parent = 0);
+    explicit PhpHighlighter(QObject* parent = nullptr);
 
 protected:
     void initRules() override;

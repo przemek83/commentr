@@ -13,7 +13,7 @@ class Local : public QTableView, public Explorer
 {
     Q_OBJECT
 public:
-    explicit Local(bool open, QWidget* parent = 0);
+    explicit Local(bool open, QWidget* parent = nullptr);
 
     ~Local() override;
 

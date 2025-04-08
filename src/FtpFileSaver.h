@@ -15,7 +15,7 @@ class FtpFileSaver : public QObject
 {
     Q_OBJECT
 public:
-    explicit FtpFileSaver(QObject* parent = 0);
+    explicit FtpFileSaver(QObject* parent = nullptr);
 
     ~FtpFileSaver() override;
 

@@ -7,7 +7,7 @@ class CursorPointer : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CursorPointer(QWidget* parent = 0);
+    explicit CursorPointer(QWidget* parent = nullptr);
 
     virtual void moveVisualPointer(int x, int y) = 0;
 

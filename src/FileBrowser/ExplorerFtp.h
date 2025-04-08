@@ -16,7 +16,7 @@ class ExplorerFtp : public QListWidget, public Explorer
 {
     Q_OBJECT
 public:
-    ExplorerFtp(bool open, QWidget* parent = 0);
+    ExplorerFtp(bool open, QWidget* parent = nullptr);
 
     ~ExplorerFtp() override;
 

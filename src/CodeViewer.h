@@ -20,7 +20,7 @@ class CodeViewer : public QPlainTextEdit
 {
     Q_OBJECT
 public:
-    explicit CodeViewer(QWidget* parent = 0);
+    explicit CodeViewer(QWidget* parent = nullptr);
 
     ~CodeViewer() override;
 
@@ -29,7 +29,6 @@ public:
     void updateVisualPointersPositions();
 
 protected:
-
     void resizeEvent(QResizeEvent* event) override;
 
     void paintEvent(QPaintEvent* event) override;

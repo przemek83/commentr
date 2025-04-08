@@ -6,7 +6,7 @@
 class JavaHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit JavaHighlighter(QObject* parent = 0);
+    explicit JavaHighlighter(QObject* parent = nullptr);
 
 protected:
     void initRules() override;

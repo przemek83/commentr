@@ -7,7 +7,8 @@ class CursorPointerLineEdit : public CursorPointer
 {
     Q_OBJECT
 public:
-    explicit CursorPointerLineEdit(int addLeftMargin, QWidget* parent = 0);
+    explicit CursorPointerLineEdit(int addLeftMargin,
+                                   QWidget* parent = nullptr);
 
     void moveVisualPointer(int x, int y) override;
 

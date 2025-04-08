@@ -30,7 +30,7 @@ public:
         EDITOR_MODE_JAVASCRIPT
     };
 
-    EditorTabPage(File* file, float fontSize, QWidget* parent = 0);
+    EditorTabPage(File* file, float fontSize, QWidget* parent = nullptr);
 
     ~EditorTabPage() override;
 

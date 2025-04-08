@@ -6,7 +6,7 @@
 class CSharpHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit CSharpHighlighter(QObject* parent = 0);
+    explicit CSharpHighlighter(QObject* parent = nullptr);
 
 protected:
     void initRules() override;

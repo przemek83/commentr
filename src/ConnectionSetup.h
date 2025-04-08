@@ -15,7 +15,7 @@ class ConnectionSetup : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ConnectionSetup(QWidget* parent = 0);
+    explicit ConnectionSetup(QWidget* parent = nullptr);
 
     ~ConnectionSetup() override;
 

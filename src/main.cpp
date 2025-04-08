@@ -76,9 +76,5 @@ int main(int argc, char* argv[])
     w.show();
 #endif
 
-#ifdef DEMO
-    w.initDemo();
-#endif
-
     return QApplication::exec();
 }

@@ -41,10 +41,6 @@ QString Common::loadFile(QString name)
 
 QString Common::saveFile(QString fileName, QString& data)
 {
-#ifdef DEMO
-    return;
-#endif
-
     QFile file(fileName);
 
     if (false == file.open(QIODevice::WriteOnly | QIODevice::Truncate))

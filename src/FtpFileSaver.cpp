@@ -1,6 +1,5 @@
 #include <QApplication>
 #include <QBuffer>
-#include <QDebug>
 #include <QKeyEvent>
 #include <QMessageBox>
 
@@ -24,13 +23,7 @@ FtpFileSaver::FtpFileSaver(QObject* parent)
     progressDialog_.setCancelButton(nullptr);
 }
 
-FtpFileSaver::~FtpFileSaver()
-{
-    if (fileToSave_ != nullptr)
-    {
-        delete fileToSave_;
-    }
-}
+FtpFileSaver::~FtpFileSaver() { delete fileToSave_; }
 
 void FtpFileSaver::saveFile(File* file)
 {
@@ -67,10 +60,8 @@ void FtpFileSaver::checkConnection([[maybe_unused]] QString host,
 
 void FtpFileSaver::finish(bool success, QString error)
 {
-    if (false == success)
-    {
+    if (!success)
         QMessageBox::information(Common::getMainWindow(this), tr("FTP"), error);
-    }
 
 #ifdef FTP
     ftp_.clearPendingCommands();
@@ -91,7 +82,7 @@ void FtpFileSaver::ftpCommandFinished(int, [[maybe_unused]] bool error)
     {
         case QFtp::ConnectToHost:
         {
-            if (true == error)
+            if (error)
             {
                 finish(false, tr("Unable to connect to the FTP server.\n"
                                  "Error: %1")
@@ -104,7 +95,7 @@ void FtpFileSaver::ftpCommandFinished(int, [[maybe_unused]] bool error)
 
         case QFtp::Login:
         {
-            if (true == error)
+            if (error)
             {
                 finish(false, tr("Unable to login. Wrong user or password.\n"
                                  "Error: %1")
@@ -123,7 +114,7 @@ void FtpFileSaver::ftpCommandFinished(int, [[maybe_unused]] bool error)
 
         case QFtp::Cd:
         {
-            if (true == error)
+            if (error)
             {
                 finish(false, tr("Unable to change directory.\n"
                                  "Error: %1")
@@ -150,7 +141,7 @@ void FtpFileSaver::ftpCommandFinished(int, [[maybe_unused]] bool error)
 void FtpFileSaver::updateDataTransferProgress(qint64 readBytes,
                                               qint64 totalBytes)
 {
-    if (false == progressDialog_.isVisible())
+    if (!progressDialog_.isVisible())
     {
         Common::centerWidget(this, &progressDialog_);
         progressDialog_.setVisible(true);

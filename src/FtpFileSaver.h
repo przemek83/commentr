@@ -5,8 +5,6 @@
 #include <QObject>
 #include <QProgressDialog>
 
-#include "Defines.h"
-
 #ifdef FTP
 #include "qftp.h"
 #endif
@@ -41,10 +39,8 @@ private:
     QFtp ftp_;
 #endif
 
-    /// pointer to file which need to be saved.
     File* fileToSave_;
 
-    /// Buffer used for file transfer.
     QBuffer buffer_;
 
 private slots:

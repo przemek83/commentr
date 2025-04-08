@@ -9,8 +9,6 @@ class CursorPointer : public QWidget
 public:
     explicit CursorPointer(QWidget* parent = 0);
 
-    ~CursorPointer() override;
-
     virtual void moveVisualPointer(int x, int y) = 0;
 
     void setRange(QRect range);

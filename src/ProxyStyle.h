@@ -6,14 +6,14 @@
 class ProxyStyle : public QProxyStyle
 {
 public:
-    ProxyStyle(QString& name);
+    using QProxyStyle::QProxyStyle;
 
     int pixelMetric(PixelMetric metric, const QStyleOption* option,
                     const QWidget* widget) const override;
 
     QSize sizeFromContents(ContentsType type, const QStyleOption* option,
-                           const QSize& contentsSize,
-                           const QWidget* widget = nullptr) const override;
+                           const QSize& size,
+                           const QWidget* widget) const override;
 
     static void updateUisize();
 

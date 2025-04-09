@@ -2,29 +2,25 @@
 
 #include <QPanGesture>
 
-PanGestureRecognizer::PanGestureRecognizer() : QGestureRecognizer()
-{
-
-}
-
 QGesture* PanGestureRecognizer::create(QObject* target)
 {
     return new QPanGesture(target);
 }
 
-const QList<QTouchEvent::TouchPoint>& PanGestureRecognizer::getTouchPoints(QEvent* event)
+const QList<QTouchEvent::TouchPoint>& PanGestureRecognizer::getTouchPoints(
+    QEvent* event)
 {
-    QTouchEvent* touchEvent = static_cast<QTouchEvent*>(event);
-    const QList<QTouchEvent::TouchPoint>& touchPoints = touchEvent->points();
-
-    return touchPoints;
+    const auto* touchEvent{dynamic_cast<QTouchEvent*>(event)};
+    return touchEvent->points();
 }
 
-QGestureRecognizer::Result PanGestureRecognizer::recognize(QGesture* state, QObject* /*watched*/, QEvent* event)
+QGestureRecognizer::Result PanGestureRecognizer::recognize(QGesture* state,
+                                                           QObject* /*watched*/,
+                                                           QEvent* event)
 {
-    QGestureRecognizer::Result result = QGestureRecognizer::Ignore;
+    QGestureRecognizer::Result result{QGestureRecognizer::Ignore};
 
-    QPanGesture* panGesture = dynamic_cast<QPanGesture*>(state);
+    auto* panGesture{dynamic_cast<QPanGesture*>(state)};
     if (panGesture == nullptr)
     {
         return result;
@@ -34,7 +30,8 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(QGesture* state, QObj
     {
         case QEvent::TouchBegin:
         {
-            const QList<QTouchEvent::TouchPoint>& touchPoints = getTouchPoints(event);
+            const QList<QTouchEvent::TouchPoint>& touchPoints =
+                getTouchPoints(event);
 
             if (touchPoints.size() == 1)
             {
@@ -48,19 +45,24 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(QGesture* state, QObj
 
         case QEvent::TouchUpdate:
         {
-            const QList<QTouchEvent::TouchPoint>& touchPoints = getTouchPoints(event);
+            const QList<QTouchEvent::TouchPoint>& touchPoints =
+                getTouchPoints(event);
 
             if (touchPoints.size() == 1)
             {
                 panGesture->setLastOffset(panGesture->offset());
 
-                QPointF resultPoint = touchPoints.first().position() - touchPoints.first().pressPosition();
+                QPointF resultPoint = touchPoints.first().position() -
+                                      touchPoints.first().pressPosition();
                 panGesture->setOffset(resultPoint);
 
-                if (panGesture->offset().x() > 10  || panGesture->offset().y() > 10 ||
-                    panGesture->offset().x() < -10 || panGesture->offset().y() < -10)
+                if (panGesture->offset().x() > 10 ||
+                    panGesture->offset().y() > 10 ||
+                    panGesture->offset().x() < -10 ||
+                    panGesture->offset().y() < -10)
                 {
-                    panGesture->setHotSpot(touchPoints.first().globalPressPosition());
+                    panGesture->setHotSpot(
+                        touchPoints.first().globalPressPosition());
                     result = QGestureRecognizer::TriggerGesture;
                 }
                 else
@@ -76,13 +78,15 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(QGesture* state, QObj
         {
             if (panGesture->state() != Qt::NoGesture)
             {
-                const QList<QTouchEvent::TouchPoint>& touchPoints = getTouchPoints(event);
+                const QList<QTouchEvent::TouchPoint>& touchPoints =
+                    getTouchPoints(event);
 
                 if (touchPoints.size() == 1)
                 {
                     panGesture->setLastOffset(panGesture->offset());
 
-                    QPointF resultPoint = touchPoints.first().position() - touchPoints.first().pressPosition();
+                    QPointF resultPoint = touchPoints.first().position() -
+                                          touchPoints.first().pressPosition();
                     panGesture->setOffset(resultPoint);
                 }
 

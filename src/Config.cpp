@@ -1,5 +1,6 @@
+#include "Config.h"
+
 #include <QApplication>
-#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QScreen>
@@ -8,7 +9,6 @@
 #include <QtXml/QDomDocument>
 
 #include "Common.h"
-#include "Config.h"
 
 const char* Config::configNames_[] = {
     "tabsPosition",      "uiSize",           "style",

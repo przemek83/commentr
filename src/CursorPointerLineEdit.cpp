@@ -1,6 +1,6 @@
-#include <QMouseEvent>
-
 #include "CursorPointerLineEdit.h"
+
+#include <QMouseEvent>
 
 CursorPointerLineEdit::CursorPointerLineEdit(int addLeftMargin, QWidget* parent)
     : CursorPointer(parent),

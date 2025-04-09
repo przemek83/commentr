@@ -1,7 +1,6 @@
-#include <QDebug>
+#include "Highlighter.h"
 
 #include "../SpellChecker.h"
-#include "Highlighter.h"
 
 bool Highlighter::spellChecking_ = true;
 

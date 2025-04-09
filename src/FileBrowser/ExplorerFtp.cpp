@@ -1,5 +1,6 @@
+#include "ExplorerFtp.h"
+
 #include <QApplication>
-#include <QDebug>
 #include <QFileIconProvider>
 #include <QMessageBox>
 #include <QPushButton>
@@ -10,7 +11,6 @@
 #include "../Common.h"
 #include "../Config.h"
 #include "../File.h"
-#include "ExplorerFtp.h"
 
 ExplorerFtp::ExplorerFtp(bool open, QWidget* parent)
     : QListWidget(parent), Explorer(open)

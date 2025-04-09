@@ -1,10 +1,9 @@
-#include <QDebug>
+#include "CursorPointerSelector.h"
+
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPen>
-
-#include "CursorPointerSelector.h"
 
 CursorPointerSelector::CursorPointerSelector(CursorDirection direction,
                                              QWidget* parent)

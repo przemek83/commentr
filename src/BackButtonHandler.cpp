@@ -1,8 +1,7 @@
-#include <QDebug>
+#include "BackButtonHandler.h"
+
 #include <QKeyEvent>
 #include <QWidget>
-
-#include "BackButtonHandler.h"
 
 bool BackButtonHandler::eventFilter(QObject* watched, QEvent* event)
 {

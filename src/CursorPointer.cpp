@@ -1,10 +1,11 @@
+#include "CursorPointer.h"
+
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPen>
 
 #include "Config.h"
-#include "CursorPointer.h"
 
 CursorPointer::CursorPointer(QWidget* parent) : QWidget(parent), dragged_(false)
 {

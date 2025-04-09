@@ -1,3 +1,5 @@
+#include "MainWindow.h"
+
 #include <QActionGroup>
 #include <QClipboard>
 #include <QFileDialog>
@@ -18,7 +20,6 @@
 #include "FileBrowser/BrowseFilesWidget.h"
 #include "FtpFileSaver.h"
 #include "Highlighters/Highlighter.h"
-#include "MainWindow.h"
 #include "ProxyStyle.h"
 #include "ui_MainWindow.h"
 

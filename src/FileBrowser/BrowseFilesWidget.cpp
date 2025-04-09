@@ -1,4 +1,5 @@
-#include <QDebug>
+#include "BrowseFilesWidget.h"
+
 #include <QFileInfo>
 #include <QMessageBox>
 
@@ -6,7 +7,6 @@
 #include "../Config.h"
 #include "../EnhancedLineEdit.h"
 #include "../File.h"
-#include "BrowseFilesWidget.h"
 #include "Explorer.h"
 #include "ExplorerFtp.h"
 #include "ExplorerLocal.h"

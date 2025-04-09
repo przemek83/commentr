@@ -1,12 +1,11 @@
+#include "Common.h"
+
 #include <QCoreApplication>
-#include <QDebug>
 #include <QFile>
 #include <QFileInfo>
 #include <QStandardPaths>
 #include <QTextStream>
 #include <QWidget>
-
-#include "Common.h"
 
 const int Common::timerFireInterval_ = 200;
 

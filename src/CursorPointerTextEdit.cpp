@@ -1,8 +1,9 @@
+#include "CursorPointerTextEdit.h"
+
 #include <QMouseEvent>
 #include <QTimer>
 
 #include "Common.h"
-#include "CursorPointerTextEdit.h"
 
 CursorPointerTextEdit::CursorPointerTextEdit(QWidget* parent)
     : CursorPointer(parent), canEmitPointerMoved_(true)

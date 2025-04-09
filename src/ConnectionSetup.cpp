@@ -1,10 +1,11 @@
+#include "ConnectionSetup.h"
+
 #include <QMessageBox>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 #include <QSettings>
 
 #include "Config.h"
-#include "ConnectionSetup.h"
 #include "EnhancedLineEdit.h"
 #include "FtpFileSaver.h"
 #include "ui_ConnectionSetup.h"

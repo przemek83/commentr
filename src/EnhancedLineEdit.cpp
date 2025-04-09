@@ -1,10 +1,10 @@
-#include <QDebug>
+#include "EnhancedLineEdit.h"
+
 #include <QGestureEvent>
 #include <QGuiApplication>
 
 #include "Config.h"
 #include "CursorPointerLineEdit.h"
-#include "EnhancedLineEdit.h"
 
 EnhancedLineEdit::EnhancedLineEdit(QWidget* parent)
     : QLineEdit(parent),

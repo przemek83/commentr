@@ -1,38 +1,28 @@
+#include "Explorer.h"
+
 #include <QListView>
 #include <QScroller>
-#include <QDebug>
 #include <QTimer>
 
 #include "../Common.h"
-#include "Explorer.h"
 
-Explorer::Explorer(bool open) :
-    open_(open)
-{
+Explorer::Explorer(bool open) : open_(open) {}
 
-}
-
-Explorer::~Explorer()
-{
-
-}
+Explorer::~Explorer() {}
 
 void Explorer::setupList(QListView* listView)
 {
 #ifdef Q_OS_ANDROID
     QScroller* scroller = QScroller::scroller(listView->viewport());
 
-    scroller->grabGesture(listView->viewport(), QScroller::LeftMouseButtonGesture);
+    scroller->grabGesture(listView->viewport(),
+                          QScroller::LeftMouseButtonGesture);
 #endif
 
-    QObject::connect(listView,
-                     SIGNAL(clicked(QModelIndex)),
-                     listView,
+    QObject::connect(listView, SIGNAL(clicked(QModelIndex)), listView,
                      SLOT(itemActivated(QModelIndex)));
 
-    QObject::connect(listView,
-                     SIGNAL(doubleClicked(QModelIndex)),
-                     listView,
+    QObject::connect(listView, SIGNAL(doubleClicked(QModelIndex)), listView,
                      SLOT(itemActivated(QModelIndex)));
 
     listView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);

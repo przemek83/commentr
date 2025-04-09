@@ -1,4 +1,5 @@
-#include <QDebug>
+#include "ExplorerLocal.h"
+
 #include <QEvent>
 #include <QFileSystemModel>
 #include <QMessageBox>
@@ -11,7 +12,6 @@
 #include "../Common.h"
 #include "../Config.h"
 #include "../File.h"
-#include "ExplorerLocal.h"
 
 ExplorerLocal::ExplorerLocal(bool open, QWidget* parent)
     : QListView(parent), Explorer(open)

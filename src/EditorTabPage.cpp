@@ -1,11 +1,11 @@
-#include <QDebug>
+#include "EditorTabPage.h"
+
 #include <QKeyEvent>
 #include <QStyle>
 
 #include "BackButtonHandler.h"
 #include "CodeViewer.h"
 #include "Config.h"
-#include "EditorTabPage.h"
 #include "File.h"
 #include "Highlighters/BasicHighlighter.h"
 #include "Highlighters/CSharpHighlighter.h"

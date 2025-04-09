@@ -9,18 +9,16 @@ class SpellChecker
 public:
     static SpellChecker& getInstance();
 
-    bool checkWord(QString& word);
+    bool checkWord(const QString& word) const;
 
     void initDictionary(const QString& dictionaryFile);
 
 private:
     Q_DISABLE_COPY(SpellChecker)
 
-    SpellChecker();
-
-    virtual ~SpellChecker();
+    SpellChecker() = default;
 
     QSet<QString> dictionary_;
 };
 
-#endif // SPELLCHECKER_H
+#endif  // SPELLCHECKER_H

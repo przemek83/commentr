@@ -24,6 +24,8 @@ public:
 private:
     Q_DISABLE_COPY(ProxyStyle)
 
+    static int adjustSize(int size);
+
     static float actualUisize_;
 };
 

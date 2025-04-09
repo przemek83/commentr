@@ -12,34 +12,17 @@ QSize ProxyStyle::sizeFromContents(ContentsType type,
                                    const QSize& size,
                                    const QWidget* widget) const
 {
-    QSize defaultSize =
-        QProxyStyle::sizeFromContents(type, option, size, widget);
+    const QSize defaultSize{
+        QProxyStyle::sizeFromContents(type, option, size, widget)};
 
     // Items in browsers and buttons.
-    if (CT_ItemViewItem == type)
-    {
-        return {defaultSize.width(), defaultSize.height() * actualUisize_};
-    }
+    if (type == CT_ItemViewItem)
+        return {defaultSize.width(), adjustSize(defaultSize.height())};
 
-    if (CT_PushButton == type)
-    {
-        return {defaultSize.width(),
-                ::qRound(defaultSize.height() * actualUisize_)};
-    }
+    if ((type == CT_PushButton) || (type == CT_LineEdit) ||
+        (type == CT_CheckBox))
 
-    // Lineedit.
-    if (CT_LineEdit == type)
-    {
-        return {defaultSize.width(),
-                ::qRound(defaultSize.height() * actualUisize_)};
-    }
-
-    // Checkbox.
-    if (CT_CheckBox == type)
-    {
-        return {defaultSize.width(),
-                ::qRound(defaultSize.height() * actualUisize_)};
-    }
+        return {defaultSize.width(), adjustSize(defaultSize.height())};
 
     return defaultSize;
 }
@@ -96,4 +79,9 @@ void ProxyStyle::drawPrimitive(QStyle::PrimitiveElement element,
     }
 
     QProxyStyle::drawPrimitive(element, option, painter, widget);
+}
+
+int ProxyStyle::adjustSize(int size)
+{
+    return ::qRound(static_cast<float>(size) * actualUisize_);
 }

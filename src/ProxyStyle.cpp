@@ -30,41 +30,32 @@ QSize ProxyStyle::sizeFromContents(ContentsType type,
 int ProxyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option,
                             const QWidget* widget) const
 {
-    int pixelMetric = QProxyStyle::pixelMetric(metric, option, widget);
+    int pixelMetric{QProxyStyle::pixelMetric(metric, option, widget)};
 
-    // Scroll bars width/height and tab bar scroll buttons.
-    if (PM_ScrollBarExtent == metric || PM_TabBarScrollButtonWidth == metric)
-        return ::qRound(pixelMetric * actualUisize_ * 5.0 / 6.0);
+    if ((metric == PM_ScrollBarExtent) ||
+        (metric == PM_TabBarScrollButtonWidth))
+        return ::qRound(adjustSize(pixelMetric) * 5.0 / 6.0);
 
-    // Toolbar handle and ">>" button.
-    if (PM_ToolBarHandleExtent == metric || PM_ToolBarExtensionExtent == metric)
-        return ::qRound(pixelMetric * actualUisize_);
+    const bool isToolBarExtent{(metric == PM_ToolBarHandleExtent) ||
+                               (metric == PM_ToolBarExtensionExtent)};
+    const bool isCheckBoxIndicator{(metric == PM_IndicatorWidth) ||
+                                   (metric == PM_IndicatorHeight)};
 
-    // Toolbar buttons and icons in file browser.
-    if (PM_ListViewIconSize == metric)
-        return ::qRound(pixelMetric * actualUisize_);
-
-    if (PM_ToolBarIconSize == metric)
-        return pixelMetric * actualUisize_;
-
-    if (PM_ButtonIconSize == metric)
-        return ::qRound(pixelMetric * actualUisize_);
-
-    // CheckBox square dimensions.
-    if (PM_IndicatorWidth == metric || PM_IndicatorHeight == metric)
-        return ::qRound(pixelMetric * actualUisize_);
+    if (isToolBarExtent || isCheckBoxIndicator ||
+        metric == PM_ListViewIconSize || metric == PM_ToolBarIconSize ||
+        metric == PM_ButtonIconSize)
+        return adjustSize(pixelMetric);
 
     return pixelMetric;
 }
 
 void ProxyStyle::updateUisize()
 {
-    actualUisize_ = Config::getInstance().uiSize() > 0
-                        ? Config::getInstance().uiSize()
-                        : actualUisize_;
+    if (Config::getInstance().uiSize() > 0)
+        actualUisize_ = Config::getInstance().uiSize();
 
     QString styleSetInConfig(Config::getInstance().style());
-    qApp->setStyle(new ProxyStyle(styleSetInConfig));
+    QApplication::setStyle(new ProxyStyle(styleSetInConfig));
 }
 
 void ProxyStyle::drawPrimitive(QStyle::PrimitiveElement element,
@@ -72,11 +63,9 @@ void ProxyStyle::drawPrimitive(QStyle::PrimitiveElement element,
                                const QWidget* widget) const
 {
     // Do not show focus rectangle on item views.
-    if (QStyleOption::SO_FocusRect == option->type &&
-        QStyle::PE_FrameFocusRect == element)
-    {
+    if ((option->type == QStyleOption::SO_FocusRect) &&
+        (element == QStyle::PE_FrameFocusRect))
         return;
-    }
 
     QProxyStyle::drawPrimitive(element, option, painter, widget);
 }

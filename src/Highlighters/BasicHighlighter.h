@@ -6,7 +6,7 @@
 class BasicHighlighter : public Highlighter
 {
 public:
-    explicit BasicHighlighter(QObject* parent = nullptr);
+    explicit BasicHighlighter(QObject* parent);
 
 protected:
     void initRules() override;

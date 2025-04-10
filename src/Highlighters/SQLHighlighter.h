@@ -6,7 +6,7 @@
 class SQLHighlighter : public Highlighter
 {
 public:
-    explicit SQLHighlighter(QObject* parent = nullptr);
+    explicit SQLHighlighter(QObject* parent);
 
 protected:
     void highlightBlock(const QString& text) override;

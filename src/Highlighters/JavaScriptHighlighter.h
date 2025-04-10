@@ -6,7 +6,7 @@
 class JavaScriptHighlighter : public Highlighter
 {
 public:
-    explicit JavaScriptHighlighter(QObject* parent = nullptr);
+    explicit JavaScriptHighlighter(QObject* parent);
 
 protected:
     void initRules() override;

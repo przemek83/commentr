@@ -6,7 +6,7 @@
 class CplusPlusHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit CplusPlusHighlighter(QObject* parent = nullptr);
+    explicit CplusPlusHighlighter(QObject* parent);
 
 protected:
     void initRules() override;

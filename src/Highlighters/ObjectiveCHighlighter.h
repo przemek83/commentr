@@ -6,7 +6,7 @@
 class ObjectiveCHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit ObjectiveCHighlighter(QObject* parent = nullptr);
+    explicit ObjectiveCHighlighter(QObject* parent);
 
 protected:
     void initRules() override;

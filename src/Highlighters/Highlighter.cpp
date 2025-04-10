@@ -14,7 +14,7 @@ Highlighter::Highlighter(QObject* parent)
 
 void Highlighter::highlightBlock(const QString& text)
 {
-    if (false == initialized_)
+    if (!initialized_)
     {
         initRules();
         initialized_ = true;
@@ -37,20 +37,19 @@ void Highlighter::highlightBlock(const QString& text)
 
 void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
 {
-    if (false == spellChecking_)
-    {
+    if (!spellChecking_)
         return;
-    }
 
-    QString str = line.simplified();
+    QString str{line.simplified()};
     QStringList wordsList = str.split(
         QRegularExpression("([^\\w,^\\\\]|(?=\\\\))+"), Qt::SkipEmptyParts);
     foreach (QString word, wordsList)
     {
-        if (word.length() > 1 && false == word.startsWith('\\') &&
-            false == SpellChecker::getInstance().checkWord(word))
+        if (word.length() > 1 && !word.startsWith('\\') &&
+            !SpellChecker::getInstance().checkWord(word))
         {
-            int l = -1, number = 0;
+            int l{-1};
+            int number{0};
             number = line.count(QRegularExpression("\\b" + word + "\\b"));
             for (int j = 0; j < number; ++j)
             {
@@ -96,7 +95,7 @@ void Highlighter::multiLineComment(const QString& text,
         QRegularExpressionMatch endMatch =
             rule.endPattern.match(text, startIndex);
         int endIndex = endMatch.capturedStart();
-        int commentLength;
+        int commentLength{0};
         if (endIndex == -1)
         {
             setCurrentBlockState(1);

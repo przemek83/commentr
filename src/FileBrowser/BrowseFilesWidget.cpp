@@ -28,9 +28,7 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
             SLOT(setText(QString)));
 
     ui->tabWidget->insertTab(static_cast<int>(Common::SOURCE_LOCAL),
-                             localListView,
-                             // QIcon(":Icons/close.png"),
-                             "local");
+                             localListView, "local");
 
 #ifdef FTP
     ExplorerFtp* ftp = new ExplorerFtp(open, ui->tabWidget);
@@ -41,9 +39,7 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
     connect(ftp, SIGNAL(pathChanged(QString)), filePathLineEdit_,
             SLOT(setText(QString)));
 
-    ui->tabWidget->insertTab(static_cast<int>(Common::SOURCE_FTP), ftp,
-                             // QIcon(":Icons/close.png"),
-                             "ftp");
+    ui->tabWidget->insertTab(static_cast<int>(Common::SOURCE_FTP), ftp, "ftp");
 #endif
 
     setProperIconForViewButton();
@@ -55,9 +51,6 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
     filePathLineEdit_->blockSignals(false);
 
     setAttribute(Qt::WA_AcceptTouchEvents);
-
-    // Needed?
-    // updateGeometry();
 }
 
 BrowseFilesWidget::~BrowseFilesWidget() { delete ui; }
@@ -87,7 +80,7 @@ void BrowseFilesWidget::filePathReturnPressed()
             QFileInfo fileInfo(filePath);
 
             QString canonicalFilePath(fileInfo.canonicalFilePath());
-            if (true == fileInfo.isDir())
+            if (fileInfo.isDir())
             {
                 currentListView()->setPath(canonicalFilePath);
                 return;
@@ -101,7 +94,7 @@ void BrowseFilesWidget::filePathReturnPressed()
         case Common::SOURCE_FTP:
         {
             QString path(File::filePathToPath(filePath));
-            if (true == File::filePathToFileName(filePath).isEmpty() &&
+            if (File::filePathToFileName(filePath).isEmpty() &&
                 currentListView()->getCurrentPath() != path)
             {
                 currentListView()->setPath(path);
@@ -123,17 +116,12 @@ void BrowseFilesWidget::filePathReturnPressed()
 
 void BrowseFilesWidget::filePathTextChanged(const QString& arg1)
 {
-    bool valid = currentListView()->fileIsValid(arg1);
-    if (true == valid)
-    {
+    if (currentListView()->fileIsValid(arg1))
         filePathLineEdit_->setStyleSheet("QLineEdit{background: white;}");
-    }
     else
-    {
         filePathLineEdit_->setStyleSheet("QLineEdit{background: #FFBFBF;}");
-    }
 
-    if (true == filePathLineEdit_->text().isEmpty())
+    if (filePathLineEdit_->text().isEmpty())
     {
         currentListView()->setPath("");
         filePathLineEdit_->setText(Common::rootPath());
@@ -142,7 +130,7 @@ void BrowseFilesWidget::filePathTextChanged(const QString& arg1)
 
 void BrowseFilesWidget::setProperIconForViewButton()
 {
-    if (false == currentListView()->isWrapping())
+    if (!currentListView()->isWrapping())
     {
         QIcon viewIcon =
             QApplication::style()->standardIcon(QStyle::SP_FileDialogListView);
@@ -179,19 +167,13 @@ void BrowseFilesWidget::on_changeView_clicked()
 
 void BrowseFilesWidget::on_tabWidget_currentChanged(int index)
 {
-    if (false == isFtpConfigured(index))
-    {
+    if (!isFtpConfigured(index))
         return;
-    }
 
     Explorer* explorer = currentListView();
-    if (explorer != nullptr && false == explorer->initialized())
-    {
+    if (explorer != nullptr && !explorer->initialized())
         explorer->initialize();
-    }
 
-    // filePathLineEdit_->setReadOnly(index ==
-    // static_cast<int>(Common::SOURCE_FTP));
     filePathLineEdit_->setVisible(index !=
                                   static_cast<int>(Common::SOURCE_FTP));
 
@@ -210,16 +192,13 @@ bool BrowseFilesWidget::isFtpConfigured(int index)
             this, tr("FTP"), tr("FTP not configured. Configure now?"));
 
         if (QMessageBox::Yes == answer)
-        {
             emit configureFtpConnection();
-        }
         else
-        {
             ui->tabWidget->setCurrentIndex(
                 static_cast<int>(Common::SOURCE_LOCAL));
-        }
 
         return false;
     }
+
     return true;
 }

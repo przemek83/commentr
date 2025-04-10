@@ -47,8 +47,6 @@ private slots:
 signals:
     void cancelAction();
 
-    //    void fileOrDirNotAccessible(QString name);
-
     void filePrepared(File* file);
 
     void configureFtpConnection();

@@ -8,8 +8,6 @@
 
 Explorer::Explorer(bool open) : open_(open) {}
 
-Explorer::~Explorer() {}
-
 void Explorer::setupList(QListView* listView)
 {
 #ifdef Q_OS_ANDROID

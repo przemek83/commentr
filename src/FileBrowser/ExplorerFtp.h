@@ -16,7 +16,7 @@ class ExplorerFtp : public QListWidget, public Explorer
 {
     Q_OBJECT
 public:
-    ExplorerFtp(bool open, QWidget* parent = nullptr);
+    ExplorerFtp(bool open, QWidget* parent);
 
     ~ExplorerFtp() override;
 
@@ -64,8 +64,6 @@ private:
     {
     public:
         Item(const QString& text, bool dir, bool readable, bool writeable);
-
-        ~Item() override;
 
         bool operator<(const QListWidgetItem& other) const override;
 

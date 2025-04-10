@@ -23,11 +23,7 @@ ExplorerFtp::ExplorerFtp(bool open, QWidget* parent)
 
     setSortingEnabled(true);
 
-    // progressDialog_.setParent(this);
     progressDialog_.setVisible(false);
-
-    // When progress dialog is set set to modal it cores at end of download.
-    // progressDialog_.setModal(true);
 
     progressDialog_.setRange(0, 0);
     // QTBUG-47042
@@ -49,14 +45,10 @@ ExplorerFtp::~ExplorerFtp()
 void ExplorerFtp::setPath(QString path)
 {
     if (path.isEmpty())
-    {
         path = Common::rootPath();
-    }
 
     if (currentPath_ == path)
-    {
         return;
-    }
 
     Common::centerWidget(this, &progressDialog_);
     progressDialog_.setVisible(true);
@@ -104,7 +96,7 @@ void ExplorerFtp::performOperationOnFile(QString filePath)
 {
     // TODO Check if item exist and than perform correct action.
 
-    if (true == open_)
+    if (open_)
     {
         fileBuffer_.open(QIODevice::ReadWrite);
 #ifdef FTP
@@ -150,7 +142,7 @@ void ExplorerFtp::listViewItemClicked(const QModelIndex& index)
 {
     Item* itemClicked = static_cast<Item*>(item(index.row()));
 
-    if (false == itemClicked->isDir())
+    if (!itemClicked->isDir())
     {
         QString pathToUse = getPathToUse(itemClicked);
 
@@ -263,10 +255,9 @@ void ExplorerFtp::ftpCommandFinished(int, [[maybe_unused]] bool error)
 QString ExplorerFtp::getPathToUse(Item* itemClicked)
 {
     QString pathToUse = currentPath_;
-    if (false == pathToUse.isEmpty() && pathToUse != Common::rootPath())
-    {
+    if (!pathToUse.isEmpty() && pathToUse != Common::rootPath())
         pathToUse.append("/");
-    }
+
     pathToUse.append(itemClicked->text());
 
     return pathToUse;
@@ -276,7 +267,7 @@ void ExplorerFtp::itemActivated(QModelIndex index)
 {
     Item* itemClicked = static_cast<Item*>(item(index.row()));
 
-    if (false == itemClicked->readable())
+    if (!itemClicked->readable())
     {
         QMessageBox::information(
             this, tr("FTP"),
@@ -309,7 +300,7 @@ void ExplorerFtp::itemActivated(QModelIndex index)
     }
 
     QString pathToUse = getPathToUse(itemClicked);
-    if (true == itemClicked->isDir())
+    if (itemClicked->isDir())
     {
         setPath(pathToUse);
     }
@@ -336,7 +327,7 @@ void ExplorerFtp::addToList(const QUrlInfo& urlInfo)
 void ExplorerFtp::updateDataTransferProgress(qint64 readBytes,
                                              qint64 totalBytes)
 {
-    if (false == progressDialog_.isVisible())
+    if (!progressDialog_.isVisible())
     {
         Common::centerWidget(this, &progressDialog_);
         progressDialog_.setVisible(true);
@@ -371,19 +362,15 @@ ExplorerFtp::Item::Item(const QString& text, bool dir, bool readable,
     : QListWidgetItem(text), readable_(readable), writeable_(writeable)
 {
     const static QFileIconProvider iconsProvider;
-    if (true == dir)
-    {
+    if (dir)
         setIcon(iconsProvider.icon(QFileIconProvider::Folder));
-    }
     else
-    {
         setIcon(iconsProvider.icon(QFileIconProvider::File));
-    }
 
     setData(Qt::UserRole, QVariant(dir));
 
     // Italic for items without permissions.
-    if (false == readable_)
+    if (!readable_)
     {
         QFont itemFont(font());
         itemFont.setItalic(true);
@@ -391,21 +378,14 @@ ExplorerFtp::Item::Item(const QString& text, bool dir, bool readable,
     }
 }
 
-ExplorerFtp::Item::~Item() {}
-
 bool ExplorerFtp::Item::operator<(const QListWidgetItem& other) const
 {
     bool otherIsDir = other.data(Qt::UserRole).toBool();
     bool currentIsDir = isDir();
-    if ((true == otherIsDir && true == currentIsDir) ||
-        (false == otherIsDir && false == currentIsDir))
-    {
+    if ((otherIsDir && currentIsDir) || (!otherIsDir && !currentIsDir))
         return text() < other.text();
-    }
-    else
-    {
-        return currentIsDir;
-    }
+
+    return currentIsDir;
 }
 
 bool ExplorerFtp::Item::isDir() const { return data(Qt::UserRole).toBool(); }

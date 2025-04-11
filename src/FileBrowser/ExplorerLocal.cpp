@@ -27,7 +27,7 @@ ExplorerLocal::ExplorerLocal(bool open, QWidget* parent)
 
 ExplorerLocal::~ExplorerLocal()
 {
-    QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
+    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
     QModelIndex currentIndex = rootIndex();
 
@@ -38,7 +38,7 @@ ExplorerLocal::~ExplorerLocal()
 
 void ExplorerLocal::setPath(QString path)
 {
-    QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
+    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
     setRootIndex(
         fileModel->index((path.isEmpty() ? Common::rootPath() : path)));
@@ -48,7 +48,7 @@ void ExplorerLocal::setPath(QString path)
 
 void ExplorerLocal::initialize()
 {
-    QFileSystemModel* fileModel = new QFileSystemModel(this);
+    auto* fileModel{new QFileSystemModel(this)};
 
     fileModel->setFilter(QDir::AllEntries | QDir::AllDirs | QDir::NoDot |
                          QDir::System | QDir::Hidden);
@@ -103,8 +103,8 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
             }
         }
 
-        File* file =
-            new File(Common::SOURCE_LOCAL, path, baseName, suffix, content);
+        File* file{
+            new File(Common::SOURCE_LOCAL, path, baseName, suffix, content)};
 
         emit filePrepared(file);
     }
@@ -118,7 +118,7 @@ QListView* ExplorerLocal::getListView() { return this; }
 
 void ExplorerLocal::itemActivated(QModelIndex index)
 {
-    QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
+    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
     if (currentItem_ != index.data())
     {
@@ -164,10 +164,9 @@ void ExplorerLocal::directoryLoaded(const QString& path)
 
 bool ExplorerLocal::directoryIsAccessible(const QString& path)
 {
-    QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
+    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
-    QDir newDir(path);
-    if (newDir.entryList(QDir::AllEntries).count() == 0)
+    if (QDir newDir(path); newDir.entryList(QDir::AllEntries).count() == 0)
     {
         QMessageBox::information(this, tr("Error"), tr("Not accessible..."));
 
@@ -189,7 +188,7 @@ bool ExplorerLocal::directoryIsAccessible(const QString& path)
 
 void ExplorerLocal::listViewItemClicked(const QModelIndex& index)
 {
-    QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
+    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
     if (!fileModel->isDir(index))
         emit pathChanged(fileModel->filePath(index));
@@ -199,10 +198,9 @@ void ExplorerLocal::mouseMoveEvent(QMouseEvent* event) { event->accept(); }
 
 QString ExplorerLocal::getCurrentPath()
 {
-    QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
+    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
-    QString path =
-        QString(fileModel->fileInfo(rootIndex()).canonicalFilePath());
+    QString path{fileModel->fileInfo(rootIndex()).canonicalFilePath()};
 
     return path;
 }
@@ -212,24 +210,15 @@ bool ExplorerLocal::fileIsValid(QString file)
     QFileInfo fileInfo(file);
 
     if (open_)
-    {
         return (QFile::exists(file) && fileInfo.isFile() &&
                 fileInfo.isReadable());
-    }
-    else
-    {
-        if (QFile::exists(file))
-        {
-            return (fileInfo.isFile() && fileInfo.isWritable());
-        }
-        else
-        {
-            bool dirExists = fileInfo.dir().exists();
-            bool writable =
-                QFileInfo(fileInfo.dir().canonicalPath()).isWritable();
-            return (dirExists && writable);
-        }
-    }
+
+    if (QFile::exists(file))
+        return (fileInfo.isFile() && fileInfo.isWritable());
+
+    bool dirExists{fileInfo.dir().exists()};
+    bool writable{QFileInfo(fileInfo.dir().canonicalPath()).isWritable()};
+    return (dirExists && writable);
 }
 
 bool ExplorerLocal::isWrapping() { return QListView::isWrapping(); }

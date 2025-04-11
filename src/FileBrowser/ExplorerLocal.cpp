@@ -59,14 +59,11 @@ void ExplorerLocal::initialize()
             SLOT(directoryLoaded(QString)));
 
     setModel(fileModel);
-    // fileModel->sort(0);
 
     // Set proper initialization path.
     QString initPath = Config::getInstance().lastPickedDir();
     if (initPath.isEmpty())
-    {
         initPath = Common::rootPath();
-    }
 
     setRootIndex(fileModel->index(initPath));
 }
@@ -75,30 +72,28 @@ bool ExplorerLocal::initialized() { return model() != nullptr; }
 
 void ExplorerLocal::performOperationOnFile(QString filePath)
 {
-    if (true == fileIsValid(filePath))
+    if (fileIsValid(filePath))
     {
-        QFileInfo fileInfo(filePath);  // = fileModel->fileInfo(index);
+        QFileInfo fileInfo(filePath);
         QString path(fileInfo.canonicalPath());
         QString baseName(fileInfo.completeBaseName());
         QString suffix(fileInfo.suffix());
         QString* content = nullptr;
 
-        if (true == open_)
+        if (open_)
         {
             content = new QString(Common::loadFile(filePath));
         }
         else
         {
-            if (true == QFile::exists(filePath))
+            if (QFile::exists(filePath))
             {
                 QString msg = tr("Overwrite ") + fileInfo.fileName() + "?";
                 QMessageBox::StandardButton answer =
                     QMessageBox::question(this, tr("Overwrite"), msg);
 
-                if (QMessageBox::No == answer)
-                {
+                if (answer == QMessageBox::No)
                     return;
-                }
             }
             else
             {
@@ -144,10 +139,8 @@ void ExplorerLocal::itemActivated(QModelIndex index)
         }
         else
         {
-            if (true == directoryIsAccessible(canonicalFilePath))
-            {
+            if (directoryIsAccessible(canonicalFilePath))
                 setRootIndex(index);
-            }
         }
 
         emit pathChanged(getCurrentPath());
@@ -166,9 +159,7 @@ void ExplorerLocal::directoryLoaded(const QString& path)
 
     QString newCurrentPath = getCurrentPath();
     if (oldCurrentPath != newCurrentPath)
-    {
         emit pathChanged(newCurrentPath);
-    }
 }
 
 bool ExplorerLocal::directoryIsAccessible(const QString& path)
@@ -176,11 +167,11 @@ bool ExplorerLocal::directoryIsAccessible(const QString& path)
     QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
 
     QDir newDir(path);
-    if (0 == newDir.entryList(QDir::AllEntries).count())
+    if (newDir.entryList(QDir::AllEntries).count() == 0)
     {
         QMessageBox::information(this, tr("Error"), tr("Not accessible..."));
 
-        if (true == newDir.cdUp())
+        if (newDir.cdUp())
         {
             setRootIndex(fileModel->index(newDir.absolutePath()));
         }
@@ -200,10 +191,8 @@ void ExplorerLocal::listViewItemClicked(const QModelIndex& index)
 {
     QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
 
-    if (false == fileModel->isDir(index))
-    {
+    if (!fileModel->isDir(index))
         emit pathChanged(fileModel->filePath(index));
-    }
 }
 
 void ExplorerLocal::mouseMoveEvent(QMouseEvent* event) { event->accept(); }
@@ -222,16 +211,16 @@ bool ExplorerLocal::fileIsValid(QString file)
 {
     QFileInfo fileInfo(file);
 
-    if (true == open_)
+    if (open_)
     {
-        return (true == QFile::exists(file) && true == fileInfo.isFile() &&
-                true == fileInfo.isReadable());
+        return (QFile::exists(file) && fileInfo.isFile() &&
+                fileInfo.isReadable());
     }
     else
     {
-        if (true == QFile::exists(file))
+        if (QFile::exists(file))
         {
-            return (true == fileInfo.isFile() && true == fileInfo.isWritable());
+            return (fileInfo.isFile() && fileInfo.isWritable());
         }
         else
         {

@@ -5,10 +5,6 @@
 #include <QScroller>
 #include <QTimer>
 
-#include "BrowseFilesSelectionHandler.h"
-#include "Common.h"
-#include "Config.h"
-
 Local::Local(bool open, QWidget* parent)
     : QTableView(parent), Explorer(open), timeForSecondClickIsUp_(false)
 {
@@ -160,7 +156,7 @@ void Local::listViewItemClicked(const QModelIndex& index)
 void Local::selectItemOnRelease(QPointF pos)
 {
     QModelIndex itemToSelect = indexAt(pos.toPoint());
-    static const int doubleClickTime = Common::doubleClickTime();
+    static const int doubleClickTime{Common::doubleClickTime()};
 
     QItemSelectionModel* selectModel = selectionModel();
     if (selectModel->isSelected(itemToSelect))
@@ -197,24 +193,15 @@ bool Local::fileIsValid(QString file)
     QFileInfo fileInfo(file);
 
     if (open_)
-    {
         return (fileInfo.exists() && fileInfo.isFile() &&
                 fileInfo.isReadable());
-    }
-    else
-    {
-        if (fileInfo.exists())
-        {
-            return (fileInfo.isFile() && fileInfo.isWritable());
-        }
-        else
-        {
-            bool dirExists = fileInfo.dir().exists();
-            bool writable =
-                QFileInfo(fileInfo.dir().canonicalPath()).isWritable();
-            return (dirExists && writable);
-        }
-    }
+
+    if (fileInfo.exists())
+        return (fileInfo.isFile() && fileInfo.isWritable());
+
+    bool dirExists{fileInfo.dir().exists()};
+    bool writable{QFileInfo(fileInfo.dir().canonicalPath()).isWritable()};
+    return (dirExists && writable);
 }
 
 bool Local::isWrapping() { return false; }

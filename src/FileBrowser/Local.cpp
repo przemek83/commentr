@@ -77,7 +77,7 @@ void Local::initModelAndView()
 
     // Set proper initialization path.
     QString initPath = Config::getInstance().lastPickedDir();
-    if (false == fileModel->index(initPath).isValid())
+    if (!fileModel->index(initPath).isValid())
     {
         initPath = Common::rootPath();
     }
@@ -100,26 +100,21 @@ void Local::itemDoubleClicked(QModelIndex index)
         }
         else
         {
-            if (true == directoryIsAccessible(canonicalFilePath))
-            {
+            if (directoryIsAccessible(canonicalFilePath))
                 setRootIndex(index);
-            }
         }
 
         QString path =
             QString(fileModel->fileInfo(rootIndex()).canonicalFilePath());
-        if (false == path.endsWith(Common::rootPath()))
-        {
+        if (!path.endsWith(Common::rootPath()))
             path += Common::rootPath();
-        }
+
         emit pathChanged(path);
     }
     else
     {
-        if (true == fileIsValid(canonicalFilePath))
-        {
+        if (fileIsValid(canonicalFilePath))
             emit filePicked(canonicalFilePath);
-        }
     }
 }
 
@@ -134,11 +129,11 @@ bool Local::directoryIsAccessible(const QString& path)
     QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
 
     QDir newDir(path);
-    if (0 == newDir.entryList(QDir::AllEntries).count())
+    if (newDir.entryList(QDir::AllEntries).count() == 0)
     {
         emit fileOrDirNotAccessible(tr("Not accessible..."));
 
-        if (true == newDir.cdUp())
+        if (newDir.cdUp())
         {
             setRootIndex(fileModel->index(newDir.absolutePath()));
         }
@@ -158,10 +153,8 @@ void Local::listViewItemClicked(const QModelIndex& index)
 {
     QFileSystemModel* fileModel = static_cast<QFileSystemModel*>(model());
 
-    if (false == fileModel->isDir(index))
-    {
+    if (!fileModel->isDir(index))
         emit pathChanged(fileModel->filePath(index));
-    }
 }
 
 void Local::selectItemOnRelease(QPointF pos)
@@ -170,9 +163,9 @@ void Local::selectItemOnRelease(QPointF pos)
     static const int doubleClickTime = Common::doubleClickTime();
 
     QItemSelectionModel* selectModel = selectionModel();
-    if (true == selectModel->isSelected(itemToSelect))
+    if (selectModel->isSelected(itemToSelect))
     {
-        if (false == timeForSecondClickIsUp_)
+        if (!timeForSecondClickIsUp_)
         {
             itemDoubleClicked(itemToSelect);
         }
@@ -203,16 +196,16 @@ bool Local::fileIsValid(QString file)
 {
     QFileInfo fileInfo(file);
 
-    if (true == open_)
+    if (open_)
     {
-        return (true == fileInfo.exists() && true == fileInfo.isFile() &&
-                true == fileInfo.isReadable());
+        return (fileInfo.exists() && fileInfo.isFile() &&
+                fileInfo.isReadable());
     }
     else
     {
-        if (true == fileInfo.exists())
+        if (fileInfo.exists())
         {
-            return (true == fileInfo.isFile() && true == fileInfo.isWritable());
+            return (fileInfo.isFile() && fileInfo.isWritable());
         }
         else
         {
@@ -231,7 +224,6 @@ void Local::setWrapping(bool /*wrapping*/) {}
 void Local::selectionChanged(const QItemSelection& selected,
                              const QItemSelection& deselected)
 {
-    qDebug() << __FUNCTION__ << selected << deselected;
     selectRow(selected.first().indexes().first().row());
     QTableView::selectionChanged(selected, deselected);
     resizeRowsToContents();

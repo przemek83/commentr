@@ -5,15 +5,11 @@
 
 #include "Explorer.h"
 
-/**
- * @brief Prototype for table view. Not used.
- */
-
 class Local : public QTableView, public Explorer
 {
     Q_OBJECT
 public:
-    explicit Local(bool open, QWidget* parent = nullptr);
+    explicit Local(bool open, QWidget* parent);
 
     ~Local() override;
 
@@ -28,9 +24,6 @@ public:
     void setWrapping(bool wrapping) override;
 
 protected:
-    //    virtual void currentChanged(const QModelIndex& current,
-    //                                const QModelIndex& previous);
-
     void selectionChanged(const QItemSelection& selected,
                           const QItemSelection& deselected) override;
 
@@ -39,7 +32,7 @@ private:
 
     void initModelAndView();
 
-    void listViewItemClicked(const QModelIndex& index);
+    void listViewItemClicked(const QModelIndex& index) override;
 
     bool timeForSecondClickIsUp_;
 

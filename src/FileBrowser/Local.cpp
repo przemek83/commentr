@@ -22,15 +22,10 @@ Local::Local(bool open, QWidget* parent)
 
     QScroller::grabGesture(viewport());
 
-    // setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setDropIndicatorShown(false);
-    // setSelectionBehavior(QAbstractItemView::SelectItems);
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-    // setResizeMode(QListView::Adjust);
-
-    // setFrameStyle(QFrame::NoFrame);
 
     // Hide type.
     hideColumn(2);
@@ -39,7 +34,6 @@ Local::Local(bool open, QWidget* parent)
     verticalHeader()->hide();
     horizontalHeader()->hide();
     setGridStyle(Qt::NoPen);
-    //    selectionModel();
 }
 
 Local::~Local()
@@ -60,11 +54,6 @@ void Local::setPath(QString path)
         fileModel->index((path.isEmpty() ? Common::rootPath() : path)));
     QModelIndex newRootIndex = fileModel->index(0, 0, rootIndex());
     setCurrentIndex(newRootIndex);
-
-    //    QFileSystemModel* model =
-    //        static_cast<QFileSystemModel*>(model());
-    //    setCurrentIndex(model->index(rootPath_));
-    //    filePathLineEdit_->setText(rootPath_);
 }
 
 QString Local::getCurrentPath() { return currentIndex().data().toString(); }
@@ -73,9 +62,6 @@ void Local::initModelAndView()
 {
     // Do not show on listView current item.
     setFocusPolicy(Qt::NoFocus);
-
-    // Set proper initial icon.
-    // setWrapping(!Config::getInstance().listViewInBrowser());
 
     QFileSystemModel* fileModel = new QFileSystemModel(this);
 
@@ -97,12 +83,6 @@ void Local::initModelAndView()
     }
 
     setRootIndex(fileModel->index(initPath));
-
-    // Set line edit text, do not allow emitting signals
-    //(virtual methods can not be called).
-    //    filePathLineEdit_->blockSignals(true);
-    //    filePathLineEdit_->setText(initPath);
-    //    filePathLineEdit_->blockSignals(false);
 }
 
 void Local::itemDoubleClicked(QModelIndex index)
@@ -133,7 +113,6 @@ void Local::itemDoubleClicked(QModelIndex index)
             path += Common::rootPath();
         }
         emit pathChanged(path);
-        // filePathLineEdit_->setText(path);
     }
     else
     {
@@ -182,11 +161,7 @@ void Local::listViewItemClicked(const QModelIndex& index)
     if (false == fileModel->isDir(index))
     {
         emit pathChanged(fileModel->filePath(index));
-        // filePathLineEdit_->setText(fileModel->filePath(index));
     }
-
-    // Needed??
-    // filePathLineEdit_->clearFocus();
 }
 
 void Local::selectItemOnRelease(QPointF pos)
@@ -252,13 +227,6 @@ bool Local::fileIsValid(QString file)
 bool Local::isWrapping() { return false; }
 
 void Local::setWrapping(bool /*wrapping*/) {}
-
-// void Local::currentChanged(const QModelIndex &current, const QModelIndex
-// &previous)
-//{
-//     qDebug() << __FUNCTION__ << current << previous;
-//     //selectRow(current.row());
-// }
 
 void Local::selectionChanged(const QItemSelection& selected,
                              const QItemSelection& deselected)

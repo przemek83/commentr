@@ -105,22 +105,22 @@ void ExplorerFtp::performOperationOnFile(QString filePath)
     }
     else
     {
-        QString fileName = File::filePathToFileName(filePath);
-        QList<QListWidgetItem*> items =
-            findItems(fileName, Qt::MatchCaseSensitive | Qt::MatchFixedString);
+        QString fileName{File::filePathToFileName(filePath)};
+        QList<QListWidgetItem*> items{
+            findItems(fileName, Qt::MatchCaseSensitive | Qt::MatchFixedString)};
 
-        if (1 != items.size())
+        if (items.size() != 1)
         {
             Q_ASSERT(false);
             return;
         }
 
-        Item* item = static_cast<Item*>(items.front());
+        const Item* item{dynamic_cast<Item*>(items.front())};
 
-        QString baseName = File::fileNameToBaseName(item->text());
-        QString suffix = File::fileNameToSuffix(item->text());
-        File* file = new File(Common::SOURCE_FTP, currentPath_, baseName,
-                              suffix, nullptr);
+        const QString baseName{File::fileNameToBaseName(item->text())};
+        const QString suffix{File::fileNameToSuffix(item->text())};
+        File* file{new File(Common::SOURCE_FTP, currentPath_, baseName, suffix,
+                            nullptr)};
 
 #ifdef FTP
         ftp_->close();
@@ -140,12 +140,10 @@ QListView* ExplorerFtp::getListView() { return this; }
 
 void ExplorerFtp::listViewItemClicked(const QModelIndex& index)
 {
-    Item* itemClicked = static_cast<Item*>(item(index.row()));
-
+    const Item* itemClicked{dynamic_cast<Item*>(item(index.row()))};
     if (!itemClicked->isDir())
     {
         QString pathToUse = getPathToUse(itemClicked);
-
         emit pathChanged(pathToUse);
     }
 }
@@ -254,7 +252,7 @@ void ExplorerFtp::ftpCommandFinished(int, [[maybe_unused]] bool error)
 
 QString ExplorerFtp::getPathToUse(const Item* itemClicked) const
 {
-    QString pathToUse = currentPath_;
+    QString pathToUse{currentPath_};
     if ((!pathToUse.isEmpty()) && (pathToUse != Common::rootPath()))
         pathToUse.append("/");
 

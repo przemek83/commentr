@@ -79,7 +79,7 @@ private:
         bool writeable_;
     };
 
-    QString getPathToUse(Item* itemClicked);
+    QString getPathToUse(const Item* itemClicked) const;
 
     // Current path of browser.
     QString currentPath_;

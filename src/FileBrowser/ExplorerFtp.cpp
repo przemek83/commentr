@@ -252,10 +252,10 @@ void ExplorerFtp::ftpCommandFinished(int, [[maybe_unused]] bool error)
 #endif
 }
 
-QString ExplorerFtp::getPathToUse(Item* itemClicked)
+QString ExplorerFtp::getPathToUse(const Item* itemClicked) const
 {
     QString pathToUse = currentPath_;
-    if (!pathToUse.isEmpty() && pathToUse != Common::rootPath())
+    if ((!pathToUse.isEmpty()) && (pathToUse != Common::rootPath()))
         pathToUse.append("/");
 
     pathToUse.append(itemClicked->text());
@@ -265,7 +265,7 @@ QString ExplorerFtp::getPathToUse(Item* itemClicked)
 
 void ExplorerFtp::itemActivated(QModelIndex index)
 {
-    Item* itemClicked = static_cast<Item*>(item(index.row()));
+    auto* itemClicked{dynamic_cast<Item*>(item(index.row()))};
 
     if (!itemClicked->readable())
     {

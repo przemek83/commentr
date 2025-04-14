@@ -265,7 +265,7 @@ QString ExplorerFtp::getPathToUse(const Item* itemClicked) const
 
 void ExplorerFtp::itemActivated(QModelIndex index)
 {
-    auto* itemClicked{dynamic_cast<Item*>(item(index.row()))};
+    const auto* itemClicked{dynamic_cast<Item*>(item(index.row()))};
 
     if (!itemClicked->readable())
     {

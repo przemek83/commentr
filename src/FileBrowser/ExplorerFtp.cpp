@@ -62,7 +62,7 @@ void ExplorerFtp::setPath(QString path)
 
 QString ExplorerFtp::getCurrentPath() { return currentPath_; }
 
-bool ExplorerFtp::fileIsValid(QString /*file*/) { return false; }
+bool ExplorerFtp::fileIsValid([[maybe_unused]] QString file) { return false; }
 
 bool ExplorerFtp::isWrapping() { return QListWidget::isWrapping(); }
 

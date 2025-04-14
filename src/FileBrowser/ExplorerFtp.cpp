@@ -348,9 +348,10 @@ void ExplorerFtp::cancelDownload()
     initialize();
 
     // Disable all items.
-    for (int i = 0; i < count(); ++i)
+    const int itemCount{count()};
+    for (int i{0}; i < itemCount; ++i)
     {
-        QListWidgetItem* currentItem = item(i);
+        QListWidgetItem* currentItem{item(i)};
         currentItem->setFlags(currentItem->flags() & ~Qt::ItemIsEnabled);
     }
 
@@ -380,9 +381,9 @@ ExplorerFtp::Item::Item(const QString& text, bool dir, bool readable,
 
 bool ExplorerFtp::Item::operator<(const QListWidgetItem& other) const
 {
-    bool otherIsDir = other.data(Qt::UserRole).toBool();
-    bool currentIsDir = isDir();
-    if ((otherIsDir && currentIsDir) || (!otherIsDir && !currentIsDir))
+    const bool otherIsDir{other.data(Qt::UserRole).toBool()};
+    const bool currentIsDir{isDir()};
+    if ((otherIsDir && currentIsDir) || ((!otherIsDir) && (!currentIsDir)))
         return text() < other.text();
 
     return currentIsDir;

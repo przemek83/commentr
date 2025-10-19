@@ -94,7 +94,7 @@ private:
 
     QPoint positionShiftMain();
 
-    bool ignoreNextTapGesture_;
+    bool ignoreNextTapGesture_{false};
 
     void initVisualPointers();
 
@@ -106,9 +106,9 @@ private:
 
     void setVisibleSelectionPointers(bool visible);
 
-    bool cursorShownBeforeFocusLost_;
+    bool cursorShownBeforeFocusLost_{false};
 
-    bool selectorsShownBeforeFocusLost_;
+    bool selectorsShownBeforeFocusLost_{false};
 
     /**
      * @brief Check if anchor is displayed on screen.

@@ -17,11 +17,7 @@
 #include "CursorPointerTextEdit.h"
 #include "PanGestureRecognizer.h"
 
-CodeViewer::CodeViewer(QWidget* parent)
-    : QPlainTextEdit(parent),
-      ignoreNextTapGesture_(false),
-      cursorShownBeforeFocusLost_(false),
-      selectorsShownBeforeFocusLost_(false)  //,
+CodeViewer::CodeViewer(QWidget* parent) : QPlainTextEdit(parent)
 {
     mainWindow_ = Common::getMainWindow(this);
 

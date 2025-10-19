@@ -60,7 +60,7 @@ CodeViewer::CodeViewer(QWidget* parent) : QPlainTextEdit(parent)
 
 CodeViewer::~CodeViewer() { delete cursorPointer_; }
 
-void CodeViewer::grabGestures()
+void CodeViewer::grabGestures() const
 {
     // Do not grab tap and tap and hold as in new Qt it seems stock behaviour
     // is working.

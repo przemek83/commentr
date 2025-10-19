@@ -121,7 +121,7 @@ private:
      */
     void hideAllPointersIfNotDragged();
 
-    void grabGestures();
+    void grabGestures() const;
 
 private slots:
     /**

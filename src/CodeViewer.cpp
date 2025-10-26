@@ -390,7 +390,7 @@ void CodeViewer::hideAllCursorPointers()
     anchorSelector_->setVisible(false);
 }
 
-QPoint CodeViewer::positionShiftMain()
+QPoint CodeViewer::positionShiftMain() const
 {
     QPoint positonInMain(mapToGlobal(QPoint(0, 0)) - mainWindow_->pos());
 
@@ -431,7 +431,7 @@ void CodeViewer::zoom(float zoomFactor)
     updateVisualPointersPositions();
 }
 
-int CodeViewer::lineNumberAreaWidth()
+int CodeViewer::lineNumberAreaWidth() const
 {
     int digits = QString::number(qMax(1, blockCount())).length();
 
@@ -536,7 +536,7 @@ void CodeViewer::keyPressEvent(QKeyEvent* e)
     QPlainTextEdit::keyPressEvent(e);
 }
 
-bool CodeViewer::anchorIsInRange()
+bool CodeViewer::anchorIsInRange() const
 {
     QTextBlock firstBlock = firstVisibleBlock();
     QTextCursor cursor = textCursor();

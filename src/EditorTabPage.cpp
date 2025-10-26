@@ -223,9 +223,12 @@ void EditorTabPage::changeFile(File* file)
     file_->setSuffix(file->suffix());
 }
 
-QString EditorTabPage::getCurrentText() { return codeViewer_->toPlainText(); }
+QString EditorTabPage::getCurrentText() const
+{
+    return codeViewer_->toPlainText();
+}
 
-QString EditorTabPage::getModeName() { return modeNames_[mode_]; }
+QString EditorTabPage::getModeName() const { return modeNames_[mode_]; }
 
 Highlighter* EditorTabPage::getHighlighterForEditorMode(EditorMode mode)
 {
@@ -298,7 +301,8 @@ File* EditorTabPage::getCurrentFileCopy()
     return file;
 }
 
-EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(QString suffix)
+EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
+    QString suffix) const
 {
     if (suffix == "java")
         return EditorTabPage::EDITOR_MODE_JAVA;

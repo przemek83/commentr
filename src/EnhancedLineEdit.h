@@ -33,7 +33,7 @@ private:
 
     QWidget* getMainWindow();
 
-    QPoint getPositionForVisualPointer();
+    QPoint getPositionForVisualPointer() const;
 
     void resetPointerRange();
 

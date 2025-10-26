@@ -46,7 +46,7 @@ protected:
 private:
     Q_DISABLE_COPY(CodeViewer)
 
-    int lineNumberAreaWidth();
+    int lineNumberAreaWidth() const;
 
     void lineNumberAreaPaintEvent(QPaintEvent* event);
 
@@ -92,7 +92,7 @@ private:
 
     bool manageTapAndHoldGesture(QTapAndHoldGesture* gesture);
 
-    QPoint positionShiftMain();
+    QPoint positionShiftMain() const;
 
     bool ignoreNextTapGesture_{false};
 
@@ -114,7 +114,7 @@ private:
      * @brief Check if anchor is displayed on screen.
      * @return Anchor is on visible part of screen.
      */
-    bool anchorIsInRange();
+    bool anchorIsInRange() const;
 
     /**
      * @brief Hide visual pointers when cursor was moved but no dragging used.

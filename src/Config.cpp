@@ -56,7 +56,8 @@ void Config::save()
     setValue(settings, CONFIG_RECENT_FILES, recentFiles_);
 }
 
-void Config::setValue(QSettings& settings, ConfigNames name, QVariant value)
+void Config::setValue(QSettings& settings, ConfigNames name,
+                      QVariant value) const
 {
     settings.setValue(configNames_[name], value);
 }

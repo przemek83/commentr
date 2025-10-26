@@ -101,7 +101,7 @@ void EnhancedLineEdit::resetPointerRange()
     cursorPointer_->setScrollingNeeded(scrollingNeeded);
 }
 
-QPoint EnhancedLineEdit::getPositionForVisualPointer()
+QPoint EnhancedLineEdit::getPositionForVisualPointer() const
 {
     // Position of lineedit in application.
     QPoint lineEditPosInMain(mapToGlobal(QPoint(0, 0)) - mainWindow_->pos());

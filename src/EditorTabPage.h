@@ -62,12 +62,12 @@ public:
      */
     void changeFile(File* file);
 
-    QString getCurrentText();
+    QString getCurrentText() const;
 
     EditorMode mode() const;
     void setMode(const EditorMode& mode);
 
-    QString getModeName();
+    QString getModeName() const;
 
     void refreshVisualIndicators();
 
@@ -95,7 +95,7 @@ private:
 
     const static char* modeNames_[];
 
-    EditorMode detectModeUsingSuffix(QString suffix);
+    EditorMode detectModeUsingSuffix(QString suffix) const;
 
     File* file_;
 

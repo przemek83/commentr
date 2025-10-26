@@ -117,7 +117,7 @@ private:
         CONFIG_RECENT_FILES
     };
 
-    void setValue(QSettings& settings, ConfigNames name, QVariant value);
+    void setValue(QSettings& settings, ConfigNames name, QVariant value) const;
 
     QTabWidget::TabPosition tabsPosition_;
 

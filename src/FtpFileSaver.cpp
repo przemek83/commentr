@@ -51,7 +51,7 @@ void FtpFileSaver::saveFile(File* file)
 
 void FtpFileSaver::checkConnection([[maybe_unused]] QString host,
                                    [[maybe_unused]] QString login,
-                                   [[maybe_unused]] QString password)
+                                   [[maybe_unused]] QString password) const
 {
 #ifdef FTP
     ftp_.connectToHost(host);
@@ -76,7 +76,7 @@ void FtpFileSaver::windowResized()
     Common::centerWidget(this, &progressDialog_);
 }
 
-void FtpFileSaver::ftpCommandFinished(int, [[maybe_unused]] bool error)
+void FtpFileSaver::ftpCommandFinished(int, [[maybe_unused]] bool error) const
 {
 #ifdef FTP
     switch (ftp_.currentCommand())

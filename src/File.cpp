@@ -64,7 +64,7 @@ QString File::getName() const
     return fileName;
 }
 
-QString File::dump()
+QString File::dump() const
 {
     QString dumpString;
     dumpString.append("Path: " + path_ + " base name: " + baseName_ +

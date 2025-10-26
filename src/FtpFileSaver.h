@@ -21,10 +21,10 @@ public:
 
     void saveFile(File* file);
 
-    void checkConnection(QString host, QString login, QString password);
+    void checkConnection(QString host, QString login, QString password) const;
 
 protected slots:
-    void ftpCommandFinished(int, bool error);
+    void ftpCommandFinished(int, bool error) const;
 
     void updateDataTransferProgress(qint64 readBytes, qint64 totalBytes);
 

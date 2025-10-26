@@ -51,7 +51,7 @@ protected:
 protected slots:
     void updateDataTransferProgress(qint64 readBytes, qint64 totalBytes);
 
-    void ftpCommandFinished(int, bool error);
+    void ftpCommandFinished(int, bool error) const;
 
     void itemActivated(QModelIndex index) override;
 

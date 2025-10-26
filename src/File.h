@@ -43,7 +43,7 @@ public:
      */
     QString getName() const;
 
-    QString dump();
+    QString dump() const;
 
     static QString filePathToPath(QString filePath);
 

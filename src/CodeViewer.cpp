@@ -433,7 +433,7 @@ void CodeViewer::zoom(float zoomFactor)
 
 int CodeViewer::lineNumberAreaWidth() const
 {
-    int digits = QString::number(qMax(1, blockCount())).length();
+    int digits = QString::number(::qMax(1, blockCount())).length();
 
     int space = 3 + QFontMetricsF(QGuiApplication::font())
                             .horizontalAdvance(QLatin1Char('9')) *
@@ -488,9 +488,9 @@ void CodeViewer::lineNumberAreaPaintEvent(QPaintEvent* event)
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
-    int top =
-        qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
-    int bottom = top + qRound(blockBoundingRect(block).height());
+    int top = ::qRound(
+        blockBoundingGeometry(block).translated(contentOffset()).top());
+    int bottom = top + ::qRound(blockBoundingRect(block).height());
 
     while (block.isValid() && top <= event->rect().bottom())
     {
@@ -504,7 +504,7 @@ void CodeViewer::lineNumberAreaPaintEvent(QPaintEvent* event)
 
         block = block.next();
         top = bottom;
-        bottom = top + qRound(blockBoundingRect(block).height());
+        bottom = top + ::qRound(blockBoundingRect(block).height());
         ++blockNumber;
     }
 }
@@ -514,7 +514,7 @@ void CodeViewer::paintEvent(QPaintEvent* event)
     QPlainTextEdit::paintEvent(event);
     const QRect rect = event->rect();
     const QFont font = currentCharFormat().font();
-    int x80 = qRound(QFontMetricsF(font).averageCharWidth() * 80.0) +
+    int x80 = ::qRound(QFontMetricsF(font).averageCharWidth() * 80.0) +
               contentOffset().x() + document()->documentMargin();
     QPainter painter(viewport());
     painter.setPen(QPen("gray"));

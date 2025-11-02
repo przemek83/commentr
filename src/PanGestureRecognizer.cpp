@@ -14,9 +14,8 @@ const QList<QTouchEvent::TouchPoint>& PanGestureRecognizer::getTouchPoints(
     return touchEvent->points();
 }
 
-QGestureRecognizer::Result PanGestureRecognizer::recognize(QGesture* state,
-                                                           QObject* /*watched*/,
-                                                           QEvent* event)
+QGestureRecognizer::Result PanGestureRecognizer::recognize(
+    QGesture* state, [[maybe_unused]] QObject* watched, QEvent* event)
 {
     QGestureRecognizer::Result result{QGestureRecognizer::Ignore};
 

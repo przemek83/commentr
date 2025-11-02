@@ -12,7 +12,7 @@ CursorPointerSelector::CursorPointerSelector(CursorDirection direction,
     resize(size_, size_ + size_ / 4);
 }
 
-void CursorPointerSelector::paintEvent(QPaintEvent* /*event*/)
+void CursorPointerSelector::paintEvent([[maybe_unused]] QPaintEvent* event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);

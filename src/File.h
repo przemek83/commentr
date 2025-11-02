@@ -31,16 +31,8 @@ public:
 
     void clearContent();
 
-    /**
-     * @brief create from path, base name and suffix complete filepath.
-     * @return filepath.
-     */
     QString getFilePath() const;
 
-    /**
-     * @brief create from base name and suffix name of file.
-     * @return file name.
-     */
     QString getName() const;
 
     QString dump() const;

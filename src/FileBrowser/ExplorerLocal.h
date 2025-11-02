@@ -34,10 +34,6 @@ public:
 protected:
     QListView* getListView() override;
 
-    /**
-     * @brief update path lineEdit if file was clicked.
-     * @param index idex clicked.
-     */
     void listViewItemClicked(const QModelIndex& index) override;
 
     void mouseMoveEvent(QMouseEvent* event) override;

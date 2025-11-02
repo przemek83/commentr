@@ -16,7 +16,7 @@ CursorPointer::CursorPointer(QWidget* parent) : QWidget(parent), dragged_(false)
     updateSize();
 }
 
-void CursorPointer::paintEvent(QPaintEvent* /*event*/)
+void CursorPointer::paintEvent([[maybe_unused]] QPaintEvent* event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);

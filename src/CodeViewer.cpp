@@ -441,7 +441,7 @@ int CodeViewer::lineNumberAreaWidth() const
     return space;
 }
 
-void CodeViewer::updateLineNumberAreaWidth(int /*newBlockCount*/)
+void CodeViewer::updateLineNumberAreaWidth([[maybe_unused]] int newBlockCount)
 {
 // Disable temporarily line number area on Android.
 #ifdef Q_OS_ANDROID

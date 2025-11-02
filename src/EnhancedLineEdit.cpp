@@ -122,7 +122,7 @@ QPoint EnhancedLineEdit::getPositionForVisualPointer() const
     return QPoint(newX, newY);
 }
 
-void EnhancedLineEdit::textWasChanged(QString /*newText*/)
+void EnhancedLineEdit::textWasChanged([[maybe_unused]] QString newText)
 {
     cursorPointer_->hide();
     resetPointerRange();

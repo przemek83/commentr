@@ -110,40 +110,21 @@ private:
 
     bool selectorsShownBeforeFocusLost_{false};
 
-    /**
-     * @brief Check if anchor is displayed on screen.
-     * @return Anchor is on visible part of screen.
-     */
     bool anchorIsInRange() const;
 
-    /**
-     * @brief Hide visual pointers when cursor was moved but no dragging used.
-     */
     void hideAllPointersIfNotDragged();
 
     void grabGestures() const;
 
 private slots:
-    /**
-     * @brief Resize area where editor will be shown.
-     * @param newBlockCount New number of blocks in editor.
-     */
     void updateLineNumberAreaWidth(int newBlockCount);
 
-    /**
-     * @brief Update line number area rectangle.
-     * @param rect Rectangle to update.
-     * @param dy Number of pixels scrolled.
-     */
     void updateLineNumberArea(const QRect& rect, int dy);
 
     void matchPointerToCursorPosition();
 
     void pointerMoved(QPoint pos);
 
-    /**
-     * @brief React when cursor position in editor was changed.
-     */
     void cursorPosHasChanged();
 };
 

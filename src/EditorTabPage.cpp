@@ -162,7 +162,7 @@ void EditorTabPage::searchPrev()
     }
 }
 
-void EditorTabPage::searchStringChanged(QString /*string*/)
+void EditorTabPage::searchStringChanged([[maybe_unused]] QString string)
 {
     QTextCursor cursor = codeViewer_->textCursor();
     cursor.setPosition(cursor.anchor());

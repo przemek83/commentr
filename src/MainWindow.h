@@ -38,9 +38,6 @@ private:
 
     Ui::MainWindow* ui;
 
-    /**
-     * @brief create tab for FTP connection setup 9host, login, password).
-     */
     void initFtpConnectionSetup();
 
     void manageActions(bool tabExist);
@@ -66,34 +63,15 @@ private:
 
     void rebuildToolbar();
 
-    /**
-     * @brief change language for current tab
-     * @param mode new programming language.
-     */
+    // Change language for current tab
     void changeModeForCurrentTab(EditorTabPage::EditorMode mode);
 
-    /**
-     * @brief set proper action checked according to given language/mode.
-     * @param mode language set.
-     */
     void setProperLangActionForMode(EditorTabPage::EditorMode mode);
 
-    /**
-     * @brief if main window is shown activate proper functionalities.
-     * @param visible main window is visible.
-     */
     void setAvailableFunctionalitiesForMainWindow(bool visible);
 
-    /**
-     * @brief set new tabbar position.
-     * @param position new position.
-     */
     void changeTabPosition(QTabWidget::TabPosition position);
 
-    /**
-     * @brief create and show BrowseFilesWidget for given mode (open or save).
-     * @param openFileMode true = open, false = save.
-     */
     void createAndShowBrowseFilesWidget(bool openFileMode);
 
     /// Counter used at new file creation.
@@ -220,24 +198,12 @@ private slots:
 
     void focusHasChanged(QWidget* old, QWidget* now);
 
-    /**
-     * @brief create new tab using give File.
-     * @param file file to use in new tab.
-     */
     void createNewTab(File* file);
 
-    /**
-     * @brief save given file aacording to destination.
-     * @param file given file.
-     */
     void saveFileFromTab(File* file);
 
     void saveFtpFile(File* file);
 
-    /**
-     * @brief inform MainWindow when FTP saves file.
-     * @param success true if saved, false when error (displayed already).
-     */
     void fileSavedUsingFtp(bool success);
 
     void openRecentFile();

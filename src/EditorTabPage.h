@@ -83,17 +83,19 @@ private:
 
     CodeViewer* codeViewer_;
 
-    bool undoAvailable_;
+    bool undoAvailable_{false};
 
-    bool redoAvailable_;
+    bool redoAvailable_{false};
 
-    bool selectionEmpty_;
+    bool selectionEmpty_{true};
 
     EditorMode mode_;
 
     Highlighter* getHighlighterForEditorMode(EditorMode mode);
 
-    const static char* modeNames_[];
+    const std::array<QString, 10> modeNames_ = {
+        "Plain text", "C/C++",        "Java",   "Objective-C", "C#",
+        "PHP",        "Visual Basic", "Python", "SQL",         "JavaScript"};
 
     EditorMode detectModeUsingSuffix(QString suffix) const;
 

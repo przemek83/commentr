@@ -19,16 +19,9 @@
 #include "Highlighters/SQLHighlighter.h"
 #include "ui_EditorTabPage.h"
 
-const char* EditorTabPage::modeNames_[] = {
-    "Plain text", "C/C++",        "Java",   "Objective-C", "C#",
-    "PHP",        "Visual Basic", "Python", "SQL",         "JavaScript"};
-
 EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
     : QWidget(parent),
       ui(new Ui::EditorTabPage),
-      undoAvailable_(false),
-      redoAvailable_(false),
-      selectionEmpty_(true),
       file_(file)
 {
     ui->setupUi(this);

@@ -36,10 +36,6 @@ public:
 
 private:
     Common() = default;
-
-    static const int timerFireInterval_;
-
-    const static int maxRecentFiles_;
 };
 
 #endif  // COMMON_H

@@ -88,7 +88,15 @@ private:
     void load();
 
     /// Names used.
-    const static char* configNames_[];
+    const std::array<QString, 22> configNames_{
+        "tabsPosition",      "uiSize",           "style",
+        "toolbar/file",      "toolbar/undoRedo", "toolbar/copyPasteCut",
+        "toolbar/zoom",      "toolbar/search",   "toolbar/keyboard",
+        "checkSpelling",     "lineWrap",         "firstUse",
+        "showtoolbar",       "toolbarposition",  "fontsize",
+        "listViewInBrowser", "lastdir",          "ftpHost",
+        "ftpLogin",          "ftpPassword",      "saveftppassword",
+        "recentFileList"};
 
     /// Enum used for names.
     enum ConfigNames

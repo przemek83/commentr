@@ -7,10 +7,6 @@
 #include <QTextStream>
 #include <QWidget>
 
-const int Common::timerFireInterval_ = 200;
-
-const int Common::maxRecentFiles_ = 7;
-
 const QString Common::rootPath()
 {
     const QStringList potentialPaths{QStandardPaths::standardLocations(
@@ -63,7 +59,11 @@ QString Common::getStyleSheet()
     return stylesheet;
 }
 
-int Common::timerFireInterval() { return timerFireInterval_; }
+int Common::timerFireInterval()
+{
+    const int timerFireInterval{200};
+    return timerFireInterval;
+}
 
 QWidget* Common::getMainWindow(QObject* startObject)
 {
@@ -81,7 +81,11 @@ void Common::centerWidget(QObject* hierarchyObject, QWidget* widgetToCenter)
     widgetToCenter->move(applicationCenter - widgetToCenter->rect().center());
 }
 
-int Common::getMaxRecentFiles() { return maxRecentFiles_; }
+int Common::getMaxRecentFiles()
+{
+    const int maxRecentFiles{7};
+    return maxRecentFiles;
+}
 
 float Common::normalizeFont(float fontSize)
 {

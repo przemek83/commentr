@@ -10,16 +10,6 @@
 
 #include "Common.h"
 
-const char* Config::configNames_[] = {
-    "tabsPosition",      "uiSize",           "style",
-    "toolbar/file",      "toolbar/undoRedo", "toolbar/copyPasteCut",
-    "toolbar/zoom",      "toolbar/search",   "toolbar/keyboard",
-    "checkSpelling",     "lineWrap",         "firstUse",
-    "showtoolbar",       "toolbarposition",  "fontsize",
-    "listViewInBrowser", "lastdir",          "ftpHost",
-    "ftpLogin",          "ftpPassword",      "saveftppassword",
-    "recentFileList"};
-
 Config::Config() { load(); }
 
 Config& Config::getInstance()
@@ -144,13 +134,12 @@ const QStringList& Config::getRecentFiles() const { return recentFiles_; }
 
 void Config::addFilePathToRecentFiles(const QString& filePath)
 {
-    static const int maxRecentFiles = Common::getMaxRecentFiles();
-    if (recentFiles_.contains(filePath) == false)
+    const int maxRecentFiles{Common::getMaxRecentFiles()};
+    if (!recentFiles_.contains(filePath))
     {
         if (recentFiles_.size() >= maxRecentFiles)
-        {
             recentFiles_.removeLast();
-        }
+
         recentFiles_.prepend(filePath);
     }
 }

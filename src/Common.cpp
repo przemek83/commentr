@@ -28,13 +28,12 @@ QString Common::loadFile(QString name)
 {
     QFile file(name);
 
-    if (false == file.open(QIODevice::ReadOnly))
-    {
+    if (!file.open(QIODevice::ReadOnly))
         return "";
-    }
 
     QTextStream stream(&file);
     stream.setEncoding(QStringConverter::Utf8);
+
     return stream.readAll();
 }
 
@@ -42,7 +41,7 @@ QString Common::saveFile(QString fileName, QString& data)
 {
     QFile file(fileName);
 
-    if (false == file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
         QString error(QObject::tr("Saving file failed. Can't open: "));
         error.append(fileName);
@@ -70,17 +69,15 @@ QWidget* Common::getMainWindow(QObject* startObject)
 {
     QObject* object = startObject;
     while (object->parent() != nullptr)
-    {
         object = object->parent();
-    }
 
     return static_cast<QWidget*>(object);
 }
 
 void Common::centerWidget(QObject* hierarchyObject, QWidget* widgetToCenter)
 {
-    static const QWidget* mainWindow = getMainWindow(hierarchyObject);
-    QPoint applicationCenter = mainWindow->frameGeometry().center();
+    const QWidget* mainWindow{getMainWindow(hierarchyObject)};
+    QPoint applicationCenter{mainWindow->frameGeometry().center()};
     widgetToCenter->move(applicationCenter - widgetToCenter->rect().center());
 }
 
@@ -88,17 +85,15 @@ int Common::getMaxRecentFiles() { return maxRecentFiles_; }
 
 float Common::normalizeFont(float fontSize)
 {
-    float normalizedFonSize = fontSize;
+    float normalizedFonSize{fontSize};
 
-    if (fontSize > 128)
-    {
-        normalizedFonSize = 128;
-    }
+    const int maxFontSize{128};
+    if (fontSize > maxFontSize)
+        normalizedFonSize = maxFontSize;
 
-    if (fontSize < 1)
-    {
-        normalizedFonSize = 1;
-    }
+    const int minFontSize{1};
+    if (fontSize < minFontSize)
+        normalizedFonSize = minFontSize;
 
     return normalizedFonSize;
 }

@@ -113,7 +113,7 @@ void CodeViewer::cursorPosHasChanged()
 
     QTextEdit::ExtraSelection selection;
 
-    static QColor lineColor = QColor(Qt::yellow).lighter(160);
+    const QColor lineColor{QColor(Qt::yellow).lighter(160)};
 
     selection.format.setBackground(lineColor);
     selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -420,7 +420,7 @@ void CodeViewer::scrollContentsBy(int dx, int dy)
 
 void CodeViewer::zoom(float zoomFactor)
 {
-    if (zoomFactor == 0)
+    if (qFuzzyCompare(zoomFactor, 0))
         return;
 
     if (zoomFactor > 0)

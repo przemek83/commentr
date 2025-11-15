@@ -28,7 +28,7 @@ ConnectionSetup::~ConnectionSetup() { delete ui; }
 
 void ConnectionSetup::setVisible(bool visible)
 {
-    static const Config& instance = Config::getInstance();
+    const Config& instance = Config::getInstance();
     hostLineEdit_->setText(instance.ftpHost());
     loginLineEdit_->setText(instance.ftpLogin());
     passwordLineEdit_->setText(instance.ftpPassword());
@@ -63,7 +63,7 @@ void ConnectionSetup::setupLineEdits()
 
 void ConnectionSetup::on_okButton_clicked()
 {
-    static Config& instance = Config::getInstance();
+    Config& instance = Config::getInstance();
     instance.setFtpHost(hostLineEdit_->text());
     instance.setFtpLogin(loginLineEdit_->text());
 

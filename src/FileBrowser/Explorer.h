@@ -10,6 +10,8 @@ class Explorer
 public:
     explicit Explorer(bool open);
 
+    virtual ~Explorer() = default;
+
     virtual void setPath(QString path) = 0;
 
     virtual QString getCurrentPath() = 0;

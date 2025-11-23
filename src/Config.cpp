@@ -47,7 +47,7 @@ void Config::save()
 }
 
 void Config::setValue(QSettings& settings, ConfigNames name,
-                      QVariant value) const
+                      const QVariant& value) const
 {
     settings.setValue(configNames_[name], value);
 }

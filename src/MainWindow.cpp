@@ -342,8 +342,8 @@ void MainWindow::saveFileFromTab(File* file)
         {
             case Common::SOURCE_LOCAL:
             {
-                QString data(currentTab->getCurrentText());
-                showStatusMsg(Common::saveFile(file->getFilePath(), data));
+                QString content(currentTab->getCurrentText());
+                showStatusMsg(Common::saveFile(file->getFilePath(), content));
                 currentTab->changeFile(file);
                 delete file;
                 break;

@@ -1029,7 +1029,7 @@ void MainWindow::on_actionToolbarEast_triggered()
 void MainWindow::on_actionNew_triggered()
 {
     showMainPage();
-    newFileCounter_++;
+    ++newFileCounter_;
     File* file{new File(Common::SOURCE_NOT_SET, "",
                         tr("File") + QString::number(newFileCounter_), "",
                         new QString(""))};

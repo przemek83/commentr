@@ -171,7 +171,7 @@ void BrowseFilesWidget::on_tabWidget_currentChanged(int index)
         return;
 
     Explorer* explorer = currentListView();
-    if (explorer != nullptr && !explorer->initialized())
+    if (!explorer->initialized())
         explorer->initialize();
 
     filePathLineEdit_->setVisible(index !=

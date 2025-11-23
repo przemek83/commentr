@@ -18,8 +18,7 @@ public:
     static void updateUisize();
 
     void drawPrimitive(PrimitiveElement element, const QStyleOption* option,
-                       QPainter* painter,
-                       const QWidget* widget = nullptr) const override;
+                       QPainter* painter, const QWidget* widget) const override;
 
 private:
     Q_DISABLE_COPY(ProxyStyle)

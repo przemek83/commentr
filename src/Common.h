@@ -17,7 +17,7 @@ public:
 
     static int timerFireInterval();
 
-    static const QString rootPath();
+    static QString rootPath();
 
     enum Source
     {

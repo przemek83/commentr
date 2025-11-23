@@ -7,7 +7,7 @@
 #include <QTextStream>
 #include <QWidget>
 
-const QString Common::rootPath()
+QString Common::rootPath()
 {
     const QStringList potentialPaths{QStandardPaths::standardLocations(
         QStandardPaths::AppLocalDataLocation)};

@@ -71,7 +71,7 @@ QWidget* Common::getMainWindow(QObject* startObject)
     while (object->parent() != nullptr)
         object = object->parent();
 
-    return static_cast<QWidget*>(object);
+    return dynamic_cast<QWidget*>(object);
 }
 
 void Common::centerWidget(QObject* hierarchyObject, QWidget* widgetToCenter)

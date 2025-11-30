@@ -50,7 +50,6 @@ void ObjectiveCHighlighter::initRules()
                     << "(^|\\s)#undef\\b" << "(^|\\s)#ifndef\\b"
                     << "(^|\\s)#endif\\b" << "(^|\\s)#else\\b"
                     << "(^|\\s)#import\\b" << "(^|\\s)#elif\\b";
-    ;
 
     foreach (const QString& pattern, keywordPatterns)
     {

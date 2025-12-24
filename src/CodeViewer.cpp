@@ -262,7 +262,7 @@ void CodeViewer::managePinchGesture(QPinchGesture* gesture)
         {
             const double originalFontSize = Config::getInstance().fontSize();
             const double totalScaleFactor = gesture->totalScaleFactor();
-            const int expectedFontSize = round(
+            const int expectedFontSize = ::round(
                 Common::normalizeFont(originalFontSize * totalScaleFactor));
             const int currentFontSize = fontInfo().pointSizeF();
             const int change = expectedFontSize - currentFontSize;
@@ -420,7 +420,7 @@ void CodeViewer::scrollContentsBy(int dx, int dy)
 
 void CodeViewer::zoom(float zoomFactor)
 {
-    if (qFuzzyCompare(zoomFactor, 0))
+    if (::qFuzzyCompare(zoomFactor, 0))
         return;
 
     if (zoomFactor > 0)

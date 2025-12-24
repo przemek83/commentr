@@ -95,7 +95,7 @@ void EnhancedLineEdit::resetPointerRange()
     // Create rectangle for lineedit input. use  leftTextMargin_  + 6 px
     // because of text margins.
     QRect rect(newPosition.x(), newPosition.y(),
-               qMin(textWidth + leftTextMargin_ + 6, width()), 0);
+               ::qMin(textWidth + leftTextMargin_ + 6, width()), 0);
 
     cursorPointer_->setRange(rect);
     cursorPointer_->setScrollingNeeded(scrollingNeeded);

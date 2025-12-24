@@ -394,7 +394,7 @@ void MainWindow::fileSavedUsingFtp(bool success)
 
 void MainWindow::openRecentFile()
 {
-    QAction* action{qobject_cast<QAction*>(sender())};
+    QAction* action{::qobject_cast<QAction*>(sender())};
     if (action != nullptr)
     {
         QString filePath = action->data().toString();

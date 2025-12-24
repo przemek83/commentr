@@ -41,7 +41,7 @@ void PythonHighlighter::initRules()
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    QString regexp = QString(
+    QString regexp(
         "(\"[^\"]*\"|\'[^\']*\'|\'\'\'[^\'\'\']*\'\'\'|\"\"\"[^\"\"\"]*"
         "\"\"\")");
     rule.startPattern = QRegularExpression(regexp);

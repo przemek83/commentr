@@ -19,7 +19,7 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
 
     initLineEdit();
 
-    ExplorerLocal* localListView = new ExplorerLocal(open, ui->tabWidget);
+    auto* localListView{new ExplorerLocal(open, ui->tabWidget)};
 
     connect(localListView, SIGNAL(filePrepared(File*)), this,
             SIGNAL(filePrepared(File*)));
@@ -31,7 +31,7 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
                              localListView, "local");
 
 #ifdef FTP
-    ExplorerFtp* ftp = new ExplorerFtp(open, ui->tabWidget);
+    auto* ftp{new ExplorerFtp(open, ui->tabWidget)};
 
     connect(ftp, SIGNAL(filePrepared(File*)), this,
             SIGNAL(filePrepared(File*)));
@@ -151,13 +151,11 @@ Explorer* BrowseFilesWidget::currentListView()
 
 void BrowseFilesWidget::on_changeView_clicked()
 {
-    bool wrapping = currentListView()->isWrapping();
-    int tabCount = ui->tabWidget->count();
-    for (int i = 0; i < tabCount; ++i)
+    bool wrapping{currentListView()->isWrapping()};
+    int tabCount{ui->tabWidget->count()};
+    for (int i{0}; i < tabCount; ++i)
     {
-        QListView* listView =
-            dynamic_cast<QListView*>(ui->tabWidget->widget(i));
-
+        auto* listView{dynamic_cast<QListView*>(ui->tabWidget->widget(i))};
         listView->setWrapping(!wrapping);
     }
 

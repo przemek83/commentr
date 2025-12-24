@@ -309,10 +309,9 @@ bool CodeViewer::manageTapAndHoldGesture(QTapAndHoldGesture* gesture)
 {
     if (Qt::GestureFinished == gesture->state())
     {
-        QPoint point = mapFromGlobal(gesture->position().toPoint());
-        QPoint properPoint =
-            QPoint(point.x() - lineNumberArea_->width(), point.y());
-        QTextCursor cursor = cursorForPosition(properPoint);
+        QPoint point{mapFromGlobal(gesture->position().toPoint())};
+        QPoint properPoint(point.x() - lineNumberArea_->width(), point.y());
+        QTextCursor cursor{cursorForPosition(properPoint)};
         cursor.select(QTextCursor::WordUnderCursor);
         setTextCursor(cursor);
 

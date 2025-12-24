@@ -20,9 +20,7 @@
 #include "ui_EditorTabPage.h"
 
 EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
-    : QWidget(parent),
-      ui(new Ui::EditorTabPage),
-      file_(file)
+    : QWidget(parent), ui{new Ui::EditorTabPage}, file_{file}
 {
     ui->setupUi(this);
 
@@ -69,7 +67,7 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
 
     ui->searchLineEdit->setInputMethodHints(Qt::ImhNoPredictiveText);
 
-    BackButtonHandler* backButtonHandler = new BackButtonHandler(this);
+    auto* backButtonHandler{new BackButtonHandler(this)};
     codeViewer_->installEventFilter(backButtonHandler);
     ui->searchLineEdit->installEventFilter(backButtonHandler);
 }
@@ -287,9 +285,9 @@ void EditorTabPage::refreshVisualIndicators()
 File* EditorTabPage::getCurrentFileCopy()
 {
     // TODO: Performance issue due to copy of content?
-    File* file =
-        new File(file_->source(), file_->path(), file_->baseName(),
-                 file_->suffix(), new QString(codeViewer_->toPlainText()));
+    auto* file{new File(file_->source(), file_->path(), file_->baseName(),
+                        file_->suffix(),
+                        new QString(codeViewer_->toPlainText()))};
 
     return file;
 }

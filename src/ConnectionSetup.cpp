@@ -45,8 +45,7 @@ void ConnectionSetup::setupLineEdits()
 {
     hostLineEdit_ = new EnhancedLineEdit(this);
     hostLineEdit_->setPlaceholderText("example.com");
-    QRegularExpression hostRegExp(
-        QRegularExpression("([^\\s/?\\.#-]+\\.?)+(/[^\\s]*)?$@iS"));
+    QRegularExpression hostRegExp("([^\\s/?\\.#-]+\\.?)+(/[^\\s]*)?$@iS");
     hostLineEdit_->setValidator(
         new QRegularExpressionValidator(hostRegExp, hostLineEdit_));
     hostLineEdit_->setInputMethodHints(Qt::ImhNoPredictiveText);
@@ -63,11 +62,11 @@ void ConnectionSetup::setupLineEdits()
 
 void ConnectionSetup::on_okButton_clicked()
 {
-    Config& instance = Config::getInstance();
+    Config& instance{Config::getInstance()};
     instance.setFtpHost(hostLineEdit_->text());
     instance.setFtpLogin(loginLineEdit_->text());
 
-    bool savePasswordChecked = ui->saveInfoCheckBox->isChecked();
+    bool savePasswordChecked{ui->saveInfoCheckBox->isChecked()};
     if (savePasswordChecked)
         instance.setFtpPassword(passwordLineEdit_->text());
     else
@@ -82,7 +81,7 @@ void ConnectionSetup::on_checkButton_clicked()
 {
     ui->checkButton->setEnabled(false);
 
-    FtpFileSaver* ftpChecker = new FtpFileSaver(this);
+    const auto* ftpChecker{new FtpFileSaver(this)};
 
     connect(ftpChecker, SIGNAL(operationFinished(bool)), this,
             SLOT(checkFinished(bool)));

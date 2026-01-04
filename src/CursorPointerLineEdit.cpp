@@ -17,14 +17,17 @@ QPoint CursorPointerLineEdit::calcMovePoint(QPoint mousePos)
     if (range_.height() == 0)
         movePoint.setY(range_.y());
 
-    if (movePoint.x() > range_.width() - size_ / 2 + range_.x())
-        movePoint.setX(range_.width() - size_ / 2 + range_.x());
+    int baseLeftBoundary{range_.x() - size_ / 2};
+    if (movePoint.x() > range_.width() + baseLeftBoundary)
+        movePoint.setX(range_.width() + baseLeftBoundary);
 
     // Margins added to able to scroll.
-    if (movePoint.x() <
-        range_.x() - size_ / 2 + (scrollingNeeded_ ? 0 : addLeftMargin_))
-        movePoint.setX(range_.x() - size_ / 2 +
-                       (scrollingNeeded_ ? 0 : addLeftMargin_));
+    int minCursorX{baseLeftBoundary};
+    if (!scrollingNeeded_)
+        minCursorX += addLeftMargin_;
+
+    if (movePoint.x() < minCursorX)
+        movePoint.setX(minCursorX);
 
     return movePoint;
 }

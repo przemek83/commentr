@@ -466,7 +466,6 @@ void MainWindow::qtStylePicked()
         if (focusWidget != nullptr)
             focusWidget->clearFocus();
 
-        // Config::getInstance().setStyle(style);
         qApp->setStyleSheet(QString());
         qApp->setStyle(new QProxyStyle(style));
     }

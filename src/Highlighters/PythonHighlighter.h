@@ -16,12 +16,6 @@ protected:
 private:
     Q_DISABLE_COPY(PythonHighlighter)
 
-    //    QRegularExpression commentStartExpression_;
-
-    //    QRegularExpression commentEndExpression_;
-
-    //    QTextCharFormat multiLineCommentFormat_;
-
     HighlightingRule singleLineCommentRule_;
 
     HighlightingRule multiLineCommentRule_;

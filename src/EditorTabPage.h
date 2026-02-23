@@ -56,10 +56,8 @@ public:
 
     void setLineWrap(bool wrap);
 
-    /**
-     * @brief change path, base name and suffix of current File object.
-     * @param file file object.
-     */
+    /// @brief change path, base name and suffix of current File object.
+    /// @param file file object.
     void changeFile(File* file);
 
     QString getCurrentText() const;

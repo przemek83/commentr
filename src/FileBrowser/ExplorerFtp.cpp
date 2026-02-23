@@ -148,7 +148,8 @@ void ExplorerFtp::listViewItemClicked(const QModelIndex& index)
     }
 }
 
-void ExplorerFtp::ftpCommandFinished(int, [[maybe_unused]] bool error) const
+void ExplorerFtp::ftpCommandFinished([[maybe_unused]] int,
+                                     [[maybe_unused]] bool error) const
 {
 #ifdef FTP
     switch (ftp_->currentCommand())

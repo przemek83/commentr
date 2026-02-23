@@ -1074,7 +1074,7 @@ void MainWindow::setAvailableFunctionalitiesForMainWindow(bool visible)
     ui->menuHelp->setEnabled(visible);
 }
 
-void MainWindow::focusHasChanged(QWidget* /*old*/, QWidget* now)
+void MainWindow::focusHasChanged([[maybe_unused]] QWidget* old, QWidget* now)
 {
     auto* codeViewer{dynamic_cast<CodeViewer*>(now)};
     auto* lineEdit{dynamic_cast<QLineEdit*>(now)};

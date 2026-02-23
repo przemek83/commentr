@@ -60,14 +60,14 @@ private:
     class LineNumberArea : public QWidget
     {
     public:
-        LineNumberArea(CodeViewer* editor) : QWidget(editor)
+        explicit LineNumberArea(CodeViewer* editor)
+            : QWidget(editor), codeEditor_{editor}
         {
-            codeEditor_ = editor;
         }
 
         QSize sizeHint() const override
         {
-            return QSize(codeEditor_->lineNumberAreaWidth(), 0);
+            return QSize{codeEditor_->lineNumberAreaWidth(), 0};
         }
 
     protected:

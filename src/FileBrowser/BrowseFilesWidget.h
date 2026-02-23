@@ -16,7 +16,7 @@ class BrowseFilesWidget : public QWidget
 {
     Q_OBJECT
 public:
-    BrowseFilesWidget(bool open, QWidget* parent = nullptr);
+    BrowseFilesWidget(bool open, QWidget* parent);
 
     ~BrowseFilesWidget() override;
 

@@ -60,18 +60,12 @@ set(${PROJECT_NAME}_SOURCES
     src/Common.h
     src/FileBrowser/BrowseFilesWidget.cpp
     src/FileBrowser/BrowseFilesWidget.h
-    src/ConnectionSetup.cpp
-    src/ConnectionSetup.h
     src/FileBrowser/Explorer.cpp
     src/FileBrowser/Explorer.h
     src/FileBrowser/ExplorerLocal.cpp
     src/FileBrowser/ExplorerLocal.h
-    src/FileBrowser/ExplorerFtp.cpp
-    src/FileBrowser/ExplorerFtp.h
     src/File.cpp
     src/File.h
-    src/FtpFileSaver.cpp
-    src/FtpFileSaver.h
     src/PanGestureRecognizer.cpp
     src/PanGestureRecognizer.h
     src/Highlighters/BasicHighlighter.cpp
@@ -103,7 +97,7 @@ set(${PROJECT_NAME}_UI
     src/MainWindow.ui
     src/EditorTabPage.ui
     src/FileBrowser/BrowseFilesWidget.ui
-    src/ConnectionSetup.ui
+
 )
 source_group("UI Files" FILES ${${PROJECT_NAME}_UI})
 

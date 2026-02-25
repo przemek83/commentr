@@ -6,9 +6,7 @@
 #include "../Common.h"
 #include "../Config.h"
 #include "../EnhancedLineEdit.h"
-#include "../File.h"
 #include "Explorer.h"
-#include "ExplorerFtp.h"
 #include "ExplorerLocal.h"
 #include "ui_BrowseFilesWidget.h"
 
@@ -29,18 +27,6 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
 
     ui->tabWidget->insertTab(static_cast<int>(Common::SOURCE_LOCAL),
                              localListView, "local");
-
-#ifdef FTP
-    auto* ftp{new ExplorerFtp(open, ui->tabWidget)};
-
-    connect(ftp, SIGNAL(filePrepared(File*)), this,
-            SIGNAL(filePrepared(File*)));
-
-    connect(ftp, SIGNAL(pathChanged(QString)), filePathLineEdit_,
-            SLOT(setText(QString)));
-
-    ui->tabWidget->insertTab(static_cast<int>(Common::SOURCE_FTP), ftp, "ftp");
-#endif
 
     setProperIconForViewButton();
 
@@ -83,21 +69,6 @@ void BrowseFilesWidget::filePathReturnPressed()
             if (fileInfo.isDir())
             {
                 currentListView()->setPath(canonicalFilePath);
-                return;
-            }
-
-            currentListView()->performOperationOnFile(filePath);
-
-            break;
-        }
-
-        case Common::SOURCE_FTP:
-        {
-            QString path(File::filePathToPath(filePath));
-            if (File::filePathToFileName(filePath).isEmpty() &&
-                currentListView()->getCurrentPath() != path)
-            {
-                currentListView()->setPath(path);
                 return;
             }
 
@@ -163,40 +134,14 @@ void BrowseFilesWidget::on_changeView_clicked()
     setProperIconForViewButton();
 }
 
-void BrowseFilesWidget::on_tabWidget_currentChanged(int index)
+void BrowseFilesWidget::on_tabWidget_currentChanged([[maybe_unused]] int index)
 {
-    if (!isFtpConfigured(index))
-        return;
-
     Explorer* explorer = currentListView();
     if (!explorer->initialized())
         explorer->initialize();
-
-    filePathLineEdit_->setVisible(index !=
-                                  static_cast<int>(Common::SOURCE_FTP));
 
     // Set current file path on tab switch.
     filePathLineEdit_->blockSignals(true);
     filePathLineEdit_->setText(explorer->getCurrentPath());
     filePathLineEdit_->blockSignals(false);
-}
-
-bool BrowseFilesWidget::isFtpConfigured(int index)
-{
-    if (index == static_cast<int>(Common::SOURCE_FTP) &&
-        Config::getInstance().ftpHost().isEmpty())
-    {
-        QMessageBox::StandardButton answer = QMessageBox::question(
-            this, tr("FTP"), tr("FTP not configured. Configure now?"));
-
-        if (QMessageBox::Yes == answer)
-            emit configureFtpConnection();
-        else
-            ui->tabWidget->setCurrentIndex(
-                static_cast<int>(Common::SOURCE_LOCAL));
-
-        return false;
-    }
-
-    return true;
 }

@@ -38,15 +38,12 @@ private:
 
     Ui::MainWindow* ui;
 
-    void initFtpConnectionSetup();
-
     void manageActions(bool tabExist);
 
     enum StackedPage
     {
         PAGE_MAIN = 0,
         PAGE_FILE_BROWSER,
-        PAGE_CONNECTION_SETUP
     };
 
     void initMenus();
@@ -176,8 +173,6 @@ private slots:
 
     void on_actionToolbarKeyboard_triggered(bool checked);
 
-    void on_actionConnection_setup_triggered();
-
     void closeCurrentTab();
 
     void qtStylePicked();
@@ -201,10 +196,6 @@ private slots:
     void createNewTab(File* file);
 
     void saveFileFromTab(File* file);
-
-    void saveFtpFile(File* file);
-
-    void fileSavedUsingFtp(bool success);
 
     void openRecentFile();
 

@@ -15,10 +15,8 @@
 #include "CodeViewer.h"
 #include "Common.h"
 #include "Config.h"
-#include "ConnectionSetup.h"
 #include "File.h"
 #include "FileBrowser/BrowseFilesWidget.h"
-#include "FtpFileSaver.h"
 #include "Highlighters/Highlighter.h"
 #include "ProxyStyle.h"
 #include "ui_MainWindow.h"
@@ -49,10 +47,6 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(qApp, SIGNAL(focusChanged(QWidget*, QWidget*)), this,
             SLOT(focusHasChanged(QWidget*, QWidget*)));
-
-#ifdef FTP
-    initFtpConnectionSetup();
-#endif
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -85,16 +79,6 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 void MainWindow::showStatusMsg(QString msg)
 {
     QMessageBox::information(this, tr("Message"), msg);
-}
-
-void MainWindow::initFtpConnectionSetup()
-{
-    ConnectionSetup* connectionSetup{new ConnectionSetup(ui->stackedWidget)};
-    ui->stackedWidget->insertWidget(PAGE_CONNECTION_SETUP, connectionSetup);
-
-    connect(connectionSetup, SIGNAL(cancel()), this, SLOT(showMainPage()));
-
-    connect(connectionSetup, SIGNAL(accept()), this, SLOT(showMainPage()));
 }
 
 void MainWindow::initMenus()
@@ -349,16 +333,6 @@ void MainWindow::saveFileFromTab(File* file)
                 break;
             }
 
-            case Common::SOURCE_FTP:
-            {
-                file->setContent(new QString(currentTab->getCurrentText()));
-                currentTab->changeFile(file);
-
-                // ftpFileSaver takes ownership of file.
-                saveFtpFile(file);
-                break;
-            }
-
             default:
             {
                 delete file;
@@ -370,26 +344,6 @@ void MainWindow::saveFileFromTab(File* file)
     }
 
     showMainPage();
-}
-
-void MainWindow::saveFtpFile(File* file)
-{
-    FtpFileSaver* ftpFileSaver{new FtpFileSaver(this)};
-
-    connect(ftpFileSaver, SIGNAL(operationFinished(bool)), this,
-            SLOT(fileSavedUsingFtp(bool)));
-
-    connect(this, SIGNAL(windowResized()), ftpFileSaver, SLOT(windowResized()));
-
-    ftpFileSaver->saveFile(file);
-}
-
-void MainWindow::fileSavedUsingFtp(bool success)
-{
-    if (success)
-        QMessageBox::information(this, tr("FTP"), tr("File saved."));
-
-    sender()->deleteLater();
 }
 
 void MainWindow::openRecentFile()
@@ -707,9 +661,6 @@ void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
         connect(browseFilesWidget, SIGNAL(filePrepared(File*)), this,
                 SLOT(saveFileFromTab(File*)));
 
-    connect(browseFilesWidget, SIGNAL(configureFtpConnection()), this,
-            SLOT(on_actionConnection_setup_triggered()));
-
     ui->stackedWidget->insertWidget(PAGE_FILE_BROWSER, browseFilesWidget);
 
     ui->stackedWidget->setCurrentIndex(PAGE_FILE_BROWSER);
@@ -845,14 +796,6 @@ void MainWindow::on_actionSave_file_triggered()
                 showStatusMsg(
                     Common::saveFile(file->getFilePath(), *(file->content())));
                 delete file;
-
-                break;
-            }
-
-            case Common::SOURCE_FTP:
-            {
-                // ftpFileSaver takes ownership of file.
-                saveFtpFile(file);
 
                 break;
             }
@@ -1080,13 +1023,6 @@ void MainWindow::focusHasChanged([[maybe_unused]] QWidget* old, QWidget* now)
     auto* lineEdit{dynamic_cast<QLineEdit*>(now)};
     bool keyboardFocusWidget{lineEdit != nullptr || codeViewer != nullptr};
     ui->actionShow_hide_keyboard->setEnabled(keyboardFocusWidget);
-}
-
-void MainWindow::on_actionConnection_setup_triggered()
-{
-    setAvailableFunctionalitiesForMainWindow(false);
-
-    ui->stackedWidget->setCurrentIndex(PAGE_CONNECTION_SETUP);
 }
 
 void MainWindow::on_actionMenu_triggered()

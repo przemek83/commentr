@@ -22,7 +22,6 @@ public:
     enum Source
     {
         SOURCE_LOCAL = 0,
-        SOURCE_FTP,
         SOURCE_NOT_SET
     };
 

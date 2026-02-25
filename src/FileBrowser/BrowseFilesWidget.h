@@ -33,8 +33,6 @@ private:
 
     Explorer* currentListView();
 
-    bool isFtpConfigured(int index);
-
 private slots:
     void filePathReturnPressed();
 
@@ -48,8 +46,6 @@ signals:
     void cancelAction();
 
     void filePrepared(File* file);
-
-    void configureFtpConnection();
 };
 
 #endif  // BROWSEFILESWIDGET_H

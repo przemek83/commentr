@@ -66,18 +66,6 @@ public:
     QString lastPickedDir() const;
     void setLastPickedDir(const QString& lastPickedDir);
 
-    QString ftpHost() const;
-    void setFtpHost(const QString& ftpHost);
-
-    QString ftpLogin() const;
-    void setFtpLogin(const QString& ftpLogin);
-
-    QString ftpPassword() const;
-    void setFtpPassword(const QString& ftpPassword);
-
-    bool saveFtpPassword() const;
-    void setSaveFtpPassword(bool saveFtpPassword);
-
     const QStringList& getRecentFiles() const;
     void addFilePathToRecentFiles(const QString& filePath);
 
@@ -88,15 +76,13 @@ private:
     void load();
 
     /// Names used.
-    const std::array<QString, 22> configNames_{
+    const std::array<QString, 18> configNames_{
         "tabsPosition",      "uiSize",           "style",
         "toolbar/file",      "toolbar/undoRedo", "toolbar/copyPasteCut",
         "toolbar/zoom",      "toolbar/search",   "toolbar/keyboard",
         "checkSpelling",     "lineWrap",         "firstUse",
         "showtoolbar",       "toolbarposition",  "fontsize",
-        "listViewInBrowser", "lastdir",          "ftpHost",
-        "ftpLogin",          "ftpPassword",      "saveftppassword",
-        "recentFileList"};
+        "listViewInBrowser", "lastdir",          "recentFileList"};
 
     /// Enum used for names.
     enum ConfigNames
@@ -118,10 +104,6 @@ private:
         CONFIG_FONT_SIZE,
         CONFIG_LIST_VIEW_IN_BROWSER,
         CONFIG_LAST_DIR,
-        CONFIG_FTP_HOST,
-        CONFIG_FTP_LOGIN,
-        CONFIG_FTP_PASSWORD,
-        CONFIG_SAVE_FTP_PASSWORD,
         CONFIG_RECENT_FILES
     };
 
@@ -164,14 +146,6 @@ private:
     bool keyboardAfterTap_;
 
     QString lastPickedDir_;
-
-    QString ftpHost_;
-
-    QString ftpLogin_;
-
-    QString ftpPassword_;
-
-    bool saveFtpPassword_;
 
     QStringList recentFiles_;
 

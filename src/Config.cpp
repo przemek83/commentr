@@ -39,10 +39,6 @@ void Config::save()
     setValue(settings, CONFIG_FONT_SIZE, fontSize_);
     setValue(settings, CONFIG_LIST_VIEW_IN_BROWSER, listViewInBrowser_);
     setValue(settings, CONFIG_LAST_DIR, lastPickedDir_);
-    setValue(settings, CONFIG_FTP_HOST, ftpHost_);
-    setValue(settings, CONFIG_FTP_LOGIN, ftpLogin_);
-    setValue(settings, CONFIG_FTP_PASSWORD, ftpPassword_);
-    setValue(settings, CONFIG_SAVE_FTP_PASSWORD, saveFtpPassword_);
     setValue(settings, CONFIG_RECENT_FILES, recentFiles_);
 }
 
@@ -113,18 +109,6 @@ void Config::load()
     fieldName = configNames_[CONFIG_LAST_DIR];
     lastPickedDir_ = settings.value(fieldName, QVariant("")).toString();
 
-    fieldName = configNames_[CONFIG_FTP_HOST];
-    ftpHost_ = settings.value(fieldName, QVariant("")).toString();
-
-    fieldName = configNames_[CONFIG_FTP_LOGIN];
-    ftpLogin_ = settings.value(fieldName, QVariant("")).toString();
-
-    fieldName = configNames_[CONFIG_FTP_PASSWORD];
-    ftpPassword_ = settings.value(fieldName, QVariant("")).toString();
-
-    fieldName = configNames_[CONFIG_SAVE_FTP_PASSWORD];
-    saveFtpPassword_ = settings.value(fieldName, QVariant(false)).toBool();
-
     fieldName = configNames_[CONFIG_RECENT_FILES];
     recentFiles_ =
         settings.value(fieldName, QVariant(QStringList())).toStringList();
@@ -143,36 +127,6 @@ void Config::addFilePathToRecentFiles(const QString& filePath)
         recentFiles_.prepend(filePath);
     }
 }
-
-bool Config::saveFtpPassword() const { return saveFtpPassword_; }
-
-void Config::setSaveFtpPassword(bool saveFtpPassword)
-{
-    saveFtpPassword_ = saveFtpPassword;
-}
-
-QString Config::ftpHost() const
-{
-    // Example ftpHost: "mirror.one.com"
-    return ftpHost_;
-}
-
-void Config::setFtpHost(const QString& ftpHost) { ftpHost_ = ftpHost; }
-
-QString Config::ftpPassword() const { return ftpPassword_; }
-
-void Config::setFtpPassword(const QString& ftpPassword)
-{
-    ftpPassword_ = ftpPassword;
-}
-
-QString Config::ftpLogin() const
-{
-    // Example ftpLogin: "anonymous"
-    return ftpLogin_;
-}
-
-void Config::setFtpLogin(const QString& ftpLogin) { ftpLogin_ = ftpLogin; }
 
 QString Config::lastPickedDir() const { return lastPickedDir_; }
 

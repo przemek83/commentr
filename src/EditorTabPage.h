@@ -95,7 +95,7 @@ private:
         "Plain text", "C/C++",        "Java",   "Objective-C", "C#",
         "PHP",        "Visual Basic", "Python", "SQL",         "JavaScript"};
 
-    EditorMode detectModeUsingSuffix(QString suffix) const;
+    static EditorMode detectModeUsingSuffix(const QString& suffix);
 
     File* file_;
 

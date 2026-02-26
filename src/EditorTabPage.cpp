@@ -226,54 +226,34 @@ Highlighter* EditorTabPage::getHighlighterForEditorMode(EditorMode mode)
     switch (mode)
     {
         case EDITOR_MODE_C_CPP:
-        {
             return new CplusPlusHighlighter(this);
-        }
 
         case EDITOR_MODE_JAVA:
-        {
             return new JavaHighlighter(this);
-        }
 
         case EDITOR_MODE_OBJECTIVE_C:
-        {
             return new ObjectiveCHighlighter(this);
-        }
 
         case EDITOR_MODE_C_SHARP:
-        {
             return new CSharpHighlighter(this);
-        }
 
         case EDITOR_MODE_PHP:
-        {
             return new PhpHighlighter(this);
-        }
 
         case EDITOR_MODE_VISUAL_BASIC:
-        {
             return new BasicHighlighter(this);
-        }
 
         case EDITOR_MODE_PYTHON:
-        {
             return new PythonHighlighter(this);
-        }
 
         case EDITOR_MODE_SQL:
-        {
             return new SQLHighlighter(this);
-        }
 
         case EDITOR_MODE_JAVASCRIPT:
-        {
             return new JavaScriptHighlighter(this);
-        }
 
         default:
-        {
             return nullptr;
-        }
     }
 }
 
@@ -293,35 +273,36 @@ File* EditorTabPage::getCurrentFileCopy()
 }
 
 EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
-    QString suffix) const
+    const QString& suffix)
 {
+    EditorTabPage::EditorMode mode{EDITOR_MODE_PLAIN_TEXT};
     if (suffix == "java")
-        return EditorTabPage::EDITOR_MODE_JAVA;
+        mode = EditorTabPage::EDITOR_MODE_JAVA;
 
     if (suffix == "c" || suffix == "cpp" || suffix == "h" || suffix == "hpp" ||
         suffix == "cc" || suffix == "cxx" || suffix == "c++" || suffix == "moc")
-        return EditorTabPage::EDITOR_MODE_C_CPP;
+        mode = EditorTabPage::EDITOR_MODE_C_CPP;
 
     if (suffix == "m")
-        return EditorTabPage::EDITOR_MODE_OBJECTIVE_C;
+        mode = EditorTabPage::EDITOR_MODE_OBJECTIVE_C;
 
     if (suffix == "cs")
-        return EditorTabPage::EDITOR_MODE_C_SHARP;
+        mode = EditorTabPage::EDITOR_MODE_C_SHARP;
 
     if (suffix == "php")
-        return EditorTabPage::EDITOR_MODE_PHP;
+        mode = EditorTabPage::EDITOR_MODE_PHP;
 
     if (suffix == "bas" || suffix == "cls" || suffix == "vb")
-        return EditorTabPage::EDITOR_MODE_VISUAL_BASIC;
+        mode = EditorTabPage::EDITOR_MODE_VISUAL_BASIC;
 
     if (suffix == "py")
-        return EditorTabPage::EDITOR_MODE_PYTHON;
+        mode = EditorTabPage::EDITOR_MODE_PYTHON;
 
     if (suffix == "sql")
-        return EditorTabPage::EDITOR_MODE_SQL;
+        mode = EditorTabPage::EDITOR_MODE_SQL;
 
     if (suffix == "js")
-        return EditorTabPage::EDITOR_MODE_JAVASCRIPT;
+        mode = EditorTabPage::EDITOR_MODE_JAVASCRIPT;
 
-    return EditorTabPage::EDITOR_MODE_PLAIN_TEXT;
+    return mode;
 }

@@ -31,7 +31,6 @@ ExplorerLocal::~ExplorerLocal()
 
     QModelIndex currentIndex = rootIndex();
 
-    // TODO: in config last dir for each source.
     QString lastDir = fileModel->fileInfo(currentIndex).absoluteFilePath();
     Config::getInstance().setLastPickedDir(lastDir);
 }
@@ -40,7 +39,10 @@ void ExplorerLocal::setPath(QString path)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
-    setRootIndex(fileModel->index(path.isEmpty() ? Common::rootPath() : path));
+    QString pathToUse{path};
+    if (pathToUse.isEmpty())
+        pathToUse = Common::rootPath();
+    setRootIndex(fileModel->index(pathToUse));
     QModelIndex newRootIndex = fileModel->index(0, 0, rootIndex());
     setCurrentIndex(newRootIndex);
 }

@@ -117,9 +117,14 @@ void EditorTabPage::flipFindVisibility()
 // 16.4.2018 Needed?
 void EditorTabPage::zoom(bool in)
 {
-    codeViewer_->zoom(in ? 1 : -1);
+    if (in)
+        codeViewer_->zoom(1.F);
+    else
+        codeViewer_->zoom(-1.F);
 
-    Config::getInstance().setFontSize(codeViewer_->fontInfo().pointSizeF());
+    const float newSize{
+        static_cast<float>(codeViewer_->fontInfo().pointSizeF())};
+    Config::getInstance().setFontSize(newSize);
 }
 
 void EditorTabPage::searchNext()

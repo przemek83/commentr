@@ -22,7 +22,7 @@ ExplorerLocal::ExplorerLocal(bool open, QWidget* parent)
     // Set proper initial icon.
     setWrapping(!Config::getInstance().listViewInBrowser());
 
-    setupList(this);
+    setupList();
 }
 
 ExplorerLocal::~ExplorerLocal()
@@ -33,6 +33,30 @@ ExplorerLocal::~ExplorerLocal()
 
     QString lastDir = fileModel->fileInfo(currentIndex).absoluteFilePath();
     Config::getInstance().setLastPickedDir(lastDir);
+}
+
+void ExplorerLocal::setupList()
+{
+#ifdef Q_OS_ANDROID
+    QScroller* scroller = QScroller::scroller(viewport());
+
+    scroller->grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
+#endif
+
+    QObject::connect(this, &ExplorerLocal::clicked, this,
+                     &ExplorerLocal::itemWasActivated);
+
+    QObject::connect(this, &ExplorerLocal::doubleClicked, this,
+                     &ExplorerLocal::itemWasActivated);
+
+    setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setDropIndicatorShown(false);
+    setSelectionBehavior(QAbstractItemView::SelectItems);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setResizeMode(QListView::Adjust);
+    setDragDropMode(QAbstractItemView::NoDragDrop);
 }
 
 void ExplorerLocal::setPath(QString path)

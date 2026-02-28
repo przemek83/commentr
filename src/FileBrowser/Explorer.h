@@ -1,9 +1,10 @@
 #ifndef EXPLORER_H
 #define EXPLORER_H
 
-#include <QObject>
+#include <QString>
 
 class QListView;
+class QModelIndex;
 
 class Explorer
 {
@@ -28,10 +29,6 @@ public:
     virtual void performOperationOnFile(QString filePath) = 0;
 
 protected:
-    static void setupList(QListView* listView);
-
-    virtual void itemWasActivated(QModelIndex index) = 0;
-
     virtual QListView* getListView() = 0;
 
     virtual void listViewItemClicked(const QModelIndex& index) = 0;

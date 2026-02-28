@@ -36,13 +36,13 @@ protected:
 
     void mouseMoveEvent(QMouseEvent* event) override;
 
-protected slots:
-    void itemWasActivated(QModelIndex index) override;
+private slots:
+    void itemWasActivated(QModelIndex index);
 
 private:
     Q_DISABLE_COPY(ExplorerLocal)
 
-    void initModelAndView();
+    void setupList();
 
     QString currentItem_;
 

@@ -222,4 +222,4 @@ bool ExplorerLocal::fileIsValid(QString file)
     return (dirExists && writable);
 }
 
-bool ExplorerLocal::isWrapping() { return QListView::isWrapping(); }
+bool ExplorerLocal::isWrappingContent() { return QListView::isWrapping(); }

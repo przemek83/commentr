@@ -101,7 +101,7 @@ void BrowseFilesWidget::filePathTextChanged(const QString& arg1)
 
 void BrowseFilesWidget::setProperIconForViewButton()
 {
-    if (!currentListView()->isWrapping())
+    if (!currentListView()->isWrappingContent())
     {
         QIcon viewIcon =
             QApplication::style()->standardIcon(QStyle::SP_FileDialogListView);
@@ -122,7 +122,7 @@ Explorer* BrowseFilesWidget::currentListView()
 
 void BrowseFilesWidget::on_changeView_clicked()
 {
-    bool wrapping{currentListView()->isWrapping()};
+    bool wrapping{currentListView()->isWrappingContent()};
     int tabCount{ui->tabWidget->count()};
     for (int i{0}; i < tabCount; ++i)
     {

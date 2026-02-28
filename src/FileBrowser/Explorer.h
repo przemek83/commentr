@@ -19,7 +19,7 @@ public:
     /// Check if given file can be used as in/out file.
     virtual bool fileIsValid(QString file) = 0;
 
-    virtual bool isWrapping() = 0;
+    virtual bool isWrappingContent() = 0;
 
     virtual void initialize() = 0;
 

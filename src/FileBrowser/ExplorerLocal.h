@@ -19,7 +19,7 @@ public:
 
     bool fileIsValid(QString file) override;
 
-    bool isWrapping() override;
+    bool isWrappingContent() override;
 
     QString getCurrentPath() override;
 

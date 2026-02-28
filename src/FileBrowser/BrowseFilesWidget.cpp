@@ -19,11 +19,11 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
 
     auto* localListView{new ExplorerLocal(open, ui->tabWidget)};
 
-    connect(localListView, SIGNAL(filePrepared(File*)), this,
-            SIGNAL(filePrepared(File*)));
+    connect(localListView, &ExplorerLocal::filePrepared, this,
+            &BrowseFilesWidget::filePrepared);
 
-    connect(localListView, SIGNAL(pathChanged(QString)), filePathLineEdit_,
-            SLOT(setText(QString)));
+    connect(localListView, &ExplorerLocal::pathChanged, filePathLineEdit_,
+            &EnhancedLineEdit::setText);
 
     ui->tabWidget->insertTab(static_cast<int>(Common::SOURCE_LOCAL),
                              localListView, "local");
@@ -44,14 +44,15 @@ BrowseFilesWidget::~BrowseFilesWidget() { delete ui; }
 void BrowseFilesWidget::initLineEdit()
 {
     filePathLineEdit_ = new EnhancedLineEdit(this);
+
     ui->upperHorizontalLayout->insertWidget(1, filePathLineEdit_);
     filePathLineEdit_->setStyleSheet("QLineEdit{background: #FFBFBF;}");
 
-    connect(filePathLineEdit_, SIGNAL(returnPressed()), this,
-            SLOT(filePathReturnPressed()));
+    connect(filePathLineEdit_, &EnhancedLineEdit::returnPressed, this,
+            &BrowseFilesWidget::filePathReturnPressed);
 
-    connect(filePathLineEdit_, SIGNAL(textChanged(QString)), this,
-            SLOT(filePathTextChanged(QString)));
+    connect(filePathLineEdit_, &EnhancedLineEdit::textChanged, this,
+            &BrowseFilesWidget::filePathTextChanged);
 
     filePathLineEdit_->setInputMethodHints(Qt::ImhNoPredictiveText);
 }

@@ -651,15 +651,15 @@ void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
     auto* browseFilesWidget{
         new BrowseFilesWidget(openFileMode, ui->stackedWidget)};
 
-    connect(browseFilesWidget, SIGNAL(cancelAction()), this,
-            SLOT(showMainPage()));
+    connect(browseFilesWidget, &BrowseFilesWidget::cancelAction, this,
+            &MainWindow::showMainPage);
 
     if (openFileMode)
-        connect(browseFilesWidget, SIGNAL(filePrepared(File*)), this,
-                SLOT(createNewTab(File*)));
+        connect(browseFilesWidget, &BrowseFilesWidget::filePrepared, this,
+                &MainWindow::createNewTab);
     else
-        connect(browseFilesWidget, SIGNAL(filePrepared(File*)), this,
-                SLOT(saveFileFromTab(File*)));
+        connect(browseFilesWidget, &BrowseFilesWidget::filePrepared, this,
+                &MainWindow::saveFileFromTab);
 
     ui->stackedWidget->insertWidget(PAGE_FILE_BROWSER, browseFilesWidget);
 

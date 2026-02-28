@@ -41,12 +41,12 @@ protected:
     /// Size of pointer.
     int size_;
 
-    virtual void updateSize();
-
     virtual QPoint calculateOffset(QMouseEvent* event);
 
 private:
     Q_DISABLE_COPY(CursorPointer)
+
+    void updateSize();
 
     bool dragged_;
 

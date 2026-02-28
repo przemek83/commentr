@@ -58,12 +58,6 @@ QPoint CursorPointerSelector::calculateNewPosition(QPoint movePoint)
 {
     if (CURSOR_DIRECTION_RIGHT == diretion_)
         return QPoint(movePoint.x(), movePoint.y());
-    else
-        return QPoint(movePoint.x() + size_, movePoint.y());
-}
 
-void CursorPointerSelector::updateSize()
-{
-    CursorPointer::updateSize();
-    resize(size_, size_ + size_ / 4);
+    return QPoint(movePoint.x() + size_, movePoint.y());
 }

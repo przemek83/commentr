@@ -21,8 +21,6 @@ public:
 protected:
     void paintEvent(QPaintEvent* event) override;
 
-    void updateSize() override;
-
     QPoint calculateOffset(QMouseEvent* event) override;
 
     QPoint calculateNewPosition(QPoint movePoint) override;

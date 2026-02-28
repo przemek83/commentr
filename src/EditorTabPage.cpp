@@ -41,26 +41,26 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
 
     ui->findWidget->hide();
 
-    connect(ui->close, SIGNAL(clicked()), ui->findWidget, SLOT(hide()));
+    connect(ui->close, &QPushButton::clicked, ui->findWidget, &QWidget::hide);
 
-    connect(ui->next, SIGNAL(clicked()), this, SLOT(searchNext()));
+    connect(ui->next, &QPushButton::clicked, this, &EditorTabPage::searchNext);
 
-    connect(ui->prev, SIGNAL(clicked()), this, SLOT(searchPrev()));
+    connect(ui->prev, &QPushButton::clicked, this, &EditorTabPage::searchPrev);
 
-    connect(ui->searchLineEdit, SIGNAL(textChanged(QString)), this,
-            SLOT(searchStringChanged(QString)));
+    connect(ui->searchLineEdit, &QLineEdit::textChanged, this,
+            &EditorTabPage::searchStringChanged);
 
-    connect(ui->searchLineEdit, SIGNAL(returnPressed()), this,
-            SLOT(searchNext()));
+    connect(ui->searchLineEdit, &QLineEdit::returnPressed, this,
+            &EditorTabPage::searchNext);
 
-    connect(codeViewer_, SIGNAL(redoAvailable(bool)), this,
-            SLOT(redoAvailabilityChanged(bool)));
+    connect(codeViewer_, &CodeViewer::redoAvailable, this,
+            &EditorTabPage::redoAvailabilityChanged);
 
-    connect(codeViewer_, SIGNAL(undoAvailable(bool)), this,
-            SLOT(undoAvailabilityChanged(bool)));
+    connect(codeViewer_, &CodeViewer::undoAvailable, this,
+            &EditorTabPage::undoAvailabilityChanged);
 
-    connect(codeViewer_, SIGNAL(copyAvailable(bool)), this,
-            SLOT(copyAndCutAvailable(bool)));
+    connect(codeViewer_, &CodeViewer::copyAvailable, this,
+            &EditorTabPage::copyAndCutAvailable);
 
     // Init highlighter.
     setMode(detectModeUsingSuffix(file->suffix()));

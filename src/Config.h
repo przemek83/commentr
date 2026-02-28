@@ -69,6 +69,9 @@ public:
     const QStringList& getRecentFiles() const;
     void addFilePathToRecentFiles(const QString& filePath);
 
+public slots:
+    void save();
+
 private:
     Config();
     Q_DISABLE_COPY(Config)
@@ -148,9 +151,6 @@ private:
     QString lastPickedDir_;
 
     QStringList recentFiles_;
-
-private slots:
-    void save();
 };
 
 #endif  // CONFIG_H

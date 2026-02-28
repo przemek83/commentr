@@ -32,16 +32,16 @@ CodeViewer::CodeViewer(QWidget* parent) : QPlainTextEdit(parent)
 
     lineNumberArea_ = new LineNumberArea(this);
 
-    connect(this, SIGNAL(blockCountChanged(int)), this,
-            SLOT(updateLineNumberAreaWidth(int)));
+    connect(this, &CodeViewer::blockCountChanged, this,
+            &CodeViewer::updateLineNumberAreaWidth);
 
-    connect(this, SIGNAL(updateRequest(QRect, int)), this,
-            SLOT(updateLineNumberArea(QRect, int)));
+    connect(this, &CodeViewer::updateRequest, this,
+            &CodeViewer::updateLineNumberArea);
 
     updateLineNumberAreaWidth(0);
 
-    connect(this, SIGNAL(cursorPositionChanged()), this,
-            SLOT(cursorPosHasChanged()));
+    connect(this, &CodeViewer::cursorPositionChanged, this,
+            &CodeViewer::cursorPosHasChanged);
 
     // Hide cursors, select current line.
     cursorPosHasChanged();

@@ -16,14 +16,14 @@ EnhancedLineEdit::EnhancedLineEdit(QWidget* parent)
 
     mainWindow_ = getMainWindow();
 
-    connect(this, SIGNAL(textChanged(QString)), this,
-            SLOT(textWasChanged(QString)));
+    connect(this, &EnhancedLineEdit::textChanged, this,
+            &EnhancedLineEdit::textWasChanged);
 
-    connect(cursorPointer_, SIGNAL(pointerMoved(QPoint)), this,
-            SLOT(pointerMoved(QPoint)));
+    connect(cursorPointer_, &CursorPointerLineEdit::pointerMoved, this,
+            &EnhancedLineEdit::pointerMoved);
 
-    connect(cursorPointer_, SIGNAL(mouseReleased()), this,
-            SLOT(matchPointerToCursorPosition()));
+    connect(cursorPointer_, &CursorPointerLineEdit::mouseReleased, this,
+            &EnhancedLineEdit::matchPointerToCursorPosition);
 
     updateMarginSize();
 

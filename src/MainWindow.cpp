@@ -28,13 +28,13 @@ MainWindow::MainWindow(QWidget* parent)
 
     showMainPage();
 
-    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this,
-            SLOT(currentTabPageChanged(int)));
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this,
+            &MainWindow::currentTabPageChanged);
 
     const QClipboard* clipboard = QApplication::clipboard();
 
-    connect(clipboard, SIGNAL(dataChanged()), this,
-            SLOT(clipboardDataChanged()));
+    connect(clipboard, &QClipboard::dataChanged, this,
+            &MainWindow::clipboardDataChanged);
 
     initMenus();
 
@@ -42,11 +42,11 @@ MainWindow::MainWindow(QWidget* parent)
 
     Highlighter::setSpellChecking(Config::getInstance().checkSpelling());
 
-    connect(ui->actionCloseFile, SIGNAL(triggered()), this,
-            SLOT(closeCurrentTab()));
+    connect(ui->actionCloseFile, &QAction::triggered, this,
+            &MainWindow::closeCurrentTab);
 
-    connect(qApp, SIGNAL(focusChanged(QWidget*, QWidget*)), this,
-            SLOT(focusHasChanged(QWidget*, QWidget*)));
+    connect(qApp, &QApplication::focusChanged, this,
+            &MainWindow::focusHasChanged);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -120,7 +120,7 @@ void MainWindow::setupRecentFiles(Config& config)
         QFileInfo fileInfo(filePath);
         QAction* action{recentMenu->addAction(fileInfo.fileName())};
         action->setData(filePath);
-        connect(action, SIGNAL(triggered(bool)), this, SLOT(openRecentFile()));
+        connect(action, &QAction::triggered, this, &MainWindow::openRecentFile);
     }
 }
 
@@ -139,7 +139,7 @@ void MainWindow::setupStyles(const Config& config)
         if (styleSetInConfig == style)
             action->setChecked(true);
 
-        connect(action, SIGNAL(triggered()), this, SLOT(qtStylePicked()));
+        connect(action, &QAction::triggered, this, &MainWindow::qtStylePicked);
         actionsGroup->addAction(action);
     }
 
@@ -297,8 +297,8 @@ void MainWindow::createNewTab(File* file)
     connect(editorTabPage, SIGNAL(undoAvailable(bool)), this,
             SLOT(undoAvailabilityChanged(bool)));
 
-    connect(editorTabPage, SIGNAL(copyCutAvailable(bool)), this,
-            SLOT(copyAndCutAvailabilityChanged(bool)));
+    connect(editorTabPage, &EditorTabPage::copyCutAvailable, this,
+            &MainWindow::copyAndCutAvailabilityChanged);
 
     int newestIndex = ui->tabWidget->addTab(editorTabPage, file->baseName());
 

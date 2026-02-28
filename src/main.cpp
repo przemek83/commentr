@@ -60,8 +60,8 @@ int main(int argc, char* argv[])
         placeSamples();
     }
 
-    QObject::connect(qApp, SIGNAL(aboutToQuit()), &Config::getInstance(),
-                     SLOT(save()));
+    QObject::connect(qApp, &QApplication::aboutToQuit, &Config::getInstance(),
+                     &Config::save);
 
     SpellChecker::getInstance().initDictionary(Common::loadFile(":/uk.dic"));
 

@@ -176,14 +176,14 @@ void EditorTabPage::redoAvailabilityChanged(bool available)
 {
     redoAvailable_ = available;
 
-    emit redoAvailable(redoAvailable_);
+    emit redoIsAvailable(redoAvailable_);
 }
 
 void EditorTabPage::undoAvailabilityChanged(bool available)
 {
     undoAvailable_ = available;
 
-    emit undoAvailable(undoAvailable_);
+    emit undoIsAvailable(undoAvailable_);
 }
 
 void EditorTabPage::redo() { codeViewer_->redo(); }
@@ -194,7 +194,7 @@ void EditorTabPage::copyAndCutAvailable(bool available)
 {
     selectionEmpty_ = !available;
 
-    emit copyCutAvailable(available);
+    emit copyCutIsAvailable(available);
 }
 
 void EditorTabPage::copy() { codeViewer_->copy(); }

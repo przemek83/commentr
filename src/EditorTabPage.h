@@ -113,11 +113,11 @@ private slots:
     void copyAndCutAvailable(bool available);
 
 signals:
-    void redoAvailable(bool);
+    void redoIsAvailable(bool);
 
-    void undoAvailable(bool);
+    void undoIsAvailable(bool);
 
-    void copyCutAvailable(bool);
+    void copyCutIsAvailable(bool);
 };
 
 #endif  // EDITORTABPAGE_H

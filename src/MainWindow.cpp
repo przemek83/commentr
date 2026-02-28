@@ -291,13 +291,13 @@ void MainWindow::createNewTab(File* file)
 
     editorTabPage->setLineWrap(config.lineWrap());
 
-    connect(editorTabPage, SIGNAL(redoAvailable(bool)), this,
-            SLOT(redoAvailabilityChanged(bool)));
+    connect(editorTabPage, &EditorTabPage::redoIsAvailable, this,
+            &MainWindow::redoAvailabilityChanged);
 
-    connect(editorTabPage, SIGNAL(undoAvailable(bool)), this,
-            SLOT(undoAvailabilityChanged(bool)));
+    connect(editorTabPage, &EditorTabPage::undoIsAvailable, this,
+            &MainWindow::undoAvailabilityChanged);
 
-    connect(editorTabPage, &EditorTabPage::copyCutAvailable, this,
+    connect(editorTabPage, &EditorTabPage::copyCutIsAvailable, this,
             &MainWindow::copyAndCutAvailabilityChanged);
 
     int newestIndex = ui->tabWidget->addTab(editorTabPage, file->baseName());

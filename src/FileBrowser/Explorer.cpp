@@ -18,10 +18,10 @@ void Explorer::setupList(QListView* listView)
 #endif
 
     QObject::connect(listView, SIGNAL(clicked(QModelIndex)), listView,
-                     SLOT(itemActivated(QModelIndex)));
+                     SLOT(itemWasActivated(QModelIndex)));
 
     QObject::connect(listView, SIGNAL(doubleClicked(QModelIndex)), listView,
-                     SLOT(itemActivated(QModelIndex)));
+                     SLOT(itemWasActivated(QModelIndex)));
 
     listView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     listView->setEditTriggers(QAbstractItemView::NoEditTriggers);

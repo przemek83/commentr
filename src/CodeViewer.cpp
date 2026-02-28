@@ -78,31 +78,31 @@ void CodeViewer::initVisualPointers()
     // Cursor pointer.
     cursorPointer_ = new CursorPointerTextEdit(mainWindow_);
 
-    connect(cursorPointer_, SIGNAL(pointerMoved(QPoint)), this,
-            SLOT(pointerMoved(QPoint)));
+    connect(cursorPointer_, &CursorPointerTextEdit::pointerMoved, this,
+            &CodeViewer::pointerMoved);
 
-    connect(cursorPointer_, SIGNAL(mouseReleased()), this,
-            SLOT(matchPointerToCursorPosition()));
+    connect(cursorPointer_, &CursorPointerTextEdit::mouseReleased, this,
+            &CodeViewer::matchPointerToCursorPosition);
 
     // Cursor pointer on selection.
     cursorSelector_ = new CursorPointerSelector(
         CursorPointerSelector::CURSOR_DIRECTION_RIGHT, mainWindow_);
 
-    connect(cursorSelector_, SIGNAL(pointerMoved(QPoint)), this,
-            SLOT(pointerMoved(QPoint)));
+    connect(cursorSelector_, &CursorPointerSelector::pointerMoved, this,
+            &CodeViewer::pointerMoved);
 
-    connect(cursorSelector_, SIGNAL(mouseReleased()), this,
-            SLOT(matchPointerToCursorPosition()));
+    connect(cursorSelector_, &CursorPointerSelector::mouseReleased, this,
+            &CodeViewer::matchPointerToCursorPosition);
 
     // Anchor pointer on selection.
     anchorSelector_ = new CursorPointerSelector(
         CursorPointerSelector::CURSOR_DIRECTION_LEFT, mainWindow_);
 
-    connect(anchorSelector_, SIGNAL(pointerMoved(QPoint)), this,
-            SLOT(pointerMoved(QPoint)));
+    connect(anchorSelector_, &CursorPointerSelector::pointerMoved, this,
+            &CodeViewer::pointerMoved);
 
-    connect(anchorSelector_, SIGNAL(mouseReleased()), this,
-            SLOT(matchPointerToCursorPosition()));
+    connect(anchorSelector_, &CursorPointerSelector::mouseReleased, this,
+            &CodeViewer::matchPointerToCursorPosition);
 }
 
 void CodeViewer::cursorPosHasChanged()

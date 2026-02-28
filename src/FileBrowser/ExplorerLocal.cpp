@@ -223,8 +223,3 @@ bool ExplorerLocal::fileIsValid(QString file)
 }
 
 bool ExplorerLocal::isWrapping() { return QListView::isWrapping(); }
-
-void ExplorerLocal::setWrapping(bool wrapping)
-{
-    QListView::setWrapping(wrapping);
-}

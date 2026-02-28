@@ -21,8 +21,6 @@ public:
 
     virtual bool isWrapping() = 0;
 
-    virtual void setWrapping(bool wrapping) = 0;
-
     virtual void initialize() = 0;
 
     virtual bool initialized() = 0;

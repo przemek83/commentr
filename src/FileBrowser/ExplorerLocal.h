@@ -21,8 +21,6 @@ public:
 
     bool isWrapping() override;
 
-    void setWrapping(bool wrapping) override;
-
     QString getCurrentPath() override;
 
     void initialize() override;

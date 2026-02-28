@@ -269,7 +269,6 @@ void EditorTabPage::refreshVisualIndicators()
 
 File* EditorTabPage::getCurrentFileCopy()
 {
-    // TODO: Performance issue due to copy of content?
     auto* file{new File(file_->source(), file_->path(), file_->baseName(),
                         file_->suffix(),
                         new QString(codeViewer_->toPlainText()))};

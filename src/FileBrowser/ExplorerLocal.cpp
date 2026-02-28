@@ -117,7 +117,7 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
 
 QListView* ExplorerLocal::getListView() { return this; }
 
-void ExplorerLocal::itemActivated(QModelIndex index)
+void ExplorerLocal::itemWasActivated(QModelIndex index)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 

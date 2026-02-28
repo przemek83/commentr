@@ -30,7 +30,7 @@ public:
 protected:
     static void setupList(QListView* listView);
 
-    virtual void itemActivated(QModelIndex index) = 0;
+    virtual void itemWasActivated(QModelIndex index) = 0;
 
     virtual QListView* getListView() = 0;
 

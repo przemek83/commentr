@@ -38,6 +38,8 @@ private:
 
     Ui::MainWindow* ui;
 
+    void connectActions();
+
     void manageActions(bool tabExist);
 
     enum StackedPage
@@ -75,103 +77,103 @@ private:
     int newFileCounter_;
 
 private slots:
-    void on_actionOpen_file_triggered();
+    void onActionOpenFileTriggered();
 
-    void on_actionSave_file_triggered();
+    void onActionSaveFileTriggered();
 
-    void on_actionSearch_triggered();
+    void onActionSearchTriggered();
 
-    void on_actionZoom_in_triggered();
+    void onActionZoomInTriggered();
 
-    void on_actionZoom_out_triggered();
+    void onActionZoomOutTriggered();
 
-    void on_actionUndo_triggered();
+    void onActionUndoTriggered();
 
-    void on_actionRedo_triggered();
+    void onActionRedoTriggered();
 
-    void on_actionCopy_triggered();
+    void onActionCopyTriggered();
 
-    void on_actionCut_triggered();
+    void onActionCutTriggered();
 
-    void on_actionPaste_triggered();
+    void onActionPasteTriggered();
 
-    void on_actionTabsWest_triggered();
+    void onActionTabsWestTriggered();
 
-    void on_actionTabsEast_triggered();
+    void onActionTabsEastTriggered();
 
-    void on_actionTabsNorth_triggered();
+    void onActionTabsNorthTriggered();
 
-    void on_actionTabsSouth_triggered();
+    void onActionTabsSouthTriggered();
 
-    void on_actionDecrease50_triggered();
+    void onActionDecrease50Triggered();
 
-    void on_actionDecrease25_triggered();
+    void onActionDecrease25Triggered();
 
-    void on_actionDecrease10_triggered();
+    void onActionDecrease10Triggered();
 
-    void on_actionIncrease10_triggered();
+    void onActionIncrease10Triggered();
 
-    void on_actionIncrease25_triggered();
+    void onActionIncrease25Triggered();
 
-    void on_actionIncrease50_triggered();
+    void onActionIncrease50Triggered();
 
-    void on_actionToolbarFile_Operations_triggered(bool checked);
+    void onActionToolbarFileOperationsTriggered(bool checked);
 
-    void on_actionToolbarCut_copy_paste_triggered(bool checked);
+    void onActionToolbarCutCopyPasteTriggered(bool checked);
 
-    void on_actionToolbarZoom_in_out_triggered(bool checked);
+    void onActionToolbarZoomInOutTriggered(bool checked);
 
-    void on_actionToolbarUndo_redo_triggered(bool checked);
+    void onActionToolbarUndoRedoTriggered(bool checked);
 
-    void on_actionToolbarSearch_triggered(bool checked);
+    void onActionToolbarSearchTriggered(bool checked);
 
-    void on_actionCheck_spelling_in_comments_triggered(bool checked);
+    void onActionCheckSpellingInCommentsTriggered(bool checked);
 
-    void on_actionLine_wrap_triggered(bool checked);
+    void onActionLineWrapTriggered(bool checked);
 
-    void on_actionExit_triggered();
+    void onActionExitTriggered();
 
-    void on_actionShowToolbar_triggered(bool checked);
+    void onActionShowToolbarTriggered(bool checked);
 
-    void on_actionNew_triggered();
+    void onActionNewTriggered();
 
-    void on_actionSave_as_triggered();
+    void onActionSaveAsTriggered();
 
-    void on_actionLangC_Cpp_triggered();
+    void onActionLangCppCTriggered();
 
-    void on_actionLangJava_triggered();
+    void onActionLangJavaTriggered();
 
-    void on_actionLangObjective_C_triggered();
+    void onActionLangObjectiveCTriggered();
 
-    void on_actionLangCSharp_triggered();
+    void onActionLangCSharpTriggered();
 
-    void on_actionLangPHP_triggered();
+    void onActionLangPHPTriggered();
 
-    void on_actionLangVBasic_triggered();
+    void onActionLangVBasicTriggered();
 
-    void on_actionLangPython_triggered();
+    void onActionLangPythonTriggered();
 
-    void on_actionLangSQL_triggered();
+    void onActionLangSqlTriggered();
 
-    void on_actionLangJavaScript_triggered();
+    void onActionLangJavaScriptTriggered();
 
-    void on_actionLangNone_triggered();
+    void onActionLangNoneTriggered();
 
-    void on_actionAbout_triggered();
+    void onActionAboutTriggered();
 
-    void on_actionToolbarNorth_triggered();
+    void onActionToolbarNorthTriggered();
 
-    void on_actionToolbarSouth_triggered();
+    void onActionToolbarSouthTriggered();
 
-    void on_actionToolbarWest_triggered();
+    void onActionToolbarWestTriggered();
 
-    void on_actionToolbarEast_triggered();
+    void onActionToolbarEastTriggered();
 
-    void on_actionQt_license_triggered();
+    void onActionQtLicenseTriggered();
 
-    void on_actionShow_hide_keyboard_triggered();
+    void onActionShowHideKeyboardTriggered();
 
-    void on_actionToolbarKeyboard_triggered(bool checked);
+    void onActionToolbarKeyboardTriggered(bool checked);
 
     void closeCurrentTab();
 

@@ -20,37 +20,37 @@
 #include "ui_EditorTabPage.h"
 
 EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
-    : QWidget(parent), ui{new Ui::EditorTabPage}, file_{file}
+    : QWidget(parent), ui_{new Ui::EditorTabPage}, file_{file}
 {
-    ui->setupUi(this);
+    ui_->setupUi(this);
 
     codeViewer_ = new CodeViewer(this);
     QFont actualEditorFont(codeViewer_->font());
     actualEditorFont.setPointSizeF(fontSize);
     codeViewer_->setFont(actualEditorFont);
 
-    ui->verticalLayout->insertWidget(0, codeViewer_);
+    ui_->verticalLayout->insertWidget(0, codeViewer_);
 
     codeViewer_->setPlainText(*(file->content()));
     file->clearContent();
 
     QStyle* style = QApplication::style();
-    ui->next->setIcon(style->standardIcon(QStyle::SP_ArrowRight));
-    ui->prev->setIcon(style->standardIcon(QStyle::SP_ArrowLeft));
-    ui->close->setIcon(style->standardIcon(QStyle::SP_DialogCloseButton));
+    ui_->next->setIcon(style->standardIcon(QStyle::SP_ArrowRight));
+    ui_->prev->setIcon(style->standardIcon(QStyle::SP_ArrowLeft));
+    ui_->close->setIcon(style->standardIcon(QStyle::SP_DialogCloseButton));
 
-    ui->findWidget->hide();
+    ui_->findWidget->hide();
 
-    connect(ui->close, &QPushButton::clicked, ui->findWidget, &QWidget::hide);
+    connect(ui_->close, &QPushButton::clicked, ui_->findWidget, &QWidget::hide);
 
-    connect(ui->next, &QPushButton::clicked, this, &EditorTabPage::searchNext);
+    connect(ui_->next, &QPushButton::clicked, this, &EditorTabPage::searchNext);
 
-    connect(ui->prev, &QPushButton::clicked, this, &EditorTabPage::searchPrev);
+    connect(ui_->prev, &QPushButton::clicked, this, &EditorTabPage::searchPrev);
 
-    connect(ui->searchLineEdit, &QLineEdit::textChanged, this,
+    connect(ui_->searchLineEdit, &QLineEdit::textChanged, this,
             &EditorTabPage::searchStringChanged);
 
-    connect(ui->searchLineEdit, &QLineEdit::returnPressed, this,
+    connect(ui_->searchLineEdit, &QLineEdit::returnPressed, this,
             &EditorTabPage::searchNext);
 
     connect(codeViewer_, &CodeViewer::redoAvailable, this,
@@ -65,16 +65,16 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
     // Init highlighter.
     setMode(detectModeUsingSuffix(file->suffix()));
 
-    ui->searchLineEdit->setInputMethodHints(Qt::ImhNoPredictiveText);
+    ui_->searchLineEdit->setInputMethodHints(Qt::ImhNoPredictiveText);
 
     auto* backButtonHandler{new BackButtonHandler(this)};
     codeViewer_->installEventFilter(backButtonHandler);
-    ui->searchLineEdit->installEventFilter(backButtonHandler);
+    ui_->searchLineEdit->installEventFilter(backButtonHandler);
 }
 
 EditorTabPage::~EditorTabPage()
 {
-    delete ui;
+    delete ui_;
     delete file_;
 }
 
@@ -108,10 +108,10 @@ void EditorTabPage::setMode(const EditorMode& mode)
 
 void EditorTabPage::flipFindVisibility()
 {
-    ui->findWidget->setVisible(!ui->findWidget->isVisible());
+    ui_->findWidget->setVisible(!ui_->findWidget->isVisible());
 
-    if (ui->findWidget->isVisible())
-        ui->searchLineEdit->setFocus();
+    if (ui_->findWidget->isVisible())
+        ui_->searchLineEdit->setFocus();
 }
 
 // 16.4.2018 Needed?
@@ -130,31 +130,31 @@ void EditorTabPage::zoom(bool in)
 void EditorTabPage::searchNext()
 {
     QTextDocument::FindFlags flags;
-    if (!ui->ignoreCase->isChecked())
+    if (!ui_->ignoreCase->isChecked())
         flags |= QTextDocument::FindCaseSensitively;
 
-    const bool found{codeViewer_->find(ui->searchLineEdit->text(), flags)};
+    const bool found{codeViewer_->find(ui_->searchLineEdit->text(), flags)};
 
     if (!found)
     {
         codeViewer_->moveCursor(QTextCursor::Start);
-        codeViewer_->find(ui->searchLineEdit->text(), flags);
+        codeViewer_->find(ui_->searchLineEdit->text(), flags);
     }
 }
 
 void EditorTabPage::searchPrev()
 {
     QTextDocument::FindFlags flags = QTextDocument::FindBackward;
-    if (!ui->ignoreCase->isChecked())
+    if (!ui_->ignoreCase->isChecked())
     {
         flags |= QTextDocument::FindCaseSensitively;
     }
 
-    const bool found{codeViewer_->find(ui->searchLineEdit->text(), flags)};
+    const bool found{codeViewer_->find(ui_->searchLineEdit->text(), flags)};
     if (!found)
     {
         codeViewer_->moveCursor(QTextCursor::End);
-        codeViewer_->find(ui->searchLineEdit->text(), flags);
+        codeViewer_->find(ui_->searchLineEdit->text(), flags);
     }
 }
 

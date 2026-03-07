@@ -11,13 +11,15 @@
 #include "ui_BrowseFilesWidget.h"
 
 BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
-    : QWidget(parent), ui(new Ui::BrowseFilesWidget), filePathLineEdit_(nullptr)
+    : QWidget(parent),
+      ui_(new Ui::BrowseFilesWidget),
+      filePathLineEdit_(nullptr)
 {
-    ui->setupUi(this);
+    ui_->setupUi(this);
 
     initLineEdit();
 
-    auto* localListView{new ExplorerLocal(open, ui->tabWidget)};
+    auto* localListView{new ExplorerLocal(open, ui_->tabWidget)};
 
     connect(localListView, &ExplorerLocal::filePrepared, this,
             &BrowseFilesWidget::filePrepared);
@@ -25,8 +27,8 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
     connect(localListView, &ExplorerLocal::pathChanged, filePathLineEdit_,
             &EnhancedLineEdit::setText);
 
-    ui->tabWidget->insertTab(static_cast<int>(Common::SOURCE_LOCAL),
-                             localListView, "local");
+    ui_->tabWidget->insertTab(static_cast<int>(Common::SOURCE_LOCAL),
+                              localListView, "local");
 
     setProperIconForViewButton();
 
@@ -39,13 +41,13 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
     setAttribute(Qt::WA_AcceptTouchEvents);
 }
 
-BrowseFilesWidget::~BrowseFilesWidget() { delete ui; }
+BrowseFilesWidget::~BrowseFilesWidget() { delete ui_; }
 
 void BrowseFilesWidget::initLineEdit()
 {
     filePathLineEdit_ = new EnhancedLineEdit(this);
 
-    ui->upperHorizontalLayout->insertWidget(1, filePathLineEdit_);
+    ui_->upperHorizontalLayout->insertWidget(1, filePathLineEdit_);
     filePathLineEdit_->setStyleSheet("QLineEdit{background: #FFBFBF;}");
 
     connect(filePathLineEdit_, &EnhancedLineEdit::returnPressed, this,
@@ -60,7 +62,7 @@ void BrowseFilesWidget::initLineEdit()
 void BrowseFilesWidget::filePathReturnPressed()
 {
     QString filePath(filePathLineEdit_->text());
-    switch (static_cast<Common::Source>(ui->tabWidget->currentIndex()))
+    switch (static_cast<Common::Source>(ui_->tabWidget->currentIndex()))
     {
         case Common::SOURCE_LOCAL:
         {
@@ -106,28 +108,28 @@ void BrowseFilesWidget::setProperIconForViewButton()
     {
         QIcon viewIcon =
             QApplication::style()->standardIcon(QStyle::SP_FileDialogListView);
-        ui->changeView->setIcon(viewIcon);
+        ui_->changeView->setIcon(viewIcon);
     }
     else
     {
         QIcon viewIcon = QApplication::style()->standardIcon(
             QStyle::SP_FileDialogDetailedView);
-        ui->changeView->setIcon(viewIcon);
+        ui_->changeView->setIcon(viewIcon);
     }
 }
 
 Explorer* BrowseFilesWidget::currentListView()
 {
-    return dynamic_cast<Explorer*>(ui->tabWidget->currentWidget());
+    return dynamic_cast<Explorer*>(ui_->tabWidget->currentWidget());
 }
 
 void BrowseFilesWidget::on_changeView_clicked()
 {
     bool wrapping{currentListView()->isWrappingContent()};
-    int tabCount{ui->tabWidget->count()};
+    int tabCount{ui_->tabWidget->count()};
     for (int i{0}; i < tabCount; ++i)
     {
-        auto* listView{dynamic_cast<QListView*>(ui->tabWidget->widget(i))};
+        auto* listView{dynamic_cast<QListView*>(ui_->tabWidget->widget(i))};
         listView->setWrapping(!wrapping);
     }
 

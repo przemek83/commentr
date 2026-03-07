@@ -22,15 +22,15 @@
 #include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), newFileCounter_(0)
+    : QMainWindow(parent), ui_(new Ui::MainWindow), newFileCounter_(0)
 {
-    ui->setupUi(this);
+    ui_->setupUi(this);
 
     connectActions();
 
     showMainPage();
 
-    connect(ui->tabWidget, &QTabWidget::currentChanged, this,
+    connect(ui_->tabWidget, &QTabWidget::currentChanged, this,
             &MainWindow::currentTabPageChanged);
 
     const QClipboard* clipboard = QApplication::clipboard();
@@ -44,14 +44,14 @@ MainWindow::MainWindow(QWidget* parent)
 
     Highlighter::setSpellChecking(Config::getInstance().checkSpelling());
 
-    connect(ui->actionCloseFile, &QAction::triggered, this,
+    connect(ui_->actionCloseFile, &QAction::triggered, this,
             &MainWindow::closeCurrentTab);
 
     connect(qApp, &QApplication::focusChanged, this,
             &MainWindow::focusHasChanged);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() { delete ui_; }
 
 void MainWindow::keyReleaseEvent(QKeyEvent* e)
 {
@@ -59,7 +59,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent* e)
 
     if (Qt::Key_Back == key)
     {
-        auto page{static_cast<StackedPage>(ui->stackedWidget->currentIndex())};
+        auto page{static_cast<StackedPage>(ui_->stackedWidget->currentIndex())};
         if (PAGE_MAIN != page)
             showMainPage();
         else
@@ -97,15 +97,15 @@ void MainWindow::initMenus()
 
     setupRecentFiles(config);
 
-    ui->actionCheck_spelling_in_comments->setChecked(config.checkSpelling());
-    ui->actionLine_wrap->setChecked(config.lineWrap());
-    ui->mainToolBar->setVisible(config.showToolbar());
-    ui->actionShowToolbar->setChecked(config.showToolbar());
+    ui_->actionCheck_spelling_in_comments->setChecked(config.checkSpelling());
+    ui_->actionLine_wrap->setChecked(config.lineWrap());
+    ui_->mainToolBar->setVisible(config.showToolbar());
+    ui_->actionShowToolbar->setChecked(config.showToolbar());
 }
 
 void MainWindow::setupRecentFiles(Config& config)
 {
-    QMenu* recentMenu{ui->menuRecent_files};
+    QMenu* recentMenu{ui_->menuRecent_files};
     recentMenu->clear();
 
     const QStringList& recentFiles{config.getRecentFiles()};
@@ -129,14 +129,14 @@ void MainWindow::setupRecentFiles(Config& config)
 void MainWindow::setupStyles(const Config& config)
 {
     QStringList qtStylesList{QStyleFactory::keys()};
-    QMenu* menuStyles{new QMenu(tr("Styles"), ui->menuOptions)};
-    ui->menuOptions->addAction(menuStyles->menuAction());
+    QMenu* menuStyles{new QMenu(tr("Styles"), ui_->menuOptions)};
+    ui_->menuOptions->addAction(menuStyles->menuAction());
     QActionGroup* actionsGroup{new QActionGroup(this)};
 
     QString styleSetInConfig{config.style()};
     foreach (QString style, qtStylesList)
     {
-        QAction* action{new QAction(style, ui->menuOptions)};
+        QAction* action{new QAction(style, ui_->menuOptions)};
         action->setCheckable(true);
         if (styleSetInConfig == style)
             action->setChecked(true);
@@ -151,36 +151,36 @@ void MainWindow::setupStyles(const Config& config)
 void MainWindow::setupTabsAlignmentMenu(const Config& config)
 {
     QActionGroup* actionsGroup{new QActionGroup(this)};
-    actionsGroup->addAction(ui->actionTabsNorth);
-    actionsGroup->addAction(ui->actionTabsSouth);
-    actionsGroup->addAction(ui->actionTabsEast);
-    actionsGroup->addAction(ui->actionTabsWest);
+    actionsGroup->addAction(ui_->actionTabsNorth);
+    actionsGroup->addAction(ui_->actionTabsSouth);
+    actionsGroup->addAction(ui_->actionTabsEast);
+    actionsGroup->addAction(ui_->actionTabsWest);
 
-    ui->menuTabs_alignment->addActions(actionsGroup->actions());
+    ui_->menuTabs_alignment->addActions(actionsGroup->actions());
 
     switch (config.getTabPosition())
     {
         case QTabWidget::North:
         {
-            ui->actionTabsNorth->setChecked(true);
+            ui_->actionTabsNorth->setChecked(true);
             break;
         }
 
         case QTabWidget::South:
         {
-            ui->actionTabsSouth->setChecked(true);
+            ui_->actionTabsSouth->setChecked(true);
             break;
         }
 
         case QTabWidget::West:
         {
-            ui->actionTabsWest->setChecked(true);
+            ui_->actionTabsWest->setChecked(true);
             break;
         }
 
         case QTabWidget::East:
         {
-            ui->actionTabsEast->setChecked(true);
+            ui_->actionTabsEast->setChecked(true);
             break;
         }
 
@@ -190,50 +190,50 @@ void MainWindow::setupTabsAlignmentMenu(const Config& config)
         }
     }
 
-    ui->tabWidget->setTabPosition(config.getTabPosition());
+    ui_->tabWidget->setTabPosition(config.getTabPosition());
 }
 
 void MainWindow::setupToolbarActionsMenu(const Config& config)
 {
-    ui->actionToolbarKeyboard->setChecked(config.toolbarKeyboardAdded());
-    ui->actionToolbarFile_Operations->setChecked(config.toolbarFileAdded());
-    ui->actionToolbarUndo_redo->setChecked(config.toolbarUndoRedoAdded());
-    ui->actionToolbarCut_copy_paste->setChecked(
+    ui_->actionToolbarKeyboard->setChecked(config.toolbarKeyboardAdded());
+    ui_->actionToolbarFile_Operations->setChecked(config.toolbarFileAdded());
+    ui_->actionToolbarUndo_redo->setChecked(config.toolbarUndoRedoAdded());
+    ui_->actionToolbarCut_copy_paste->setChecked(
         config.toolbarCopyPasteCutAdded());
-    ui->actionToolbarZoom_in_out->setChecked(config.toolbarZoomAdded());
-    ui->actionToolbarSearch->setChecked(config.toolbarSearchAdded());
+    ui_->actionToolbarZoom_in_out->setChecked(config.toolbarZoomAdded());
+    ui_->actionToolbarSearch->setChecked(config.toolbarSearchAdded());
 
     QActionGroup* actionsGroup{new QActionGroup(this)};
-    actionsGroup->addAction(ui->actionToolbarNorth);
-    actionsGroup->addAction(ui->actionToolbarSouth);
-    actionsGroup->addAction(ui->actionToolbarEast);
-    actionsGroup->addAction(ui->actionToolbarWest);
+    actionsGroup->addAction(ui_->actionToolbarNorth);
+    actionsGroup->addAction(ui_->actionToolbarSouth);
+    actionsGroup->addAction(ui_->actionToolbarEast);
+    actionsGroup->addAction(ui_->actionToolbarWest);
 
-    ui->menuToolbarOrientation->addActions(actionsGroup->actions());
+    ui_->menuToolbarOrientation->addActions(actionsGroup->actions());
 
     switch (Config::getInstance().toolbarArea())
     {
         case Qt::LeftToolBarArea:
         {
-            ui->actionToolbarWest->setChecked(true);
+            ui_->actionToolbarWest->setChecked(true);
             break;
         }
 
         case Qt::RightToolBarArea:
         {
-            ui->actionToolbarEast->setChecked(true);
+            ui_->actionToolbarEast->setChecked(true);
             break;
         }
 
         case Qt::TopToolBarArea:
         {
-            ui->actionToolbarNorth->setChecked(true);
+            ui_->actionToolbarNorth->setChecked(true);
             break;
         }
 
         case Qt::BottomToolBarArea:
         {
-            ui->actionToolbarSouth->setChecked(true);
+            ui_->actionToolbarSouth->setChecked(true);
             break;
         }
 
@@ -244,37 +244,37 @@ void MainWindow::setupToolbarActionsMenu(const Config& config)
     }
 
     Qt::ToolBarArea area = config.toolbarArea();
-    if (toolBarArea(ui->mainToolBar) != area)
+    if (toolBarArea(ui_->mainToolBar) != area)
     {
-        addToolBar(area, ui->mainToolBar);
+        addToolBar(area, ui_->mainToolBar);
     }
 }
 
 void MainWindow::setupLanguageActionsMenu()
 {
     QActionGroup* actionsGroup{new QActionGroup(this)};
-    actionsGroup->addAction(ui->actionLangCSharp);
-    actionsGroup->addAction(ui->actionLangC_Cpp);
-    actionsGroup->addAction(ui->actionLangJava);
-    actionsGroup->addAction(ui->actionLangJavaScript);
-    actionsGroup->addAction(ui->actionLangNone);
-    actionsGroup->addAction(ui->actionLangObjective_C);
-    actionsGroup->addAction(ui->actionLangPHP);
-    actionsGroup->addAction(ui->actionLangPython);
-    actionsGroup->addAction(ui->actionLangSQL);
-    actionsGroup->addAction(ui->actionLangVBasic);
+    actionsGroup->addAction(ui_->actionLangCSharp);
+    actionsGroup->addAction(ui_->actionLangC_Cpp);
+    actionsGroup->addAction(ui_->actionLangJava);
+    actionsGroup->addAction(ui_->actionLangJavaScript);
+    actionsGroup->addAction(ui_->actionLangNone);
+    actionsGroup->addAction(ui_->actionLangObjective_C);
+    actionsGroup->addAction(ui_->actionLangPHP);
+    actionsGroup->addAction(ui_->actionLangPython);
+    actionsGroup->addAction(ui_->actionLangSQL);
+    actionsGroup->addAction(ui_->actionLangVBasic);
 
-    ui->menuLanguage_mode->addActions(actionsGroup->actions());
+    ui_->menuLanguage_mode->addActions(actionsGroup->actions());
 }
 
 void MainWindow::showMainPage()
 {
     setAvailableFunctionalitiesForMainWindow(true);
-    QWidget* fileBrowser{ui->stackedWidget->widget(PAGE_FILE_BROWSER)};
-    ui->stackedWidget->setCurrentIndex(PAGE_MAIN);
+    QWidget* fileBrowser{ui_->stackedWidget->widget(PAGE_FILE_BROWSER)};
+    ui_->stackedWidget->setCurrentIndex(PAGE_MAIN);
     if (fileBrowser != nullptr)
     {
-        ui->stackedWidget->removeWidget(fileBrowser);
+        ui_->stackedWidget->removeWidget(fileBrowser);
 
         // Delete later used because of problems with deleting object from slot
         // in different object called by first one.
@@ -289,7 +289,7 @@ void MainWindow::createNewTab(File* file)
     showMainPage();
 
     EditorTabPage* editorTabPage{
-        new EditorTabPage(file, config.fontSize(), ui->tabWidget)};
+        new EditorTabPage(file, config.fontSize(), ui_->tabWidget)};
 
     editorTabPage->setLineWrap(config.lineWrap());
 
@@ -302,9 +302,9 @@ void MainWindow::createNewTab(File* file)
     connect(editorTabPage, &EditorTabPage::copyCutIsAvailable, this,
             &MainWindow::copyAndCutAvailabilityChanged);
 
-    int newestIndex = ui->tabWidget->addTab(editorTabPage, file->baseName());
+    int newestIndex = ui_->tabWidget->addTab(editorTabPage, file->baseName());
 
-    ui->tabWidget->setCurrentIndex(newestIndex);
+    ui_->tabWidget->setCurrentIndex(newestIndex);
 
     manageActions(true);
 
@@ -319,7 +319,7 @@ void MainWindow::createNewTab(File* file)
 void MainWindow::saveFileFromTab(File* file)
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
     {
@@ -342,7 +342,7 @@ void MainWindow::saveFileFromTab(File* file)
             }
         }
 
-        ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), newBaseName);
+        ui_->tabWidget->setTabText(ui_->tabWidget->currentIndex(), newBaseName);
     }
 
     showMainPage();
@@ -381,135 +381,135 @@ void MainWindow::openRecentFile()
 
 void MainWindow::connectActions()
 {
-    connect(ui->actionOpen_file, &QAction::triggered, this,
+    connect(ui_->actionOpen_file, &QAction::triggered, this,
             &MainWindow::onActionOpenFileTriggered);
-    connect(ui->actionSave_file, &QAction::triggered, this,
+    connect(ui_->actionSave_file, &QAction::triggered, this,
             &MainWindow::onActionSaveFileTriggered);
-    connect(ui->actionSearch, &QAction::triggered, this,
+    connect(ui_->actionSearch, &QAction::triggered, this,
             &MainWindow::onActionSearchTriggered);
-    connect(ui->actionZoom_in, &QAction::triggered, this,
+    connect(ui_->actionZoom_in, &QAction::triggered, this,
             &MainWindow::onActionZoomInTriggered);
-    connect(ui->actionZoom_out, &QAction::triggered, this,
+    connect(ui_->actionZoom_out, &QAction::triggered, this,
             &MainWindow::onActionZoomOutTriggered);
-    connect(ui->actionUndo, &QAction::triggered, this,
+    connect(ui_->actionUndo, &QAction::triggered, this,
             &MainWindow::onActionUndoTriggered);
-    connect(ui->actionRedo, &QAction::triggered, this,
+    connect(ui_->actionRedo, &QAction::triggered, this,
             &MainWindow::onActionRedoTriggered);
-    connect(ui->actionCopy, &QAction::triggered, this,
+    connect(ui_->actionCopy, &QAction::triggered, this,
             &MainWindow::onActionCopyTriggered);
-    connect(ui->actionCut, &QAction::triggered, this,
+    connect(ui_->actionCut, &QAction::triggered, this,
             &MainWindow::onActionCutTriggered);
-    connect(ui->actionPaste, &QAction::triggered, this,
+    connect(ui_->actionPaste, &QAction::triggered, this,
             &MainWindow::onActionPasteTriggered);
-    connect(ui->actionTabsWest, &QAction::triggered, this,
+    connect(ui_->actionTabsWest, &QAction::triggered, this,
             &MainWindow::onActionTabsWestTriggered);
-    connect(ui->actionTabsEast, &QAction::triggered, this,
+    connect(ui_->actionTabsEast, &QAction::triggered, this,
             &MainWindow::onActionTabsEastTriggered);
-    connect(ui->actionTabsNorth, &QAction::triggered, this,
+    connect(ui_->actionTabsNorth, &QAction::triggered, this,
             &MainWindow::onActionTabsNorthTriggered);
-    connect(ui->actionTabsSouth, &QAction::triggered, this,
+    connect(ui_->actionTabsSouth, &QAction::triggered, this,
             &MainWindow::onActionTabsSouthTriggered);
-    connect(ui->actionDecrease50, &QAction::triggered, this,
+    connect(ui_->actionDecrease50, &QAction::triggered, this,
             &MainWindow::onActionDecrease50Triggered);
-    connect(ui->actionDecrease25, &QAction::triggered, this,
+    connect(ui_->actionDecrease25, &QAction::triggered, this,
             &MainWindow::onActionDecrease25Triggered);
-    connect(ui->actionDecrease10, &QAction::triggered, this,
+    connect(ui_->actionDecrease10, &QAction::triggered, this,
             &MainWindow::onActionDecrease10Triggered);
-    connect(ui->actionIncrease10, &QAction::triggered, this,
+    connect(ui_->actionIncrease10, &QAction::triggered, this,
             &MainWindow::onActionIncrease10Triggered);
-    connect(ui->actionIncrease25, &QAction::triggered, this,
+    connect(ui_->actionIncrease25, &QAction::triggered, this,
             &MainWindow::onActionIncrease25Triggered);
-    connect(ui->actionIncrease50, &QAction::triggered, this,
+    connect(ui_->actionIncrease50, &QAction::triggered, this,
             &MainWindow::onActionIncrease50Triggered);
-    connect(ui->actionToolbarFile_Operations, &QAction::triggered, this,
+    connect(ui_->actionToolbarFile_Operations, &QAction::triggered, this,
             &MainWindow::onActionToolbarFileOperationsTriggered);
-    connect(ui->actionToolbarCut_copy_paste, &QAction::triggered, this,
+    connect(ui_->actionToolbarCut_copy_paste, &QAction::triggered, this,
             &MainWindow::onActionToolbarCutCopyPasteTriggered);
-    connect(ui->actionToolbarZoom_in_out, &QAction::triggered, this,
+    connect(ui_->actionToolbarZoom_in_out, &QAction::triggered, this,
             &MainWindow::onActionToolbarZoomInOutTriggered);
-    connect(ui->actionToolbarUndo_redo, &QAction::triggered, this,
+    connect(ui_->actionToolbarUndo_redo, &QAction::triggered, this,
             &MainWindow::onActionToolbarUndoRedoTriggered);
-    connect(ui->actionToolbarSearch, &QAction::triggered, this,
+    connect(ui_->actionToolbarSearch, &QAction::triggered, this,
             &MainWindow::onActionToolbarSearchTriggered);
-    connect(ui->actionCheck_spelling_in_comments, &QAction::triggered, this,
+    connect(ui_->actionCheck_spelling_in_comments, &QAction::triggered, this,
             &MainWindow::onActionCheckSpellingInCommentsTriggered);
-    connect(ui->actionLine_wrap, &QAction::triggered, this,
+    connect(ui_->actionLine_wrap, &QAction::triggered, this,
             &MainWindow::onActionLineWrapTriggered);
-    connect(ui->actionExit, &QAction::triggered, this,
+    connect(ui_->actionExit, &QAction::triggered, this,
             &MainWindow::onActionExitTriggered);
-    connect(ui->actionShowToolbar, &QAction::triggered, this,
+    connect(ui_->actionShowToolbar, &QAction::triggered, this,
             &MainWindow::onActionShowToolbarTriggered);
-    connect(ui->actionNew, &QAction::triggered, this,
+    connect(ui_->actionNew, &QAction::triggered, this,
             &MainWindow::onActionNewTriggered);
-    connect(ui->actionSave_as, &QAction::triggered, this,
+    connect(ui_->actionSave_as, &QAction::triggered, this,
             &MainWindow::onActionSaveAsTriggered);
-    connect(ui->actionLangC_Cpp, &QAction::triggered, this,
+    connect(ui_->actionLangC_Cpp, &QAction::triggered, this,
             &MainWindow::onActionLangCppCTriggered);
-    connect(ui->actionLangJava, &QAction::triggered, this,
+    connect(ui_->actionLangJava, &QAction::triggered, this,
             &MainWindow::onActionLangJavaTriggered);
-    connect(ui->actionLangObjective_C, &QAction::triggered, this,
+    connect(ui_->actionLangObjective_C, &QAction::triggered, this,
             &MainWindow::onActionLangObjectiveCTriggered);
-    connect(ui->actionLangCSharp, &QAction::triggered, this,
+    connect(ui_->actionLangCSharp, &QAction::triggered, this,
             &MainWindow::onActionLangCSharpTriggered);
-    connect(ui->actionLangPHP, &QAction::triggered, this,
+    connect(ui_->actionLangPHP, &QAction::triggered, this,
             &MainWindow::onActionLangPHPTriggered);
-    connect(ui->actionLangVBasic, &QAction::triggered, this,
+    connect(ui_->actionLangVBasic, &QAction::triggered, this,
             &MainWindow::onActionLangVBasicTriggered);
-    connect(ui->actionLangPython, &QAction::triggered, this,
+    connect(ui_->actionLangPython, &QAction::triggered, this,
             &MainWindow::onActionLangPythonTriggered);
-    connect(ui->actionLangSQL, &QAction::triggered, this,
+    connect(ui_->actionLangSQL, &QAction::triggered, this,
             &MainWindow::onActionLangSqlTriggered);
-    connect(ui->actionLangJavaScript, &QAction::triggered, this,
+    connect(ui_->actionLangJavaScript, &QAction::triggered, this,
             &MainWindow::onActionLangJavaScriptTriggered);
-    connect(ui->actionLangNone, &QAction::triggered, this,
+    connect(ui_->actionLangNone, &QAction::triggered, this,
             &MainWindow::onActionLangNoneTriggered);
-    connect(ui->actionAbout, &QAction::triggered, this,
+    connect(ui_->actionAbout, &QAction::triggered, this,
             &MainWindow::onActionAboutTriggered);
-    connect(ui->actionToolbarNorth, &QAction::triggered, this,
+    connect(ui_->actionToolbarNorth, &QAction::triggered, this,
             &MainWindow::onActionToolbarNorthTriggered);
-    connect(ui->actionToolbarSouth, &QAction::triggered, this,
+    connect(ui_->actionToolbarSouth, &QAction::triggered, this,
             &MainWindow::onActionToolbarSouthTriggered);
-    connect(ui->actionToolbarWest, &QAction::triggered, this,
+    connect(ui_->actionToolbarWest, &QAction::triggered, this,
             &MainWindow::onActionToolbarWestTriggered);
-    connect(ui->actionToolbarEast, &QAction::triggered, this,
+    connect(ui_->actionToolbarEast, &QAction::triggered, this,
             &MainWindow::onActionToolbarEastTriggered);
-    connect(ui->actionQt_license, &QAction::triggered, this,
+    connect(ui_->actionQt_license, &QAction::triggered, this,
             &MainWindow::onActionQtLicenseTriggered);
-    connect(ui->actionShow_hide_keyboard, &QAction::triggered, this,
+    connect(ui_->actionShow_hide_keyboard, &QAction::triggered, this,
             &MainWindow::onActionShowHideKeyboardTriggered);
-    connect(ui->actionToolbarKeyboard, &QAction::triggered, this,
+    connect(ui_->actionToolbarKeyboard, &QAction::triggered, this,
             &MainWindow::onActionToolbarKeyboardTriggered);
 }
 
 void MainWindow::manageActions(bool tabExist)
 {
-    ui->actionSearch->setEnabled(tabExist);
-    ui->actionZoom_in->setEnabled(tabExist);
-    ui->actionZoom_out->setEnabled(tabExist);
-    ui->actionCloseFile->setEnabled(tabExist);
-    ui->actionSave_file->setEnabled(tabExist);
-    ui->actionSave_as->setEnabled(tabExist);
+    ui_->actionSearch->setEnabled(tabExist);
+    ui_->actionZoom_in->setEnabled(tabExist);
+    ui_->actionZoom_out->setEnabled(tabExist);
+    ui_->actionCloseFile->setEnabled(tabExist);
+    ui_->actionSave_file->setEnabled(tabExist);
+    ui_->actionSave_as->setEnabled(tabExist);
 }
 
 void MainWindow::closeCurrentTab()
 {
-    int currentIndex{ui->tabWidget->currentIndex()};
+    int currentIndex{ui_->tabWidget->currentIndex()};
 
-    QWidget* tabToDelete{ui->tabWidget->widget(currentIndex)};
+    QWidget* tabToDelete{ui_->tabWidget->widget(currentIndex)};
 
     if (tabToDelete == nullptr)
         return;
 
-    QString msg{tr("Close ") + ui->tabWidget->tabText(currentIndex) + "?"};
+    QString msg{tr("Close ") + ui_->tabWidget->tabText(currentIndex) + "?"};
     QMessageBox::StandardButton answer =
         QMessageBox::question(this, tr("Confirm"), msg);
 
     if (answer == QMessageBox::Yes)
     {
-        ui->tabWidget->removeTab(currentIndex);
+        ui_->tabWidget->removeTab(currentIndex);
         delete tabToDelete;
 
-        if (ui->tabWidget->count() == 0)
+        if (ui_->tabWidget->count() == 0)
             manageActions(false);
     }
 }
@@ -531,53 +531,53 @@ void MainWindow::qtStylePicked()
 
 void MainWindow::rebuildToolbar()
 {
-    ui->mainToolBar->clear();
+    ui_->mainToolBar->clear();
 
-    ui->mainToolBar->addAction(ui->actionMenu);
+    ui_->mainToolBar->addAction(ui_->actionMenu);
 
     const Config& config{Config::getInstance()};
 
     if (config.toolbarKeyboardAdded())
-        ui->mainToolBar->addAction(ui->actionShow_hide_keyboard);
+        ui_->mainToolBar->addAction(ui_->actionShow_hide_keyboard);
 
     if (config.toolbarFileAdded())
     {
-        ui->mainToolBar->addAction(ui->actionNew);
-        ui->mainToolBar->addAction(ui->actionOpen_file);
-        ui->mainToolBar->addAction(ui->actionSave_file);
-        ui->mainToolBar->addAction(ui->actionSave_as);
-        ui->mainToolBar->addAction(ui->actionCloseFile);
+        ui_->mainToolBar->addAction(ui_->actionNew);
+        ui_->mainToolBar->addAction(ui_->actionOpen_file);
+        ui_->mainToolBar->addAction(ui_->actionSave_file);
+        ui_->mainToolBar->addAction(ui_->actionSave_as);
+        ui_->mainToolBar->addAction(ui_->actionCloseFile);
     }
 
     if (config.toolbarUndoRedoAdded())
     {
-        ui->mainToolBar->addAction(ui->actionUndo);
-        ui->mainToolBar->addAction(ui->actionRedo);
+        ui_->mainToolBar->addAction(ui_->actionUndo);
+        ui_->mainToolBar->addAction(ui_->actionRedo);
     }
 
     if (config.toolbarCopyPasteCutAdded())
     {
-        ui->mainToolBar->addAction(ui->actionCopy);
-        ui->mainToolBar->addAction(ui->actionCut);
-        ui->mainToolBar->addAction(ui->actionPaste);
+        ui_->mainToolBar->addAction(ui_->actionCopy);
+        ui_->mainToolBar->addAction(ui_->actionCut);
+        ui_->mainToolBar->addAction(ui_->actionPaste);
     }
 
     if (config.toolbarZoomAdded())
     {
-        ui->mainToolBar->addAction(ui->actionZoom_in);
-        ui->mainToolBar->addAction(ui->actionZoom_out);
+        ui_->mainToolBar->addAction(ui_->actionZoom_in);
+        ui_->mainToolBar->addAction(ui_->actionZoom_out);
     }
 
     if (config.toolbarSearchAdded())
     {
-        ui->mainToolBar->addAction(ui->actionSearch);
+        ui_->mainToolBar->addAction(ui_->actionSearch);
     }
 }
 
 void MainWindow::onActionSearchTriggered()
 {
     EditorTabPage* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
         currentTab->flipFindVisibility();
@@ -586,7 +586,7 @@ void MainWindow::onActionSearchTriggered()
 void MainWindow::onActionZoomInTriggered()
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
         currentTab->zoom(true);
@@ -595,7 +595,7 @@ void MainWindow::onActionZoomInTriggered()
 void MainWindow::onActionZoomOutTriggered()
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
         currentTab->zoom(false);
@@ -603,49 +603,49 @@ void MainWindow::onActionZoomOutTriggered()
 
 void MainWindow::currentTabPageChanged(int index)
 {
-    QTabBar* tabBar{ui->tabWidget->findChild<QTabBar*>()};
-    tabBar->setVisible(1 < ui->tabWidget->count());
+    QTabBar* tabBar{ui_->tabWidget->findChild<QTabBar*>()};
+    tabBar->setVisible(1 < ui_->tabWidget->count());
 
     if (index != -1)
     {
         auto* currentTab{
-            dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+            dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
         if (currentTab != nullptr)
         {
-            ui->actionRedo->setEnabled(currentTab->redoAvailable());
-            ui->actionUndo->setEnabled(currentTab->undoAvailable());
-            ui->actionCopy->setEnabled(!currentTab->selectionEmpty());
-            ui->actionCut->setEnabled(!currentTab->selectionEmpty());
+            ui_->actionRedo->setEnabled(currentTab->redoAvailable());
+            ui_->actionUndo->setEnabled(currentTab->undoAvailable());
+            ui_->actionCopy->setEnabled(!currentTab->selectionEmpty());
+            ui_->actionCut->setEnabled(!currentTab->selectionEmpty());
             clipboardDataChanged();
             setProperLangActionForMode(currentTab->mode());
-            ui->menuLanguage_mode->setEnabled(true);
+            ui_->menuLanguage_mode->setEnabled(true);
             return;
         }
     }
 
-    ui->actionRedo->setEnabled(false);
-    ui->actionUndo->setEnabled(false);
-    ui->actionCopy->setEnabled(false);
-    ui->actionCut->setEnabled(false);
-    ui->actionPaste->setEnabled(false);
-    ui->menuLanguage_mode->setEnabled(false);
+    ui_->actionRedo->setEnabled(false);
+    ui_->actionUndo->setEnabled(false);
+    ui_->actionCopy->setEnabled(false);
+    ui_->actionCut->setEnabled(false);
+    ui_->actionPaste->setEnabled(false);
+    ui_->menuLanguage_mode->setEnabled(false);
 }
 
 void MainWindow::redoAvailabilityChanged(bool available)
 {
-    ui->actionRedo->setEnabled(available);
+    ui_->actionRedo->setEnabled(available);
 }
 
 void MainWindow::undoAvailabilityChanged(bool available)
 {
-    ui->actionUndo->setEnabled(available);
+    ui_->actionUndo->setEnabled(available);
 }
 
 void MainWindow::onActionUndoTriggered()
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
         currentTab->undo();
@@ -654,7 +654,7 @@ void MainWindow::onActionUndoTriggered()
 void MainWindow::onActionRedoTriggered()
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
         currentTab->redo();
@@ -664,43 +664,43 @@ void MainWindow::clipboardDataChanged()
 {
     const QClipboard* clipboard{QApplication::clipboard()};
 
-    ui->actionPaste->setEnabled(!clipboard->text().isEmpty());
+    ui_->actionPaste->setEnabled(!clipboard->text().isEmpty());
 }
 
 void MainWindow::copyAndCutAvailabilityChanged(bool available)
 {
-    ui->actionCopy->setEnabled(available);
-    ui->actionCut->setEnabled(available);
+    ui_->actionCopy->setEnabled(available);
+    ui_->actionCut->setEnabled(available);
 }
 
 void MainWindow::onActionCopyTriggered()
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
     {
         currentTab->copy();
-        ui->actionPaste->setEnabled(true);
+        ui_->actionPaste->setEnabled(true);
     }
 }
 
 void MainWindow::onActionCutTriggered()
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
     {
         currentTab->cut();
-        ui->actionPaste->setEnabled(true);
+        ui_->actionPaste->setEnabled(true);
     }
 }
 
 void MainWindow::onActionPasteTriggered()
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
         currentTab->paste();
@@ -728,11 +728,11 @@ void MainWindow::onActionTabsSouthTriggered()
 
 void MainWindow::changeTabPosition(QTabWidget::TabPosition position)
 {
-    ui->tabWidget->setTabPosition(position);
+    ui_->tabWidget->setTabPosition(position);
     Config::getInstance().setTabPosition(position);
 
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
         currentTab->refreshVisualIndicators();
@@ -753,7 +753,7 @@ void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
     setAvailableFunctionalitiesForMainWindow(false);
 
     auto* browseFilesWidget{
-        new BrowseFilesWidget(openFileMode, ui->stackedWidget)};
+        new BrowseFilesWidget(openFileMode, ui_->stackedWidget)};
 
     connect(browseFilesWidget, &BrowseFilesWidget::cancelAction, this,
             &MainWindow::showMainPage);
@@ -765,9 +765,9 @@ void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
         connect(browseFilesWidget, &BrowseFilesWidget::filePrepared, this,
                 &MainWindow::saveFileFromTab);
 
-    ui->stackedWidget->insertWidget(PAGE_FILE_BROWSER, browseFilesWidget);
+    ui_->stackedWidget->insertWidget(PAGE_FILE_BROWSER, browseFilesWidget);
 
-    ui->stackedWidget->setCurrentIndex(PAGE_FILE_BROWSER);
+    ui_->stackedWidget->setCurrentIndex(PAGE_FILE_BROWSER);
 }
 
 void MainWindow::onActionDecrease50Triggered()
@@ -863,7 +863,7 @@ void MainWindow::onActionLineWrapTriggered(bool checked)
 {
     Config::getInstance().setLineWrap(checked);
 
-    QList<EditorTabPage*> pages{ui->tabWidget->findChildren<EditorTabPage*>()};
+    QList<EditorTabPage*> pages{ui_->tabWidget->findChildren<EditorTabPage*>()};
     foreach (EditorTabPage* page, pages)
         page->setLineWrap(checked);
 }
@@ -882,7 +882,7 @@ void MainWindow::onActionExitTriggered()
 void MainWindow::onActionSaveFileTriggered()
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
     {
@@ -915,13 +915,13 @@ void MainWindow::onActionSaveFileTriggered()
 void MainWindow::onActionShowToolbarTriggered(bool checked)
 {
     Config::getInstance().setShowToolbar(checked);
-    ui->mainToolBar->setVisible(checked);
+    ui_->mainToolBar->setVisible(checked);
 }
 
 void MainWindow::changeModeForCurrentTab(EditorTabPage::EditorMode mode)
 {
     auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui->tabWidget->currentWidget())};
+        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab != nullptr)
         currentTab->setMode(mode);
@@ -933,61 +933,61 @@ void MainWindow::setProperLangActionForMode(EditorTabPage::EditorMode mode)
     {
         case EditorTabPage::EDITOR_MODE_C_CPP:
         {
-            ui->actionLangC_Cpp->setChecked(true);
+            ui_->actionLangC_Cpp->setChecked(true);
             break;
         }
 
         case EditorTabPage::EDITOR_MODE_JAVA:
         {
-            ui->actionLangJava->setChecked(true);
+            ui_->actionLangJava->setChecked(true);
             break;
         }
 
         case EditorTabPage::EDITOR_MODE_OBJECTIVE_C:
         {
-            ui->actionLangObjective_C->setChecked(true);
+            ui_->actionLangObjective_C->setChecked(true);
             break;
         }
 
         case EditorTabPage::EDITOR_MODE_C_SHARP:
         {
-            ui->actionLangCSharp->setChecked(true);
+            ui_->actionLangCSharp->setChecked(true);
             break;
         }
 
         case EditorTabPage::EDITOR_MODE_PHP:
         {
-            ui->actionLangPHP->setChecked(true);
+            ui_->actionLangPHP->setChecked(true);
             break;
         }
 
         case EditorTabPage::EDITOR_MODE_VISUAL_BASIC:
         {
-            ui->actionLangVBasic->setChecked(true);
+            ui_->actionLangVBasic->setChecked(true);
             break;
         }
 
         case EditorTabPage::EDITOR_MODE_PYTHON:
         {
-            ui->actionLangPython->setChecked(true);
+            ui_->actionLangPython->setChecked(true);
             break;
         }
 
         case EditorTabPage::EDITOR_MODE_SQL:
         {
-            ui->actionLangSQL->setChecked(true);
+            ui_->actionLangSQL->setChecked(true);
             break;
         }
 
         case EditorTabPage::EDITOR_MODE_JAVASCRIPT:
         {
-            ui->actionLangJavaScript->setChecked(true);
+            ui_->actionLangJavaScript->setChecked(true);
             break;
         }
 
         case EditorTabPage::EDITOR_MODE_PLAIN_TEXT:
         {
-            ui->actionLangNone->setChecked(true);
+            ui_->actionLangNone->setChecked(true);
             break;
         }
 
@@ -1051,25 +1051,25 @@ void MainWindow::onActionLangNoneTriggered()
 void MainWindow::onActionToolbarNorthTriggered()
 {
     Config::getInstance().setToolbarArea(Qt::TopToolBarArea);
-    addToolBar(Qt::TopToolBarArea, ui->mainToolBar);
+    addToolBar(Qt::TopToolBarArea, ui_->mainToolBar);
 }
 
 void MainWindow::onActionToolbarSouthTriggered()
 {
     Config::getInstance().setToolbarArea(Qt::BottomToolBarArea);
-    addToolBar(Qt::BottomToolBarArea, ui->mainToolBar);
+    addToolBar(Qt::BottomToolBarArea, ui_->mainToolBar);
 }
 
 void MainWindow::onActionToolbarWestTriggered()
 {
     Config::getInstance().setToolbarArea(Qt::LeftToolBarArea);
-    addToolBar(Qt::LeftToolBarArea, ui->mainToolBar);
+    addToolBar(Qt::LeftToolBarArea, ui_->mainToolBar);
 }
 
 void MainWindow::onActionToolbarEastTriggered()
 {
     Config::getInstance().setToolbarArea(Qt::RightToolBarArea);
-    addToolBar(Qt::RightToolBarArea, ui->mainToolBar);
+    addToolBar(Qt::RightToolBarArea, ui_->mainToolBar);
 }
 
 void MainWindow::onActionNewTriggered()
@@ -1102,7 +1102,7 @@ void MainWindow::onActionQtLicenseTriggered()
 
 void MainWindow::onActionShowHideKeyboardTriggered()
 {
-    if (ui->stackedWidget->currentIndex() != PAGE_MAIN)
+    if (ui_->stackedWidget->currentIndex() != PAGE_MAIN)
         return;
 
     QInputMethod* input{QGuiApplication::inputMethod()};
@@ -1112,13 +1112,13 @@ void MainWindow::onActionShowHideKeyboardTriggered()
 void MainWindow::setAvailableFunctionalitiesForMainWindow(bool visible)
 {
     if (visible)
-        ui->mainToolBar->setVisible(ui->actionShowToolbar->isChecked());
+        ui_->mainToolBar->setVisible(ui_->actionShowToolbar->isChecked());
     else
-        ui->mainToolBar->setVisible(false);
+        ui_->mainToolBar->setVisible(false);
 
-    ui->menuEdit->setEnabled(visible);
-    ui->actionShowToolbar->setEnabled(visible);
-    ui->menuHelp->setEnabled(visible);
+    ui_->menuEdit->setEnabled(visible);
+    ui_->actionShowToolbar->setEnabled(visible);
+    ui_->menuHelp->setEnabled(visible);
 }
 
 void MainWindow::focusHasChanged([[maybe_unused]] QWidget* old, QWidget* now)
@@ -1126,15 +1126,15 @@ void MainWindow::focusHasChanged([[maybe_unused]] QWidget* old, QWidget* now)
     auto* codeViewer{dynamic_cast<CodeViewer*>(now)};
     auto* lineEdit{dynamic_cast<QLineEdit*>(now)};
     bool keyboardFocusWidget{lineEdit != nullptr || codeViewer != nullptr};
-    ui->actionShow_hide_keyboard->setEnabled(keyboardFocusWidget);
+    ui_->actionShow_hide_keyboard->setEnabled(keyboardFocusWidget);
 }
 
 void MainWindow::on_actionMenu_triggered()
 {
     QMenu menu;
-    menu.addMenu(ui->menuFile);
-    menu.addMenu(ui->menuEdit);
-    menu.addMenu(ui->menuOptions);
-    menu.addMenu(ui->menuHelp);
+    menu.addMenu(ui_->menuFile);
+    menu.addMenu(ui_->menuEdit);
+    menu.addMenu(ui_->menuOptions);
+    menu.addMenu(ui_->menuHelp);
     menu.exec(QCursor::pos());
 }

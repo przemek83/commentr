@@ -77,7 +77,7 @@ protected:
 private:
     Q_DISABLE_COPY(EditorTabPage)
 
-    Ui::EditorTabPage* ui;
+    Ui::EditorTabPage* ui_;
 
     CodeViewer* codeViewer_;
 

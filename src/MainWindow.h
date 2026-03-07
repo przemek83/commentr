@@ -36,7 +36,7 @@ protected:
 private:
     Q_DISABLE_COPY(MainWindow)
 
-    Ui::MainWindow* ui;
+    Ui::MainWindow* ui_;
 
     void connectActions();
 

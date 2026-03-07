@@ -23,7 +23,7 @@ public:
 private:
     Q_DISABLE_COPY(BrowseFilesWidget)
 
-    Ui::BrowseFilesWidget* ui;
+    Ui::BrowseFilesWidget* ui_;
 
     void initLineEdit();
 

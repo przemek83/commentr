@@ -95,14 +95,6 @@ private slots:
 
     void onActionPasteTriggered();
 
-    void onActionTabsWestTriggered();
-
-    void onActionTabsEastTriggered();
-
-    void onActionTabsNorthTriggered();
-
-    void onActionTabsSouthTriggered();
-
     void onActionDecrease50Triggered();
 
     void onActionDecrease25Triggered();

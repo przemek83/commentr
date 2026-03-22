@@ -401,14 +401,14 @@ void MainWindow::connectActions()
             &MainWindow::onActionCutTriggered);
     connect(ui_->actionPaste, &QAction::triggered, this,
             &MainWindow::onActionPasteTriggered);
-    connect(ui_->actionTabsWest, &QAction::triggered, this,
-            &MainWindow::onActionTabsWestTriggered);
-    connect(ui_->actionTabsEast, &QAction::triggered, this,
-            &MainWindow::onActionTabsEastTriggered);
-    connect(ui_->actionTabsNorth, &QAction::triggered, this,
-            &MainWindow::onActionTabsNorthTriggered);
-    connect(ui_->actionTabsSouth, &QAction::triggered, this,
-            &MainWindow::onActionTabsSouthTriggered);
+    connect(ui_->actionTabsWest, &QAction::triggered,
+            [this]() { changeTabPosition(QTabWidget::West); });
+    connect(ui_->actionTabsEast, &QAction::triggered,
+            [this]() { changeTabPosition(QTabWidget::East); });
+    connect(ui_->actionTabsNorth, &QAction::triggered,
+            [this]() { changeTabPosition(QTabWidget::North); });
+    connect(ui_->actionTabsSouth, &QAction::triggered,
+            [this]() { changeTabPosition(QTabWidget::South); });
     connect(ui_->actionDecrease50, &QAction::triggered, this,
             &MainWindow::onActionDecrease50Triggered);
     connect(ui_->actionDecrease25, &QAction::triggered, this,
@@ -708,26 +708,6 @@ void MainWindow::onActionPasteTriggered()
 
     if (currentTab != nullptr)
         currentTab->paste();
-}
-
-void MainWindow::onActionTabsWestTriggered()
-{
-    changeTabPosition(QTabWidget::West);
-}
-
-void MainWindow::onActionTabsEastTriggered()
-{
-    changeTabPosition(QTabWidget::East);
-}
-
-void MainWindow::onActionTabsNorthTriggered()
-{
-    changeTabPosition(QTabWidget::North);
-}
-
-void MainWindow::onActionTabsSouthTriggered()
-{
-    changeTabPosition(QTabWidget::South);
 }
 
 void MainWindow::changeTabPosition(QTabWidget::TabPosition position)

@@ -381,8 +381,8 @@ void MainWindow::openRecentFile()
 
 void MainWindow::connectActions()
 {
-    connect(ui_->actionOpen_file, &QAction::triggered, this,
-            &MainWindow::onActionOpenFileTriggered);
+    connect(ui_->actionOpen_file, &QAction::triggered,
+            [this]() { createAndShowBrowseFilesWidget(true); });
     connect(ui_->actionSave_file, &QAction::triggered, this,
             &MainWindow::onActionSaveFileTriggered);
     connect(ui_->actionSearch, &QAction::triggered, this,
@@ -441,28 +441,32 @@ void MainWindow::connectActions()
             &MainWindow::onActionShowToolbarTriggered);
     connect(ui_->actionNew, &QAction::triggered, this,
             &MainWindow::onActionNewTriggered);
-    connect(ui_->actionSave_as, &QAction::triggered, this,
-            &MainWindow::onActionSaveAsTriggered);
-    connect(ui_->actionLangC_Cpp, &QAction::triggered, this,
-            &MainWindow::onActionLangCppCTriggered);
-    connect(ui_->actionLangJava, &QAction::triggered, this,
-            &MainWindow::onActionLangJavaTriggered);
-    connect(ui_->actionLangObjective_C, &QAction::triggered, this,
-            &MainWindow::onActionLangObjectiveCTriggered);
-    connect(ui_->actionLangCSharp, &QAction::triggered, this,
-            &MainWindow::onActionLangCSharpTriggered);
-    connect(ui_->actionLangPHP, &QAction::triggered, this,
-            &MainWindow::onActionLangPHPTriggered);
-    connect(ui_->actionLangVBasic, &QAction::triggered, this,
-            &MainWindow::onActionLangVBasicTriggered);
-    connect(ui_->actionLangPython, &QAction::triggered, this,
-            &MainWindow::onActionLangPythonTriggered);
-    connect(ui_->actionLangSQL, &QAction::triggered, this,
-            &MainWindow::onActionLangSqlTriggered);
-    connect(ui_->actionLangJavaScript, &QAction::triggered, this,
-            &MainWindow::onActionLangJavaScriptTriggered);
-    connect(ui_->actionLangNone, &QAction::triggered, this,
-            &MainWindow::onActionLangNoneTriggered);
+    connect(ui_->actionSave_as, &QAction::triggered,
+            [this]() { createAndShowBrowseFilesWidget(false); });
+    connect(ui_->actionLangC_Cpp, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_CPP); });
+    connect(ui_->actionLangJava, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVA); });
+    connect(
+        ui_->actionLangObjective_C, &QAction::triggered, [this]()
+        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_OBJECTIVE_C); });
+    connect(ui_->actionLangCSharp, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_SHARP); });
+    connect(ui_->actionLangPHP, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PHP); });
+    connect(
+        ui_->actionLangVBasic, &QAction::triggered, [this]()
+        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_VISUAL_BASIC); });
+    connect(ui_->actionLangPython, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PYTHON); });
+    connect(ui_->actionLangSQL, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_SQL); });
+    connect(
+        ui_->actionLangJavaScript, &QAction::triggered, [this]()
+        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVASCRIPT); });
+    connect(
+        ui_->actionLangNone, &QAction::triggered, [this]()
+        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PLAIN_TEXT); });
     connect(ui_->actionAbout, &QAction::triggered, this,
             &MainWindow::onActionAboutTriggered);
     connect(ui_->actionToolbarNorth, &QAction::triggered, this,
@@ -738,16 +742,6 @@ void MainWindow::changeTabPosition(QTabWidget::TabPosition position)
         currentTab->refreshVisualIndicators();
 }
 
-void MainWindow::onActionOpenFileTriggered()
-{
-    createAndShowBrowseFilesWidget(true);
-}
-
-void MainWindow::onActionSaveAsTriggered()
-{
-    createAndShowBrowseFilesWidget(false);
-}
-
 void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
 {
     setAvailableFunctionalitiesForMainWindow(false);
@@ -891,7 +885,7 @@ void MainWindow::onActionSaveFileTriggered()
         {
             case Common::SOURCE_NOT_SET:
             {
-                onActionSaveAsTriggered();
+                createAndShowBrowseFilesWidget(false);
                 break;
             }
 
@@ -996,56 +990,6 @@ void MainWindow::setProperLangActionForMode(EditorTabPage::EditorMode mode)
             break;
         }
     }
-}
-
-void MainWindow::onActionLangCppCTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_CPP);
-}
-
-void MainWindow::onActionLangJavaTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVA);
-}
-
-void MainWindow::onActionLangObjectiveCTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_OBJECTIVE_C);
-}
-
-void MainWindow::onActionLangCSharpTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_SHARP);
-}
-
-void MainWindow::onActionLangPHPTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PHP);
-}
-
-void MainWindow::onActionLangVBasicTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_VISUAL_BASIC);
-}
-
-void MainWindow::onActionLangPythonTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PYTHON);
-}
-
-void MainWindow::onActionLangSqlTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_SQL);
-}
-
-void MainWindow::onActionLangJavaScriptTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVASCRIPT);
-}
-
-void MainWindow::onActionLangNoneTriggered()
-{
-    changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PLAIN_TEXT);
 }
 
 void MainWindow::onActionToolbarNorthTriggered()

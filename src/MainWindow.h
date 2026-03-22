@@ -77,8 +77,6 @@ private:
     int newFileCounter_;
 
 private slots:
-    void onActionOpenFileTriggered();
-
     void onActionSaveFileTriggered();
 
     void onActionSearchTriggered();
@@ -136,28 +134,6 @@ private slots:
     void onActionShowToolbarTriggered(bool checked);
 
     void onActionNewTriggered();
-
-    void onActionSaveAsTriggered();
-
-    void onActionLangCppCTriggered();
-
-    void onActionLangJavaTriggered();
-
-    void onActionLangObjectiveCTriggered();
-
-    void onActionLangCSharpTriggered();
-
-    void onActionLangPHPTriggered();
-
-    void onActionLangVBasicTriggered();
-
-    void onActionLangPythonTriggered();
-
-    void onActionLangSqlTriggered();
-
-    void onActionLangJavaScriptTriggered();
-
-    void onActionLangNoneTriggered();
 
     void onActionAboutTriggered();
 

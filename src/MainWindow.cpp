@@ -401,6 +401,7 @@ void MainWindow::connectActions()
             &MainWindow::onActionCutTriggered);
     connect(ui_->actionPaste, &QAction::triggered, this,
             &MainWindow::onActionPasteTriggered);
+
     connect(ui_->actionTabsWest, &QAction::triggered,
             [this]() { changeTabPosition(QTabWidget::West); });
     connect(ui_->actionTabsEast, &QAction::triggered,
@@ -409,18 +410,20 @@ void MainWindow::connectActions()
             [this]() { changeTabPosition(QTabWidget::North); });
     connect(ui_->actionTabsSouth, &QAction::triggered,
             [this]() { changeTabPosition(QTabWidget::South); });
-    connect(ui_->actionDecrease50, &QAction::triggered, this,
-            &MainWindow::onActionDecrease50Triggered);
-    connect(ui_->actionDecrease25, &QAction::triggered, this,
-            &MainWindow::onActionDecrease25Triggered);
-    connect(ui_->actionDecrease10, &QAction::triggered, this,
-            &MainWindow::onActionDecrease10Triggered);
-    connect(ui_->actionIncrease10, &QAction::triggered, this,
-            &MainWindow::onActionIncrease10Triggered);
-    connect(ui_->actionIncrease25, &QAction::triggered, this,
-            &MainWindow::onActionIncrease25Triggered);
-    connect(ui_->actionIncrease50, &QAction::triggered, this,
-            &MainWindow::onActionIncrease50Triggered);
+
+    connect(ui_->actionDecrease50, &QAction::triggered,
+            []() { changeSize(.5F); });
+    connect(ui_->actionDecrease25, &QAction::triggered,
+            []() { changeSize(.75F); });
+    connect(ui_->actionDecrease10, &QAction::triggered,
+            []() { changeSize(.90F); });
+    connect(ui_->actionIncrease10, &QAction::triggered,
+            []() { changeSize(1.1F); });
+    connect(ui_->actionIncrease25, &QAction::triggered,
+            []() { changeSize(1.25F); });
+    connect(ui_->actionIncrease50, &QAction::triggered,
+            []() { changeSize(1.5F); });
+
     connect(ui_->actionToolbarFile_Operations, &QAction::triggered, this,
             &MainWindow::onActionToolbarFileOperationsTriggered);
     connect(ui_->actionToolbarCut_copy_paste, &QAction::triggered, this,
@@ -744,45 +747,10 @@ void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
     ui_->stackedWidget->setCurrentIndex(PAGE_FILE_BROWSER);
 }
 
-void MainWindow::onActionDecrease50Triggered()
+void MainWindow::changeSize(float factor)
 {
     float currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(currentSize * .5);
-    ProxyStyle::updateUisize();
-}
-
-void MainWindow::onActionDecrease25Triggered()
-{
-    float currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(currentSize * .75);
-    ProxyStyle::updateUisize();
-}
-
-void MainWindow::onActionDecrease10Triggered()
-{
-    float currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(currentSize * .90);
-    ProxyStyle::updateUisize();
-}
-
-void MainWindow::onActionIncrease10Triggered()
-{
-    float currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(currentSize * 1.1);
-    ProxyStyle::updateUisize();
-}
-
-void MainWindow::onActionIncrease25Triggered()
-{
-    float currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(currentSize * 1.25);
-    ProxyStyle::updateUisize();
-}
-
-void MainWindow::onActionIncrease50Triggered()
-{
-    float currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(currentSize * 1.5);
+    Config::getInstance().setUiSize(currentSize * factor);
     ProxyStyle::updateUisize();
 }
 

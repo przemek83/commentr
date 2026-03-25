@@ -73,6 +73,8 @@ private:
 
     void createAndShowBrowseFilesWidget(bool openFileMode);
 
+    static void changeSize(float factor);
+
     /// Counter used at new file creation.
     int newFileCounter_;
 
@@ -94,18 +96,6 @@ private slots:
     void onActionCutTriggered();
 
     void onActionPasteTriggered();
-
-    void onActionDecrease50Triggered();
-
-    void onActionDecrease25Triggered();
-
-    void onActionDecrease10Triggered();
-
-    void onActionIncrease10Triggered();
-
-    void onActionIncrease25Triggered();
-
-    void onActionIncrease50Triggered();
 
     void onActionToolbarFileOperationsTriggered(bool checked);
 

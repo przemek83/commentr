@@ -472,14 +472,16 @@ void MainWindow::connectActions()
         { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PLAIN_TEXT); });
     connect(ui_->actionAbout, &QAction::triggered, this,
             &MainWindow::onActionAboutTriggered);
-    connect(ui_->actionToolbarNorth, &QAction::triggered, this,
-            &MainWindow::onActionToolbarNorthTriggered);
-    connect(ui_->actionToolbarSouth, &QAction::triggered, this,
-            &MainWindow::onActionToolbarSouthTriggered);
-    connect(ui_->actionToolbarWest, &QAction::triggered, this,
-            &MainWindow::onActionToolbarWestTriggered);
-    connect(ui_->actionToolbarEast, &QAction::triggered, this,
-            &MainWindow::onActionToolbarEastTriggered);
+
+    connect(ui_->actionToolbarNorth, &QAction::triggered,
+            [this]() { changeToolbarPosition(Qt::TopToolBarArea); });
+    connect(ui_->actionToolbarSouth, &QAction::triggered,
+            [this]() { changeToolbarPosition(Qt::BottomToolBarArea); });
+    connect(ui_->actionToolbarWest, &QAction::triggered,
+            [this]() { changeToolbarPosition(Qt::LeftToolBarArea); });
+    connect(ui_->actionToolbarEast, &QAction::triggered,
+            [this]() { changeToolbarPosition(Qt::RightToolBarArea); });
+
     connect(ui_->actionQt_license, &QAction::triggered, this,
             &MainWindow::onActionQtLicenseTriggered);
     connect(ui_->actionShow_hide_keyboard, &QAction::triggered, this,
@@ -754,6 +756,12 @@ void MainWindow::changeSize(float factor)
     ProxyStyle::updateUisize();
 }
 
+void MainWindow::changeToolbarPosition(Qt::ToolBarArea area)
+{
+    Config::getInstance().setToolbarArea(area);
+    addToolBar(area, ui_->mainToolBar);
+}
+
 void MainWindow::onActionToolbarKeyboardTriggered(bool checked)
 {
     Config::getInstance().setToolbarKeyboardAdded(checked);
@@ -938,30 +946,6 @@ void MainWindow::setProperLangActionForMode(EditorTabPage::EditorMode mode)
             break;
         }
     }
-}
-
-void MainWindow::onActionToolbarNorthTriggered()
-{
-    Config::getInstance().setToolbarArea(Qt::TopToolBarArea);
-    addToolBar(Qt::TopToolBarArea, ui_->mainToolBar);
-}
-
-void MainWindow::onActionToolbarSouthTriggered()
-{
-    Config::getInstance().setToolbarArea(Qt::BottomToolBarArea);
-    addToolBar(Qt::BottomToolBarArea, ui_->mainToolBar);
-}
-
-void MainWindow::onActionToolbarWestTriggered()
-{
-    Config::getInstance().setToolbarArea(Qt::LeftToolBarArea);
-    addToolBar(Qt::LeftToolBarArea, ui_->mainToolBar);
-}
-
-void MainWindow::onActionToolbarEastTriggered()
-{
-    Config::getInstance().setToolbarArea(Qt::RightToolBarArea);
-    addToolBar(Qt::RightToolBarArea, ui_->mainToolBar);
 }
 
 void MainWindow::onActionNewTriggered()

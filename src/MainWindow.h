@@ -75,6 +75,8 @@ private:
 
     static void changeSize(float factor);
 
+    void changeToolbarPosition(Qt::ToolBarArea area);
+
     /// Counter used at new file creation.
     int newFileCounter_;
 
@@ -118,14 +120,6 @@ private slots:
     void onActionNewTriggered();
 
     void onActionAboutTriggered();
-
-    void onActionToolbarNorthTriggered();
-
-    void onActionToolbarSouthTriggered();
-
-    void onActionToolbarWestTriggered();
-
-    void onActionToolbarEastTriggered();
 
     void onActionQtLicenseTriggered();
 

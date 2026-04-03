@@ -293,11 +293,11 @@ void MainWindow::createNewTab(File* file)
 
     editorTabPage->setLineWrap(config.lineWrap());
 
-    connect(editorTabPage, &EditorTabPage::redoIsAvailable, this,
-            &MainWindow::redoAvailabilityChanged);
+    connect(editorTabPage, &EditorTabPage::redoIsAvailable,
+            [this](bool available) { ui_->actionRedo->setEnabled(available); });
 
-    connect(editorTabPage, &EditorTabPage::undoIsAvailable, this,
-            &MainWindow::undoAvailabilityChanged);
+    connect(editorTabPage, &EditorTabPage::undoIsAvailable,
+            [this](bool available) { ui_->actionUndo->setEnabled(available); });
 
     connect(editorTabPage, &EditorTabPage::copyCutIsAvailable, this,
             &MainWindow::copyAndCutAvailabilityChanged);
@@ -639,16 +639,6 @@ void MainWindow::currentTabPageChanged(int index)
     ui_->actionCut->setEnabled(false);
     ui_->actionPaste->setEnabled(false);
     ui_->menuLanguage_mode->setEnabled(false);
-}
-
-void MainWindow::redoAvailabilityChanged(bool available)
-{
-    ui_->actionRedo->setEnabled(available);
-}
-
-void MainWindow::undoAvailabilityChanged(bool available)
-{
-    ui_->actionUndo->setEnabled(available);
 }
 
 void MainWindow::onActionUndoTriggered()

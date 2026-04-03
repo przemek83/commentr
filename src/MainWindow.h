@@ -133,10 +133,6 @@ private slots:
 
     void currentTabPageChanged(int index);
 
-    void redoAvailabilityChanged(bool available);
-
-    void undoAvailabilityChanged(bool available);
-
     void clipboardDataChanged();
 
     void copyAndCutAvailabilityChanged(bool available);

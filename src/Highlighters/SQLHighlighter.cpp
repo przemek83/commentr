@@ -84,7 +84,7 @@ void SQLHighlighter::initRules()
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    rule.startPattern = QRegularExpression("(\"[^\"]*\"|\'[^\']*\')");
+    rule.startPattern = QRegularExpression(R"(("[^"]*"|'[^']*'))");
     rule.format = quotationFormat;
     highlightingRules_.append(rule);
 }

@@ -58,14 +58,13 @@ void PhpHighlighter::initRules()
     QTextCharFormat functionFormat;
     functionFormat.setFontItalic(true);
     functionFormat.setForeground(Qt::blue);
-    rule.startPattern = QRegularExpression("\\b[A-Za-z0-9_]+\\s*(?=\\()");
+    rule.startPattern = QRegularExpression(R"(\b[A-Za-z0-9_]+\s*(?=\())");
     rule.format = functionFormat;
     highlightingRules_.append(rule);
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    rule.startPattern =
-        QRegularExpression("(\"([^\"]|\\\\\")*\"|\'([^\']|\\\\\')*\')");
+    rule.startPattern = QRegularExpression(R"(("([^"]|\\")*"|'([^']|\\')*'))");
     rule.format = quotationFormat;
     highlightingRules_.append(rule);
 }

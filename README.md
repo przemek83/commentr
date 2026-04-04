@@ -9,4 +9,6 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=przemek83_commentr&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=przemek83_commentr)
 
 # commentr
+![](screen.png?raw=true "")
+
 [WIP] Android code editor

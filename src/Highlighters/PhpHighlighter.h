@@ -7,6 +7,7 @@ class PhpHighlighter : public Highlighter
 {
 public:
     explicit PhpHighlighter(QObject* parent);
+    ~PhpHighlighter() override = default;
 
 protected:
     void initRules() override;
@@ -14,7 +15,7 @@ protected:
     void commentBlock(const QString& text) override;
 
 private:
-    Q_DISABLE_COPY(PhpHighlighter)
+    Q_DISABLE_COPY_MOVE(PhpHighlighter)
 
     HighlightingRule singleLineCommentRule_;
 

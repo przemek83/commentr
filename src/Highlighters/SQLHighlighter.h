@@ -7,6 +7,7 @@ class SQLHighlighter : public Highlighter
 {
 public:
     explicit SQLHighlighter(QObject* parent);
+    ~SQLHighlighter() override = default;
 
 protected:
     void highlightBlock(const QString& text) override;
@@ -16,7 +17,7 @@ protected:
     void commentBlock(const QString& text) override;
 
 private:
-    Q_DISABLE_COPY(SQLHighlighter)
+    Q_DISABLE_COPY_MOVE(SQLHighlighter)
 
     HighlightingRule singleLineCommentRule_;
 

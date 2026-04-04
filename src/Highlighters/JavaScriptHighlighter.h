@@ -7,6 +7,7 @@ class JavaScriptHighlighter : public Highlighter
 {
 public:
     explicit JavaScriptHighlighter(QObject* parent);
+    ~JavaScriptHighlighter() override = default;
 
 protected:
     void initRules() override;
@@ -14,7 +15,7 @@ protected:
     void commentBlock(const QString& text) override;
 
 private:
-    Q_DISABLE_COPY(JavaScriptHighlighter)
+    Q_DISABLE_COPY_MOVE(JavaScriptHighlighter)
 
     HighlightingRule singleLineCommentRule_;
 

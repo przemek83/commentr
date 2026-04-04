@@ -9,6 +9,8 @@ class Highlighter : public QSyntaxHighlighter
 public:
     explicit Highlighter(QObject* parent);
 
+    ~Highlighter() override = default;
+
     static void setSpellChecking(bool check);
 
 protected:
@@ -36,7 +38,7 @@ protected:
     void multiLineComment(const QString& text, const HighlightingRule& rule);
 
 private:
-    Q_DISABLE_COPY(Highlighter)
+    Q_DISABLE_COPY_MOVE(Highlighter)
 
     QTextCharFormat spellCheckFormat_;
 

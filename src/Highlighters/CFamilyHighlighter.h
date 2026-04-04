@@ -9,6 +9,7 @@ class CFamilyHighlighter : public Highlighter
 {
 public:
     explicit CFamilyHighlighter(QObject* parent);
+    ~CFamilyHighlighter() override = default;
 
 protected:
     void commentBlock(const QString& text) override;
@@ -18,7 +19,7 @@ protected:
     void initQuotationRules();
 
 private:
-    Q_DISABLE_COPY(CFamilyHighlighter)
+    Q_DISABLE_COPY_MOVE(CFamilyHighlighter)
 
     HighlightingRule singleLineCommentRule_;
 

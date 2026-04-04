@@ -7,12 +7,13 @@ class ObjectiveCHighlighter : public CFamilyHighlighter
 {
 public:
     explicit ObjectiveCHighlighter(QObject* parent);
+    ~ObjectiveCHighlighter() override = default;
 
 protected:
     void initRules() override;
 
 private:
-    Q_DISABLE_COPY(ObjectiveCHighlighter)
+    Q_DISABLE_COPY_MOVE(ObjectiveCHighlighter)
 };
 
 #endif  // OBJECTIVECHIGHLIGHTER_H

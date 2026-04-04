@@ -7,6 +7,7 @@ class BasicHighlighter : public Highlighter
 {
 public:
     explicit BasicHighlighter(QObject* parent);
+    ~BasicHighlighter() override = default;
 
 protected:
     void initRules() override;
@@ -14,7 +15,7 @@ protected:
     void commentBlock(const QString& text) override;
 
 private:
-    Q_DISABLE_COPY(BasicHighlighter)
+    Q_DISABLE_COPY_MOVE(BasicHighlighter)
 
     HighlightingRule singleLineCommentRule_;
 };

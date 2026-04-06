@@ -308,7 +308,7 @@ void MainWindow::createNewTab(File* file)
 
     manageActions(true);
 
-    if (file->source() == Common::SOURCE_LOCAL)
+    if (file->source() == Common::Source::LOCAL)
     {
         config.addFilePathToRecentFiles(file->getFilePath());
 
@@ -326,7 +326,7 @@ void MainWindow::saveFileFromTab(File* file)
         QString newBaseName = file->baseName();
         switch (file->source())
         {
-            case Common::SOURCE_LOCAL:
+            case Common::Source::LOCAL:
             {
                 QString content(currentTab->getCurrentText());
                 showStatusMsg(Common::saveFile(file->getFilePath(), content));
@@ -369,7 +369,7 @@ void MainWindow::openRecentFile()
             return;
         }
 
-        File* file{new File(Common::SOURCE_LOCAL,
+        File* file{new File(Common::Source::LOCAL,
                             File::filePathToPath(filePath),
                             File::filePathToBaseName(filePath),
                             File::filePathToSuffix(filePath),
@@ -846,13 +846,13 @@ void MainWindow::onActionSaveFileTriggered()
         File* file{currentTab->getCurrentFileCopy()};
         switch (file->source())
         {
-            case Common::SOURCE_NOT_SET:
+            case Common::Source::NOT_SET:
             {
                 createAndShowBrowseFilesWidget(false);
                 break;
             }
 
-            case Common::SOURCE_LOCAL:
+            case Common::Source::LOCAL:
             {
                 showStatusMsg(
                     Common::saveFile(file->getFilePath(), *(file->content())));
@@ -959,7 +959,7 @@ void MainWindow::onActionNewTriggered()
 {
     showMainPage();
     ++newFileCounter_;
-    File* file{new File(Common::SOURCE_NOT_SET, "",
+    File* file{new File(Common::Source::NOT_SET, "",
                         tr("File") + QString::number(newFileCounter_), "",
                         new QString(""))};
 
@@ -968,7 +968,7 @@ void MainWindow::onActionNewTriggered()
 
 void MainWindow::onActionAboutTriggered()
 {
-    File* file{new File(Common::SOURCE_NOT_SET, "",
+    File* file{new File(Common::Source::NOT_SET, "",
                         "About " + QCoreApplication::applicationName(), "",
                         new QString(Common::loadFile(":/about.txt")))};
 
@@ -977,7 +977,7 @@ void MainWindow::onActionAboutTriggered()
 
 void MainWindow::onActionQtLicenseTriggered()
 {
-    File* file{new File(Common::SOURCE_NOT_SET, "", "Qt license", "",
+    File* file{new File(Common::Source::NOT_SET, "", "Qt license", "",
                         new QString(Common::loadFile(":/LICENSE")))};
 
     createNewTab(file);

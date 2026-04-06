@@ -19,10 +19,10 @@ public:
 
     static QString rootPath();
 
-    enum Source
+    enum class Source
     {
-        SOURCE_LOCAL = 0,
-        SOURCE_NOT_SET
+        LOCAL = 0,
+        NOT_SET
     };
 
     static QWidget* getMainWindow(QObject* startObject);

@@ -27,7 +27,7 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
     connect(localListView, &ExplorerLocal::pathChanged, filePathLineEdit_,
             &EnhancedLineEdit::setText);
 
-    ui_->tabWidget->insertTab(static_cast<int>(Common::SOURCE_LOCAL),
+    ui_->tabWidget->insertTab(static_cast<int>(Common::Source::LOCAL),
                               localListView, "local");
 
     setProperIconForViewButton();
@@ -64,7 +64,7 @@ void BrowseFilesWidget::filePathReturnPressed()
     QString filePath(filePathLineEdit_->text());
     switch (static_cast<Common::Source>(ui_->tabWidget->currentIndex()))
     {
-        case Common::SOURCE_LOCAL:
+        case Common::Source::LOCAL:
         {
             QFileInfo fileInfo(filePath);
 

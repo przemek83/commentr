@@ -129,7 +129,7 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
         }
 
         File* file{
-            new File(Common::SOURCE_LOCAL, path, baseName, suffix, content)};
+            new File(Common::Source::LOCAL, path, baseName, suffix, content)};
 
         emit filePrepared(file);
     }

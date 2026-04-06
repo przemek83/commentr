@@ -411,18 +411,7 @@ void MainWindow::connectActions()
     connect(ui_->actionTabsSouth, &QAction::triggered,
             [this]() { changeTabPosition(QTabWidget::South); });
 
-    connect(ui_->actionDecrease50, &QAction::triggered,
-            []() { changeSize(.5F); });
-    connect(ui_->actionDecrease25, &QAction::triggered,
-            []() { changeSize(.75F); });
-    connect(ui_->actionDecrease10, &QAction::triggered,
-            []() { changeSize(.90F); });
-    connect(ui_->actionIncrease10, &QAction::triggered,
-            []() { changeSize(1.1F); });
-    connect(ui_->actionIncrease25, &QAction::triggered,
-            []() { changeSize(1.25F); });
-    connect(ui_->actionIncrease50, &QAction::triggered,
-            []() { changeSize(1.5F); });
+    setupChangeSizeActions();
 
     connect(ui_->actionToolbarFile_Operations, &QAction::triggered, this,
             &MainWindow::onActionToolbarFileOperationsTriggered);
@@ -446,41 +435,13 @@ void MainWindow::connectActions()
             &MainWindow::onActionNewTriggered);
     connect(ui_->actionSave_as, &QAction::triggered,
             [this]() { createAndShowBrowseFilesWidget(false); });
-    connect(ui_->actionLangC_Cpp, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_CPP); });
-    connect(ui_->actionLangJava, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVA); });
-    connect(
-        ui_->actionLangObjective_C, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_OBJECTIVE_C); });
-    connect(ui_->actionLangCSharp, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_SHARP); });
-    connect(ui_->actionLangPHP, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PHP); });
-    connect(
-        ui_->actionLangVBasic, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_VISUAL_BASIC); });
-    connect(ui_->actionLangPython, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PYTHON); });
-    connect(ui_->actionLangSQL, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_SQL); });
-    connect(
-        ui_->actionLangJavaScript, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVASCRIPT); });
-    connect(
-        ui_->actionLangNone, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PLAIN_TEXT); });
+
+    setupEditorModeActions();
+
     connect(ui_->actionAbout, &QAction::triggered, this,
             &MainWindow::onActionAboutTriggered);
 
-    connect(ui_->actionToolbarNorth, &QAction::triggered,
-            [this]() { changeToolbarPosition(Qt::TopToolBarArea); });
-    connect(ui_->actionToolbarSouth, &QAction::triggered,
-            [this]() { changeToolbarPosition(Qt::BottomToolBarArea); });
-    connect(ui_->actionToolbarWest, &QAction::triggered,
-            [this]() { changeToolbarPosition(Qt::LeftToolBarArea); });
-    connect(ui_->actionToolbarEast, &QAction::triggered,
-            [this]() { changeToolbarPosition(Qt::RightToolBarArea); });
+    setupToolbarPositionActions();
 
     connect(ui_->actionQt_license, &QAction::triggered, this,
             &MainWindow::onActionQtLicenseTriggered);
@@ -750,6 +711,62 @@ void MainWindow::changeToolbarPosition(Qt::ToolBarArea area)
 {
     Config::getInstance().setToolbarArea(area);
     addToolBar(area, ui_->mainToolBar);
+}
+
+void MainWindow::setupChangeSizeActions()
+{
+    connect(ui_->actionDecrease50, &QAction::triggered,
+            []() { changeSize(.5F); });
+    connect(ui_->actionDecrease25, &QAction::triggered,
+            []() { changeSize(.75F); });
+    connect(ui_->actionDecrease10, &QAction::triggered,
+            []() { changeSize(.90F); });
+    connect(ui_->actionIncrease10, &QAction::triggered,
+            []() { changeSize(1.1F); });
+    connect(ui_->actionIncrease25, &QAction::triggered,
+            []() { changeSize(1.25F); });
+    connect(ui_->actionIncrease50, &QAction::triggered,
+            []() { changeSize(1.5F); });
+}
+
+void MainWindow::setupToolbarPositionActions()
+{
+    connect(ui_->actionToolbarNorth, &QAction::triggered,
+            [this]() { changeToolbarPosition(Qt::TopToolBarArea); });
+    connect(ui_->actionToolbarSouth, &QAction::triggered,
+            [this]() { changeToolbarPosition(Qt::BottomToolBarArea); });
+    connect(ui_->actionToolbarWest, &QAction::triggered,
+            [this]() { changeToolbarPosition(Qt::LeftToolBarArea); });
+    connect(ui_->actionToolbarEast, &QAction::triggered,
+            [this]() { changeToolbarPosition(Qt::RightToolBarArea); });
+}
+
+void MainWindow::setupEditorModeActions()
+{
+    connect(ui_->actionLangC_Cpp, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_CPP); });
+    connect(ui_->actionLangJava, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVA); });
+    connect(
+        ui_->actionLangObjective_C, &QAction::triggered, [this]()
+        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_OBJECTIVE_C); });
+    connect(ui_->actionLangCSharp, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_SHARP); });
+    connect(ui_->actionLangPHP, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PHP); });
+    connect(
+        ui_->actionLangVBasic, &QAction::triggered, [this]()
+        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_VISUAL_BASIC); });
+    connect(ui_->actionLangPython, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PYTHON); });
+    connect(ui_->actionLangSQL, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_SQL); });
+    connect(
+        ui_->actionLangJavaScript, &QAction::triggered, [this]()
+        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVASCRIPT); });
+    connect(
+        ui_->actionLangNone, &QAction::triggered, [this]()
+        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PLAIN_TEXT); });
 }
 
 void MainWindow::onActionToolbarKeyboardTriggered(bool checked)

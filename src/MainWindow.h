@@ -77,6 +77,12 @@ private:
 
     void changeToolbarPosition(Qt::ToolBarArea area);
 
+    void setupChangeSizeActions();
+
+    void setupToolbarPositionActions();
+
+    void setupEditorModeActions();
+
     /// Counter used at new file creation.
     int newFileCounter_;
 

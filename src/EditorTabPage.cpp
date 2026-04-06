@@ -20,11 +20,13 @@
 #include "ui_EditorTabPage.h"
 
 EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
-    : QWidget(parent), ui_{new Ui::EditorTabPage}, file_{file}
+    : QWidget(parent),
+      ui_{new Ui::EditorTabPage},
+      codeViewer_(new CodeViewer(this)),
+      file_{file}
 {
     ui_->setupUi(this);
 
-    codeViewer_ = new CodeViewer(this);
     QFont actualEditorFont(codeViewer_->font());
     actualEditorFont.setPointSizeF(fontSize);
     codeViewer_->setFont(actualEditorFont);
@@ -158,7 +160,7 @@ void EditorTabPage::searchPrev()
     }
 }
 
-void EditorTabPage::searchStringChanged([[maybe_unused]] QString string)
+void EditorTabPage::searchStringChanged([[maybe_unused]] const QString& string)
 {
     QTextCursor cursor = codeViewer_->textCursor();
     cursor.setPosition(cursor.anchor());

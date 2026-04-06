@@ -6,7 +6,7 @@
 namespace Ui
 {
 class EditorTabPage;
-}
+}  // namespace Ui
 
 class CodeViewer;
 class Highlighter;
@@ -87,7 +87,7 @@ private:
 
     bool selectionEmpty_{true};
 
-    EditorMode mode_;
+    EditorMode mode_{EDITOR_MODE_PLAIN_TEXT};
 
     Highlighter* getHighlighterForEditorMode(EditorMode mode);
 
@@ -100,7 +100,7 @@ private:
     File* file_;
 
 private slots:
-    void searchStringChanged(QString string);
+    void searchStringChanged(const QString& string);
 
     void searchNext();
 

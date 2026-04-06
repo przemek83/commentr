@@ -24,7 +24,7 @@ public:
 
     ~CodeViewer() override;
 
-    void zoom(float zoomFactor);
+    void zoom(int zoomFactor);
 
     void updateVisualPointersPositions();
 

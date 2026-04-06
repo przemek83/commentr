@@ -17,10 +17,11 @@
 #include "CursorPointerTextEdit.h"
 #include "PanGestureRecognizer.h"
 
-CodeViewer::CodeViewer(QWidget* parent) : QPlainTextEdit(parent)
+CodeViewer::CodeViewer(QWidget* parent)
+    : QPlainTextEdit(parent),
+      lineNumberArea_(new LineNumberArea(this)),
+      mainWindow_(Common::getMainWindow(this))
 {
-    mainWindow_ = Common::getMainWindow(this);
-
     initVisualPointers();
 
     QFont font;
@@ -29,8 +30,6 @@ CodeViewer::CodeViewer(QWidget* parent) : QPlainTextEdit(parent)
 
     setLineWrapMode(QPlainTextEdit::NoWrap);
     setTextInteractionFlags(Qt::TextSelectableByKeyboard | Qt::TextEditable);
-
-    lineNumberArea_ = new LineNumberArea(this);
 
     connect(this, &CodeViewer::blockCountChanged, this,
             &CodeViewer::updateLineNumberAreaWidth);
@@ -260,12 +259,14 @@ void CodeViewer::managePinchGesture(QPinchGesture* gesture)
     {
         case Qt::GestureUpdated:
         {
-            const double originalFontSize = Config::getInstance().fontSize();
-            const double totalScaleFactor = gesture->totalScaleFactor();
-            const int expectedFontSize = ::round(
+            const float originalFontSize = Config::getInstance().fontSize();
+            const auto totalScaleFactor =
+                static_cast<float>(gesture->totalScaleFactor());
+            const double expectedFontSize = std::round(
                 Common::normalizeFont(originalFontSize * totalScaleFactor));
-            const int currentFontSize = fontInfo().pointSizeF();
-            const int change = expectedFontSize - currentFontSize;
+            const double currentFontSize = fontInfo().pointSizeF();
+            const auto change = static_cast<int>(
+                std::round(expectedFontSize - currentFontSize));
 
             zoom(change);
 
@@ -274,7 +275,8 @@ void CodeViewer::managePinchGesture(QPinchGesture* gesture)
 
         case Qt::GestureFinished:
         {
-            Config::getInstance().setFontSize(fontInfo().pointSizeF());
+            Config::getInstance().setFontSize(
+                static_cast<float>(fontInfo().pointSizeF()));
             break;
         }
 
@@ -417,9 +419,9 @@ void CodeViewer::scrollContentsBy(int dx, int dy)
     QPlainTextEdit::scrollContentsBy(dx, dy);
 }
 
-void CodeViewer::zoom(float zoomFactor)
+void CodeViewer::zoom(int zoomFactor)
 {
-    if (::qFuzzyCompare(zoomFactor, 0))
+    if (zoomFactor == 0)
         return;
 
     if (zoomFactor > 0)

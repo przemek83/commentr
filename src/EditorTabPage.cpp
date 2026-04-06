@@ -120,9 +120,9 @@ void EditorTabPage::flipFindVisibility()
 void EditorTabPage::zoom(bool in)
 {
     if (in)
-        codeViewer_->zoom(1.F);
+        codeViewer_->zoom(1);
     else
-        codeViewer_->zoom(-1.F);
+        codeViewer_->zoom(-1);
 
     const float newSize{
         static_cast<float>(codeViewer_->fontInfo().pointSizeF())};

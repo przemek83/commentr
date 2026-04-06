@@ -10,7 +10,7 @@
 namespace Ui
 {
 class MainWindow;
-}
+}  // namespace Ui
 
 class QListView;
 class QLabel;

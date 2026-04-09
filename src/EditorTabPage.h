@@ -16,18 +16,18 @@ class EditorTabPage : public QWidget
 {
     Q_OBJECT
 public:
-    enum EditorMode
+    enum class EditorMode
     {
-        EDITOR_MODE_PLAIN_TEXT = 0,
-        EDITOR_MODE_C_CPP,
-        EDITOR_MODE_JAVA,
-        EDITOR_MODE_OBJECTIVE_C,
-        EDITOR_MODE_C_SHARP,
-        EDITOR_MODE_PHP,
-        EDITOR_MODE_VISUAL_BASIC,
-        EDITOR_MODE_PYTHON,
-        EDITOR_MODE_SQL,
-        EDITOR_MODE_JAVASCRIPT
+        PLAIN_TEXT = 0,
+        C_CPP,
+        JAVA,
+        OBJECTIVE_C,
+        C_SHARP,
+        PHP,
+        VISUAL_BASIC,
+        PYTHON,
+        SQL,
+        JAVASCRIPT
     };
 
     EditorTabPage(File* file, float fontSize, QWidget* parent = nullptr);
@@ -65,8 +65,6 @@ public:
     EditorMode mode() const;
     void setMode(const EditorMode& mode);
 
-    QString getModeName() const;
-
     void refreshVisualIndicators();
 
     File* getCurrentFileCopy();
@@ -87,7 +85,7 @@ private:
 
     bool selectionEmpty_{true};
 
-    EditorMode mode_{EDITOR_MODE_PLAIN_TEXT};
+    EditorMode mode_{EditorMode::PLAIN_TEXT};
 
     Highlighter* getHighlighterForEditorMode(EditorMode mode);
 

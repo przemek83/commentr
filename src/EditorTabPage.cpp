@@ -64,7 +64,6 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
     connect(codeViewer_, &CodeViewer::copyAvailable, this,
             &EditorTabPage::copyAndCutAvailable);
 
-    // Init highlighter.
     setMode(detectModeUsingSuffix(file->suffix()));
 
     ui_->searchLineEdit->setInputMethodHints(Qt::ImhNoPredictiveText);
@@ -226,37 +225,35 @@ QString EditorTabPage::getCurrentText() const
     return codeViewer_->toPlainText();
 }
 
-QString EditorTabPage::getModeName() const { return modeNames_[mode_]; }
-
 Highlighter* EditorTabPage::getHighlighterForEditorMode(EditorMode mode)
 {
     switch (mode)
     {
-        case EDITOR_MODE_C_CPP:
+        case EditorMode::C_CPP:
             return new CplusPlusHighlighter(this);
 
-        case EDITOR_MODE_JAVA:
+        case EditorMode::JAVA:
             return new JavaHighlighter(this);
 
-        case EDITOR_MODE_OBJECTIVE_C:
+        case EditorMode::OBJECTIVE_C:
             return new ObjectiveCHighlighter(this);
 
-        case EDITOR_MODE_C_SHARP:
+        case EditorMode::C_SHARP:
             return new CSharpHighlighter(this);
 
-        case EDITOR_MODE_PHP:
+        case EditorMode::PHP:
             return new PhpHighlighter(this);
 
-        case EDITOR_MODE_VISUAL_BASIC:
+        case EditorMode::VISUAL_BASIC:
             return new BasicHighlighter(this);
 
-        case EDITOR_MODE_PYTHON:
+        case EditorMode::PYTHON:
             return new PythonHighlighter(this);
 
-        case EDITOR_MODE_SQL:
+        case EditorMode::SQL:
             return new SQLHighlighter(this);
 
-        case EDITOR_MODE_JAVASCRIPT:
+        case EditorMode::JAVASCRIPT:
             return new JavaScriptHighlighter(this);
 
         default:
@@ -281,34 +278,34 @@ File* EditorTabPage::getCurrentFileCopy()
 EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
     const QString& suffix)
 {
-    EditorTabPage::EditorMode mode{EDITOR_MODE_PLAIN_TEXT};
+    EditorTabPage::EditorMode mode{EditorTabPage::EditorMode::PLAIN_TEXT};
     if (suffix == "java")
-        mode = EditorTabPage::EDITOR_MODE_JAVA;
+        mode = EditorTabPage::EditorMode::JAVA;
 
     if (suffix == "c" || suffix == "cpp" || suffix == "h" || suffix == "hpp" ||
         suffix == "cc" || suffix == "cxx" || suffix == "c++" || suffix == "moc")
-        mode = EditorTabPage::EDITOR_MODE_C_CPP;
+        mode = EditorTabPage::EditorMode::C_CPP;
 
     if (suffix == "m")
-        mode = EditorTabPage::EDITOR_MODE_OBJECTIVE_C;
+        mode = EditorTabPage::EditorMode::OBJECTIVE_C;
 
     if (suffix == "cs")
-        mode = EditorTabPage::EDITOR_MODE_C_SHARP;
+        mode = EditorTabPage::EditorMode::C_SHARP;
 
     if (suffix == "php")
-        mode = EditorTabPage::EDITOR_MODE_PHP;
+        mode = EditorTabPage::EditorMode::PHP;
 
     if (suffix == "bas" || suffix == "cls" || suffix == "vb")
-        mode = EditorTabPage::EDITOR_MODE_VISUAL_BASIC;
+        mode = EditorTabPage::EditorMode::VISUAL_BASIC;
 
     if (suffix == "py")
-        mode = EditorTabPage::EDITOR_MODE_PYTHON;
+        mode = EditorTabPage::EditorMode::PYTHON;
 
     if (suffix == "sql")
-        mode = EditorTabPage::EDITOR_MODE_SQL;
+        mode = EditorTabPage::EditorMode::SQL;
 
     if (suffix == "js")
-        mode = EditorTabPage::EDITOR_MODE_JAVASCRIPT;
+        mode = EditorTabPage::EditorMode::JAVASCRIPT;
 
     return mode;
 }

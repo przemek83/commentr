@@ -744,29 +744,29 @@ void MainWindow::setupToolbarPositionActions()
 void MainWindow::setupEditorModeActions()
 {
     connect(ui_->actionLangC_Cpp, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_CPP); });
+            { changeModeForCurrentTab(EditorTabPage::EditorMode::C_CPP); });
     connect(ui_->actionLangJava, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVA); });
+            { changeModeForCurrentTab(EditorTabPage::EditorMode::JAVA); });
     connect(
         ui_->actionLangObjective_C, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_OBJECTIVE_C); });
+        { changeModeForCurrentTab(EditorTabPage::EditorMode::OBJECTIVE_C); });
     connect(ui_->actionLangCSharp, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_C_SHARP); });
+            { changeModeForCurrentTab(EditorTabPage::EditorMode::C_SHARP); });
     connect(ui_->actionLangPHP, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PHP); });
+            { changeModeForCurrentTab(EditorTabPage::EditorMode::PHP); });
     connect(
         ui_->actionLangVBasic, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_VISUAL_BASIC); });
+        { changeModeForCurrentTab(EditorTabPage::EditorMode::VISUAL_BASIC); });
     connect(ui_->actionLangPython, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PYTHON); });
+            { changeModeForCurrentTab(EditorTabPage::EditorMode::PYTHON); });
     connect(ui_->actionLangSQL, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_SQL); });
+            { changeModeForCurrentTab(EditorTabPage::EditorMode::SQL); });
     connect(
         ui_->actionLangJavaScript, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_JAVASCRIPT); });
+        { changeModeForCurrentTab(EditorTabPage::EditorMode::JAVASCRIPT); });
     connect(
         ui_->actionLangNone, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EDITOR_MODE_PLAIN_TEXT); });
+        { changeModeForCurrentTab(EditorTabPage::EditorMode::PLAIN_TEXT); });
 }
 
 void MainWindow::onActionToolbarKeyboardTriggered(bool checked)
@@ -888,61 +888,61 @@ void MainWindow::setProperLangActionForMode(EditorTabPage::EditorMode mode)
 {
     switch (mode)
     {
-        case EditorTabPage::EDITOR_MODE_C_CPP:
+        case EditorTabPage::EditorMode::C_CPP:
         {
             ui_->actionLangC_Cpp->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EDITOR_MODE_JAVA:
+        case EditorTabPage::EditorMode::JAVA:
         {
             ui_->actionLangJava->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EDITOR_MODE_OBJECTIVE_C:
+        case EditorTabPage::EditorMode::OBJECTIVE_C:
         {
             ui_->actionLangObjective_C->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EDITOR_MODE_C_SHARP:
+        case EditorTabPage::EditorMode::C_SHARP:
         {
             ui_->actionLangCSharp->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EDITOR_MODE_PHP:
+        case EditorTabPage::EditorMode::PHP:
         {
             ui_->actionLangPHP->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EDITOR_MODE_VISUAL_BASIC:
+        case EditorTabPage::EditorMode::VISUAL_BASIC:
         {
             ui_->actionLangVBasic->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EDITOR_MODE_PYTHON:
+        case EditorTabPage::EditorMode::PYTHON:
         {
             ui_->actionLangPython->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EDITOR_MODE_SQL:
+        case EditorTabPage::EditorMode::SQL:
         {
             ui_->actionLangSQL->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EDITOR_MODE_JAVASCRIPT:
+        case EditorTabPage::EditorMode::JAVASCRIPT:
         {
             ui_->actionLangJavaScript->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EDITOR_MODE_PLAIN_TEXT:
+        case EditorTabPage::EditorMode::PLAIN_TEXT:
         {
             ui_->actionLangNone->setChecked(true);
             break;

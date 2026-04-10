@@ -8,6 +8,7 @@ class CursorPointerTextEdit : public CursorPointer
     Q_OBJECT
 public:
     explicit CursorPointerTextEdit(QWidget* parent = nullptr);
+    ~CursorPointerTextEdit() override = default;
 
     void moveVisualPointer(int x, int y) override;
 
@@ -19,7 +20,7 @@ protected:
     virtual QPoint calculateNewPosition(QPoint movePoint);
 
 private:
-    Q_DISABLE_COPY(CursorPointerTextEdit)
+    Q_DISABLE_COPY_MOVE(CursorPointerTextEdit)
 
     bool canEmitPointerMoved_;
 

@@ -74,7 +74,7 @@ protected:
     void keyPressEvent(QKeyEvent* event) override;
 
 private:
-    Q_DISABLE_COPY(EditorTabPage)
+    Q_DISABLE_COPY_MOVE(EditorTabPage)
 
     Ui::EditorTabPage* ui_;
 

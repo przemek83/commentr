@@ -24,7 +24,7 @@ QPoint CursorPointerTextEdit::calcMovePoint(QPoint mousePos)
 
 void CursorPointerTextEdit::positionChanged(QMouseEvent* event)
 {
-    if (event->buttons() & Qt::LeftButton)
+    if ((event->buttons() & Qt::LeftButton) != 0U)
     {
         const QPoint movePoint{calcMovePoint(event->pos())};
 

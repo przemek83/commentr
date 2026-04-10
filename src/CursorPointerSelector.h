@@ -15,6 +15,7 @@ public:
 
     explicit CursorPointerSelector(CursorDirection direction,
                                    QWidget* parent = nullptr);
+    ~CursorPointerSelector() override = default;
 
     void moveVisualPointer(int x, int y) override;
 
@@ -26,7 +27,7 @@ protected:
     QPoint calculateNewPosition(QPoint movePoint) override;
 
 private:
-    Q_DISABLE_COPY(CursorPointerSelector)
+    Q_DISABLE_COPY_MOVE(CursorPointerSelector)
 
     CursorDirection diretion_;
 };

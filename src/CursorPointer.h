@@ -8,6 +8,7 @@ class CursorPointer : public QWidget
     Q_OBJECT
 public:
     explicit CursorPointer(QWidget* parent = nullptr);
+    ~CursorPointer() override = default;
 
     virtual void moveVisualPointer(int x, int y) = 0;
 
@@ -44,7 +45,7 @@ protected:
     virtual QPoint calculateOffset(QMouseEvent* event);
 
 private:
-    Q_DISABLE_COPY(CursorPointer)
+    Q_DISABLE_COPY_MOVE(CursorPointer)
 
     void updateSize();
 

@@ -9,6 +9,7 @@ class CursorPointerLineEdit : public CursorPointer
 public:
     explicit CursorPointerLineEdit(int addLeftMargin,
                                    QWidget* parent = nullptr);
+    ~CursorPointerLineEdit() override = default;
 
     void moveVisualPointer(int x, int y) override;
 
@@ -20,7 +21,7 @@ protected:
     void positionChanged(QMouseEvent* event) override;
 
 private:
-    Q_DISABLE_COPY(CursorPointerLineEdit)
+    Q_DISABLE_COPY_MOVE(CursorPointerLineEdit)
 
     /// Magic margin needed in some situations.
     int margin_;

@@ -96,15 +96,10 @@ void EditorTabPage::setMode(const EditorMode& mode)
 
     mode_ = mode;
 
-    QList<QSyntaxHighlighter*> highlighters{
-        findChildren<QSyntaxHighlighter*>()};
-    foreach (QSyntaxHighlighter* highlighter, highlighters)
-        delete highlighter;
+    highlighter_ = getHighlighterForEditorMode(mode);
 
-    Highlighter* highlighter{getHighlighterForEditorMode(mode)};
-
-    if (highlighter != nullptr)
-        highlighter->setDocument(codeViewer_->document());
+    if (highlighter_ != nullptr)
+        highlighter_->setDocument(codeViewer_->document());
 }
 
 void EditorTabPage::flipFindVisibility()
@@ -225,36 +220,37 @@ QString EditorTabPage::getCurrentText() const
     return codeViewer_->toPlainText();
 }
 
-Highlighter* EditorTabPage::getHighlighterForEditorMode(EditorMode mode)
+std::unique_ptr<Highlighter> EditorTabPage::getHighlighterForEditorMode(
+    EditorMode mode)
 {
     switch (mode)
     {
         case EditorMode::C_CPP:
-            return new CplusPlusHighlighter(this);
+            return std::make_unique<CplusPlusHighlighter>(nullptr);
 
         case EditorMode::JAVA:
-            return new JavaHighlighter(this);
+            return std::make_unique<JavaHighlighter>(nullptr);
 
         case EditorMode::OBJECTIVE_C:
-            return new ObjectiveCHighlighter(this);
+            return std::make_unique<ObjectiveCHighlighter>(nullptr);
 
         case EditorMode::C_SHARP:
-            return new CSharpHighlighter(this);
+            return std::make_unique<CSharpHighlighter>(nullptr);
 
         case EditorMode::PHP:
-            return new PhpHighlighter(this);
+            return std::make_unique<PhpHighlighter>(nullptr);
 
         case EditorMode::VISUAL_BASIC:
-            return new BasicHighlighter(this);
+            return std::make_unique<BasicHighlighter>(nullptr);
 
         case EditorMode::PYTHON:
-            return new PythonHighlighter(this);
+            return std::make_unique<PythonHighlighter>(nullptr);
 
         case EditorMode::SQL:
-            return new SQLHighlighter(this);
+            return std::make_unique<SQLHighlighter>(nullptr);
 
         case EditorMode::JAVASCRIPT:
-            return new JavaScriptHighlighter(this);
+            return std::make_unique<JavaScriptHighlighter>(nullptr);
 
         default:
             return nullptr;

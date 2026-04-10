@@ -2,6 +2,7 @@
 #define EDITORTABPAGE_H
 
 #include <QWidget>
+#include <memory>
 
 namespace Ui
 {
@@ -87,13 +88,16 @@ private:
 
     EditorMode mode_{EditorMode::PLAIN_TEXT};
 
-    Highlighter* getHighlighterForEditorMode(EditorMode mode);
+    static std::unique_ptr<Highlighter> getHighlighterForEditorMode(
+        EditorMode mode);
 
     const std::array<QString, 10> modeNames_ = {
         "Plain text", "C/C++",        "Java",   "Objective-C", "C#",
         "PHP",        "Visual Basic", "Python", "SQL",         "JavaScript"};
 
     static EditorMode detectModeUsingSuffix(const QString& suffix);
+
+    std::unique_ptr<Highlighter> highlighter_{nullptr};
 
     File* file_;
 

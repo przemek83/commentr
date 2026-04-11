@@ -25,7 +25,6 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget* parent = nullptr);
-
     ~MainWindow() override;
 
 protected:
@@ -34,7 +33,7 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 
 private:
-    Q_DISABLE_COPY(MainWindow)
+    Q_DISABLE_COPY_MOVE(MainWindow)
 
     Ui::MainWindow* ui_;
 

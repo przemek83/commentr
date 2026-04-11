@@ -35,8 +35,6 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(MainWindow)
 
-    Ui::MainWindow* ui_;
-
     void connectActions();
 
     void manageActions(bool tabExist);
@@ -81,7 +79,9 @@ private:
 
     void setupEditorModeActions();
 
-    int newFileCounter_;
+    std::unique_ptr<Ui::MainWindow> ui_;
+
+    int newFileCounter_{0};
 
 private slots:
     void saveFile();

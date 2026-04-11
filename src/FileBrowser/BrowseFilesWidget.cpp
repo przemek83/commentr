@@ -11,9 +11,7 @@
 #include "ui_BrowseFilesWidget.h"
 
 BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
-    : QWidget(parent),
-      ui_(new Ui::BrowseFilesWidget),
-      filePathLineEdit_(nullptr)
+    : QWidget(parent), ui_{std::make_unique<Ui::BrowseFilesWidget>()}
 {
     ui_->setupUi(this);
 
@@ -41,7 +39,7 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
     setAttribute(Qt::WA_AcceptTouchEvents);
 }
 
-BrowseFilesWidget::~BrowseFilesWidget() { delete ui_; }
+BrowseFilesWidget::~BrowseFilesWidget() = default;
 
 void BrowseFilesWidget::initLineEdit()
 {

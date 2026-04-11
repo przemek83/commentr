@@ -21,7 +21,7 @@
 
 EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
     : QWidget(parent),
-      ui_{new Ui::EditorTabPage},
+      ui_{std::make_unique<Ui::EditorTabPage>()},
       codeViewer_(new CodeViewer(this)),
       file_{file}
 {
@@ -73,11 +73,7 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
     ui_->searchLineEdit->installEventFilter(backButtonHandler);
 }
 
-EditorTabPage::~EditorTabPage()
-{
-    delete ui_;
-    delete file_;
-}
+EditorTabPage::~EditorTabPage() { delete file_; }
 
 void EditorTabPage::keyPressEvent(QKeyEvent* event)
 {

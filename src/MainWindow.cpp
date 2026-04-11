@@ -22,7 +22,7 @@
 #include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui_(new Ui::MainWindow), newFileCounter_(0)
+    : QMainWindow(parent), ui_{std::make_unique<Ui::MainWindow>()}
 {
     ui_->setupUi(this);
 
@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget* parent)
             &MainWindow::focusHasChanged);
 }
 
-MainWindow::~MainWindow() { delete ui_; }
+MainWindow::~MainWindow() = default;
 
 void MainWindow::keyReleaseEvent(QKeyEvent* e)
 {

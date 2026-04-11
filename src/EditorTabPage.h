@@ -76,7 +76,7 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(EditorTabPage)
 
-    Ui::EditorTabPage* ui_;
+    std::unique_ptr<Ui::EditorTabPage> ui_;
 
     CodeViewer* codeViewer_;
 

@@ -1,6 +1,8 @@
 #ifndef BROWSEFILESWIDGET_H
 #define BROWSEFILESWIDGET_H
 
+#include <memory>
+
 #include <QWidget>
 
 class EnhancedLineEdit;
@@ -21,17 +23,17 @@ public:
     ~BrowseFilesWidget() override;
 
 private:
-    Q_DISABLE_COPY(BrowseFilesWidget)
-
-    Ui::BrowseFilesWidget* ui_;
+    Q_DISABLE_COPY_MOVE(BrowseFilesWidget)
 
     void initLineEdit();
 
     void setProperIconForViewButton();
 
-    EnhancedLineEdit* filePathLineEdit_;
-
     Explorer* currentListView();
+
+    std::unique_ptr<Ui::BrowseFilesWidget> ui_;
+
+    EnhancedLineEdit* filePathLineEdit_{nullptr};
 
 private slots:
     void filePathReturnPressed();

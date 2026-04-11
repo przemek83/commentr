@@ -7,10 +7,10 @@ class CursorPointerSelector : public CursorPointerTextEdit
 {
     Q_OBJECT
 public:
-    enum CursorDirection
+    enum class CursorDirection
     {
-        CURSOR_DIRECTION_LEFT,
-        CURSOR_DIRECTION_RIGHT
+        LEFT,
+        RIGHT
     };
 
     explicit CursorPointerSelector(CursorDirection direction,

@@ -85,7 +85,7 @@ void CodeViewer::initVisualPointers()
 
     // Cursor pointer on selection.
     cursorSelector_ = new CursorPointerSelector(
-        CursorPointerSelector::CURSOR_DIRECTION_RIGHT, mainWindow_);
+        CursorPointerSelector::CursorDirection::RIGHT, mainWindow_);
 
     connect(cursorSelector_, &CursorPointerSelector::pointerMoved, this,
             &CodeViewer::pointerMoved);
@@ -95,7 +95,7 @@ void CodeViewer::initVisualPointers()
 
     // Anchor pointer on selection.
     anchorSelector_ = new CursorPointerSelector(
-        CursorPointerSelector::CURSOR_DIRECTION_LEFT, mainWindow_);
+        CursorPointerSelector::CursorDirection::LEFT, mainWindow_);
 
     connect(anchorSelector_, &CursorPointerSelector::pointerMoved, this,
             &CodeViewer::pointerMoved);

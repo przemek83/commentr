@@ -62,12 +62,11 @@ private:
 
     void rebuildToolbar();
 
-    // Change language for current tab
     void changeModeForCurrentTab(EditorTabPage::EditorMode mode);
 
     void setProperLangActionForMode(EditorTabPage::EditorMode mode);
 
-    void setAvailableFunctionalitiesForMainWindow(bool visible);
+    void setAvailableFunctionalities(bool visible);
 
     void changeTabPosition(QTabWidget::TabPosition position);
 
@@ -83,7 +82,6 @@ private:
 
     void setupEditorModeActions();
 
-    /// Counter used at new file creation.
     int newFileCounter_;
 
 private slots:

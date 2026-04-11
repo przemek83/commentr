@@ -269,7 +269,7 @@ void MainWindow::setupLanguageActionsMenu()
 
 void MainWindow::showMainPage()
 {
-    setAvailableFunctionalitiesForMainWindow(true);
+    setAvailableFunctionalities(true);
     QWidget* fileBrowser{ui_->stackedWidget->widget(PAGE_FILE_BROWSER)};
     ui_->stackedWidget->setCurrentIndex(PAGE_MAIN);
     if (fileBrowser != nullptr)
@@ -671,7 +671,7 @@ void MainWindow::changeTabPosition(QTabWidget::TabPosition position)
 
 void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
 {
-    setAvailableFunctionalitiesForMainWindow(false);
+    setAvailableFunctionalities(false);
 
     auto* browseFilesWidget{
         new BrowseFilesWidget(openFileMode, ui_->stackedWidget)};
@@ -983,7 +983,7 @@ void MainWindow::showHidenKeyboard()
     input->setVisible(!input->isVisible());
 }
 
-void MainWindow::setAvailableFunctionalitiesForMainWindow(bool visible)
+void MainWindow::setAvailableFunctionalities(bool visible)
 {
     if (visible)
         ui_->mainToolBar->setVisible(ui_->actionShowToolbar->isChecked());

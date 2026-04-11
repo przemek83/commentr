@@ -117,7 +117,7 @@ private slots:
 
     void lineWrap(bool checked);
 
-    void exit();
+    void exitApplication();
 
     void showToolbar(bool checked);
 

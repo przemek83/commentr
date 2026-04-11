@@ -63,7 +63,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent* e)
         if (PAGE_MAIN != page)
             showMainPage();
         else
-            exit();
+            exitApplication();
 
         return;
     }
@@ -420,7 +420,8 @@ void MainWindow::connectActions()
             &MainWindow::checkSpellingInComments);
     connect(ui_->actionLine_wrap, &QAction::triggered, this,
             &MainWindow::lineWrap);
-    connect(ui_->actionExit, &QAction::triggered, this, &MainWindow::exit);
+    connect(ui_->actionExit, &QAction::triggered, this,
+            &MainWindow::exitApplication);
     connect(ui_->actionShowToolbar, &QAction::triggered, this,
             &MainWindow::showToolbar);
     connect(ui_->actionNew, &QAction::triggered, this, &MainWindow::newFile);
@@ -816,7 +817,7 @@ void MainWindow::lineWrap(bool checked)
         page->setLineWrap(checked);
 }
 
-void MainWindow::exit()
+void MainWindow::exitApplication()
 {
     QMessageBox::StandardButton answer{
         QMessageBox::question(this, tr("Quit"), tr("Quit CommentR?"))};

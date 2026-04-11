@@ -125,13 +125,13 @@ private slots:
 
     void onActionNewTriggered();
 
-    void onActionAboutTriggered();
+    void showAbout();
 
-    void onActionQtLicenseTriggered();
+    void showQtLicense();
 
-    void onActionShowHideKeyboardTriggered();
+    void showHidenKeyboard();
 
-    void onActionToolbarKeyboardTriggered(bool checked);
+    void keyboardActivated(bool checked);
 
     void closeCurrentTab();
 

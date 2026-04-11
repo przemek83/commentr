@@ -439,16 +439,16 @@ void MainWindow::connectActions()
     setupEditorModeActions();
 
     connect(ui_->actionAbout, &QAction::triggered, this,
-            &MainWindow::onActionAboutTriggered);
+            &MainWindow::showAbout);
 
     setupToolbarPositionActions();
 
     connect(ui_->actionQt_license, &QAction::triggered, this,
-            &MainWindow::onActionQtLicenseTriggered);
+            &MainWindow::showQtLicense);
     connect(ui_->actionShow_hide_keyboard, &QAction::triggered, this,
-            &MainWindow::onActionShowHideKeyboardTriggered);
+            &MainWindow::showHidenKeyboard);
     connect(ui_->actionToolbarKeyboard, &QAction::triggered, this,
-            &MainWindow::onActionToolbarKeyboardTriggered);
+            &MainWindow::keyboardActivated);
 }
 
 void MainWindow::manageActions(bool tabExist)
@@ -769,7 +769,7 @@ void MainWindow::setupEditorModeActions()
         { changeModeForCurrentTab(EditorTabPage::EditorMode::PLAIN_TEXT); });
 }
 
-void MainWindow::onActionToolbarKeyboardTriggered(bool checked)
+void MainWindow::keyboardActivated(bool checked)
 {
     Config::getInstance().setToolbarKeyboardAdded(checked);
     rebuildToolbar();
@@ -966,7 +966,7 @@ void MainWindow::onActionNewTriggered()
     createNewTab(file);
 }
 
-void MainWindow::onActionAboutTriggered()
+void MainWindow::showAbout()
 {
     File* file{new File(Common::Source::NOT_SET, "",
                         "About " + QCoreApplication::applicationName(), "",
@@ -975,7 +975,7 @@ void MainWindow::onActionAboutTriggered()
     createNewTab(file);
 }
 
-void MainWindow::onActionQtLicenseTriggered()
+void MainWindow::showQtLicense()
 {
     File* file{new File(Common::Source::NOT_SET, "", "Qt license", "",
                         new QString(Common::loadFile(":/LICENSE")))};
@@ -983,7 +983,7 @@ void MainWindow::onActionQtLicenseTriggered()
     createNewTab(file);
 }
 
-void MainWindow::onActionShowHideKeyboardTriggered()
+void MainWindow::showHidenKeyboard()
 {
     if (ui_->stackedWidget->currentIndex() != PAGE_MAIN)
         return;

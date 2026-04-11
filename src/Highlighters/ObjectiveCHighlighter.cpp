@@ -53,16 +53,16 @@ void ObjectiveCHighlighter::initRules()
 
     foreach (const QString& pattern, keywordPatterns)
     {
-        rule.startPattern = QRegularExpression(pattern);
-        rule.format = keywordFormat;
+        rule.startPattern_ = QRegularExpression(pattern);
+        rule.format_ = keywordFormat;
         highlightingRules_.append(rule);
     }
 
     QTextCharFormat classFormat;
     classFormat.setFontWeight(QFont::Bold);
     classFormat.setForeground(Qt::darkMagenta);
-    rule.startPattern = QRegularExpression("\\bNS[A-Za-z]+\\b");
-    rule.format = classFormat;
+    rule.startPattern_ = QRegularExpression("\\bNS[A-Za-z]+\\b");
+    rule.format_ = classFormat;
     highlightingRules_.append(rule);
 
     initQuotationRules();

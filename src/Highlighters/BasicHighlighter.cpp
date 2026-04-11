@@ -2,8 +2,8 @@
 
 BasicHighlighter::BasicHighlighter(QObject* parent) : Highlighter(parent)
 {
-    singleLineCommentRule_.format.setForeground(Qt::red);
-    singleLineCommentRule_.startPattern = QRegularExpression("'[^\n]*");
+    singleLineCommentRule_.format_.setForeground(Qt::red);
+    singleLineCommentRule_.startPattern_ = QRegularExpression("'[^\n]*");
 }
 
 void BasicHighlighter::initRules()
@@ -62,22 +62,22 @@ void BasicHighlighter::initRules()
     HighlightingRule rule;
     foreach (const QString& pattern, keywordPatterns)
     {
-        rule.startPattern = QRegularExpression(pattern);
-        rule.format = keywordFormat;
+        rule.startPattern_ = QRegularExpression(pattern);
+        rule.format_ = keywordFormat;
         highlightingRules_.append(rule);
     }
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    rule.startPattern = QRegularExpression("\".*\"");
-    rule.format = quotationFormat;
+    rule.startPattern_ = QRegularExpression("\".*\"");
+    rule.format_ = quotationFormat;
     highlightingRules_.append(rule);
 
     QTextCharFormat functionFormat;
     functionFormat.setFontItalic(true);
     functionFormat.setForeground(Qt::blue);
-    rule.startPattern = QRegularExpression(R"(\b[A-Za-z0-9_]+\s*(?=\())");
-    rule.format = functionFormat;
+    rule.startPattern_ = QRegularExpression(R"(\b[A-Za-z0-9_]+\s*(?=\())");
+    rule.format_ = functionFormat;
     highlightingRules_.append(rule);
 }
 

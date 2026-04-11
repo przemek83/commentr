@@ -2,12 +2,12 @@
 
 CFamilyHighlighter::CFamilyHighlighter(QObject* parent) : Highlighter(parent)
 {
-    singleLineCommentRule_.format.setForeground(Qt::red);
-    singleLineCommentRule_.startPattern = QRegularExpression("//[^\n]*");
+    singleLineCommentRule_.format_.setForeground(Qt::red);
+    singleLineCommentRule_.startPattern_ = QRegularExpression("//[^\n]*");
 
-    multiLineCommentRule_.startPattern = QRegularExpression("/\\*");
-    multiLineCommentRule_.endPattern = QRegularExpression("\\*/");
-    multiLineCommentRule_.format.setForeground(Qt::red);
+    multiLineCommentRule_.startPattern_ = QRegularExpression("/\\*");
+    multiLineCommentRule_.endPattern_ = QRegularExpression("\\*/");
+    multiLineCommentRule_.format_.setForeground(Qt::red);
 }
 
 void CFamilyHighlighter::initFunctionsRules()
@@ -17,8 +17,8 @@ void CFamilyHighlighter::initFunctionsRules()
     QTextCharFormat functionFormat;
     functionFormat.setFontItalic(true);
     functionFormat.setForeground(Qt::blue);
-    rule.startPattern = QRegularExpression(R"(\b[A-Za-z0-9_]+\s*(?=\())");
-    rule.format = functionFormat;
+    rule.startPattern_ = QRegularExpression(R"(\b[A-Za-z0-9_]+\s*(?=\())");
+    rule.format_ = functionFormat;
     highlightingRules_.append(rule);
 }
 
@@ -28,8 +28,8 @@ void CFamilyHighlighter::initQuotationRules()
 
     QTextCharFormat quotationFormat;
     quotationFormat.setForeground(Qt::darkGreen);
-    rule.startPattern = QRegularExpression(R"(("([^"]|\\")*"|'([^']|\\')*'))");
-    rule.format = quotationFormat;
+    rule.startPattern_ = QRegularExpression(R"(("([^"]|\\")*"|'([^']|\\')*'))");
+    rule.format_ = quotationFormat;
     highlightingRules_.append(rule);
 }
 

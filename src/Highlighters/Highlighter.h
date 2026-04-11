@@ -20,9 +20,9 @@ protected:
 
     struct HighlightingRule
     {
-        QRegularExpression startPattern;
-        QRegularExpression endPattern;
-        QTextCharFormat format;
+        QRegularExpression startPattern_;
+        QRegularExpression endPattern_;
+        QTextCharFormat format_;
     };
 
     QVector<HighlightingRule> highlightingRules_;

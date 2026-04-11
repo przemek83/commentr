@@ -22,12 +22,12 @@ void Highlighter::highlightBlock(const QString& text)
 
     foreach (const HighlightingRule& rule, highlightingRules_)
     {
-        const QRegularExpression& expression = rule.startPattern;
+        const QRegularExpression& expression = rule.startPattern_;
         for (const auto& match : expression.globalMatch(text))
         {
             int length = match.capturedLength();
             int index = match.capturedStart();
-            setFormat(index, length, rule.format);
+            setFormat(index, length, rule.format_);
         }
     }
 
@@ -67,13 +67,13 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
 void Highlighter::singleLineComment(const QString& text,
                                     const HighlightingRule& rule)
 {
-    const QRegularExpression& expression = rule.startPattern;
+    const QRegularExpression& expression = rule.startPattern_;
     QRegularExpressionMatch match = expression.match(text);
     if (match.hasMatch())
     {
         int length = match.capturedLength();
         int index = match.capturedStart();
-        setFormat(index, length, rule.format);
+        setFormat(index, length, rule.format_);
         checkSpellingInBlock(index, text);
     }
 }
@@ -86,14 +86,14 @@ void Highlighter::multiLineComment(const QString& text,
     int startIndex = 0;
     if (previousBlockState() != 1)
     {
-        QRegularExpressionMatch match = rule.startPattern.match(text);
+        QRegularExpressionMatch match = rule.startPattern_.match(text);
         startIndex = match.capturedStart();
     }
 
     while (startIndex >= 0)
     {
         QRegularExpressionMatch endMatch =
-            rule.endPattern.match(text, startIndex);
+            rule.endPattern_.match(text, startIndex);
         int endIndex = endMatch.capturedStart();
         int commentLength{0};
         if (endIndex == -1)
@@ -106,10 +106,10 @@ void Highlighter::multiLineComment(const QString& text,
             commentLength = endIndex - startIndex + endMatch.capturedLength();
         }
 
-        setFormat(startIndex, commentLength, rule.format);
+        setFormat(startIndex, commentLength, rule.format_);
         checkSpellingInBlock(startIndex, text);
         QRegularExpressionMatch startMatch =
-            rule.startPattern.match(text, startIndex + commentLength);
+            rule.startPattern_.match(text, startIndex + commentLength);
         startIndex = startMatch.capturedStart();
     }
 }

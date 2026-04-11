@@ -87,43 +87,43 @@ private:
     int newFileCounter_;
 
 private slots:
-    void onActionSaveFileTriggered();
+    void saveFile();
 
-    void onActionSearchTriggered();
+    void search();
 
-    void onActionZoomInTriggered();
+    void zoomIn();
 
-    void onActionZoomOutTriggered();
+    void zoomOut();
 
-    void onActionUndoTriggered();
+    void undo();
 
-    void onActionRedoTriggered();
+    void redo();
 
-    void onActionCopyTriggered();
+    void copy();
 
-    void onActionCutTriggered();
+    void cut();
 
-    void onActionPasteTriggered();
+    void paste();
 
-    void onActionToolbarFileOperationsTriggered(bool checked);
+    void toolbarFileOperations(bool checked);
 
-    void onActionToolbarCutCopyPasteTriggered(bool checked);
+    void toolbarCutCopyPaste(bool checked);
 
-    void onActionToolbarZoomInOutTriggered(bool checked);
+    void toolbarZoomInOut(bool checked);
 
-    void onActionToolbarUndoRedoTriggered(bool checked);
+    void toolbarUndoRedo(bool checked);
 
-    void onActionToolbarSearchTriggered(bool checked);
+    void toolbarSearch(bool checked);
 
-    void onActionCheckSpellingInCommentsTriggered(bool checked);
+    void checkSpellingInComments(bool checked);
 
-    void onActionLineWrapTriggered(bool checked);
+    void lineWrap(bool checked);
 
-    void onActionExitTriggered();
+    void exit();
 
-    void onActionShowToolbarTriggered(bool checked);
+    void showToolbar(bool checked);
 
-    void onActionNewTriggered();
+    void newFile();
 
     void showAbout();
 
@@ -131,7 +131,7 @@ private slots:
 
     void showHidenKeyboard();
 
-    void keyboardActivated(bool checked);
+    void toolbarKeyboardActivated(bool checked);
 
     void closeCurrentTab();
 

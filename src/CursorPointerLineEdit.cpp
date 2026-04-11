@@ -34,7 +34,7 @@ QPoint CursorPointerLineEdit::calcMovePoint(QPoint mousePos)
 
 void CursorPointerLineEdit::positionChanged(QMouseEvent* event)
 {
-    if (event->buttons() & Qt::LeftButton)
+    if (event->buttons().testFlag(Qt::LeftButton))
     {
         const QPoint movePoint{calcMovePoint(event->pos())};
 

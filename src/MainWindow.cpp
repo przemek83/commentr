@@ -319,30 +319,21 @@ void MainWindow::saveFileFromTab(File* file)
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
-    if (currentTab != nullptr)
+    if (currentTab == nullptr)
     {
-        QString newBaseName = file->baseName();
-        switch (file->source())
-        {
-            case Common::Source::LOCAL:
-            {
-                QString content(currentTab->getCurrentText());
-                showStatusMsg(Common::saveFile(file->getFilePath(), content));
-                currentTab->changeFile(file);
-                delete file;
-                break;
-            }
-
-            default:
-            {
-                delete file;
-                break;
-            }
-        }
-
-        ui_->tabWidget->setTabText(ui_->tabWidget->currentIndex(), newBaseName);
+        showMainPage();
+        return;
     }
 
+    QString newBaseName = file->baseName();
+    if (file->source() == Common::Source::LOCAL)
+    {
+        QString content(currentTab->getCurrentText());
+        showStatusMsg(Common::saveFile(file->getFilePath(), content));
+        currentTab->changeFile(file);
+    }
+    delete file;
+    ui_->tabWidget->setTabText(ui_->tabWidget->currentIndex(), newBaseName);
     showMainPage();
 }
 

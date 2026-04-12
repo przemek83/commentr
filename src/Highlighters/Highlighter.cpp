@@ -4,8 +4,10 @@
 
 bool Highlighter::spellChecking_ = true;
 
-Highlighter::Highlighter(QObject* parent)
-    : QSyntaxHighlighter(parent), initialized_(false)
+Highlighter::Highlighter(const SpellChecker& spellChecker, QObject* parent)
+    : QSyntaxHighlighter(parent),
+      initialized_(false),
+      spellChecker_(spellChecker)
 {
     spellCheckFormat_.setForeground(Qt::red);
     spellCheckFormat_.setUnderlineColor(QColor(Qt::red));
@@ -46,7 +48,7 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
     foreach (QString word, wordsList)
     {
         if (word.length() > 1 && !word.startsWith('\\') &&
-            !SpellChecker::getInstance().checkWord(word))
+            !spellChecker_.checkWord(word))
         {
             int l{-1};
             int number{0};

@@ -1,6 +1,8 @@
 #include "BasicHighlighter.h"
 
-BasicHighlighter::BasicHighlighter(QObject* parent) : Highlighter(parent)
+BasicHighlighter::BasicHighlighter(const SpellChecker& spellChecker,
+                                   QObject* parent)
+    : Highlighter(spellChecker, parent)
 {
     singleLineCommentRule_.format_.setForeground(Qt::red);
     singleLineCommentRule_.startPattern_ = QRegularExpression("'[^\n]*");

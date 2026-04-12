@@ -6,7 +6,7 @@
 class PythonHighlighter : public Highlighter
 {
 public:
-    explicit PythonHighlighter(QObject* parent);
+    PythonHighlighter(const SpellChecker& spellChecker, QObject* parent);
     ~PythonHighlighter() override = default;
 
 protected:

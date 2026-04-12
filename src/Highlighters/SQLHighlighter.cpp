@@ -1,6 +1,8 @@
 #include "SQLHighlighter.h"
 
-SQLHighlighter::SQLHighlighter(QObject* parent) : Highlighter(parent)
+SQLHighlighter::SQLHighlighter(const SpellChecker& spellChecker,
+                                 QObject* parent)
+    : Highlighter(spellChecker, parent)
 {
     singleLineCommentRule_.format_.setForeground(Qt::red);
     singleLineCommentRule_.startPattern_ = QRegularExpression("--[^\n]*");

@@ -7,7 +7,12 @@
 class SpellChecker
 {
 public:
-    static SpellChecker& getInstance();
+    SpellChecker() = default;
+    SpellChecker(SpellChecker&&) = default;
+
+    ~SpellChecker() = default;
+
+    SpellChecker& operator=(SpellChecker&&) = default;
 
     bool checkWord(const QString& word) const;
 
@@ -15,8 +20,6 @@ public:
 
 private:
     Q_DISABLE_COPY(SpellChecker)
-
-    SpellChecker() = default;
 
     QSet<QString> dictionary_;
 };

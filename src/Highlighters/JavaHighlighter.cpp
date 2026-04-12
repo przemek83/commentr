@@ -1,6 +1,8 @@
 #include "JavaHighlighter.h"
 
-JavaHighlighter::JavaHighlighter(QObject* parent) : CFamilyHighlighter(parent)
+JavaHighlighter::JavaHighlighter(const SpellChecker& spellChecker,
+                                 QObject* parent)
+    : CFamilyHighlighter(spellChecker, parent)
 {
 }
 

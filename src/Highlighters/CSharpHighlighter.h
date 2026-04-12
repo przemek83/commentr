@@ -6,7 +6,7 @@
 class CSharpHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit CSharpHighlighter(QObject* parent);
+    CSharpHighlighter(const SpellChecker& spellChecker, QObject* parent);
     ~CSharpHighlighter() override = default;
 
 protected:

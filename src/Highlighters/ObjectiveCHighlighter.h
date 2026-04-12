@@ -6,7 +6,7 @@
 class ObjectiveCHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit ObjectiveCHighlighter(QObject* parent);
+    ObjectiveCHighlighter(const SpellChecker& spellChecker, QObject* parent);
     ~ObjectiveCHighlighter() override = default;
 
 protected:

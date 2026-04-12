@@ -7,6 +7,7 @@
 
 #include "Config.h"
 #include "EditorTabPage.h"
+#include "SpellChecker.h"
 
 namespace Ui
 {
@@ -24,7 +25,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(Config config, QWidget* parent = nullptr);
+    MainWindow(Config config, SpellChecker spellChecker,
+               QWidget* parent = nullptr);
     ~MainWindow() override;
 
 protected:
@@ -84,6 +86,8 @@ private:
     int newFileCounter_{0};
 
     Config config_;
+
+    SpellChecker spellChecker_;
 
 private slots:
     void saveFile();

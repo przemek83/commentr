@@ -1,7 +1,8 @@
 #include "ObjectiveCHighlighter.h"
 
-ObjectiveCHighlighter::ObjectiveCHighlighter(QObject* parent)
-    : CFamilyHighlighter(parent)
+ObjectiveCHighlighter::ObjectiveCHighlighter(const SpellChecker& spellChecker,
+                                               QObject* parent)
+    : CFamilyHighlighter(spellChecker, parent)
 {
 }
 

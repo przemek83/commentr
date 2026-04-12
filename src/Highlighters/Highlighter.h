@@ -4,10 +4,12 @@
 #include <QRegularExpression>
 #include <QSyntaxHighlighter>
 
+class SpellChecker;
+
 class Highlighter : public QSyntaxHighlighter
 {
 public:
-    explicit Highlighter(QObject* parent);
+    explicit Highlighter(const SpellChecker& spellChecker, QObject* parent);
 
     ~Highlighter() override = default;
 
@@ -43,6 +45,8 @@ private:
     QTextCharFormat spellCheckFormat_;
 
     static bool spellChecking_;
+
+    const SpellChecker& spellChecker_;
 };
 
 #endif  // HIGHLIGHTER_H

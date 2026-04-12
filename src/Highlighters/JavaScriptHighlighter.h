@@ -6,7 +6,8 @@
 class JavaScriptHighlighter : public Highlighter
 {
 public:
-    explicit JavaScriptHighlighter(QObject* parent);
+    explicit JavaScriptHighlighter(const SpellChecker& spellChecker,
+                                   QObject* parent);
     ~JavaScriptHighlighter() override = default;
 
 protected:

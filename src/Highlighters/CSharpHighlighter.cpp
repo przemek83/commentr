@@ -1,7 +1,8 @@
 #include "CSharpHighlighter.h"
 
-CSharpHighlighter::CSharpHighlighter(QObject* parent)
-    : CFamilyHighlighter(parent)
+CSharpHighlighter::CSharpHighlighter(const SpellChecker& spellChecker,
+                                     QObject* parent)
+    : CFamilyHighlighter(spellChecker, parent)
 {
 }
 

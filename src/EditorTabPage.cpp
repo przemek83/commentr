@@ -17,15 +17,17 @@
 #include "Highlighters/PhpHighlighter.h"
 #include "Highlighters/PythonHighlighter.h"
 #include "Highlighters/SQLHighlighter.h"
+#include "SpellChecker.h"
 #include "ui_EditorTabPage.h"
 
 EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config,
-                             QWidget* parent)
+                             SpellChecker& spellChecker, QWidget* parent)
     : QWidget(parent),
       ui_{std::make_unique<Ui::EditorTabPage>()},
       codeViewer_(new CodeViewer(config, this)),
       file_{file},
-      config_{config}
+      config_{config},
+      spellChecker_{spellChecker}
 {
     ui_->setupUi(this);
 
@@ -224,31 +226,34 @@ std::unique_ptr<Highlighter> EditorTabPage::getHighlighterForEditorMode(
     switch (mode)
     {
         case EditorMode::C_CPP:
-            return std::make_unique<CplusPlusHighlighter>(nullptr);
+            return std::make_unique<CplusPlusHighlighter>(spellChecker_,
+                                                          nullptr);
 
         case EditorMode::JAVA:
-            return std::make_unique<JavaHighlighter>(nullptr);
+            return std::make_unique<JavaHighlighter>(spellChecker_, nullptr);
 
         case EditorMode::OBJECTIVE_C:
-            return std::make_unique<ObjectiveCHighlighter>(nullptr);
+            return std::make_unique<ObjectiveCHighlighter>(spellChecker_,
+                                                           nullptr);
 
         case EditorMode::C_SHARP:
-            return std::make_unique<CSharpHighlighter>(nullptr);
+            return std::make_unique<CSharpHighlighter>(spellChecker_, nullptr);
 
         case EditorMode::PHP:
-            return std::make_unique<PhpHighlighter>(nullptr);
+            return std::make_unique<PhpHighlighter>(spellChecker_, nullptr);
 
         case EditorMode::VISUAL_BASIC:
-            return std::make_unique<BasicHighlighter>(nullptr);
+            return std::make_unique<BasicHighlighter>(spellChecker_, nullptr);
 
         case EditorMode::PYTHON:
-            return std::make_unique<PythonHighlighter>(nullptr);
+            return std::make_unique<PythonHighlighter>(spellChecker_, nullptr);
 
         case EditorMode::SQL:
-            return std::make_unique<SQLHighlighter>(nullptr);
+            return std::make_unique<SQLHighlighter>(spellChecker_, nullptr);
 
         case EditorMode::JAVASCRIPT:
-            return std::make_unique<JavaScriptHighlighter>(nullptr);
+            return std::make_unique<JavaScriptHighlighter>(spellChecker_,
+                                                           nullptr);
 
         default:
             return nullptr;

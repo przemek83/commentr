@@ -19,12 +19,15 @@
 #include "FileBrowser/BrowseFilesWidget.h"
 #include "Highlighters/Highlighter.h"
 #include "ProxyStyle.h"
+#include "SpellChecker.h"
 #include "ui_MainWindow.h"
 
-MainWindow::MainWindow(Config config, QWidget* parent)
+MainWindow::MainWindow(Config config, SpellChecker spellChecker,
+                       QWidget* parent)
     : QMainWindow(parent),
       ui_{std::make_unique<Ui::MainWindow>()},
-      config_{std::move(config)}
+      config_{std::move(config)},
+      spellChecker_{std::move(spellChecker)}
 {
     ui_->setupUi(this);
 
@@ -286,8 +289,8 @@ void MainWindow::createNewTab(File* file)
 {
     showMainPage();
 
-    EditorTabPage* editorTabPage{
-        new EditorTabPage(file, config_.fontSize(), config_, ui_->tabWidget)};
+    EditorTabPage* editorTabPage{new EditorTabPage(
+        file, config_.fontSize(), config_, spellChecker_, ui_->tabWidget)};
 
     editorTabPage->setLineWrap(config_.lineWrap());
 

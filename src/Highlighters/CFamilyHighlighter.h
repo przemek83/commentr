@@ -8,7 +8,7 @@
 class CFamilyHighlighter : public Highlighter
 {
 public:
-    explicit CFamilyHighlighter(QObject* parent);
+    CFamilyHighlighter(const SpellChecker& spellChecker, QObject* parent);
     ~CFamilyHighlighter() override = default;
 
 protected:

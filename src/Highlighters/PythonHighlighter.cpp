@@ -1,6 +1,8 @@
 #include "PythonHighlighter.h"
 
-PythonHighlighter::PythonHighlighter(QObject* parent) : Highlighter(parent)
+PythonHighlighter::PythonHighlighter(const SpellChecker& spellChecker,
+                                     QObject* parent)
+    : Highlighter(spellChecker, parent)
 {
     singleLineCommentRule_.format_.setForeground(Qt::red);
     singleLineCommentRule_.startPattern_ = QRegularExpression("#[^\n]*");

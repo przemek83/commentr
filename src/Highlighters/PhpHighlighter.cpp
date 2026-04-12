@@ -1,6 +1,8 @@
 #include "PhpHighlighter.h"
 
-PhpHighlighter::PhpHighlighter(QObject* parent) : Highlighter(parent)
+PhpHighlighter::PhpHighlighter(const SpellChecker& spellChecker,
+                               QObject* parent)
+    : Highlighter(spellChecker, parent)
 {
     singleLineCommentRule_.format_.setForeground(Qt::red);
     singleLineCommentRule_.startPattern_ =

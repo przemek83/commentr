@@ -2,13 +2,6 @@
 
 #include <QStringList>
 
-SpellChecker& SpellChecker::getInstance()
-{
-    static SpellChecker checker;
-
-    return checker;
-}
-
 bool SpellChecker::checkWord(const QString& word) const
 {
     return dictionary_.contains(word.toLower());

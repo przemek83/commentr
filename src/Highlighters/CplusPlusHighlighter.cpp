@@ -1,7 +1,8 @@
 #include "CplusPlusHighlighter.h"
 
-CplusPlusHighlighter::CplusPlusHighlighter(QObject* parent)
-    : CFamilyHighlighter(parent)
+CplusPlusHighlighter::CplusPlusHighlighter(const SpellChecker& spellChecker,
+                                           QObject* parent)
+    : CFamilyHighlighter(spellChecker, parent)
 {
 }
 

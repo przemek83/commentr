@@ -1,7 +1,8 @@
 #include "JavaScriptHighlighter.h"
 
-JavaScriptHighlighter::JavaScriptHighlighter(QObject* parent)
-    : Highlighter(parent)
+JavaScriptHighlighter::JavaScriptHighlighter(const SpellChecker& spellChecker,
+                                             QObject* parent)
+    : Highlighter(spellChecker, parent)
 {
     singleLineCommentRule_.format_.setForeground(Qt::red);
     singleLineCommentRule_.startPattern_ = QRegularExpression("//[^\n]*");

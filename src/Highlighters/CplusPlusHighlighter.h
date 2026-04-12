@@ -6,7 +6,7 @@
 class CplusPlusHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit CplusPlusHighlighter(QObject* parent);
+    CplusPlusHighlighter(const SpellChecker& spellChecker, QObject* parent);
     ~CplusPlusHighlighter() override = default;
 
 protected:

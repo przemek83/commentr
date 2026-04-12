@@ -6,7 +6,7 @@
 class JavaHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit JavaHighlighter(QObject* parent);
+    JavaHighlighter(const SpellChecker& spellChecker, QObject* parent);
     ~JavaHighlighter() override = default;
 
 protected:

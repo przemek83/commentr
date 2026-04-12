@@ -6,7 +6,7 @@
 class BasicHighlighter : public Highlighter
 {
 public:
-    explicit BasicHighlighter(QObject* parent);
+    BasicHighlighter(const SpellChecker& spellChecker, QObject* parent);
     ~BasicHighlighter() override = default;
 
 protected:

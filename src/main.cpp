@@ -61,9 +61,10 @@ int main(int argc, char* argv[])
         placeSamples();
     }
 
-    SpellChecker::getInstance().initDictionary(Common::loadFile(":/uk.dic"));
+    SpellChecker spellChecker;
+    spellChecker.initDictionary(Common::loadFile(":/uk.dic"));
 
-    MainWindow w(std::move(config));
+    MainWindow w(std::move(config), std::move(spellChecker));
 
 #ifdef Q_OS_ANDROID
     w.setWindowFlags(Qt::FramelessWindowHint);

@@ -13,6 +13,7 @@ class CodeViewer;
 class Highlighter;
 class File;
 class Config;
+class SpellChecker;
 
 class EditorTabPage : public QWidget
 {
@@ -33,7 +34,7 @@ public:
     };
 
     EditorTabPage(File* file, float fontSize, Config& config,
-                  QWidget* parent = nullptr);
+                  SpellChecker& spellChecker, QWidget* parent = nullptr);
 
     ~EditorTabPage() override;
 
@@ -90,8 +91,7 @@ private:
 
     EditorMode mode_{EditorMode::PLAIN_TEXT};
 
-    static std::unique_ptr<Highlighter> getHighlighterForEditorMode(
-        EditorMode mode);
+    std::unique_ptr<Highlighter> getHighlighterForEditorMode(EditorMode mode);
 
     const std::array<QString, 10> modeNames_ = {
         "Plain text", "C/C++",        "Java",   "Objective-C", "C#",
@@ -104,6 +104,8 @@ private:
     File* file_;
 
     Config& config_;
+
+    SpellChecker& spellChecker_;
 
 private slots:
     void searchStringChanged(const QString& string);

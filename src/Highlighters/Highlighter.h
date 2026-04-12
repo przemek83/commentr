@@ -13,8 +13,6 @@ public:
 
     ~Highlighter() override = default;
 
-    static void setSpellChecking(bool check);
-
 protected:
     void highlightBlock(const QString& text) override;
 
@@ -43,8 +41,6 @@ private:
     Q_DISABLE_COPY_MOVE(Highlighter)
 
     QTextCharFormat spellCheckFormat_;
-
-    static bool spellChecking_;
 
     const SpellChecker& spellChecker_;
 };

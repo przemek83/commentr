@@ -73,6 +73,8 @@ public:
 
     File* getCurrentFileCopy();
 
+    void refreshHighlighter();
+
 protected:
     void keyPressEvent(QKeyEvent* event) override;
 

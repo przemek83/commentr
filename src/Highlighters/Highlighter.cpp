@@ -2,8 +2,6 @@
 
 #include "../SpellChecker.h"
 
-bool Highlighter::spellChecking_ = true;
-
 Highlighter::Highlighter(const SpellChecker& spellChecker, QObject* parent)
     : QSyntaxHighlighter(parent),
       initialized_(false),
@@ -39,7 +37,7 @@ void Highlighter::highlightBlock(const QString& text)
 
 void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
 {
-    if (!spellChecking_)
+    if (!spellChecker_.active())
         return;
 
     QString str{line.simplified()};
@@ -115,5 +113,3 @@ void Highlighter::multiLineComment(const QString& text,
         startIndex = startMatch.capturedStart();
     }
 }
-
-void Highlighter::setSpellChecking(bool check) { spellChecking_ = check; }

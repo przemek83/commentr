@@ -274,6 +274,12 @@ File* EditorTabPage::getCurrentFileCopy()
     return file;
 }
 
+void EditorTabPage::refreshHighlighter()
+{
+    if (highlighter_ != nullptr)
+        highlighter_->rehighlight();
+}
+
 EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
     const QString& suffix)
 {

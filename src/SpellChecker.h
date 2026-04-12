@@ -18,10 +18,15 @@ public:
 
     void initDictionary(const QString& dictionaryFile);
 
+    bool active() const;
+    void setActive(bool active);
+
 private:
     Q_DISABLE_COPY(SpellChecker)
 
     QSet<QString> dictionary_;
+
+    bool active_{true};
 };
 
 #endif  // SPELLCHECKER_H

@@ -47,7 +47,7 @@ MainWindow::MainWindow(Config config, SpellChecker spellChecker,
 
     rebuildToolbar();
 
-    Highlighter::setSpellChecking(config_.checkSpelling());
+    spellChecker_.setActive(config_.checkSpelling());
 
     connect(ui_->actionCloseFile, &QAction::triggered, this,
             &MainWindow::closeCurrentTab);
@@ -792,11 +792,11 @@ void MainWindow::checkSpellingInComments(bool checked)
 {
     config_.setCheckSpelling(checked);
 
-    Highlighter::setSpellChecking(checked);
+    spellChecker_.setActive(checked);
 
-    QList<Highlighter*> highlighters{findChildren<Highlighter*>()};
-    foreach (Highlighter* highlighter, highlighters)
-        highlighter->rehighlight();
+    QList<EditorTabPage*> pages{findChildren<EditorTabPage*>()};
+    foreach (EditorTabPage* page, pages)
+        page->refreshHighlighter();
 }
 
 void MainWindow::lineWrap(bool checked)

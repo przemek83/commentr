@@ -19,7 +19,8 @@
 #include "Highlighters/SQLHighlighter.h"
 #include "ui_EditorTabPage.h"
 
-EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config, QWidget* parent)
+EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config,
+                             QWidget* parent)
     : QWidget(parent),
       ui_{std::make_unique<Ui::EditorTabPage>()},
       codeViewer_(new CodeViewer(config, this)),

@@ -11,7 +11,9 @@
 #include "ui_BrowseFilesWidget.h"
 
 BrowseFilesWidget::BrowseFilesWidget(bool open, Config& config, QWidget* parent)
-    : QWidget(parent), ui_{std::make_unique<Ui::BrowseFilesWidget>()}, config_(config)
+    : QWidget(parent),
+      ui_{std::make_unique<Ui::BrowseFilesWidget>()},
+      config_(config)
 {
     ui_->setupUi(this);
 

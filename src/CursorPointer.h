@@ -42,11 +42,9 @@ protected:
     QRect range_;
 
     /// Size of pointer.
-    int size_;
+    int size_{0};
 
     virtual QPoint calculateOffset(QMouseEvent* event);
-
-    Config& config_;
 
 private:
     Q_DISABLE_COPY_MOVE(CursorPointer)
@@ -54,6 +52,8 @@ private:
     void updateSize();
 
     bool dragged_;
+
+    Config& config_;
 
 signals:
     void pointerMoved(QPoint pos);

@@ -10,9 +10,10 @@ class Config final
 {
 public:
     Config();
+    Config(Config&&) = default;
+
     ~Config() = default;
 
-    Config(Config&&) = default;
     Config& operator=(Config&&) = default;
 
     QTabWidget::TabPosition getTabPosition() const;
@@ -145,8 +146,6 @@ private:
 
     // If true one column list view in file browser, if false multi column view.
     bool listViewInBrowser_;
-
-    bool keyboardAfterTap_;
 
     QString lastPickedDir_;
 

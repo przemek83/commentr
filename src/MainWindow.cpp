@@ -480,12 +480,12 @@ void MainWindow::qtStylePicked()
     if (action != nullptr)
     {
         QString style{action->text()};
-        QWidget* focusWidget{qApp->focusWidget()};
+        QWidget* focusWidget{QApplication::focusWidget()};
         if (focusWidget != nullptr)
             focusWidget->clearFocus();
 
         qApp->setStyleSheet(QString());
-        qApp->setStyle(new QProxyStyle(style));
+        QApplication::setStyle(new QProxyStyle(style));
     }
 }
 

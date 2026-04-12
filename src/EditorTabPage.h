@@ -32,7 +32,8 @@ public:
         JAVASCRIPT
     };
 
-    EditorTabPage(File* file, float fontSize, Config& config, QWidget* parent = nullptr);
+    EditorTabPage(File* file, float fontSize, Config& config,
+                  QWidget* parent = nullptr);
 
     ~EditorTabPage() override;
 

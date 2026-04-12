@@ -427,7 +427,7 @@ void CodeViewer::zoom(int zoomFactor)
     if (zoomFactor > 0)
         zoomIn(zoomFactor);
     else
-        zoomOut(abs(zoomFactor));
+        zoomOut(std::abs(zoomFactor));
 
     updateVisualPointersPositions();
 }

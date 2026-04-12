@@ -13,7 +13,8 @@ EnhancedLineEdit::EnhancedLineEdit(Config& config, QWidget* parent)
       builtInTextMargin_(4),
       config_(config)
 {
-    cursorPointer_ = new CursorPointerLineEdit(leftTextMargin_ + 6, config_, parent);
+    cursorPointer_ =
+        new CursorPointerLineEdit(leftTextMargin_ + 6, config_, parent);
 
     mainWindow_ = getMainWindow();
 

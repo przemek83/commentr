@@ -2,8 +2,8 @@
 
 #include <QMouseEvent>
 
-CursorPointerLineEdit::CursorPointerLineEdit(int addLeftMargin, QWidget* parent)
-    : CursorPointer(parent),
+CursorPointerLineEdit::CursorPointerLineEdit(int addLeftMargin, Config& config, QWidget* parent)
+    : CursorPointer(config, parent),
       margin_(2),
       scrollingNeeded_(false),
       addLeftMargin_(addLeftMargin)

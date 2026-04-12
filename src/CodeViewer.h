@@ -1,6 +1,7 @@
 #ifndef CODEVIEWER_H
 #define CODEVIEWER_H
 
+#include <qtclasshelpermacros.h>
 #include <QObject>
 #include <QPlainTextEdit>
 
@@ -15,12 +16,13 @@ class QTapGesture;
 class QTapAndHoldGesture;
 class CursorPointerSelector;
 class CursorPointer;
+class Config;
 
 class CodeViewer : public QPlainTextEdit
 {
     Q_OBJECT
 public:
-    explicit CodeViewer(QWidget* parent = nullptr);
+    explicit CodeViewer(Config& config, QWidget* parent = nullptr);
 
     ~CodeViewer() override;
 
@@ -44,7 +46,7 @@ protected:
     void focusInEvent(QFocusEvent* e) override;
 
 private:
-    Q_DISABLE_COPY(CodeViewer)
+    Q_DISABLE_COPY_MOVE(CodeViewer)
 
     int lineNumberAreaWidth() const;
 
@@ -115,6 +117,8 @@ private:
     void hideAllPointersIfNotDragged();
 
     void grabGestures() const;
+
+    Config& config_;
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);

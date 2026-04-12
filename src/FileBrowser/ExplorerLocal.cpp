@@ -13,14 +13,14 @@
 #include "../Config.h"
 #include "../File.h"
 
-ExplorerLocal::ExplorerLocal(bool open, QWidget* parent)
-    : QListView(parent), Explorer(open)
+ExplorerLocal::ExplorerLocal(bool open, Config& config, QWidget* parent)
+    : QListView(parent), Explorer(open), config_(config)
 {
     horizontalScrollBar()->setStyleSheet(Common::getStyleSheet());
     verticalScrollBar()->setStyleSheet(Common::getStyleSheet());
 
     // Set proper initial icon.
-    setWrapping(!Config::getInstance().listViewInBrowser());
+    setWrapping(!config_.listViewInBrowser());
 
     setupList();
 }
@@ -32,7 +32,7 @@ ExplorerLocal::~ExplorerLocal()
     QModelIndex currentIndex = rootIndex();
 
     QString lastDir = fileModel->fileInfo(currentIndex).absoluteFilePath();
-    Config::getInstance().setLastPickedDir(lastDir);
+    config_.setLastPickedDir(lastDir);
 }
 
 void ExplorerLocal::setupList()
@@ -86,7 +86,7 @@ void ExplorerLocal::initialize()
     setModel(fileModel);
 
     // Set proper initialization path.
-    QString initPath = Config::getInstance().lastPickedDir();
+    QString initPath = config_.lastPickedDir();
     if (initPath.isEmpty())
         initPath = Common::rootPath();
 

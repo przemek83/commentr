@@ -12,6 +12,7 @@ class EditorTabPage;
 class CodeViewer;
 class Highlighter;
 class File;
+class Config;
 
 class EditorTabPage : public QWidget
 {
@@ -31,7 +32,7 @@ public:
         JAVASCRIPT
     };
 
-    EditorTabPage(File* file, float fontSize, QWidget* parent = nullptr);
+    EditorTabPage(File* file, float fontSize, Config& config, QWidget* parent = nullptr);
 
     ~EditorTabPage() override;
 
@@ -100,6 +101,8 @@ private:
     std::unique_ptr<Highlighter> highlighter_{nullptr};
 
     File* file_;
+
+    Config& config_;
 
 private slots:
     void searchStringChanged(const QString& string);

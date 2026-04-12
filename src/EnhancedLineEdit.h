@@ -5,12 +5,13 @@
 
 class CursorPointerLineEdit;
 class QGestureEvent;
+class Config;
 
 class EnhancedLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    explicit EnhancedLineEdit(QWidget* parent = nullptr);
+    explicit EnhancedLineEdit(Config& config, QWidget* parent = nullptr);
 
 protected:
     void mouseReleaseEvent(QMouseEvent* e) override;
@@ -45,6 +46,8 @@ private:
     int builtInTextMargin_;
 
     void updateMarginSize();
+
+    Config& config_;
 
 private slots:
     void textWasChanged(QString newText);

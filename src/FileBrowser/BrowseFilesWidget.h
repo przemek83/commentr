@@ -8,6 +8,7 @@
 class EnhancedLineEdit;
 class Explorer;
 class File;
+class Config;
 
 namespace Ui
 {
@@ -18,7 +19,7 @@ class BrowseFilesWidget : public QWidget
 {
     Q_OBJECT
 public:
-    BrowseFilesWidget(bool open, QWidget* parent);
+    BrowseFilesWidget(bool open, Config& config, QWidget* parent);
 
     ~BrowseFilesWidget() override;
 
@@ -34,6 +35,8 @@ private:
     std::unique_ptr<Ui::BrowseFilesWidget> ui_;
 
     EnhancedLineEdit* filePathLineEdit_{nullptr};
+
+    Config& config_;
 
 private slots:
     void filePathReturnPressed();

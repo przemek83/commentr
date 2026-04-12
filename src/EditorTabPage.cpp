@@ -19,11 +19,12 @@
 #include "Highlighters/SQLHighlighter.h"
 #include "ui_EditorTabPage.h"
 
-EditorTabPage::EditorTabPage(File* file, float fontSize, QWidget* parent)
+EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config, QWidget* parent)
     : QWidget(parent),
       ui_{std::make_unique<Ui::EditorTabPage>()},
-      codeViewer_(new CodeViewer(this)),
-      file_{file}
+      codeViewer_(new CodeViewer(config, this)),
+      file_{file},
+      config_{config}
 {
     ui_->setupUi(this);
 
@@ -116,7 +117,7 @@ void EditorTabPage::zoom(bool in)
 
     const float newSize{
         static_cast<float>(codeViewer_->fontInfo().pointSizeF())};
-    Config::getInstance().setFontSize(newSize);
+    config_.setFontSize(newSize);
 }
 
 void EditorTabPage::searchNext()

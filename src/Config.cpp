@@ -12,12 +12,6 @@
 
 Config::Config() { load(); }
 
-Config& Config::getInstance()
-{
-    static Config instance;
-    return instance;
-}
-
 void Config::save()
 {
     QSettings settings;

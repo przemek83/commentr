@@ -1,17 +1,19 @@
 #ifndef EXPLORERLOCAL_H
 #define EXPLORERLOCAL_H
 
+#include <qtclasshelpermacros.h>
 #include <QListView>
 
 #include "Explorer.h"
 
 class File;
+class Config;
 
 class ExplorerLocal : public QListView, public Explorer
 {
     Q_OBJECT
 public:
-    ExplorerLocal(bool open, QWidget* parent);
+    ExplorerLocal(bool open, Config& config, QWidget* parent);
 
     ~ExplorerLocal() override;
 
@@ -40,11 +42,13 @@ private slots:
     void itemWasActivated(QModelIndex index);
 
 private:
-    Q_DISABLE_COPY(ExplorerLocal)
+    Q_DISABLE_COPY_MOVE(ExplorerLocal)
 
     void setupList();
 
     QString currentItem_;
+
+    Config& config_;
 
 private slots:
     void directoryLoaded(const QString& path);

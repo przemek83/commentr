@@ -21,8 +21,10 @@
 #include "ProxyStyle.h"
 #include "ui_MainWindow.h"
 
-MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui_{std::make_unique<Ui::MainWindow>()}
+MainWindow::MainWindow(Config config, QWidget* parent)
+    : QMainWindow(parent),
+      ui_{std::make_unique<Ui::MainWindow>()},
+      config_{std::move(config)}
 {
     ui_->setupUi(this);
 
@@ -42,7 +44,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     rebuildToolbar();
 
-    Highlighter::setSpellChecking(Config::getInstance().checkSpelling());
+    Highlighter::setSpellChecking(config_.checkSpelling());
 
     connect(ui_->actionCloseFile, &QAction::triggered, this,
             &MainWindow::closeCurrentTab);
@@ -51,7 +53,7 @@ MainWindow::MainWindow(QWidget* parent)
             &MainWindow::focusHasChanged);
 }
 
-MainWindow::~MainWindow() = default;
+MainWindow::~MainWindow() { config_.save(); };
 
 void MainWindow::keyReleaseEvent(QKeyEvent* e)
 {
@@ -85,22 +87,20 @@ void MainWindow::showStatusMsg(QString msg)
 
 void MainWindow::initMenus()
 {
-    Config& config{Config::getInstance()};
+    setupStyles(config_);
 
-    setupStyles(config);
+    setupTabsAlignmentMenu(config_);
 
-    setupTabsAlignmentMenu(config);
-
-    setupToolbarActionsMenu(config);
+    setupToolbarActionsMenu(config_);
 
     setupLanguageActionsMenu();
 
-    setupRecentFiles(config);
+    setupRecentFiles(config_);
 
-    ui_->actionCheck_spelling_in_comments->setChecked(config.checkSpelling());
-    ui_->actionLine_wrap->setChecked(config.lineWrap());
-    ui_->mainToolBar->setVisible(config.showToolbar());
-    ui_->actionShowToolbar->setChecked(config.showToolbar());
+    ui_->actionCheck_spelling_in_comments->setChecked(config_.checkSpelling());
+    ui_->actionLine_wrap->setChecked(config_.lineWrap());
+    ui_->mainToolBar->setVisible(config_.showToolbar());
+    ui_->actionShowToolbar->setChecked(config_.showToolbar());
 }
 
 void MainWindow::setupRecentFiles(Config& config)
@@ -211,7 +211,7 @@ void MainWindow::setupToolbarActionsMenu(const Config& config)
 
     ui_->menuToolbarOrientation->addActions(actionsGroup->actions());
 
-    switch (Config::getInstance().toolbarArea())
+    switch (config_.toolbarArea())
     {
         case Qt::LeftToolBarArea:
         {
@@ -284,14 +284,12 @@ void MainWindow::showMainPage()
 
 void MainWindow::createNewTab(File* file)
 {
-    Config& config{Config::getInstance()};
-
     showMainPage();
 
     EditorTabPage* editorTabPage{
-        new EditorTabPage(file, config.fontSize(), ui_->tabWidget)};
+        new EditorTabPage(file, config_.fontSize(), config_, ui_->tabWidget)};
 
-    editorTabPage->setLineWrap(config.lineWrap());
+    editorTabPage->setLineWrap(config_.lineWrap());
 
     connect(editorTabPage, &EditorTabPage::redoIsAvailable,
             [this](bool available) { ui_->actionRedo->setEnabled(available); });
@@ -310,9 +308,9 @@ void MainWindow::createNewTab(File* file)
 
     if (file->source() == Common::Source::LOCAL)
     {
-        config.addFilePathToRecentFiles(file->getFilePath());
+        config_.addFilePathToRecentFiles(file->getFilePath());
 
-        setupRecentFiles(config);
+        setupRecentFiles(config_);
     }
 }
 
@@ -497,12 +495,10 @@ void MainWindow::rebuildToolbar()
 
     ui_->mainToolBar->addAction(ui_->actionMenu);
 
-    const Config& config{Config::getInstance()};
-
-    if (config.toolbarKeyboardAdded())
+    if (config_.toolbarKeyboardAdded())
         ui_->mainToolBar->addAction(ui_->actionShow_hide_keyboard);
 
-    if (config.toolbarFileAdded())
+    if (config_.toolbarFileAdded())
     {
         ui_->mainToolBar->addAction(ui_->actionNew);
         ui_->mainToolBar->addAction(ui_->actionOpen_file);
@@ -511,26 +507,26 @@ void MainWindow::rebuildToolbar()
         ui_->mainToolBar->addAction(ui_->actionCloseFile);
     }
 
-    if (config.toolbarUndoRedoAdded())
+    if (config_.toolbarUndoRedoAdded())
     {
         ui_->mainToolBar->addAction(ui_->actionUndo);
         ui_->mainToolBar->addAction(ui_->actionRedo);
     }
 
-    if (config.toolbarCopyPasteCutAdded())
+    if (config_.toolbarCopyPasteCutAdded())
     {
         ui_->mainToolBar->addAction(ui_->actionCopy);
         ui_->mainToolBar->addAction(ui_->actionCut);
         ui_->mainToolBar->addAction(ui_->actionPaste);
     }
 
-    if (config.toolbarZoomAdded())
+    if (config_.toolbarZoomAdded())
     {
         ui_->mainToolBar->addAction(ui_->actionZoom_in);
         ui_->mainToolBar->addAction(ui_->actionZoom_out);
     }
 
-    if (config.toolbarSearchAdded())
+    if (config_.toolbarSearchAdded())
     {
         ui_->mainToolBar->addAction(ui_->actionSearch);
     }
@@ -661,7 +657,7 @@ void MainWindow::paste()
 void MainWindow::changeTabPosition(QTabWidget::TabPosition position)
 {
     ui_->tabWidget->setTabPosition(position);
-    Config::getInstance().setTabPosition(position);
+    config_.setTabPosition(position);
 
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -675,7 +671,7 @@ void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
     setAvailableFunctionalities(false);
 
     auto* browseFilesWidget{
-        new BrowseFilesWidget(openFileMode, ui_->stackedWidget)};
+        new BrowseFilesWidget(openFileMode, config_, ui_->stackedWidget)};
 
     connect(browseFilesWidget, &BrowseFilesWidget::cancelAction, this,
             &MainWindow::showMainPage);
@@ -694,31 +690,32 @@ void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
 
 void MainWindow::changeSize(float factor)
 {
-    float currentSize = Config::getInstance().uiSize();
-    Config::getInstance().setUiSize(currentSize * factor);
-    ProxyStyle::updateUisize();
+    const float currentSize = config_.uiSize();
+    const float newSize = currentSize * factor;
+    config_.setUiSize(newSize);
+    ProxyStyle::updateUisize(newSize, config_.style());
 }
 
 void MainWindow::changeToolbarPosition(Qt::ToolBarArea area)
 {
-    Config::getInstance().setToolbarArea(area);
+    config_.setToolbarArea(area);
     addToolBar(area, ui_->mainToolBar);
 }
 
 void MainWindow::setupChangeSizeActions()
 {
     connect(ui_->actionDecrease50, &QAction::triggered,
-            []() { changeSize(.5F); });
+            [this]() { changeSize(.5F); });
     connect(ui_->actionDecrease25, &QAction::triggered,
-            []() { changeSize(.75F); });
+            [this]() { changeSize(.75F); });
     connect(ui_->actionDecrease10, &QAction::triggered,
-            []() { changeSize(.90F); });
+            [this]() { changeSize(.90F); });
     connect(ui_->actionIncrease10, &QAction::triggered,
-            []() { changeSize(1.1F); });
+            [this]() { changeSize(1.1F); });
     connect(ui_->actionIncrease25, &QAction::triggered,
-            []() { changeSize(1.25F); });
+            [this]() { changeSize(1.25F); });
     connect(ui_->actionIncrease50, &QAction::triggered,
-            []() { changeSize(1.5F); });
+            [this]() { changeSize(1.5F); });
 }
 
 void MainWindow::setupToolbarPositionActions()
@@ -763,43 +760,43 @@ void MainWindow::setupEditorModeActions()
 
 void MainWindow::toolbarKeyboardActivated(bool checked)
 {
-    Config::getInstance().setToolbarKeyboardAdded(checked);
+    config_.setToolbarKeyboardAdded(checked);
     rebuildToolbar();
 }
 
 void MainWindow::toolbarFileOperations(bool checked)
 {
-    Config::getInstance().setToolbarFileAdded(checked);
+    config_.setToolbarFileAdded(checked);
     rebuildToolbar();
 }
 
 void MainWindow::toolbarCutCopyPaste(bool checked)
 {
-    Config::getInstance().setToolbarCopyPasteCutAdded(checked);
+    config_.setToolbarCopyPasteCutAdded(checked);
     rebuildToolbar();
 }
 
 void MainWindow::toolbarZoomInOut(bool checked)
 {
-    Config::getInstance().setToolbarZoomAdded(checked);
+    config_.setToolbarZoomAdded(checked);
     rebuildToolbar();
 }
 
 void MainWindow::toolbarUndoRedo(bool checked)
 {
-    Config::getInstance().setToolbarUndoRedoAdded(checked);
+    config_.setToolbarUndoRedoAdded(checked);
     rebuildToolbar();
 }
 
 void MainWindow::toolbarSearch(bool checked)
 {
-    Config::getInstance().setToolbarSearchAdded(checked);
+    config_.setToolbarSearchAdded(checked);
     rebuildToolbar();
 }
 
 void MainWindow::checkSpellingInComments(bool checked)
 {
-    Config::getInstance().setCheckSpelling(checked);
+    config_.setCheckSpelling(checked);
 
     Highlighter::setSpellChecking(checked);
 
@@ -810,7 +807,7 @@ void MainWindow::checkSpellingInComments(bool checked)
 
 void MainWindow::lineWrap(bool checked)
 {
-    Config::getInstance().setLineWrap(checked);
+    config_.setLineWrap(checked);
 
     QList<EditorTabPage*> pages{ui_->tabWidget->findChildren<EditorTabPage*>()};
     foreach (EditorTabPage* page, pages)
@@ -863,7 +860,7 @@ void MainWindow::saveFile()
 
 void MainWindow::showToolbar(bool checked)
 {
-    Config::getInstance().setShowToolbar(checked);
+    config_.setShowToolbar(checked);
     ui_->mainToolBar->setVisible(checked);
 }
 

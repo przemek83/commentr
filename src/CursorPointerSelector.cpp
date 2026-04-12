@@ -5,9 +5,8 @@
 #include <QPainterPath>
 #include <QPen>
 
-CursorPointerSelector::CursorPointerSelector(CursorDirection direction,
-                                             QWidget* parent)
-    : CursorPointerTextEdit(parent), diretion_{direction}
+CursorPointerSelector::CursorPointerSelector(CursorDirection direction, Config& config, QWidget* parent)
+    : CursorPointerTextEdit(config, parent), diretion_{direction}
 {
     resize(size_, size_ + size_ / 4);
 }

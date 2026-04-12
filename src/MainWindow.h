@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QModelIndex>
 
+#include "Config.h"
 #include "EditorTabPage.h"
 
 namespace Ui
@@ -17,14 +18,13 @@ class QLabel;
 class Highlighter;
 class File;
 class BrowseFilesWidget;
-class Config;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget* parent = nullptr);
+    explicit MainWindow(Config config, QWidget* parent = nullptr);
     ~MainWindow() override;
 
 protected:
@@ -69,7 +69,7 @@ private:
 
     void createAndShowBrowseFilesWidget(bool openFileMode);
 
-    static void changeSize(float factor);
+    void changeSize(float factor);
 
     void changeToolbarPosition(Qt::ToolBarArea area);
 
@@ -82,6 +82,8 @@ private:
     std::unique_ptr<Ui::MainWindow> ui_;
 
     int newFileCounter_{0};
+
+    Config config_;
 
 private slots:
     void saveFile();

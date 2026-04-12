@@ -6,12 +6,14 @@
 
 class QSettings;
 
-class Config : public QObject
+class Config final
 {
-    Q_OBJECT
-
 public:
-    static Config& getInstance();
+    Config();
+    ~Config() = default;
+
+    Config(Config&&) = default;
+    Config& operator=(Config&&) = default;
 
     QTabWidget::TabPosition getTabPosition() const;
     void setTabPosition(QTabWidget::TabPosition position);
@@ -69,17 +71,15 @@ public:
     const QStringList& getRecentFiles() const;
     void addFilePathToRecentFiles(const QString& filePath);
 
-public slots:
     void save();
 
 private:
-    Config();
     Q_DISABLE_COPY(Config)
 
     void load();
 
     /// Names used.
-    const std::array<QString, 18> configNames_{
+    std::array<QString, 18> configNames_{
         "tabsPosition",      "uiSize",           "style",
         "toolbar/file",      "toolbar/undoRedo", "toolbar/copyPasteCut",
         "toolbar/zoom",      "toolbar/search",   "toolbar/keyboard",

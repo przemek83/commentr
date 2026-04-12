@@ -17,10 +17,11 @@
 #include "CursorPointerTextEdit.h"
 #include "PanGestureRecognizer.h"
 
-CodeViewer::CodeViewer(QWidget* parent)
+CodeViewer::CodeViewer(Config& config, QWidget* parent)
     : QPlainTextEdit(parent),
       lineNumberArea_(new LineNumberArea(this)),
-      mainWindow_(Common::getMainWindow(this))
+      mainWindow_(Common::getMainWindow(this)),
+      config_{config}
 {
     initVisualPointers();
 
@@ -75,7 +76,7 @@ void CodeViewer::grabGestures() const
 void CodeViewer::initVisualPointers()
 {
     // Cursor pointer.
-    cursorPointer_ = new CursorPointerTextEdit(mainWindow_);
+    cursorPointer_ = new CursorPointerTextEdit(config_, mainWindow_);
 
     connect(cursorPointer_, &CursorPointerTextEdit::pointerMoved, this,
             &CodeViewer::pointerMoved);
@@ -85,7 +86,7 @@ void CodeViewer::initVisualPointers()
 
     // Cursor pointer on selection.
     cursorSelector_ = new CursorPointerSelector(
-        CursorPointerSelector::CursorDirection::RIGHT, mainWindow_);
+        CursorPointerSelector::CursorDirection::RIGHT, config_, mainWindow_);
 
     connect(cursorSelector_, &CursorPointerSelector::pointerMoved, this,
             &CodeViewer::pointerMoved);
@@ -95,7 +96,7 @@ void CodeViewer::initVisualPointers()
 
     // Anchor pointer on selection.
     anchorSelector_ = new CursorPointerSelector(
-        CursorPointerSelector::CursorDirection::LEFT, mainWindow_);
+        CursorPointerSelector::CursorDirection::LEFT, config_, mainWindow_);
 
     connect(anchorSelector_, &CursorPointerSelector::pointerMoved, this,
             &CodeViewer::pointerMoved);
@@ -259,7 +260,7 @@ void CodeViewer::managePinchGesture(QPinchGesture* gesture)
     {
         case Qt::GestureUpdated:
         {
-            const float originalFontSize = Config::getInstance().fontSize();
+            const float originalFontSize = config_.fontSize();
             const auto totalScaleFactor =
                 static_cast<float>(gesture->totalScaleFactor());
             const double expectedFontSize = std::round(
@@ -275,8 +276,7 @@ void CodeViewer::managePinchGesture(QPinchGesture* gesture)
 
         case Qt::GestureFinished:
         {
-            Config::getInstance().setFontSize(
-                static_cast<float>(fontInfo().pointSizeF()));
+            config_.setFontSize(static_cast<float>(fontInfo().pointSizeF()));
             break;
         }
 

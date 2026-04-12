@@ -3,11 +3,13 @@
 
 #include "CursorPointer.h"
 
+class Config;
+
 class CursorPointerTextEdit : public CursorPointer
 {
     Q_OBJECT
 public:
-    explicit CursorPointerTextEdit(QWidget* parent = nullptr);
+    explicit CursorPointerTextEdit(Config& config, QWidget* parent = nullptr);
     ~CursorPointerTextEdit() override = default;
 
     void moveVisualPointer(int x, int y) override;

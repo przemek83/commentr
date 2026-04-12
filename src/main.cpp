@@ -47,25 +47,23 @@ int main(int argc, char* argv[])
     qputenv("QT_QPA_PLATFORM", "windows:darkmode=0");
 #endif
 
-    // Loads config on getInstance.
-    ProxyStyle::updateUisize();
+    Config config;
+
+    ProxyStyle::updateUisize(config.uiSize(), config.style());
 
     QApplication a(argc, argv);
 
     // Can be used only after QApplication construction.
-    if (Config::getInstance().firstUse())
+    if (config.firstUse())
     {
-        Config::getInstance().setDefaultFont();
-        ProxyStyle::updateUisize();
+        config.setDefaultFont();
+        ProxyStyle::updateUisize(config.uiSize(), config.style());
         placeSamples();
     }
 
-    QObject::connect(qApp, &QApplication::aboutToQuit, &Config::getInstance(),
-                     &Config::save);
-
     SpellChecker::getInstance().initDictionary(Common::loadFile(":/uk.dic"));
 
-    MainWindow w;
+    MainWindow w(std::move(config));
 
 #ifdef Q_OS_ANDROID
     w.setWindowFlags(Qt::FramelessWindowHint);

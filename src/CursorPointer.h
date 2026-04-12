@@ -3,11 +3,13 @@
 
 #include <QWidget>
 
+class Config;
+
 class CursorPointer : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CursorPointer(QWidget* parent = nullptr);
+    explicit CursorPointer(Config& config, QWidget* parent = nullptr);
     ~CursorPointer() override = default;
 
     virtual void moveVisualPointer(int x, int y) = 0;
@@ -43,6 +45,8 @@ protected:
     int size_;
 
     virtual QPoint calculateOffset(QMouseEvent* event);
+
+    Config& config_;
 
 private:
     Q_DISABLE_COPY_MOVE(CursorPointer)

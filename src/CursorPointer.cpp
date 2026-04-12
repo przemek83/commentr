@@ -7,7 +7,7 @@
 
 #include "Config.h"
 
-CursorPointer::CursorPointer(QWidget* parent) : QWidget(parent), dragged_(false)
+CursorPointer::CursorPointer(Config& config, QWidget* parent) : QWidget(parent), dragged_(false), config_(config)
 {
     setPalette(Qt::transparent);
 
@@ -79,7 +79,7 @@ void CursorPointer::changeEvent(QEvent* event)
 
 void CursorPointer::updateSize()
 {
-    size_ = Config::getInstance().uiSize();
+    size_ = config_.uiSize();
     resize(size_, size_ + size_ / 4);
 }
 

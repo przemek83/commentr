@@ -10,14 +10,14 @@
 #include "ExplorerLocal.h"
 #include "ui_BrowseFilesWidget.h"
 
-BrowseFilesWidget::BrowseFilesWidget(bool open, QWidget* parent)
-    : QWidget(parent), ui_{std::make_unique<Ui::BrowseFilesWidget>()}
+BrowseFilesWidget::BrowseFilesWidget(bool open, Config& config, QWidget* parent)
+    : QWidget(parent), ui_{std::make_unique<Ui::BrowseFilesWidget>()}, config_(config)
 {
     ui_->setupUi(this);
 
     initLineEdit();
 
-    auto* localListView{new ExplorerLocal(open, ui_->tabWidget)};
+    auto* localListView{new ExplorerLocal(open, config_, ui_->tabWidget)};
 
     connect(localListView, &ExplorerLocal::filePrepared, this,
             &BrowseFilesWidget::filePrepared);
@@ -43,7 +43,7 @@ BrowseFilesWidget::~BrowseFilesWidget() = default;
 
 void BrowseFilesWidget::initLineEdit()
 {
-    filePathLineEdit_ = new EnhancedLineEdit(this);
+    filePathLineEdit_ = new EnhancedLineEdit(config_, this);
 
     ui_->upperHorizontalLayout->insertWidget(1, filePathLineEdit_);
     filePathLineEdit_->setStyleSheet("QLineEdit{background: #FFBFBF;}");
@@ -131,7 +131,7 @@ void BrowseFilesWidget::on_changeView_clicked()
         listView->setWrapping(!wrapping);
     }
 
-    Config::getInstance().setListViewInBrowser(wrapping);
+    config_.setListViewInBrowser(wrapping);
     setProperIconForViewButton();
 }
 

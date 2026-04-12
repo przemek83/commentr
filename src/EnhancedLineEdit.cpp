@@ -6,13 +6,14 @@
 #include "Config.h"
 #include "CursorPointerLineEdit.h"
 
-EnhancedLineEdit::EnhancedLineEdit(QWidget* parent)
+EnhancedLineEdit::EnhancedLineEdit(Config& config, QWidget* parent)
     : QLineEdit(parent),
       leftTextMargin_(5),
       rightTextMargin_(10),
-      builtInTextMargin_(4)
+      builtInTextMargin_(4),
+      config_(config)
 {
-    cursorPointer_ = new CursorPointerLineEdit(leftTextMargin_ + 6, parent);
+    cursorPointer_ = new CursorPointerLineEdit(leftTextMargin_ + 6, config_, parent);
 
     mainWindow_ = getMainWindow();
 
@@ -154,7 +155,7 @@ void EnhancedLineEdit::changeEvent(QEvent* event)
 
 void EnhancedLineEdit::updateMarginSize()
 {
-    rightTextMargin_ = Config::getInstance().uiSize() / 2;
+    rightTextMargin_ = config_.uiSize() / 2;
 
     // Add margins to enable scrolling.
     setTextMargins(leftTextMargin_, 0, rightTextMargin_, 0);

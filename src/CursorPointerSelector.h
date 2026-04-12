@@ -3,6 +3,8 @@
 
 #include "CursorPointerTextEdit.h"
 
+class Config;
+
 class CursorPointerSelector : public CursorPointerTextEdit
 {
     Q_OBJECT
@@ -13,7 +15,7 @@ public:
         RIGHT
     };
 
-    explicit CursorPointerSelector(CursorDirection direction,
+    CursorPointerSelector(CursorDirection direction, Config& config,
                                    QWidget* parent = nullptr);
     ~CursorPointerSelector() override = default;
 

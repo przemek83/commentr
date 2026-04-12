@@ -49,13 +49,12 @@ int ProxyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option,
     return pixelMetric;
 }
 
-void ProxyStyle::updateUisize()
+void ProxyStyle::updateUisize(float uiSize, const QString& style)
 {
-    if (Config::getInstance().uiSize() > 0)
-        actualUisize_ = Config::getInstance().uiSize();
+    if (uiSize > 0)
+        actualUisize_ = uiSize;
 
-    QString styleSetInConfig(Config::getInstance().style());
-    QApplication::setStyle(new ProxyStyle(styleSetInConfig));
+    QApplication::setStyle(new ProxyStyle(style));
 }
 
 void ProxyStyle::drawPrimitive(QStyle::PrimitiveElement element,

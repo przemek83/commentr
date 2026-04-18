@@ -22,9 +22,13 @@ void CursorPointer::paintEvent([[maybe_unused]] QPaintEvent* event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(QPen(Qt::blue));
-    QBrush brush(QColor(0, 0, pointerColorBlue_, pointerColorAlpha_));
+
+    constexpr int pointerColorBlue{255};
+    constexpr int pointerColorAlpha{150};
+    QBrush brush(QColor(0, 0, pointerColorBlue, pointerColorAlpha));
     QPainterPath path;
-    int roundSize = size_ / roundCornerDivisor_;
+    constexpr int roundCornerDivisor{6};
+    int roundSize = size_ / roundCornerDivisor;
     path.moveTo(0, size_ / pointerTipDivisor_);
     path.lineTo(size_ / pointerHalfDivisor_, 0);
     path.lineTo(size_, size_ / pointerTipDivisor_);

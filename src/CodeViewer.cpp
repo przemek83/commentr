@@ -113,7 +113,8 @@ void CodeViewer::cursorPosHasChanged()
 
     QTextEdit::ExtraSelection selection;
 
-    const QColor lineColor{QColor(Qt::yellow).lighter(currentLineLightness_)};
+    constexpr int currentLineLightness{160};
+    const QColor lineColor{QColor(Qt::yellow).lighter(currentLineLightness)};
 
     selection.format.setBackground(lineColor);
     selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -435,10 +436,11 @@ void CodeViewer::zoom(int zoomFactor)
 int CodeViewer::lineNumberAreaWidth() const
 {
     int digits = QString::number(::qMax(1, blockCount())).length();
-
-    int space = lineNumberPadding_ + QFontMetricsF(QGuiApplication::font())
-                            .horizontalAdvance(QLatin1Char('9')) *
-                        digits;
+    constexpr int lineNumberPadding{3};
+    int space =
+        lineNumberPadding + QFontMetricsF(QGuiApplication::font())
+                                    .horizontalAdvance(QLatin1Char('9')) *
+                                digits;
     return space;
 }
 
@@ -515,8 +517,10 @@ void CodeViewer::paintEvent(QPaintEvent* event)
     QPlainTextEdit::paintEvent(event);
     const QRect rect = event->rect();
     const QFont font = currentCharFormat().font();
-    int x80 = ::qRound(QFontMetricsF(font).averageCharWidth() * rightGuideColumn_) +
-              contentOffset().x() + document()->documentMargin();
+    constexpr double rightGuideColumn{80.0};
+    int x80 =
+        ::qRound(QFontMetricsF(font).averageCharWidth() * rightGuideColumn) +
+        contentOffset().x() + document()->documentMargin();
     QPainter painter(viewport());
     painter.setPen(QPen("gray"));
     painter.drawLine(x80, rect.top(), x80, rect.bottom());

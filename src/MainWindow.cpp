@@ -29,6 +29,8 @@ MainWindow::MainWindow(Config config, SpellChecker spellChecker,
       config_{std::move(config)},
       spellChecker_{std::move(spellChecker)}
 {
+    QApplication::setStyle(new ProxyStyle(config_.style(), config_.uiSize()));
+
     ui_->setupUi(this);
 
     connectActions();
@@ -478,8 +480,9 @@ void MainWindow::qtStylePicked()
         if (focusWidget != nullptr)
             focusWidget->clearFocus();
 
+        config_.setStyle(style);
         qApp->setStyleSheet(QString());
-        QApplication::setStyle(new QProxyStyle(style));
+        QApplication::setStyle(new ProxyStyle(style, config_.uiSize()));
     }
 }
 
@@ -687,7 +690,7 @@ void MainWindow::changeSize(float factor)
     const float currentSize = config_.uiSize();
     const float newSize = currentSize * factor;
     config_.setUiSize(newSize);
-    ProxyStyle::updateUisize(newSize, config_.style());
+    QApplication::setStyle(new ProxyStyle(config_.style(), newSize));
 }
 
 void MainWindow::changeToolbarPosition(Qt::ToolBarArea area)

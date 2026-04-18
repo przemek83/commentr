@@ -49,15 +49,11 @@ int main(int argc, char* argv[])
 
     Config config;
 
-    ProxyStyle::updateUisize(config.uiSize(), config.style());
-
     QApplication a(argc, argv);
 
-    // Can be used only after QApplication construction.
     if (config.firstUse())
     {
         config.setDefaultFont();
-        ProxyStyle::updateUisize(config.uiSize(), config.style());
         placeSamples();
     }
 

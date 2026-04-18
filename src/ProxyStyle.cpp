@@ -3,9 +3,10 @@
 #include <QApplication>
 #include <QStyleOption>
 
-#include "Config.h"
-
-float ProxyStyle::actualUisize_ = 1.;
+ProxyStyle::ProxyStyle(const QString& style, float uiSize)
+    : QProxyStyle(style), actualUisize_(uiSize)
+{
+}
 
 QSize ProxyStyle::sizeFromContents(ContentsType type,
                                    const QStyleOption* option,
@@ -49,14 +50,6 @@ int ProxyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option,
     return pixelMetric;
 }
 
-void ProxyStyle::updateUisize(float uiSize, const QString& style)
-{
-    if (uiSize > 0)
-        actualUisize_ = uiSize;
-
-    QApplication::setStyle(new ProxyStyle(style));
-}
-
 void ProxyStyle::drawPrimitive(QStyle::PrimitiveElement element,
                                const QStyleOption* option, QPainter* painter,
                                const QWidget* widget) const
@@ -69,7 +62,7 @@ void ProxyStyle::drawPrimitive(QStyle::PrimitiveElement element,
     QProxyStyle::drawPrimitive(element, option, painter, widget);
 }
 
-int ProxyStyle::adjustSize(int size)
+int ProxyStyle::adjustSize(int size) const
 {
     return ::qRound(static_cast<float>(size) * actualUisize_);
 }

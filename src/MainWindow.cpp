@@ -701,18 +701,31 @@ void MainWindow::changeToolbarPosition(Qt::ToolBarArea area)
 
 void MainWindow::setupChangeSizeActions()
 {
+    constexpr float decreaseSizeBy50Percent{0.5F};
+    constexpr float decreaseSizeBy25Percent{0.75F};
+    constexpr float decreaseSizeBy10Percent{0.90F};
+    constexpr float increaseSizeBy10Percent{1.1F};
+    constexpr float increaseSizeBy25Percent{1.25F};
+    constexpr float increaseSizeBy50Percent{1.5F};
+
     connect(ui_->actionDecrease50, &QAction::triggered,
-            [this]() { changeSize(.5F); });
+            [this, decreaseSizeBy50Percent]()
+            { changeSize(decreaseSizeBy50Percent); });
     connect(ui_->actionDecrease25, &QAction::triggered,
-            [this]() { changeSize(.75F); });
+            [this, decreaseSizeBy25Percent]()
+            { changeSize(decreaseSizeBy25Percent); });
     connect(ui_->actionDecrease10, &QAction::triggered,
-            [this]() { changeSize(.90F); });
+            [this, decreaseSizeBy10Percent]()
+            { changeSize(decreaseSizeBy10Percent); });
     connect(ui_->actionIncrease10, &QAction::triggered,
-            [this]() { changeSize(1.1F); });
+            [this, increaseSizeBy10Percent]()
+            { changeSize(increaseSizeBy10Percent); });
     connect(ui_->actionIncrease25, &QAction::triggered,
-            [this]() { changeSize(1.25F); });
+            [this, increaseSizeBy25Percent]()
+            { changeSize(increaseSizeBy25Percent); });
     connect(ui_->actionIncrease50, &QAction::triggered,
-            [this]() { changeSize(1.5F); });
+            [this, increaseSizeBy50Percent]()
+            { changeSize(increaseSizeBy50Percent); });
 }
 
 void MainWindow::setupToolbarPositionActions()

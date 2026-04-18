@@ -17,6 +17,9 @@ const QList<QTouchEvent::TouchPoint>& PanGestureRecognizer::getTouchPoints(
 QGestureRecognizer::Result PanGestureRecognizer::recognize(
     QGesture* state, [[maybe_unused]] QObject* watched, QEvent* event)
 {
+    constexpr int singleTouchPoint{1};
+    constexpr int panTriggerDistance{10};
+
     QGestureRecognizer::Result result{QGestureRecognizer::Ignore};
 
     auto* panGesture{dynamic_cast<QPanGesture*>(state)};
@@ -32,7 +35,7 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(
             const QList<QTouchEvent::TouchPoint>& touchPoints =
                 getTouchPoints(event);
 
-            if (touchPoints.size() == 1)
+            if (touchPoints.size() == singleTouchPoint)
             {
                 result = MayBeGesture;
                 panGesture->setLastOffset(QPointF());
@@ -47,7 +50,7 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(
             const QList<QTouchEvent::TouchPoint>& touchPoints =
                 getTouchPoints(event);
 
-            if (touchPoints.size() == 1)
+            if (touchPoints.size() == singleTouchPoint)
             {
                 panGesture->setLastOffset(panGesture->offset());
 
@@ -55,10 +58,10 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(
                                       touchPoints.first().pressPosition();
                 panGesture->setOffset(resultPoint);
 
-                if (panGesture->offset().x() > 10 ||
-                    panGesture->offset().y() > 10 ||
-                    panGesture->offset().x() < -10 ||
-                    panGesture->offset().y() < -10)
+                if (panGesture->offset().x() > panTriggerDistance ||
+                    panGesture->offset().y() > panTriggerDistance ||
+                    panGesture->offset().x() < -panTriggerDistance ||
+                    panGesture->offset().y() < -panTriggerDistance)
                 {
                     panGesture->setHotSpot(
                         touchPoints.first().globalPressPosition());
@@ -80,7 +83,7 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(
                 const QList<QTouchEvent::TouchPoint>& touchPoints =
                     getTouchPoints(event);
 
-                if (touchPoints.size() == 1)
+                if (touchPoints.size() == singleTouchPoint)
                 {
                     panGesture->setLastOffset(panGesture->offset());
 

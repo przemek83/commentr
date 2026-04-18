@@ -51,7 +51,8 @@ void Config::load()
     tabsPosition_ = static_cast<QTabWidget::TabPosition>(tabPosition);
 
     fieldName = configNames_[CONFIG_UI_SIZE];
-    uiSize_ = settings.value(fieldName, QVariant(defaultUiSize_)).toFloat();
+    constexpr float defaultUiSize{1.0F};
+    uiSize_ = settings.value(fieldName, QVariant(defaultUiSize)).toFloat();
 
     fieldName = configNames_[CONFIG_STYLE];
     style_ = settings.value(fieldName, QVariant("Fusion")).toString();
@@ -95,7 +96,8 @@ void Config::load()
     toolbarArea_ = static_cast<Qt::ToolBarArea>(toolbarPosition);
 
     fieldName = configNames_[CONFIG_FONT_SIZE];
-    setFontSize(settings.value(fieldName, QVariant(defaultFontSize_)).toFloat());
+    constexpr int defaultFontSize{10};
+    setFontSize(settings.value(fieldName, QVariant(defaultFontSize)).toFloat());
 
     fieldName = configNames_[CONFIG_LIST_VIEW_IN_BROWSER];
     listViewInBrowser_ = settings.value(fieldName, QVariant(true)).toBool();

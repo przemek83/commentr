@@ -40,15 +40,17 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
     if (!spellChecker_.active())
         return;
 
+    static constexpr int minSpellcheckWordLength{1};
+
     QString str{line.simplified()};
     QStringList wordsList = str.split(
         QRegularExpression(R"(([^\w,^\\]|(?=\\))+)"), Qt::SkipEmptyParts);
     foreach (QString word, wordsList)
     {
-        if (word.length() > 1 && !word.startsWith('\\') &&
+        if (word.length() > minSpellcheckWordLength && !word.startsWith('\\') &&
             !spellChecker_.checkWord(word))
         {
-            int l{-1};
+            int l{noMatchIndex_};
             int number{0};
             number = line.count(QRegularExpression("\\b" + word + "\\b"));
             for (int j = 0; j < number; ++j)
@@ -81,10 +83,13 @@ void Highlighter::singleLineComment(const QString& text,
 void Highlighter::multiLineComment(const QString& text,
                                    const HighlightingRule& rule)
 {
-    setCurrentBlockState(0);
+    constexpr int noCommentBlockState{0};
+    constexpr int insideCommentBlockState{1};
+
+    setCurrentBlockState(noCommentBlockState);
 
     int startIndex = 0;
-    if (previousBlockState() != 1)
+    if (previousBlockState() != insideCommentBlockState)
     {
         QRegularExpressionMatch match = rule.startPattern_.match(text);
         startIndex = match.capturedStart();
@@ -96,9 +101,9 @@ void Highlighter::multiLineComment(const QString& text,
             rule.endPattern_.match(text, startIndex);
         int endIndex = endMatch.capturedStart();
         int commentLength{0};
-        if (endIndex == -1)
+        if (endIndex == noMatchIndex_)
         {
-            setCurrentBlockState(1);
+            setCurrentBlockState(insideCommentBlockState);
             commentLength = text.length() - startIndex;
         }
         else

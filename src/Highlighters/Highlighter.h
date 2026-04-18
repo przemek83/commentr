@@ -40,6 +40,8 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(Highlighter)
 
+    static constexpr int noMatchIndex_{-1};
+
     QTextCharFormat spellCheckFormat_;
 
     const SpellChecker& spellChecker_;

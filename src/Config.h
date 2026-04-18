@@ -114,9 +114,6 @@ private:
     void setValue(QSettings& settings, ConfigNames name,
                   const QVariant& value) const;
 
-    static constexpr float defaultUiSize_ {1.0F};
-    static constexpr int defaultFontSize_ {10};
-
     QTabWidget::TabPosition tabsPosition_;
 
     QString style_;

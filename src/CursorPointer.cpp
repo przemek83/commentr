@@ -22,16 +22,16 @@ void CursorPointer::paintEvent([[maybe_unused]] QPaintEvent* event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(QPen(Qt::blue));
-    QBrush brush(QColor(0, 0, 255, 150));
+    QBrush brush(QColor(0, 0, pointerColorBlue_, pointerColorAlpha_));
     QPainterPath path;
-    int roundSize = size_ / 6;
-    path.moveTo(0, size_ / 4);
-    path.lineTo(size_ / 2, 0);
-    path.lineTo(size_, size_ / 4);
-    path.lineTo(size_, size_ + size_ / 4 - roundSize);
-    path.lineTo(size_ - roundSize, size_ + size_ / 4);
-    path.lineTo(roundSize, size_ + size_ / 4);
-    path.lineTo(0, size_ + size_ / 4 - roundSize);
+    int roundSize = size_ / roundCornerDivisor_;
+    path.moveTo(0, size_ / pointerTipDivisor_);
+    path.lineTo(size_ / pointerHalfDivisor_, 0);
+    path.lineTo(size_, size_ / pointerTipDivisor_);
+    path.lineTo(size_, size_ + size_ / pointerTipDivisor_ - roundSize);
+    path.lineTo(size_ - roundSize, size_ + size_ / pointerTipDivisor_);
+    path.lineTo(roundSize, size_ + size_ / pointerTipDivisor_);
+    path.lineTo(0, size_ + size_ / pointerTipDivisor_ - roundSize);
     path.closeSubpath();
     painter.fillPath(path, brush);
 }
@@ -45,7 +45,7 @@ void CursorPointer::mousePressEvent(QMouseEvent* event)
 
 QPoint CursorPointer::calculateOffset(QMouseEvent* event)
 {
-    return QPoint(size_ / 2, event->pos().y());
+    return QPoint(size_ / pointerHalfDivisor_, event->pos().y());
 }
 
 void CursorPointer::mouseMoveEvent(QMouseEvent* event)
@@ -81,7 +81,7 @@ void CursorPointer::changeEvent(QEvent* event)
 void CursorPointer::updateSize()
 {
     size_ = config_.uiSize();
-    resize(size_, size_ + size_ / 4);
+    resize(size_, size_ + size_ / pointerTipDivisor_);
 }
 
 bool CursorPointer::dragged() const { return dragged_; }

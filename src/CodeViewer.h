@@ -120,6 +120,10 @@ private:
 
     Config& config_;
 
+    static constexpr int currentLineLightness_ {160};
+    static constexpr int lineNumberPadding_ {3};
+    static constexpr double rightGuideColumn_ {80.0};
+
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
 

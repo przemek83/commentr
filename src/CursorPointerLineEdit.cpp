@@ -5,7 +5,6 @@
 CursorPointerLineEdit::CursorPointerLineEdit(int addLeftMargin, Config& config,
                                              QWidget* parent)
     : CursorPointer(config, parent),
-      margin_(2),
       scrollingNeeded_(false),
       addLeftMargin_(addLeftMargin)
 {
@@ -18,7 +17,7 @@ QPoint CursorPointerLineEdit::calcMovePoint(QPoint mousePos)
     if (range_.height() == 0)
         movePoint.setY(range_.y());
 
-    int baseLeftBoundary{range_.x() - size_ / 2};
+    int baseLeftBoundary{range_.x() - size_ / pointerHalfDivisor_};
     if (movePoint.x() > range_.width() + baseLeftBoundary)
         movePoint.setX(range_.width() + baseLeftBoundary);
 
@@ -40,14 +39,15 @@ void CursorPointerLineEdit::positionChanged(QMouseEvent* event)
         const QPoint movePoint{calcMovePoint(event->pos())};
 
         move(movePoint.x(), movePoint.y());
-        emit pointerMoved(QPoint(
-            movePoint.x() + size_ / 2 - range_.x() - margin_, movePoint.y()));
+        emit pointerMoved(QPoint(movePoint.x() + size_ / pointerHalfDivisor_ -
+                                     range_.x() - pointerMargin_,
+                                 movePoint.y()));
     }
 }
 
 void CursorPointerLineEdit::moveVisualPointer(int x, int y)
 {
-    move(x - size_ / 2 - margin_, y);
+    move(x - size_ / pointerHalfDivisor_ - pointerMargin_, y);
 }
 
 void CursorPointerLineEdit::setScrollingNeeded(bool scrollingNeeded)

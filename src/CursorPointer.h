@@ -49,6 +49,12 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(CursorPointer)
 
+    static constexpr int pointerColorBlue_ {255};
+    static constexpr int pointerColorAlpha_ {150};
+    static constexpr int roundCornerDivisor_ {6};
+    static constexpr int pointerTipDivisor_ {4};
+    static constexpr int pointerHalfDivisor_ {2};
+
     void updateSize();
 
     bool dragged_;

@@ -31,6 +31,8 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(CursorPointerSelector)
 
+    static constexpr int pointerBodyDivisor_ {4};
+
     CursorDirection diretion_;
 };
 

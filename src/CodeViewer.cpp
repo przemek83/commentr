@@ -435,13 +435,12 @@ void CodeViewer::zoom(int zoomFactor)
 
 int CodeViewer::lineNumberAreaWidth() const
 {
-    int digits = QString::number(::qMax(1, blockCount())).length();
+    const int digits =
+        static_cast<int>(QString::number(::qMax(1, blockCount())).length());
     constexpr int lineNumberPadding{3};
-    int space =
-        lineNumberPadding + QFontMetricsF(QGuiApplication::font())
-                                    .horizontalAdvance(QLatin1Char('9')) *
-                                digits;
-    return space;
+    const double digitWidth{QFontMetricsF(QGuiApplication::font())
+                                .horizontalAdvance(QLatin1Char('9'))};
+    return lineNumberPadding + static_cast<int>(digitWidth * digits);
 }
 
 void CodeViewer::updateLineNumberAreaWidth([[maybe_unused]] int newBlockCount)

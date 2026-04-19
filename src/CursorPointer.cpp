@@ -26,18 +26,26 @@ void CursorPointer::paintEvent([[maybe_unused]] QPaintEvent* event)
     constexpr int pointerColorBlue{255};
     constexpr int pointerColorAlpha{150};
     QBrush brush(QColor(0, 0, pointerColorBlue, pointerColorAlpha));
+    QPainterPath path{createPath()};
+    painter.fillPath(path, brush);
+}
+
+QPainterPath CursorPointer::createPath() const
+{
     QPainterPath path;
     constexpr int roundCornerDivisor{6};
-    int roundSize = size_ / roundCornerDivisor;
-    path.moveTo(0, size_ / pointerTipDivisor_);
-    path.lineTo(size_ / pointerHalfDivisor_, 0);
-    path.lineTo(size_, size_ / pointerTipDivisor_);
-    path.lineTo(size_, size_ + size_ / pointerTipDivisor_ - roundSize);
-    path.lineTo(size_ - roundSize, size_ + size_ / pointerTipDivisor_);
-    path.lineTo(roundSize, size_ + size_ / pointerTipDivisor_);
-    path.lineTo(0, size_ + size_ / pointerTipDivisor_ - roundSize);
+    const int roundSize = size_ / roundCornerDivisor;
+    const auto size{static_cast<double>(size_)};
+    const float quarterOfSize{static_cast<float>(size / pointerTipDivisor_)};
+    path.moveTo(0, quarterOfSize);
+    path.lineTo(size / pointerHalfDivisor_, 0);
+    path.lineTo(size, quarterOfSize);
+    path.lineTo(size, size + quarterOfSize - roundSize);
+    path.lineTo(size - roundSize, size + quarterOfSize);
+    path.lineTo(roundSize, size + quarterOfSize);
+    path.lineTo(0, size + quarterOfSize - roundSize);
     path.closeSubpath();
-    painter.fillPath(path, brush);
+    return path;
 }
 
 void CursorPointer::mousePressEvent(QMouseEvent* event)
@@ -84,7 +92,7 @@ void CursorPointer::changeEvent(QEvent* event)
 
 void CursorPointer::updateSize()
 {
-    size_ = config_.uiSize();
+    size_ = static_cast<int>(config_.uiSize());
     resize(size_, size_ + size_ / pointerTipDivisor_);
 }
 

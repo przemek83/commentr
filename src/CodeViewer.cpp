@@ -435,7 +435,7 @@ void CodeViewer::zoom(int zoomFactor)
 
 int CodeViewer::lineNumberAreaWidth() const
 {
-    const int digits =
+    const auto digits =
         static_cast<int>(QString::number(::qMax(1, blockCount())).length());
     constexpr int lineNumberPadding{3};
     const double digitWidth{QFontMetricsF(QGuiApplication::font())

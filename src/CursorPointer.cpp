@@ -40,10 +40,10 @@ QPainterPath CursorPointer::createPath() const
     path.moveTo(0, quarterOfSize);
     path.lineTo(size / pointerHalfDivisor_, 0);
     path.lineTo(size, quarterOfSize);
-    path.lineTo(size, size + quarterOfSize - roundSize);
+    path.lineTo(size, (size + quarterOfSize) - roundSize);
     path.lineTo(size - roundSize, size + quarterOfSize);
     path.lineTo(roundSize, size + quarterOfSize);
-    path.lineTo(0, size + quarterOfSize - roundSize);
+    path.lineTo(0, (size + quarterOfSize) - roundSize);
     path.closeSubpath();
     return path;
 }
@@ -93,7 +93,7 @@ void CursorPointer::changeEvent(QEvent* event)
 void CursorPointer::updateSize()
 {
     size_ = static_cast<int>(config_.uiSize());
-    resize(size_, size_ + size_ / pointerTipDivisor_);
+    resize(size_, size_ + (size_ / pointerTipDivisor_));
 }
 
 bool CursorPointer::dragged() const { return dragged_; }

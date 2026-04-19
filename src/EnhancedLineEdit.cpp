@@ -7,14 +7,10 @@
 #include "CursorPointerLineEdit.h"
 
 EnhancedLineEdit::EnhancedLineEdit(Config& config, QWidget* parent)
-    : QLineEdit(parent),
-      leftTextMargin_(5),
-      rightTextMargin_(10),
-      builtInTextMargin_(4),
-      config_(config)
+    : QLineEdit(parent), config_(config)
 {
-    cursorPointer_ =
-        new CursorPointerLineEdit(leftTextMargin_ + 6, config_, parent);
+    cursorPointer_ = new CursorPointerLineEdit(
+        leftTextMargin_ + pointerHorizontalAdjustment_, config_, parent);
 
     mainWindow_ = getMainWindow();
 
@@ -31,7 +27,8 @@ EnhancedLineEdit::EnhancedLineEdit(Config& config, QWidget* parent)
 
     QSizePolicy sizePolicy;
     sizePolicy.setHorizontalPolicy(QSizePolicy::MinimumExpanding);
-    sizePolicy.setHorizontalStretch(255);
+    constexpr int maxHorizontalStretch{255};
+    sizePolicy.setHorizontalStretch(maxHorizontalStretch);
     setSizePolicy(sizePolicy);
 }
 
@@ -94,10 +91,13 @@ void EnhancedLineEdit::resetPointerRange()
         textWidth + leftTextMargin_ + rightTextMargin_ + 2 * builtInTextMargin_;
     bool scrollingNeeded = (textPlusMarginsWidth > width());
 
-    // Create rectangle for lineedit input. use  leftTextMargin_  + 6 px
-    // because of text margins.
-    QRect rect(newPosition.x(), newPosition.y(),
-               ::qMin(textWidth + leftTextMargin_ + 6, width()), 0);
+    // Create rectangle for line edit input. Use left margin + pointer
+    // adjustment because of text margins.
+    QRect rect(
+        newPosition.x(), newPosition.y(),
+        ::qMin(textWidth + leftTextMargin_ + pointerHorizontalAdjustment_,
+               width()),
+        0);
 
     cursorPointer_->setRange(rect);
     cursorPointer_->setScrollingNeeded(scrollingNeeded);
@@ -117,8 +117,9 @@ QPoint EnhancedLineEdit::getPositionForVisualPointer() const
     // Width of Application frame (desktops).
     int frameWidth = (mainFrameGeometry.width() - mainGeometry.width()) / 2;
 
-    // Calculate new position of visual pointer. Sub 1 px to match cursor pos.
-    int newX = lineEditPosInMain.x() - frameWidth - 1;
+    // Calculate new position of visual pointer.
+    constexpr int visualPointerXCorrection{1};
+    int newX = lineEditPosInMain.x() - frameWidth - visualPointerXCorrection;
     int newY = lineEditPosInMain.y() + shiftY + height();
 
     return QPoint(newX, newY);

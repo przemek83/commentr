@@ -38,14 +38,16 @@ private:
 
     void resetPointerRange();
 
-    int leftTextMargin_;
-
-    int rightTextMargin_;
-
-    /// Magic number built in Qt impacting text position.
-    int builtInTextMargin_;
-
     void updateMarginSize();
+
+    static constexpr int leftTextMargin_{5};
+
+    int rightTextMargin_{10};
+
+    /// Magic number built into Qt impacting text position.
+    static constexpr int builtInTextMargin_{4};
+
+    static constexpr int pointerHorizontalAdjustment_{6};
 
     Config& config_;
 

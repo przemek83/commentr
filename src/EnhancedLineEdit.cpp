@@ -157,7 +157,8 @@ void EnhancedLineEdit::changeEvent(QEvent* event)
 
 void EnhancedLineEdit::updateMarginSize()
 {
-    rightTextMargin_ = config_.uiSize() / 2;
+    static constexpr int halfDivisor{2};
+    rightTextMargin_ = static_cast<int>(config_.uiSize() / halfDivisor);
 
     // Add margins to enable scrolling.
     setTextMargins(leftTextMargin_, 0, rightTextMargin_, 0);

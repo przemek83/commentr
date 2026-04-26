@@ -17,8 +17,8 @@ QPoint CursorPointerLineEdit::calcMovePoint(QPoint mousePos)
     if (range_.height() == 0)
         movePoint.setY(range_.y());
 
-    int baseLeftBoundary{range_.x() - size_ / pointerHalfDivisor_};
-    if (movePoint.x() > range_.width() + baseLeftBoundary)
+    int baseLeftBoundary{range_.x() - (size_ / pointerHalfDivisor_)};
+    if (movePoint.x() > (range_.width() + baseLeftBoundary))
         movePoint.setX(range_.width() + baseLeftBoundary);
 
     // Margins added to able to scroll.
@@ -39,7 +39,7 @@ void CursorPointerLineEdit::positionChanged(QMouseEvent* event)
         const QPoint movePoint{calcMovePoint(event->pos())};
 
         move(movePoint.x(), movePoint.y());
-        emit pointerMoved(QPoint(movePoint.x() + size_ / pointerHalfDivisor_ -
+        emit pointerMoved(QPoint(movePoint.x() + (size_ / pointerHalfDivisor_) -
                                      range_.x() - pointerMargin_,
                                  movePoint.y()));
     }
@@ -47,7 +47,7 @@ void CursorPointerLineEdit::positionChanged(QMouseEvent* event)
 
 void CursorPointerLineEdit::moveVisualPointer(int x, int y)
 {
-    move(x - size_ / pointerHalfDivisor_ - pointerMargin_, y);
+    move(x - (size_ / pointerHalfDivisor_) - pointerMargin_, y);
 }
 
 void CursorPointerLineEdit::setScrollingNeeded(bool scrollingNeeded)

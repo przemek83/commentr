@@ -87,8 +87,8 @@ void EnhancedLineEdit::resetPointerRange()
     QPoint newPosition = getPositionForVisualPointer();
     int textWidth =
         QFontMetricsF(QGuiApplication::font()).horizontalAdvance(text());
-    int textPlusMarginsWidth =
-        textWidth + leftTextMargin_ + rightTextMargin_ + 2 * builtInTextMargin_;
+    int textPlusMarginsWidth = textWidth + leftTextMargin_ + rightTextMargin_ +
+                               (2 * builtInTextMargin_);
     bool scrollingNeeded = (textPlusMarginsWidth > width());
 
     // Create rectangle for line edit input. Use left margin + pointer

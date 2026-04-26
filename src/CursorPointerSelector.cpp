@@ -9,7 +9,7 @@ CursorPointerSelector::CursorPointerSelector(CursorDirection direction,
                                              Config& config, QWidget* parent)
     : CursorPointerTextEdit(config, parent), diretion_{direction}
 {
-    resize(size_, size_ + size_ / pointerBodyDivisor_);
+    resize(size_, size_ + (size_ / pointerBodyDivisor_));
 }
 
 void CursorPointerSelector::paintEvent([[maybe_unused]] QPaintEvent* event)
@@ -27,17 +27,17 @@ void CursorPointerSelector::paintEvent([[maybe_unused]] QPaintEvent* event)
     {
         path.moveTo(0, 0);
         path.lineTo(size_, size_ / pointerBodyDivisor_);
-        path.lineTo(size_, size_ + size_ / pointerBodyDivisor_ - roundSize);
-        path.lineTo(size_ - roundSize, size_ + size_ / pointerBodyDivisor_);
-        path.lineTo(0, size_ + size_ / pointerBodyDivisor_);
+        path.lineTo(size_, size_ + (size_ / pointerBodyDivisor_) - roundSize);
+        path.lineTo(size_ - roundSize, size_ + (size_ / pointerBodyDivisor_));
+        path.lineTo(0, size_ + (size_ / pointerBodyDivisor_));
     }
     else
     {
         path.moveTo(0, size_ / pointerBodyDivisor_);
         path.lineTo(size_, 0);
-        path.lineTo(size_, size_ + size_ / pointerBodyDivisor_);
-        path.lineTo(roundSize, size_ + size_ / pointerBodyDivisor_);
-        path.lineTo(0, size_ + size_ / pointerBodyDivisor_ - roundSize);
+        path.lineTo(size_, size_ + (size_ / pointerBodyDivisor_));
+        path.lineTo(roundSize, size_ + (size_ / pointerBodyDivisor_));
+        path.lineTo(0, size_ + (size_ / pointerBodyDivisor_) - roundSize);
     }
     path.closeSubpath();
     painter.fillPath(path, brush);

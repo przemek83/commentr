@@ -108,7 +108,7 @@ void Highlighter::multiLineComment(const QString& text,
         }
         else
         {
-            commentLength = endIndex - startIndex + endMatch.capturedLength();
+            commentLength = (endIndex - startIndex) + endMatch.capturedLength();
         }
 
         setFormat(startIndex, commentLength, rule.format_);

@@ -61,7 +61,7 @@ private:
 
     void rebuildToolbar();
 
-    void changeModeForCurrentTab(EditorTabPage::EditorMode mode);
+    void changeModeForCurrentTab(EditorTabPage::EditorMode mode) const;
 
     void setProperLangActionForMode(EditorTabPage::EditorMode mode);
 
@@ -92,21 +92,21 @@ private:
 private slots:
     void saveFile();
 
-    void search();
+    void search() const;
 
-    void zoomIn();
+    void zoomIn() const;
 
-    void zoomOut();
+    void zoomOut() const;
 
-    void undo();
+    void undo() const;
 
-    void redo();
+    void redo() const;
 
     void copy();
 
     void cut();
 
-    void paste();
+    void paste() const;
 
     void toolbarFileOperations(bool checked);
 
@@ -132,7 +132,7 @@ private slots:
 
     void showQtLicense();
 
-    void showHidenKeyboard();
+    void showHidenKeyboard() const;
 
     void toolbarKeyboardActivated(bool checked);
 

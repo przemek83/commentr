@@ -72,7 +72,7 @@ public:
     const QStringList& getRecentFiles() const;
     void addFilePathToRecentFiles(const QString& filePath);
 
-    void save();
+    void save() const;
 
 private:
     Q_DISABLE_COPY(Config)

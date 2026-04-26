@@ -529,7 +529,7 @@ void MainWindow::rebuildToolbar()
     }
 }
 
-void MainWindow::search()
+void MainWindow::search() const
 {
     EditorTabPage* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -538,7 +538,7 @@ void MainWindow::search()
         currentTab->flipFindVisibility();
 }
 
-void MainWindow::zoomIn()
+void MainWindow::zoomIn() const
 {
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -547,7 +547,7 @@ void MainWindow::zoomIn()
         currentTab->zoom(true);
 }
 
-void MainWindow::zoomOut()
+void MainWindow::zoomOut() const
 {
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -587,7 +587,7 @@ void MainWindow::currentTabPageChanged(int index)
     ui_->menuLanguage_mode->setEnabled(false);
 }
 
-void MainWindow::undo()
+void MainWindow::undo() const
 {
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -596,7 +596,7 @@ void MainWindow::undo()
         currentTab->undo();
 }
 
-void MainWindow::redo()
+void MainWindow::redo() const
 {
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -642,7 +642,7 @@ void MainWindow::cut()
     }
 }
 
-void MainWindow::paste()
+void MainWindow::paste() const
 {
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -874,7 +874,7 @@ void MainWindow::showToolbar(bool checked)
     ui_->mainToolBar->setVisible(checked);
 }
 
-void MainWindow::changeModeForCurrentTab(EditorTabPage::EditorMode mode)
+void MainWindow::changeModeForCurrentTab(EditorTabPage::EditorMode mode) const
 {
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -982,7 +982,7 @@ void MainWindow::showQtLicense()
     createNewTab(file);
 }
 
-void MainWindow::showHidenKeyboard()
+void MainWindow::showHidenKeyboard() const
 {
     if (ui_->stackedWidget->currentIndex() != PAGE_MAIN)
         return;

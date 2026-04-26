@@ -12,7 +12,7 @@
 
 Config::Config() { load(); }
 
-void Config::save()
+void Config::save() const
 {
     QSettings settings;
     setValue(settings, CONFIG_TABS_POSITION, static_cast<int>(tabsPosition_));

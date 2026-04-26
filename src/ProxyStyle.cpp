@@ -47,8 +47,8 @@ int ProxyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option,
                                    (metric == PM_IndicatorHeight)};
 
     if (isToolBarExtent || isCheckBoxIndicator ||
-        metric == PM_ListViewIconSize || metric == PM_ToolBarIconSize ||
-        metric == PM_ButtonIconSize)
+        (metric == PM_ListViewIconSize) || (metric == PM_ToolBarIconSize) ||
+        (metric == PM_ButtonIconSize))
         return adjustSize(pixelMetric);
 
     return pixelMetric;

@@ -23,7 +23,7 @@ void placeSamples()
     for (const auto& path : potentialPaths)
     {
         const QFileInfo currentPath(path);
-        if (currentPath.isDir() && !currentPath.isWritable())
+        if (currentPath.isDir() && (!currentPath.isWritable()))
             continue;
 
         const QDir allSamples(samplesPath);

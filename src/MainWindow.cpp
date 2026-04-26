@@ -1007,7 +1007,7 @@ void MainWindow::focusHasChanged([[maybe_unused]] QWidget* old, QWidget* now)
 {
     auto* codeViewer{dynamic_cast<CodeViewer*>(now)};
     auto* lineEdit{dynamic_cast<QLineEdit*>(now)};
-    bool keyboardFocusWidget{lineEdit != nullptr || codeViewer != nullptr};
+    bool keyboardFocusWidget{(lineEdit != nullptr) || (codeViewer != nullptr)};
     ui_->actionShow_hide_keyboard->setEnabled(keyboardFocusWidget);
 }
 

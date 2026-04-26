@@ -58,10 +58,10 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(
                                       touchPoints.first().pressPosition();
                 panGesture->setOffset(resultPoint);
 
-                if (panGesture->offset().x() > panTriggerDistance ||
-                    panGesture->offset().y() > panTriggerDistance ||
-                    panGesture->offset().x() < -panTriggerDistance ||
-                    panGesture->offset().y() < -panTriggerDistance)
+                if ((panGesture->offset().x() > panTriggerDistance) ||
+                    (panGesture->offset().y() > panTriggerDistance) ||
+                    (panGesture->offset().x() < -panTriggerDistance) ||
+                    (panGesture->offset().y() < -panTriggerDistance))
                 {
                     panGesture->setHotSpot(
                         touchPoints.first().globalPressPosition());

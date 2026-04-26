@@ -287,8 +287,9 @@ EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
     if (suffix == "java")
         mode = EditorTabPage::EditorMode::JAVA;
 
-    if (suffix == "c" || suffix == "cpp" || suffix == "h" || suffix == "hpp" ||
-        suffix == "cc" || suffix == "cxx" || suffix == "c++" || suffix == "moc")
+    if ((suffix == "c") || (suffix == "cpp") || (suffix == "h") ||
+        (suffix == "hpp") || (suffix == "cc") || (suffix == "cxx") ||
+        (suffix == "c++") || (suffix == "moc"))
         mode = EditorTabPage::EditorMode::C_CPP;
 
     if (suffix == "m")
@@ -300,7 +301,7 @@ EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
     if (suffix == "php")
         mode = EditorTabPage::EditorMode::PHP;
 
-    if (suffix == "bas" || suffix == "cls" || suffix == "vb")
+    if ((suffix == "bas") || (suffix == "cls") || (suffix == "vb"))
         mode = EditorTabPage::EditorMode::VISUAL_BASIC;
 
     if (suffix == "py")

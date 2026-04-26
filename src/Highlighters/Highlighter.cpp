@@ -47,8 +47,8 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
         QRegularExpression(R"(([^\w,^\\]|(?=\\))+)"), Qt::SkipEmptyParts);
     foreach (QString word, wordsList)
     {
-        if (word.length() > minSpellcheckWordLength && !word.startsWith('\\') &&
-            !spellChecker_.checkWord(word))
+        if ((word.length() > minSpellcheckWordLength) &&
+            (!word.startsWith('\\')) && (!spellChecker_.checkWord(word)))
         {
             int l{noMatchIndex_};
             int number{0};

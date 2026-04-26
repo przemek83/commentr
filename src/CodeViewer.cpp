@@ -380,8 +380,8 @@ void CodeViewer::moveVisualPointer(CursorPointer* cursorPointer)
 
 void CodeViewer::hideAllPointersIfNotDragged()
 {
-    if (!cursorPointer_->dragged() && !cursorSelector_->dragged() &&
-        !anchorSelector_->dragged())
+    if ((!cursorPointer_->dragged()) && (!cursorSelector_->dragged()) &&
+        (!anchorSelector_->dragged()))
         hideAllCursorPointers();
 }
 
@@ -494,9 +494,9 @@ void CodeViewer::lineNumberAreaPaintEvent(QPaintEvent* event)
         blockBoundingGeometry(block).translated(contentOffset()).top());
     int bottom = top + ::qRound(blockBoundingRect(block).height());
 
-    while (block.isValid() && top <= event->rect().bottom())
+    while (block.isValid() && (top <= event->rect().bottom()))
     {
-        if (block.isVisible() && bottom >= event->rect().top())
+        if (block.isVisible() && (bottom >= event->rect().top()))
         {
             QString number = QString::number(blockNumber + 1);
             painter.setPen(Qt::black);
@@ -528,7 +528,7 @@ void CodeViewer::paintEvent(QPaintEvent* event)
 void CodeViewer::keyPressEvent(QKeyEvent* e)
 {
     int key = e->key();
-    if (Qt::Key_Return == key || Qt::Key_Enter == key)
+    if ((Qt::Key_Return == key) || (Qt::Key_Enter == key))
     {
         QString line = textCursor().block().text();
 

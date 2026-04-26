@@ -45,7 +45,7 @@ bool EnhancedLineEdit::event(QEvent* event)
 
 void EnhancedLineEdit::mouseReleaseEvent(QMouseEvent* e)
 {
-    if (!text().isEmpty() && !isReadOnly())
+    if ((!text().isEmpty()) && (!isReadOnly()))
     {
         cursorPointer_->show();
         cursorPointer_->raise();

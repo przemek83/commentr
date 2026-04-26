@@ -255,7 +255,7 @@ void CodeViewer::focusInEvent(QFocusEvent* e)
     QPlainTextEdit::focusInEvent(e);
 }
 
-void CodeViewer::managePinchGesture(QPinchGesture* gesture)
+void CodeViewer::managePinchGesture(const QPinchGesture* gesture)
 {
     switch (gesture->state())
     {
@@ -288,7 +288,7 @@ void CodeViewer::managePinchGesture(QPinchGesture* gesture)
     }
 }
 
-void CodeViewer::manageTapGesture(QTapGesture* gesture)
+void CodeViewer::manageTapGesture(const QTapGesture* gesture)
 {
     if (Qt::GestureFinished == gesture->state())
     {
@@ -308,7 +308,7 @@ void CodeViewer::manageTapGesture(QTapGesture* gesture)
     }
 }
 
-bool CodeViewer::manageTapAndHoldGesture(QTapAndHoldGesture* gesture)
+bool CodeViewer::manageTapAndHoldGesture(const QTapAndHoldGesture* gesture)
 {
     if (Qt::GestureFinished == gesture->state())
     {
@@ -478,7 +478,7 @@ void CodeViewer::resizeEvent(QResizeEvent* e)
     updateVisualPointersPositions();
 }
 
-void CodeViewer::lineNumberAreaPaintEvent(QPaintEvent* event)
+void CodeViewer::lineNumberAreaPaintEvent(const QPaintEvent* event)
 {
 // Disable temporarily line number area on Android.
 #ifdef Q_OS_ANDROID

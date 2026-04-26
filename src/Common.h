@@ -11,7 +11,7 @@ class Common
 public:
     static QString loadFile(QString name);
 
-    static QString saveFile(QString fileName, QString& data);
+    static QString saveFile(QString fileName, const QString& data);
 
     static QString getStyleSheet();
 

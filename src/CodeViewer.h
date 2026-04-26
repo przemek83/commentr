@@ -50,7 +50,7 @@ private:
 
     int lineNumberAreaWidth() const;
 
-    void lineNumberAreaPaintEvent(QPaintEvent* event);
+    void lineNumberAreaPaintEvent(const QPaintEvent* event);
 
     // Visual cursor.
     CursorPointerTextEdit* cursorPointer_{nullptr};
@@ -88,11 +88,11 @@ private:
 
     QWidget* mainWindow_;
 
-    void managePinchGesture(QPinchGesture* gesture);
+    void managePinchGesture(const QPinchGesture* gesture);
 
-    void manageTapGesture(QTapGesture* gesture);
+    void manageTapGesture(const QTapGesture* gesture);
 
-    bool manageTapAndHoldGesture(QTapAndHoldGesture* gesture);
+    bool manageTapAndHoldGesture(const QTapAndHoldGesture* gesture);
 
     QPoint positionShiftMain() const;
 

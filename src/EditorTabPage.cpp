@@ -207,7 +207,7 @@ void EditorTabPage::setLineWrap(bool wrap)
         codeViewer_->setLineWrapMode(QPlainTextEdit::NoWrap);
 }
 
-void EditorTabPage::changeFile(File* file)
+void EditorTabPage::changeFile(const File* file)
 {
     file_->setSource(file->source());
     file_->setPath(file->path());

@@ -33,7 +33,7 @@ QString Common::loadFile(QString name)
     return stream.readAll();
 }
 
-QString Common::saveFile(QString fileName, QString& data)
+QString Common::saveFile(QString fileName, const QString& data)
 {
     QFile file(fileName);
 

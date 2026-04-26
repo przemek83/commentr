@@ -108,7 +108,7 @@ void MainWindow::initMenus()
     ui_->actionShowToolbar->setChecked(config_.showToolbar());
 }
 
-void MainWindow::setupRecentFiles(Config& config)
+void MainWindow::setupRecentFiles(const Config& config)
 {
     QMenu* recentMenu{ui_->menuRecent_files};
     recentMenu->clear();

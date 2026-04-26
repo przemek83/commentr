@@ -62,7 +62,7 @@ public:
 
     /// @brief change path, base name and suffix of current File object.
     /// @param file file object.
-    void changeFile(File* file);
+    void changeFile(const File* file);
 
     QString getCurrentText() const;
 

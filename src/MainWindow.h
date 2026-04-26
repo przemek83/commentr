@@ -55,7 +55,7 @@ private:
 
     void setupLanguageActionsMenu();
 
-    void setupRecentFiles(Config& config);
+    void setupRecentFiles(const Config& config);
 
     void setupStyles(const Config& config);
 

@@ -344,33 +344,32 @@ void MainWindow::saveFileFromTab(File* file)
 
 void MainWindow::openRecentFile()
 {
-    QAction* action{::qobject_cast<QAction*>(sender())};
-    if (action != nullptr)
+    const auto* action{::qobject_cast<QAction*>(sender())};
+    if (action == nullptr)
+        return;
+
+    const QString filePath{action->data().toString()};
+
+    QFileInfo fileInfo(filePath);
+
+    if (!fileInfo.exists())
     {
-        QString filePath = action->data().toString();
-
-        QFileInfo fileInfo(filePath);
-
-        if (!fileInfo.exists())
-        {
-            showStatusMsg("File " + filePath + " not found.");
-            return;
-        }
-
-        if (!fileInfo.isReadable())
-        {
-            showStatusMsg("File " + filePath + " not readable.");
-            return;
-        }
-
-        File* file{new File(Common::Source::LOCAL,
-                            File::filePathToPath(filePath),
-                            File::filePathToBaseName(filePath),
-                            File::filePathToSuffix(filePath),
-                            new QString(Common::loadFile(filePath)))};
-
-        createNewTab(file);
+        showStatusMsg("File " + filePath + " not found.");
+        return;
     }
+
+    if (!fileInfo.isReadable())
+    {
+        showStatusMsg("File " + filePath + " not readable.");
+        return;
+    }
+
+    File* file{new File(Common::Source::LOCAL, File::filePathToPath(filePath),
+                        File::filePathToBaseName(filePath),
+                        File::filePathToSuffix(filePath),
+                        new QString(Common::loadFile(filePath)))};
+
+    createNewTab(file);
 }
 
 void MainWindow::connectActions()
@@ -472,18 +471,18 @@ void MainWindow::closeCurrentTab()
 
 void MainWindow::qtStylePicked()
 {
-    QAction* action{dynamic_cast<QAction*>(sender())};
-    if (action != nullptr)
-    {
-        QString style{action->text()};
-        QWidget* focusWidget{QApplication::focusWidget()};
-        if (focusWidget != nullptr)
-            focusWidget->clearFocus();
+    const auto* action{dynamic_cast<QAction*>(sender())};
+    if (action == nullptr)
+        return;
 
-        config_.setStyle(style);
-        qApp->setStyleSheet(QString());
-        QApplication::setStyle(new ProxyStyle(style, config_.uiSize()));
-    }
+    QString style{action->text()};
+    QWidget* focusWidget{QApplication::focusWidget()};
+    if (focusWidget != nullptr)
+        focusWidget->clearFocus();
+
+    config_.setStyle(style);
+    qApp->setStyleSheet(QString());
+    QApplication::setStyle(new ProxyStyle(style, config_.uiSize()));
 }
 
 void MainWindow::rebuildToolbar()
@@ -563,7 +562,7 @@ void MainWindow::currentTabPageChanged(int index)
 
     if (index != -1)
     {
-        auto* currentTab{
+        const auto* currentTab{
             dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
         if (currentTab != nullptr)
@@ -1005,8 +1004,8 @@ void MainWindow::setAvailableFunctionalities(bool visible)
 
 void MainWindow::focusHasChanged([[maybe_unused]] QWidget* old, QWidget* now)
 {
-    auto* codeViewer{dynamic_cast<CodeViewer*>(now)};
-    auto* lineEdit{dynamic_cast<QLineEdit*>(now)};
+    const auto* codeViewer{dynamic_cast<CodeViewer*>(now)};
+    const auto* lineEdit{dynamic_cast<QLineEdit*>(now)};
     bool keyboardFocusWidget{(lineEdit != nullptr) || (codeViewer != nullptr)};
     ui_->actionShow_hide_keyboard->setEnabled(keyboardFocusWidget);
 }

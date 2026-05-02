@@ -101,7 +101,7 @@ void Highlighter::multiLineComment(const QString& text,
     {
         QRegularExpressionMatch endMatch =
             rule.endPattern_.match(text, startIndex);
-        int endIndex = static_cast<int>(endMatch.capturedStart());
+        auto endIndex = static_cast<int>(endMatch.capturedStart());
         int commentLength{0};
         if (endIndex == noMatchIndex_)
         {

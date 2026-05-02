@@ -739,7 +739,7 @@ void MainWindow::setupToolbarPositionActions()
             [this]() { changeToolbarPosition(Qt::RightToolBarArea); });
 }
 
-void MainWindow::setupEditorModeActions()
+void MainWindow::setupEditorModeActions() const
 {
     connect(ui_->actionLangC_Cpp, &QAction::triggered, [this]()
             { changeModeForCurrentTab(EditorTabPage::EditorMode::C_CPP); });

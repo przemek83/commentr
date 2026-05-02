@@ -520,8 +520,8 @@ void CodeViewer::paintEvent(QPaintEvent* event)
     constexpr double rightGuideColumn{80.0};
     const double sizeOf80Chars{QFontMetricsF(font).averageCharWidth() *
                                rightGuideColumn};
-    int x80{static_cast<int>(::qRound(sizeOf80Chars + contentOffset().x() +
-                                      document()->documentMargin()))};
+    int x80{::qRound(sizeOf80Chars + contentOffset().x() +
+                     document()->documentMargin())};
     QPainter painter(viewport());
     painter.setPen(QPen("gray"));
     painter.drawLine(x80, rect.top(), x80, rect.bottom());

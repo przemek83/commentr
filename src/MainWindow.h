@@ -79,7 +79,7 @@ private:
 
     void setupToolbarPositionActions();
 
-    void setupEditorModeActions();
+    void setupEditorModeActions() const;
 
     std::unique_ptr<Ui::MainWindow> ui_;
 

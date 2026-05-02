@@ -40,7 +40,7 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config,
     codeViewer_->setPlainText(*(file->content()));
     file->clearContent();
 
-    QStyle* style = QApplication::style();
+    const QStyle* style{QApplication::style()};
     ui_->next->setIcon(style->standardIcon(QStyle::SP_ArrowRight));
     ui_->prev->setIcon(style->standardIcon(QStyle::SP_ArrowLeft));
     ui_->close->setIcon(style->standardIcon(QStyle::SP_DialogCloseButton));

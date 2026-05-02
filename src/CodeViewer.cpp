@@ -129,8 +129,8 @@ bool CodeViewer::event(QEvent* event)
 {
     if (event->type() == QEvent::Gesture)
     {
-        auto* gestureEvent{dynamic_cast<QGestureEvent*>(event)};
-        QList<QGesture*> gestures = gestureEvent->gestures();
+        const auto* gestureEvent{dynamic_cast<QGestureEvent*>(event)};
+        QList<QGesture*> gestures{gestureEvent->gestures()};
 
         foreach (QGesture* gesture, gestures)
         {
@@ -152,7 +152,7 @@ bool CodeViewer::event(QEvent* event)
                 {
                     if (Qt::GestureFinished == gesture->state())
                     {
-                        auto* tapAndHoldGesture{
+                        const auto* tapAndHoldGesture{
                             dynamic_cast<QTapAndHoldGesture*>(gesture)};
 
                         if (manageTapAndHoldGesture(tapAndHoldGesture))
@@ -183,17 +183,18 @@ bool CodeViewer::event(QEvent* event)
 
 void CodeViewer::pointerMoved(QPoint pos)
 {
-    auto* senderCursorPointer{dynamic_cast<CursorPointerTextEdit*>(sender())};
+    const auto* senderCursorPointer{
+        dynamic_cast<CursorPointerTextEdit*>(sender())};
 
     if (senderCursorPointer == cursorPointer_)
     {
-        QTextCursor cursor = cursorForPosition(pos - positionShiftMain());
+        QTextCursor cursor{cursorForPosition(pos - positionShiftMain())};
         setTextCursor(cursor);
     }
     else
     {
-        int anchor = -1;
-        int cursor = -1;
+        int anchor{-1};
+        int cursor{-1};
         if (senderCursorPointer == cursorSelector_)
         {
             anchor = textCursor().anchor();
@@ -207,7 +208,7 @@ void CodeViewer::pointerMoved(QPoint pos)
         }
 
         // Sliding pointers.
-        bool updatePointer = false;
+        bool updatePointer{false};
         if (anchor > cursor)
         {
             if (senderCursorPointer == cursorSelector_)
@@ -217,7 +218,7 @@ void CodeViewer::pointerMoved(QPoint pos)
             updatePointer = true;
         }
 
-        QTextCursor cursorToSet = textCursor();
+        QTextCursor cursorToSet{textCursor()};
         cursorToSet.setPosition(anchor);
         cursorToSet.setPosition(cursor, QTextCursor::KeepAnchor);
         setTextCursor(cursorToSet);
@@ -261,14 +262,14 @@ void CodeViewer::managePinchGesture(const QPinchGesture* gesture)
     {
         case Qt::GestureUpdated:
         {
-            const float originalFontSize = config_.fontSize();
-            const auto totalScaleFactor =
-                static_cast<float>(gesture->totalScaleFactor());
-            const double expectedFontSize = std::round(
-                Common::normalizeFont(originalFontSize * totalScaleFactor));
-            const double currentFontSize = fontInfo().pointSizeF();
-            const auto change = static_cast<int>(
-                std::round(expectedFontSize - currentFontSize));
+            const float originalFontSize{config_.fontSize()};
+            const auto totalScaleFactor{
+                static_cast<float>(gesture->totalScaleFactor())};
+            const double expectedFontSize{std::round(
+                Common::normalizeFont(originalFontSize * totalScaleFactor))};
+            const double currentFontSize{fontInfo().pointSizeF()};
+            const auto change{static_cast<int>(
+                std::round(expectedFontSize - currentFontSize))};
 
             zoom(change);
 
@@ -362,18 +363,18 @@ void CodeViewer::moveVisualPointer(CursorPointer* cursorPointer)
 {
     if (cursorPointer == anchorSelector_)
     {
-        QTextCursor cursor = textCursor();
+        QTextCursor cursor{textCursor()};
         cursor.setPosition(cursor.anchor());
-        QRect cursorRectangle = cursorRect(cursor);
-        QPoint anchorPos =
-            mapToParent(cursorRectangle.topLeft()) + positionShiftMain();
+        QRect cursorRectangle{cursorRect(cursor)};
+        QPoint anchorPos{mapToParent(cursorRectangle.topLeft()) +
+                         positionShiftMain()};
         anchorSelector_->moveVisualPointer(anchorPos.x(), anchorPos.y());
     }
     else
     {
-        QRect cursorRectangle = cursorRect();
-        QPoint leftTop = mapToParent(cursorRectangle.topLeft());
-        QPoint newPosition = leftTop + positionShiftMain();
+        QRect cursorRectangle{cursorRect()};
+        QPoint leftTop{mapToParent(cursorRectangle.topLeft())};
+        QPoint newPosition{leftTop + positionShiftMain()};
         cursorPointer->moveVisualPointer(newPosition.x(), newPosition.y());
     }
 }

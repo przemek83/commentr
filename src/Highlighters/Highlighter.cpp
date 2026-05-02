@@ -25,8 +25,8 @@ void Highlighter::highlightBlock(const QString& text)
         const QRegularExpression& expression = rule.startPattern_;
         for (const auto& match : expression.globalMatch(text))
         {
-            int length = match.capturedLength();
-            int index = match.capturedStart();
+            int length{static_cast<int>(match.capturedLength())};
+            int index{static_cast<int>(match.capturedStart())};
             setFormat(index, length, rule.format_);
         }
     }
@@ -51,15 +51,17 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
             (!word.startsWith('\\')) && (!spellChecker_.checkWord(word)))
         {
             int l{noMatchIndex_};
-            int number{0};
-            number = line.count(QRegularExpression("\\b" + word + "\\b"));
+            int number{static_cast<int>(
+                line.count(QRegularExpression("\\b" + word + "\\b")))};
             for (int j = 0; j < number; ++j)
             {
-                l = line.indexOf(QRegularExpression("\\b" + word + "\\b"),
-                                 minIndex + l + 1);
+                l = static_cast<int>(
+                    line.indexOf(QRegularExpression("\\b" + word + "\\b"),
+                                 minIndex + l + 1));
                 if (l >= 0)
                 {
-                    setFormat(l, word.length(), spellCheckFormat_);
+                    setFormat(l, static_cast<int>(word.length()),
+                              spellCheckFormat_);
                 }
             }
         }
@@ -69,12 +71,12 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
 void Highlighter::singleLineComment(const QString& text,
                                     const HighlightingRule& rule)
 {
-    const QRegularExpression& expression = rule.startPattern_;
-    QRegularExpressionMatch match = expression.match(text);
+    const QRegularExpression& expression{rule.startPattern_};
+    QRegularExpressionMatch match{expression.match(text)};
     if (match.hasMatch())
     {
-        int length = match.capturedLength();
-        int index = match.capturedStart();
+        int length{static_cast<int>(match.capturedLength())};
+        int index{static_cast<int>(match.capturedStart())};
         setFormat(index, length, rule.format_);
         checkSpellingInBlock(index, text);
     }
@@ -92,29 +94,30 @@ void Highlighter::multiLineComment(const QString& text,
     if (previousBlockState() != insideCommentBlockState)
     {
         QRegularExpressionMatch match = rule.startPattern_.match(text);
-        startIndex = match.capturedStart();
+        startIndex = static_cast<int>(match.capturedStart());
     }
 
     while (startIndex >= 0)
     {
         QRegularExpressionMatch endMatch =
             rule.endPattern_.match(text, startIndex);
-        int endIndex = endMatch.capturedStart();
+        int endIndex = static_cast<int>(endMatch.capturedStart());
         int commentLength{0};
         if (endIndex == noMatchIndex_)
         {
             setCurrentBlockState(insideCommentBlockState);
-            commentLength = text.length() - startIndex;
+            commentLength = static_cast<int>(text.length() - startIndex);
         }
         else
         {
-            commentLength = (endIndex - startIndex) + endMatch.capturedLength();
+            commentLength = (endIndex - startIndex) +
+                            static_cast<int>(endMatch.capturedLength());
         }
 
         setFormat(startIndex, commentLength, rule.format_);
         checkSpellingInBlock(startIndex, text);
         QRegularExpressionMatch startMatch =
             rule.startPattern_.match(text, startIndex + commentLength);
-        startIndex = startMatch.capturedStart();
+        startIndex = static_cast<int>(startMatch.capturedStart());
     }
 }

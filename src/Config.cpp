@@ -145,7 +145,10 @@ void Config::setListViewInBrowser(bool listViewInBrowser)
     listViewInBrowser_ = listViewInBrowser;
 }
 
-void Config::setDefaultFont() { fontSize_ = QApplication::font().pointSizeF(); }
+void Config::setDefaultFont()
+{
+    fontSize_ = static_cast<float>(QApplication::font().pointSizeF());
+}
 
 float Config::fontSize() const { return fontSize_; }
 

@@ -708,23 +708,17 @@ void MainWindow::setupChangeSizeActions()
     constexpr float increaseSizeBy50Percent{1.5F};
 
     connect(ui_->actionDecrease50, &QAction::triggered,
-            [this, decreaseSizeBy50Percent]()
-            { changeSize(decreaseSizeBy50Percent); });
+            [this, change = decreaseSizeBy50Percent]() { changeSize(change); });
     connect(ui_->actionDecrease25, &QAction::triggered,
-            [this, decreaseSizeBy25Percent]()
-            { changeSize(decreaseSizeBy25Percent); });
+            [this, change = decreaseSizeBy25Percent]() { changeSize(change); });
     connect(ui_->actionDecrease10, &QAction::triggered,
-            [this, decreaseSizeBy10Percent]()
-            { changeSize(decreaseSizeBy10Percent); });
+            [this, change = decreaseSizeBy10Percent]() { changeSize(change); });
     connect(ui_->actionIncrease10, &QAction::triggered,
-            [this, increaseSizeBy10Percent]()
-            { changeSize(increaseSizeBy10Percent); });
+            [this, change = increaseSizeBy10Percent]() { changeSize(change); });
     connect(ui_->actionIncrease25, &QAction::triggered,
-            [this, increaseSizeBy25Percent]()
-            { changeSize(increaseSizeBy25Percent); });
+            [this, change = increaseSizeBy25Percent]() { changeSize(change); });
     connect(ui_->actionIncrease50, &QAction::triggered,
-            [this, increaseSizeBy50Percent]()
-            { changeSize(increaseSizeBy50Percent); });
+            [this, change = increaseSizeBy50Percent]() { changeSize(change); });
 }
 
 void MainWindow::setupToolbarPositionActions()

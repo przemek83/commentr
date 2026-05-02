@@ -515,12 +515,13 @@ void CodeViewer::lineNumberAreaPaintEvent(const QPaintEvent* event)
 void CodeViewer::paintEvent(QPaintEvent* event)
 {
     QPlainTextEdit::paintEvent(event);
-    const QRect rect = event->rect();
-    const QFont font = currentCharFormat().font();
+    const QRect rect{event->rect()};
+    const QFont font{currentCharFormat().font()};
     constexpr double rightGuideColumn{80.0};
-    int x80 =
-        ::qRound(QFontMetricsF(font).averageCharWidth() * rightGuideColumn) +
-        contentOffset().x() + document()->documentMargin();
+    const double sizeOf80Chars{QFontMetricsF(font).averageCharWidth() *
+                               rightGuideColumn};
+    int x80{static_cast<int>(::qRound(sizeOf80Chars + contentOffset().x() +
+                                      document()->documentMargin()))};
     QPainter painter(viewport());
     painter.setPen(QPen("gray"));
     painter.drawLine(x80, rect.top(), x80, rect.bottom());
@@ -528,10 +529,10 @@ void CodeViewer::paintEvent(QPaintEvent* event)
 
 void CodeViewer::keyPressEvent(QKeyEvent* e)
 {
-    int key = e->key();
+    const int key{e->key()};
     if ((Qt::Key_Return == key) || (Qt::Key_Enter == key))
     {
-        QString line = textCursor().block().text();
+        QString line{textCursor().block().text()};
 
         QPlainTextEdit::keyPressEvent(e);
         insertPlainText(line.left(line.indexOf(QRegularExpression("\\S"))));

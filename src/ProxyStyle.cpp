@@ -45,10 +45,11 @@ int ProxyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option,
                                (metric == PM_ToolBarExtensionExtent)};
     const bool isCheckBoxIndicator{(metric == PM_IndicatorWidth) ||
                                    (metric == PM_IndicatorHeight)};
+    const bool isIconSizeMetric{(metric == PM_ListViewIconSize) ||
+                                (metric == PM_ToolBarIconSize) ||
+                                (metric == PM_ButtonIconSize)};
 
-    if (isToolBarExtent || isCheckBoxIndicator ||
-        (metric == PM_ListViewIconSize) || (metric == PM_ToolBarIconSize) ||
-        (metric == PM_ButtonIconSize))
+    if (isToolBarExtent || isCheckBoxIndicator || isIconSizeMetric)
         return adjustSize(pixelMetric);
 
     return pixelMetric;

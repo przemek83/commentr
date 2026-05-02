@@ -287,9 +287,14 @@ EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
     if (suffix == "java")
         mode = EditorTabPage::EditorMode::JAVA;
 
-    if ((suffix == "c") || (suffix == "cpp") || (suffix == "h") ||
-        (suffix == "hpp") || (suffix == "cc") || (suffix == "cxx") ||
-        (suffix == "c++") || (suffix == "moc"))
+    const bool isCPlusPlusSourceFile{(suffix == "cpp") || (suffix == "cxx") ||
+                                     (suffix == "c++") || (suffix == "cc")};
+    const bool isCPlusPlusHeaderFile{(suffix == "h") || (suffix == "hpp")};
+    const bool isCSourceFile{suffix == "c"};
+    const bool isMocFile{suffix == "moc"};
+
+    if (isCPlusPlusSourceFile || isCPlusPlusHeaderFile || isCSourceFile ||
+        isMocFile)
         mode = EditorTabPage::EditorMode::C_CPP;
 
     if (suffix == "m")

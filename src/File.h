@@ -10,9 +10,9 @@ class File
 {
 public:
     File(Common::Source source, QString path, QString name, QString suffix,
-         QString* content);
+         QString content);
 
-    virtual ~File();
+    virtual ~File() = default;
 
     Common::Source source() const;
     void setSource(const Common::Source& source);
@@ -26,8 +26,8 @@ public:
     QString suffix() const;
     void setSuffix(const QString& suffix);
 
-    QString* content() const;
-    void setContent(QString* content);
+    const QString& content() const;
+    void setContent(const QString& content);
 
     void clearContent();
 
@@ -60,7 +60,7 @@ private:
 
     QString suffix_;
 
-    QString* content_;
+    QString content_;
 };
 
 #endif  // FILE_H

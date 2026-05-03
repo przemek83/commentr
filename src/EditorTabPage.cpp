@@ -37,7 +37,7 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config,
 
     ui_->verticalLayout->insertWidget(0, codeViewer_);
 
-    codeViewer_->setPlainText(*(file->content()));
+    codeViewer_->setPlainText(file->content());
     file->clearContent();
 
     const QStyle* style{QApplication::style()};
@@ -268,8 +268,7 @@ void EditorTabPage::refreshVisualIndicators()
 File* EditorTabPage::getCurrentFileCopy()
 {
     auto* file{new File(file_->source(), file_->path(), file_->baseName(),
-                        file_->suffix(),
-                        new QString(codeViewer_->toPlainText()))};
+                        file_->suffix(), codeViewer_->toPlainText())};
 
     return file;
 }

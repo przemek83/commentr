@@ -1,16 +1,14 @@
 #include "File.h"
 
 File::File(Common::Source source, QString path, QString name, QString suffix,
-           QString* content)
+           QString content)
     : source_(source),
       path_(std::move(path)),
       baseName_(std::move(name)),
       suffix_(std::move(suffix)),
-      content_(content)
+      content_(std::move(content))
 {
 }
-
-File::~File() { delete content_; }
 
 Common::Source File::source() const { return source_; }
 
@@ -28,15 +26,11 @@ QString File::suffix() const { return suffix_; }
 
 void File::setSuffix(const QString& suffix) { suffix_ = suffix; }
 
-QString* File::content() const { return content_; }
+const QString& File::content() const { return content_; }
 
-void File::setContent(QString* content) { content_ = content; }
+void File::setContent(const QString& content) { content_ = content; }
 
-void File::clearContent()
-{
-    delete content_;
-    content_ = nullptr;
-}
+void File::clearContent() { content_ = QString(); }
 
 QString File::getFilePath() const
 {

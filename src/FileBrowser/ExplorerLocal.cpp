@@ -103,11 +103,11 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
         QString path(fileInfo.canonicalPath());
         QString baseName(fileInfo.completeBaseName());
         QString suffix(fileInfo.suffix());
-        QString* content = nullptr;
+        QString content;
 
         if (open_)
         {
-            content = new QString(Common::loadFile(filePath));
+            content = Common::loadFile(filePath);
         }
         else
         {
@@ -128,8 +128,8 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
             }
         }
 
-        File* file{
-            new File(Common::Source::LOCAL, path, baseName, suffix, content)};
+        File* file{new File(Common::Source::LOCAL, path, baseName, suffix,
+                            std::move(content))};
 
         emit filePrepared(file);
     }

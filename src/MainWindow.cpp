@@ -367,7 +367,7 @@ void MainWindow::openRecentFile()
     File* file{new File(Common::Source::LOCAL, File::filePathToPath(filePath),
                         File::filePathToBaseName(filePath),
                         File::filePathToSuffix(filePath),
-                        new QString(Common::loadFile(filePath)))};
+                        Common::loadFile(filePath))};
 
     createNewTab(file);
 }
@@ -847,7 +847,7 @@ void MainWindow::saveFile()
             case Common::Source::LOCAL:
             {
                 showStatusMsg(
-                    Common::saveFile(file->getFilePath(), *(file->content())));
+                    Common::saveFile(file->getFilePath(), file->content()));
                 delete file;
 
                 break;
@@ -952,8 +952,7 @@ void MainWindow::newFile()
     showMainPage();
     ++newFileCounter_;
     File* file{new File(Common::Source::NOT_SET, "",
-                        tr("File") + QString::number(newFileCounter_), "",
-                        new QString(""))};
+                        tr("File") + QString::number(newFileCounter_), "", "")};
 
     createNewTab(file);
 }
@@ -962,7 +961,7 @@ void MainWindow::showAbout()
 {
     File* file{new File(Common::Source::NOT_SET, "",
                         "About " + QCoreApplication::applicationName(), "",
-                        new QString(Common::loadFile(":/about.txt")))};
+                        Common::loadFile(":/about.txt"))};
 
     createNewTab(file);
 }
@@ -970,7 +969,7 @@ void MainWindow::showAbout()
 void MainWindow::showQtLicense()
 {
     File* file{new File(Common::Source::NOT_SET, "", "Qt license", "",
-                        new QString(Common::loadFile(":/LICENSE")))};
+                        Common::loadFile(":/LICENSE"))};
 
     createNewTab(file);
 }

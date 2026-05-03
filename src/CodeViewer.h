@@ -31,13 +31,13 @@ public:
     void updateVisualPointersPositions();
 
 protected:
-    void resizeEvent(QResizeEvent* event) override;
+    void resizeEvent(QResizeEvent* e) override;
 
-    void paintEvent(QPaintEvent* event) override;
+    void paintEvent(QPaintEvent* e) override;
 
     void keyPressEvent(QKeyEvent* e) override;
 
-    bool event(QEvent* event) override;
+    bool event(QEvent* e) override;
 
     void scrollContentsBy(int dx, int dy) override;
 

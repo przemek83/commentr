@@ -30,7 +30,7 @@ public:
     ~MainWindow() override;
 
 protected:
-    void keyReleaseEvent(QKeyEvent* e) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
 
     void resizeEvent(QResizeEvent* event) override;
 

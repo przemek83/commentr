@@ -219,7 +219,7 @@ void ExplorerLocal::listViewItemClicked(const QModelIndex& index)
         emit pathChanged(fileModel->filePath(index));
 }
 
-void ExplorerLocal::mouseMoveEvent(QMouseEvent* event) { event->accept(); }
+void ExplorerLocal::mouseMoveEvent(QMouseEvent* e) { e->accept(); }
 
 QString ExplorerLocal::getCurrentPath()
 {

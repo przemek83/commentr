@@ -125,11 +125,11 @@ void CodeViewer::cursorPosHasChanged()
     setExtraSelections(extraSelections);
 }
 
-bool CodeViewer::event(QEvent* event)
+bool CodeViewer::event(QEvent* e)
 {
-    if (event->type() == QEvent::Gesture)
+    if (e->type() == QEvent::Gesture)
     {
-        const auto* gestureEvent{dynamic_cast<QGestureEvent*>(event)};
+        const auto* gestureEvent{dynamic_cast<QGestureEvent*>(e)};
         QList<QGesture*> gestures{gestureEvent->gestures()};
 
         foreach (QGesture* gesture, gestures)
@@ -164,7 +164,7 @@ bool CodeViewer::event(QEvent* event)
 
                 case Qt::PanGesture:
                 {
-                    return QPlainTextEdit::event(event);
+                    return QPlainTextEdit::event(e);
                 }
 
                 default:
@@ -174,11 +174,11 @@ bool CodeViewer::event(QEvent* event)
             }
         }
 
-        event->accept();
+        e->accept();
         return true;
     }
 
-    return QPlainTextEdit::event(event);
+    return QPlainTextEdit::event(e);
 }
 
 void CodeViewer::pointerMoved(QPoint pos)
@@ -512,10 +512,10 @@ void CodeViewer::lineNumberAreaPaintEvent(const QPaintEvent* event)
     }
 }
 
-void CodeViewer::paintEvent(QPaintEvent* event)
+void CodeViewer::paintEvent(QPaintEvent* e)
 {
-    QPlainTextEdit::paintEvent(event);
-    const QRect rect{event->rect()};
+    QPlainTextEdit::paintEvent(e);
+    const QRect rect{e->rect()};
     const QFont font{currentCharFormat().font()};
     constexpr double rightGuideColumn{80.0};
     const double sizeOf80Chars{QFontMetricsF(font).averageCharWidth() *

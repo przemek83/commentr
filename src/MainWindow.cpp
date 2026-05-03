@@ -60,9 +60,9 @@ MainWindow::MainWindow(Config config, SpellChecker spellChecker,
 
 MainWindow::~MainWindow() { config_.save(); };
 
-void MainWindow::keyReleaseEvent(QKeyEvent* e)
+void MainWindow::keyReleaseEvent(QKeyEvent* event)
 {
-    const int key{e->key()};
+    const int key{event->key()};
 
     if (Qt::Key_Back == key)
     {
@@ -75,7 +75,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent* e)
         return;
     }
 
-    QMainWindow::keyReleaseEvent(e);
+    QMainWindow::keyReleaseEvent(event);
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)

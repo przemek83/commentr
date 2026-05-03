@@ -36,7 +36,7 @@ protected:
 
     void listViewItemClicked(const QModelIndex& index) override;
 
-    void mouseMoveEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* e) override;
 
 private slots:
     void itemWasActivated(QModelIndex index);

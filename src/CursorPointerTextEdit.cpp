@@ -6,7 +6,7 @@
 #include "Common.h"
 
 CursorPointerTextEdit::CursorPointerTextEdit(Config& config, QWidget* parent)
-    : CursorPointer(config, parent), canEmitPointerMoved_(true)
+    : CursorPointer(config, parent)
 {
 }
 

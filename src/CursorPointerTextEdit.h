@@ -24,9 +24,9 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(CursorPointerTextEdit)
 
-    static constexpr int pointerHalfDivisor_ {2};
+    static constexpr int pointerHalfDivisor_{2};
 
-    bool canEmitPointerMoved_;
+    bool canEmitPointerMoved_{true};
 
 private slots:
     void allowEmitPointerMoved();

@@ -4,9 +4,7 @@
 
 CursorPointerLineEdit::CursorPointerLineEdit(int addLeftMargin, Config& config,
                                              QWidget* parent)
-    : CursorPointer(config, parent),
-      scrollingNeeded_(false),
-      addLeftMargin_(addLeftMargin)
+    : CursorPointer(config, parent), addLeftMargin_(addLeftMargin)
 {
 }
 

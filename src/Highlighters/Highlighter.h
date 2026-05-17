@@ -31,7 +31,7 @@ protected:
 
     void checkSpellingInBlock(int minIndex, const QString& line);
 
-    bool initialized_;
+    bool initialized_{false};
 
     void singleLineComment(const QString& text, const HighlightingRule& rule);
 

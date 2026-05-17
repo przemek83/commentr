@@ -8,7 +8,7 @@
 #include "Config.h"
 
 CursorPointer::CursorPointer(Config& config, QWidget* parent)
-    : QWidget(parent), dragged_(false), config_(config)
+    : QWidget(parent), config_(config)
 {
     setPalette(Qt::transparent);
 

@@ -56,7 +56,7 @@ private:
 
     QPainterPath createPath() const;
 
-    bool dragged_;
+    bool dragged_{false};
 
     Config& config_;
 

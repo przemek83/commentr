@@ -3,9 +3,7 @@
 #include "../SpellChecker.h"
 
 Highlighter::Highlighter(const SpellChecker& spellChecker, QObject* parent)
-    : QSyntaxHighlighter(parent),
-      initialized_(false),
-      spellChecker_(spellChecker)
+    : QSyntaxHighlighter(parent), spellChecker_(spellChecker)
 {
     spellCheckFormat_.setForeground(Qt::red);
     spellCheckFormat_.setUnderlineColor(QColor(Qt::red));

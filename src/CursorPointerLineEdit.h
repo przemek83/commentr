@@ -32,7 +32,7 @@ private:
 
     /// Flag informing that text is bigger than linenedit size, scrolling
     /// needed.
-    bool scrollingNeeded_;
+    bool scrollingNeeded_{false};
 
     /// Left margin of text. Needed in calculations.
     int addLeftMargin_;

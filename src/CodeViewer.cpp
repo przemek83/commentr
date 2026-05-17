@@ -529,8 +529,8 @@ void CodeViewer::paintEvent(QPaintEvent* e)
 
 void CodeViewer::keyPressEvent(QKeyEvent* e)
 {
-    const int key{e->key()};
-    if ((Qt::Key_Return == key) || (Qt::Key_Enter == key))
+    if (const int key{e->key()};
+        (Qt::Key_Return == key) || (Qt::Key_Enter == key))
     {
         QString line{textCursor().block().text()};
 

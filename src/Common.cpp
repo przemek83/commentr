@@ -91,12 +91,10 @@ float Common::normalizeFont(float fontSize)
 {
     float normalizedFonSize{fontSize};
 
-    const int maxFontSize{128};
-    if (fontSize > maxFontSize)
+    if (const int maxFontSize{128}; fontSize > maxFontSize)
         normalizedFonSize = maxFontSize;
 
-    const int minFontSize{1};
-    if (fontSize < minFontSize)
+    if (const int minFontSize{1}; fontSize < minFontSize)
         normalizedFonSize = minFontSize;
 
     return normalizedFonSize;

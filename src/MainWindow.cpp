@@ -65,9 +65,7 @@ MainWindow::~MainWindow() { config_.save(); };
 
 void MainWindow::keyReleaseEvent(QKeyEvent* event)
 {
-    const int key{event->key()};
-
-    if (Qt::Key_Back == key)
+    if (const int key{event->key()}; Qt::Key_Back == key)
     {
         auto page{static_cast<StackedPage>(ui_->stackedWidget->currentIndex())};
         if (PAGE_MAIN != page)
@@ -479,8 +477,8 @@ void MainWindow::qtStylePicked()
         return;
 
     QString style{action->text()};
-    QWidget* focusWidget{QApplication::focusWidget()};
-    if (focusWidget != nullptr)
+    if (QWidget * focusWidget{QApplication::focusWidget()};
+        focusWidget != nullptr)
         focusWidget->clearFocus();
 
     config_.setStyle(style);

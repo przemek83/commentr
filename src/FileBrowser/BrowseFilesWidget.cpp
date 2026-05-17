@@ -27,6 +27,12 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, Config& config, QWidget* parent)
     connect(localListView, &ExplorerLocal::pathChanged, filePathLineEdit_,
             &EnhancedLineEdit::setText);
 
+    connect(ui_->changeView, &QPushButton::clicked, this,
+            &BrowseFilesWidget::changeView);
+
+    connect(ui_->tabWidget, &QTabWidget::currentChanged, this,
+            &BrowseFilesWidget::currentTabChanged);
+
     ui_->tabWidget->insertTab(static_cast<int>(Common::Source::LOCAL),
                               localListView, "local");
 
@@ -114,7 +120,7 @@ Explorer* BrowseFilesWidget::currentListView()
     return dynamic_cast<Explorer*>(ui_->tabWidget->currentWidget());
 }
 
-void BrowseFilesWidget::on_changeView_clicked()
+void BrowseFilesWidget::changeView()
 {
     bool wrapping{currentListView()->isWrappingContent()};
     int tabCount{ui_->tabWidget->count()};
@@ -128,7 +134,7 @@ void BrowseFilesWidget::on_changeView_clicked()
     setProperIconForViewButton();
 }
 
-void BrowseFilesWidget::on_tabWidget_currentChanged([[maybe_unused]] int index)
+void BrowseFilesWidget::currentTabChanged([[maybe_unused]] int index)
 {
     Explorer* explorer = currentListView();
     if (!explorer->initialized())

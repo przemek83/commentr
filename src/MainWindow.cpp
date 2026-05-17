@@ -56,6 +56,9 @@ MainWindow::MainWindow(Config config, SpellChecker spellChecker,
 
     connect(qApp, &QApplication::focusChanged, this,
             &MainWindow::focusHasChanged);
+
+    connect(ui_->actionMenu, &QAction::triggered, this,
+            &MainWindow::actionMenuTriggered);
 }
 
 MainWindow::~MainWindow() { config_.save(); };
@@ -1003,7 +1006,7 @@ void MainWindow::focusHasChanged([[maybe_unused]] QWidget* old, QWidget* now)
     ui_->actionShow_hide_keyboard->setEnabled(keyboardFocusWidget);
 }
 
-void MainWindow::on_actionMenu_triggered()
+void MainWindow::actionMenuTriggered()
 {
     QMenu menu;
     menu.addMenu(ui_->menuFile);

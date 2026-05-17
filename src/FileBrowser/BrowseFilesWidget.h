@@ -43,9 +43,9 @@ private slots:
 
     void filePathTextChanged(const QString& arg1);
 
-    void on_changeView_clicked();
+    void changeView();
 
-    void on_tabWidget_currentChanged(int index);
+    void currentTabChanged(int index);
 
 signals:
     void cancelAction();

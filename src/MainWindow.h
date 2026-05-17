@@ -158,7 +158,7 @@ private slots:
 
     void openRecentFile();
 
-    void on_actionMenu_triggered();
+    void actionMenuTriggered();
 
 signals:
     void windowResized();

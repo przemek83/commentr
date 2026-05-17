@@ -38,8 +38,8 @@ int ProxyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option,
 
     if ((metric == PM_ScrollBarExtent) ||
         (metric == PM_TabBarScrollButtonWidth))
-        return ::qRound(adjustSize(pixelMetric) * scrollBarScaleNumerator /
-                        scrollBarScaleDenominator);
+        return ::qRound(adjustSize(pixelMetric) *
+                        (scrollBarScaleNumerator / scrollBarScaleDenominator));
 
     const bool isToolBarExtent{(metric == PM_ToolBarHandleExtent) ||
                                (metric == PM_ToolBarExtensionExtent)};

@@ -39,9 +39,13 @@ void CursorPointerLineEdit::positionChanged(QMouseEvent* event)
         const QPoint movePoint{calcMovePoint(event->pos())};
 
         move(movePoint.x(), movePoint.y());
-        emit pointerMoved(QPoint(movePoint.x() + (size_ / pointerHalfDivisor_) -
-                                     range_.x() - pointerMargin_,
-                                 movePoint.y()));
+
+        const int pointerCenterOffset{size_ / pointerHalfDivisor_};
+        const int textXOrigin{range_.x() - pointerMargin_};
+        const QPoint textPosition{
+            movePoint.x() + (pointerCenterOffset - textXOrigin), movePoint.y()};
+
+        emit pointerMoved(textPosition);
     }
 }
 

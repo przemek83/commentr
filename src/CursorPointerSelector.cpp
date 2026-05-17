@@ -27,7 +27,7 @@ void CursorPointerSelector::paintEvent([[maybe_unused]] QPaintEvent* event)
     {
         path.moveTo(0, 0);
         path.lineTo(size_, size_ / pointerBodyDivisor_);
-        path.lineTo(size_, size_ + (size_ / pointerBodyDivisor_) - roundSize);
+        path.lineTo(size_, (size_ + (size_ / pointerBodyDivisor_)) - roundSize);
         path.lineTo(size_ - roundSize, size_ + (size_ / pointerBodyDivisor_));
         path.lineTo(0, size_ + (size_ / pointerBodyDivisor_));
     }

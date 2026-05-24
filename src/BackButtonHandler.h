@@ -5,7 +5,6 @@
 
 class BackButtonHandler : public QObject
 {
-    Q_OBJECT
 public:
     using QObject::QObject;
 

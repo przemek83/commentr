@@ -74,13 +74,6 @@ QWidget* Common::getMainWindow(QObject* startObject)
     return dynamic_cast<QWidget*>(object);
 }
 
-void Common::centerWidget(QObject* hierarchyObject, QWidget* widgetToCenter)
-{
-    const QWidget* mainWindow{getMainWindow(hierarchyObject)};
-    QPoint applicationCenter{mainWindow->frameGeometry().center()};
-    widgetToCenter->move(applicationCenter - widgetToCenter->rect().center());
-}
-
 int Common::getMaxRecentFiles()
 {
     const int maxRecentFiles{7};

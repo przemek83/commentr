@@ -27,8 +27,6 @@ public:
 
     static QWidget* getMainWindow(QObject* startObject);
 
-    static void centerWidget(QObject* hierarchyObject, QWidget* widgetToCenter);
-
     static int getMaxRecentFiles();
 
     static float normalizeFont(float fontSize);

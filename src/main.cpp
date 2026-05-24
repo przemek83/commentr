@@ -53,6 +53,7 @@ int main(int argc, char* argv[])
 
     if (config.firstUse())
     {
+        config.setFirstUse(false);
         config.setDefaultFont();
         placeSamples();
     }

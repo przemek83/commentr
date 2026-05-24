@@ -28,8 +28,6 @@ void File::setSuffix(const QString& suffix) { suffix_ = suffix; }
 
 const QString& File::content() const { return content_; }
 
-void File::setContent(const QString& content) { content_ = content; }
-
 void File::clearContent() { content_ = QString(); }
 
 QString File::getFilePath() const
@@ -45,49 +43,27 @@ QString File::getFilePath() const
     return filePath;
 }
 
-QString File::getName() const
-{
-    QString fileName;
-    fileName += baseName();
-    if (!suffix().isEmpty())
-    {
-        fileName += '.';
-        fileName += suffix();
-    }
-
-    return fileName;
-}
-
-QString File::dump() const
-{
-    QString dumpString;
-    dumpString.append("Path: " + path_ + " base name: " + baseName_ +
-                      " suffix: " + suffix_ + " filepath " + getFilePath());
-
-    return dumpString;
-}
-
-QString File::filePathToPath(QString filePath)
+QString File::filePathToPath(const QString& filePath)
 {
     return filePath.left(filePath.lastIndexOf('/'));
 }
 
-QString File::filePathToFileName(QString filePath)
+QString File::filePathToFileName(const QString& filePath)
 {
     return filePath.right(filePath.size() - filePath.lastIndexOf('/') - 1);
 }
 
-QString File::filePathToBaseName(QString filePath)
+QString File::filePathToBaseName(const QString& filePath)
 {
     return fileNameToBaseName(filePathToFileName(filePath));
 }
 
-QString File::filePathToSuffix(QString filePath)
+QString File::filePathToSuffix(const QString& filePath)
 {
     return fileNameToSuffix(filePathToFileName(filePath));
 }
 
-QString File::fileNameToBaseName(QString fileName)
+QString File::fileNameToBaseName(const QString& fileName)
 {
     qsizetype lastDotIndex{fileName.lastIndexOf('.')};
     // In case when file start with '.'.
@@ -103,7 +79,7 @@ QString File::fileNameToBaseName(QString fileName)
     return baseName;
 }
 
-QString File::fileNameToSuffix(QString fileName)
+QString File::fileNameToSuffix(const QString& fileName)
 {
     qsizetype lastDotIndex{fileName.lastIndexOf('.')};
     // In case when file start with '.'.

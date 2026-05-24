@@ -27,27 +27,22 @@ public:
     void setSuffix(const QString& suffix);
 
     const QString& content() const;
-    void setContent(const QString& content);
 
     void clearContent();
 
     QString getFilePath() const;
 
-    QString getName() const;
+    static QString filePathToPath(const QString& filePath);
 
-    QString dump() const;
+    static QString filePathToFileName(const QString& filePath);
 
-    static QString filePathToPath(QString filePath);
+    static QString filePathToBaseName(const QString& filePath);
 
-    static QString filePathToFileName(QString filePath);
+    static QString filePathToSuffix(const QString& filePath);
 
-    static QString filePathToBaseName(QString filePath);
+    static QString fileNameToBaseName(const QString& fileName);
 
-    static QString filePathToSuffix(QString filePath);
-
-    static QString fileNameToBaseName(QString fileName);
-
-    static QString fileNameToSuffix(QString fileName);
+    static QString fileNameToSuffix(const QString& fileName);
 
 private:
     Q_DISABLE_COPY(File)

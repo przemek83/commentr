@@ -11,7 +11,7 @@ class EnhancedLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    explicit EnhancedLineEdit(Config& config, QWidget* parent = nullptr);
+    EnhancedLineEdit(Config& config, QWidget* parent);
 
 protected:
     void mouseReleaseEvent(QMouseEvent* e) override;

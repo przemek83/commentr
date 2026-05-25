@@ -22,10 +22,8 @@
 #include "SpellChecker.h"
 #include "ui_MainWindow.h"
 
-MainWindow::MainWindow(Config config, SpellChecker spellChecker,
-                       QWidget* parent)
-    : QMainWindow(parent),
-      ui_{std::make_unique<Ui::MainWindow>()},
+MainWindow::MainWindow(Config config, SpellChecker spellChecker)
+    : ui_{std::make_unique<Ui::MainWindow>()},
       config_{std::move(config)},
       spellChecker_{std::move(spellChecker)}
 {

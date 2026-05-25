@@ -34,7 +34,7 @@ public:
     };
 
     EditorTabPage(File* file, float fontSize, Config& config,
-                  SpellChecker& spellChecker, QWidget* parent = nullptr);
+                  SpellChecker& spellChecker, QWidget* parent);
 
     ~EditorTabPage() override;
 

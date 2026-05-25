@@ -25,8 +25,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(Config config, SpellChecker spellChecker,
-               QWidget* parent = nullptr);
+    MainWindow(Config config, SpellChecker spellChecker);
     ~MainWindow() override;
 
 protected:

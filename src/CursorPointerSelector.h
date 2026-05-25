@@ -16,7 +16,7 @@ public:
     };
 
     CursorPointerSelector(CursorDirection direction, Config& config,
-                                   QWidget* parent = nullptr);
+                          QWidget* parent);
     ~CursorPointerSelector() override = default;
 
     void moveVisualPointer(int x, int y) override;
@@ -31,7 +31,7 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(CursorPointerSelector)
 
-    static constexpr int pointerBodyDivisor_ {4};
+    static constexpr int pointerBodyDivisor_{4};
 
     CursorDirection diretion_;
 };

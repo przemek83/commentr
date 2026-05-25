@@ -38,7 +38,7 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
     if (!spellChecker_.active())
         return;
 
-    static constexpr int minSpellcheckWordLength{1};
+    constexpr int minSpellcheckWordLength{1};
 
     QString str{line.simplified()};
     QStringList wordsList = str.split(
@@ -48,20 +48,7 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
         if ((word.length() > minSpellcheckWordLength) &&
             (!word.startsWith('\\')) && (!spellChecker_.checkWord(word)))
         {
-            int l{noMatchIndex_};
-            int number{static_cast<int>(
-                line.count(QRegularExpression("\\b" + word + "\\b")))};
-            for (int j = 0; j < number; ++j)
-            {
-                l = static_cast<int>(
-                    line.indexOf(QRegularExpression("\\b" + word + "\\b"),
-                                 minIndex + l + 1));
-                if (l >= 0)
-                {
-                    setFormat(l, static_cast<int>(word.length()),
-                              spellCheckFormat_);
-                }
-            }
+            processWord(word, minIndex, line);
         }
     }
 }
@@ -117,5 +104,22 @@ void Highlighter::multiLineComment(const QString& text,
         QRegularExpressionMatch startMatch =
             rule.startPattern_.match(text, startIndex + commentLength);
         startIndex = static_cast<int>(startMatch.capturedStart());
+    }
+}
+
+void Highlighter::processWord(const QString& word, int minIndex,
+                              const QString& line)
+{
+    int l{noMatchIndex_};
+    int number{
+        static_cast<int>(line.count(QRegularExpression("\\b" + word + "\\b")))};
+    for (int j = 0; j < number; ++j)
+    {
+        l = static_cast<int>(line.indexOf(
+            QRegularExpression("\\b" + word + "\\b"), minIndex + l + 1));
+        if (l >= 0)
+        {
+            setFormat(l, static_cast<int>(word.length()), spellCheckFormat_);
+        }
     }
 }

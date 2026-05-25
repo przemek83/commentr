@@ -97,46 +97,45 @@ bool ExplorerLocal::initialized() { return model() != nullptr; }
 
 void ExplorerLocal::performOperationOnFile(QString filePath)
 {
-    if (fileIsValid(filePath))
+    if (!fileIsValid(filePath))
     {
-        QFileInfo fileInfo(filePath);
-        QString path(fileInfo.canonicalPath());
-        QString baseName(fileInfo.completeBaseName());
-        QString suffix(fileInfo.suffix());
-        QString content;
+        QMessageBox::information(this, tr("Error"), tr("Cannot open file..."));
+        return;
+    }
 
-        if (open_)
-        {
-            content = Common::loadFile(filePath);
-        }
-        else
-        {
-            if (QFile::exists(filePath))
-            {
-                QString msg = tr("Overwrite ") + fileInfo.fileName() + "?";
-                QMessageBox::StandardButton answer =
-                    QMessageBox::question(this, tr("Overwrite"), msg);
+    QFileInfo fileInfo(filePath);
+    QString path(fileInfo.canonicalPath());
+    QString baseName(fileInfo.completeBaseName());
+    QString suffix(fileInfo.suffix());
+    QString content;
 
-                if (answer == QMessageBox::No)
-                    return;
-            }
-            else
-            {
-                path = File::filePathToPath(filePath);
-                baseName = File::filePathToBaseName(filePath);
-                suffix = File::filePathToSuffix(filePath);
-            }
-        }
-
-        File* file{new File(Common::Source::LOCAL, path, baseName, suffix,
-                            std::move(content))};
-
-        emit filePrepared(file);
+    if (open_)
+    {
+        content = Common::loadFile(filePath);
     }
     else
     {
-        QMessageBox::information(this, tr("Error"), tr("Cannot open..."));
+        if (QFile::exists(filePath))
+        {
+            QString msg = tr("Overwrite ") + fileInfo.fileName() + "?";
+            QMessageBox::StandardButton answer =
+                QMessageBox::question(this, tr("Overwrite"), msg);
+
+            if (answer == QMessageBox::No)
+                return;
+        }
+        else
+        {
+            path = File::filePathToPath(filePath);
+            baseName = File::filePathToBaseName(filePath);
+            suffix = File::filePathToSuffix(filePath);
+        }
     }
+
+    File* file{new File(Common::Source::LOCAL, path, baseName, suffix,
+                        std::move(content))};
+
+    emit filePrepared(file);
 }
 
 QListView* ExplorerLocal::getListView() { return this; }

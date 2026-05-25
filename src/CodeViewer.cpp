@@ -127,58 +127,56 @@ void CodeViewer::cursorPosHasChanged()
 
 bool CodeViewer::event(QEvent* e)
 {
-    if (e->type() == QEvent::Gesture)
+    if (e->type() != QEvent::Gesture)
+        return QPlainTextEdit::event(e);
+
+    const auto* gestureEvent{dynamic_cast<QGestureEvent*>(e)};
+    QList<QGesture*> gestures{gestureEvent->gestures()};
+
+    foreach (QGesture* gesture, gestures)
     {
-        const auto* gestureEvent{dynamic_cast<QGestureEvent*>(e)};
-        QList<QGesture*> gestures{gestureEvent->gestures()};
-
-        foreach (QGesture* gesture, gestures)
+        switch (gesture->gestureType())
         {
-            switch (gesture->gestureType())
+            case Qt::PinchGesture:
             {
-                case Qt::PinchGesture:
+                managePinchGesture(dynamic_cast<QPinchGesture*>(gesture));
+                break;
+            }
+
+            case Qt::TapGesture:
+            {
+                manageTapGesture(dynamic_cast<QTapGesture*>(gesture));
+                break;
+            }
+
+            case Qt::TapAndHoldGesture:
+            {
+                if (Qt::GestureFinished == gesture->state())
                 {
-                    managePinchGesture(dynamic_cast<QPinchGesture*>(gesture));
-                    break;
+                    const auto* tapAndHoldGesture{
+                        dynamic_cast<QTapAndHoldGesture*>(gesture)};
+
+                    if (manageTapAndHoldGesture(tapAndHoldGesture))
+                        ignoreNextTapGesture_ = true;
                 }
 
-                case Qt::TapGesture:
-                {
-                    manageTapGesture(dynamic_cast<QTapGesture*>(gesture));
-                    break;
-                }
+                break;
+            }
 
-                case Qt::TapAndHoldGesture:
-                {
-                    if (Qt::GestureFinished == gesture->state())
-                    {
-                        const auto* tapAndHoldGesture{
-                            dynamic_cast<QTapAndHoldGesture*>(gesture)};
+            case Qt::PanGesture:
+            {
+                return QPlainTextEdit::event(e);
+            }
 
-                        if (manageTapAndHoldGesture(tapAndHoldGesture))
-                            ignoreNextTapGesture_ = true;
-                    }
-
-                    break;
-                }
-
-                case Qt::PanGesture:
-                {
-                    return QPlainTextEdit::event(e);
-                }
-
-                default:
-                {
-                    break;
-                }
+            default:
+            {
+                break;
             }
         }
-
-        e->accept();
-        return true;
     }
 
-    return QPlainTextEdit::event(e);
+    e->accept();
+    return true;
 }
 
 void CodeViewer::pointerMoved(QPoint pos)

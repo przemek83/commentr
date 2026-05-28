@@ -14,7 +14,7 @@ private:
     Result recognize(QGesture* state, QObject* watched, QEvent* event) override;
     static const QList<QTouchEvent::TouchPoint>& getTouchPoints(QEvent* event);
 
-    static QGestureRecognizer::Result manageTouchBegin(QPanGesture* gesture,
+    static QGestureRecognizer::Result manageTouchBegin(QPanGesture* panGesture,
                                                        QEvent* event);
     static QGestureRecognizer::Result manageTouchUpdate(QPanGesture* panGesture,
                                                         QEvent* event);

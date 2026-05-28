@@ -91,7 +91,7 @@ private:
 
     bool ignoreNextTapGesture_{false};
 
-    void initVisualPointers();
+    void initVisualPointers() const;
 
     void moveVisualPointer(CursorPointer* cursorPointer);
 

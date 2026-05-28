@@ -74,7 +74,7 @@ void CodeViewer::grabGestures() const
     viewport()->grabGesture(gestureType);
 }
 
-void CodeViewer::initVisualPointers()
+void CodeViewer::initVisualPointers() const
 {
     // Cursor pointer.
     connect(&cursorPointer_, &CursorPointerTextEdit::pointerMoved, this,

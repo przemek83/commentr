@@ -265,7 +265,7 @@ void EditorTabPage::refreshVisualIndicators()
     codeViewer_->updateVisualPointersPositions();
 }
 
-File EditorTabPage::getCurrentFileCopy()
+File EditorTabPage::getCurrentFileCopy() const
 {
     File file(file_->source(), file_->path(), file_->baseName(),
               file_->suffix(), codeViewer_->toPlainText());

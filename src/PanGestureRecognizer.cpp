@@ -45,7 +45,6 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(
             break;
         }
 
-        case QEvent::TouchCancel:
         default:
         {
             break;

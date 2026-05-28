@@ -11,8 +11,11 @@ class File
 public:
     File(Common::Source source, QString path, QString name, QString suffix,
          QString content);
+    File(File&& other) = default;
 
     virtual ~File() = default;
+
+    File& operator=(File&& other) = default;
 
     Common::Source source() const;
     void setSource(const Common::Source& source);

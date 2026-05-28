@@ -832,30 +832,27 @@ void MainWindow::saveFile()
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
-    if (currentTab != nullptr)
+    if (currentTab == nullptr)
+        return;
+
+    File file{currentTab->getCurrentFileCopy()};
+    switch (file.source())
     {
-        File* file{currentTab->getCurrentFileCopy()};
-        switch (file->source())
+        case Common::Source::NOT_SET:
         {
-            case Common::Source::NOT_SET:
-            {
-                createAndShowBrowseFilesWidget(false);
-                break;
-            }
+            createAndShowBrowseFilesWidget(false);
+            break;
+        }
 
-            case Common::Source::LOCAL:
-            {
-                showStatusMsg(
-                    Common::saveFile(file->getFilePath(), file->content()));
-                delete file;
+        case Common::Source::LOCAL:
+        {
+            showStatusMsg(Common::saveFile(file.path(), file.content()));
+            break;
+        }
 
-                break;
-            }
-
-            default:
-            {
-                break;
-            }
+        default:
+        {
+            break;
         }
     }
 }

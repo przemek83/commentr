@@ -71,7 +71,7 @@ public:
 
     void refreshVisualIndicators();
 
-    File* getCurrentFileCopy();
+    File getCurrentFileCopy();
 
     void refreshHighlighter();
 

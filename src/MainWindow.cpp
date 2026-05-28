@@ -829,7 +829,7 @@ void MainWindow::exitApplication()
 
 void MainWindow::saveFile()
 {
-    auto* currentTab{
+    const auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
 
     if (currentTab == nullptr)

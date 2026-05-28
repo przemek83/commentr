@@ -5,6 +5,7 @@
 #include <QTouchEvent>
 
 class QGesture;
+class QPanGesture;
 
 class PanGestureRecognizer : public QGestureRecognizer
 {
@@ -12,6 +13,16 @@ private:
     QGesture* create(QObject* target) override;
     Result recognize(QGesture* state, QObject* watched, QEvent* event) override;
     static const QList<QTouchEvent::TouchPoint>& getTouchPoints(QEvent* event);
+
+    static QGestureRecognizer::Result manageTouchBegin(QPanGesture* gesture,
+                                                       QEvent* event);
+    static QGestureRecognizer::Result manageTouchUpdate(QPanGesture* panGesture,
+                                                        QEvent* event);
+    static QGestureRecognizer::Result manageTouchEnd(QPanGesture* panGesture,
+                                                     QEvent* event);
+
+    static constexpr int singleTouchPoint_{1};
+    static constexpr int panTriggerDistance_{10};
 };
 
 #endif  // PANGESTURERECOGNIZER_H

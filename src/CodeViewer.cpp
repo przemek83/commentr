@@ -144,14 +144,14 @@ bool CodeViewer::event(QEvent* e)
 
             case Qt::TapAndHoldGesture:
             {
-                if (Qt::GestureFinished == gesture->state())
-                {
-                    const auto* tapAndHoldGesture{
-                        dynamic_cast<QTapAndHoldGesture*>(gesture)};
+                if (Qt::GestureFinished != gesture->state())
+                    break;
 
-                    if (manageTapAndHoldGesture(tapAndHoldGesture))
-                        ignoreNextTapGesture_ = true;
-                }
+                const auto* tapAndHoldGesture{
+                    dynamic_cast<QTapAndHoldGesture*>(gesture)};
+
+                if (manageTapAndHoldGesture(tapAndHoldGesture))
+                    ignoreNextTapGesture_ = true;
 
                 break;
             }

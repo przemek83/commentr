@@ -13,15 +13,18 @@
 
 #include "Common.h"
 #include "Config.h"
-#include "CursorPointerSelector.h"
-#include "CursorPointerTextEdit.h"
 #include "PanGestureRecognizer.h"
 
 CodeViewer::CodeViewer(Config& config, QWidget* parent)
     : QPlainTextEdit(parent),
       lineNumberArea_(new LineNumberArea(this)),
       mainWindow_(Common::getMainWindow(this)),
-      config_{config}
+      config_{config},
+      cursorPointer_{config, nullptr},
+      cursorSelector_{CursorPointerSelector::CursorDirection::RIGHT, config,
+                      nullptr},
+      anchorSelector_{CursorPointerSelector::CursorDirection::LEFT, config,
+                      nullptr}
 {
     initVisualPointers();
 
@@ -58,8 +61,6 @@ CodeViewer::CodeViewer(Config& config, QWidget* parent)
     verticalScrollBar()->setStyleSheet(Common::getStyleSheet());
 }
 
-CodeViewer::~CodeViewer() { delete cursorPointer_; }
-
 void CodeViewer::grabGestures() const
 {
     // Do not grab tap and tap and hold as in new Qt it seems stock behaviour
@@ -76,32 +77,24 @@ void CodeViewer::grabGestures() const
 void CodeViewer::initVisualPointers()
 {
     // Cursor pointer.
-    cursorPointer_ = new CursorPointerTextEdit(config_, mainWindow_);
-
-    connect(cursorPointer_, &CursorPointerTextEdit::pointerMoved, this,
+    connect(&cursorPointer_, &CursorPointerTextEdit::pointerMoved, this,
             &CodeViewer::pointerMoved);
 
-    connect(cursorPointer_, &CursorPointerTextEdit::mouseReleased, this,
+    connect(&cursorPointer_, &CursorPointerTextEdit::mouseReleased, this,
             &CodeViewer::matchPointerToCursorPosition);
 
     // Cursor pointer on selection.
-    cursorSelector_ = new CursorPointerSelector(
-        CursorPointerSelector::CursorDirection::RIGHT, config_, mainWindow_);
-
-    connect(cursorSelector_, &CursorPointerSelector::pointerMoved, this,
+    connect(&cursorSelector_, &CursorPointerSelector::pointerMoved, this,
             &CodeViewer::pointerMoved);
 
-    connect(cursorSelector_, &CursorPointerSelector::mouseReleased, this,
+    connect(&cursorSelector_, &CursorPointerSelector::mouseReleased, this,
             &CodeViewer::matchPointerToCursorPosition);
 
     // Anchor pointer on selection.
-    anchorSelector_ = new CursorPointerSelector(
-        CursorPointerSelector::CursorDirection::LEFT, config_, mainWindow_);
-
-    connect(anchorSelector_, &CursorPointerSelector::pointerMoved, this,
+    connect(&anchorSelector_, &CursorPointerSelector::pointerMoved, this,
             &CodeViewer::pointerMoved);
 
-    connect(anchorSelector_, &CursorPointerSelector::mouseReleased, this,
+    connect(&anchorSelector_, &CursorPointerSelector::mouseReleased, this,
             &CodeViewer::matchPointerToCursorPosition);
 }
 
@@ -184,7 +177,7 @@ void CodeViewer::pointerMoved(QPoint pos)
     const auto* senderCursorPointer{
         dynamic_cast<CursorPointerTextEdit*>(sender())};
 
-    if (senderCursorPointer == cursorPointer_)
+    if (senderCursorPointer == &cursorPointer_)
     {
         QTextCursor cursor{cursorForPosition(pos - positionShiftMain())};
         setTextCursor(cursor);
@@ -193,7 +186,7 @@ void CodeViewer::pointerMoved(QPoint pos)
     {
         int anchor{-1};
         int cursor{-1};
-        if (senderCursorPointer == cursorSelector_)
+        if (senderCursorPointer == &cursorSelector_)
         {
             anchor = textCursor().anchor();
             cursor = cursorForPosition(pos - positionShiftMain()).position();
@@ -209,7 +202,7 @@ void CodeViewer::pointerMoved(QPoint pos)
         bool updatePointer{false};
         if (anchor > cursor)
         {
-            if (senderCursorPointer == cursorSelector_)
+            if (senderCursorPointer == &cursorSelector_)
                 anchor = cursor;
             else
                 cursor = anchor;
@@ -226,18 +219,18 @@ void CodeViewer::pointerMoved(QPoint pos)
         {
             // If anchor was moved than match cursor.
             // If cursor was moved by user than match anchor to it.
-            if (senderCursorPointer == cursorSelector_)
-                moveVisualPointer(anchorSelector_);
+            if (senderCursorPointer == &cursorSelector_)
+                moveVisualPointer(&anchorSelector_);
             else
-                moveVisualPointer(cursorSelector_);
+                moveVisualPointer(&cursorSelector_);
         }
     }
 }
 
 void CodeViewer::focusOutEvent(QFocusEvent* e)
 {
-    cursorShownBeforeFocusLost_ = cursorPointer_->isVisible();
-    selectorsShownBeforeFocusLost_ = cursorSelector_->isVisible();
+    cursorShownBeforeFocusLost_ = cursorPointer_.isVisible();
+    selectorsShownBeforeFocusLost_ = cursorSelector_.isVisible();
 
     hideAllCursorPointers();
 
@@ -330,23 +323,23 @@ bool CodeViewer::manageTapAndHoldGesture(const QTapAndHoldGesture* gesture)
 
 void CodeViewer::updateVisualPointersPositions()
 {
-    if (cursorPointer_->isVisible())
+    if (cursorPointer_.isVisible())
     {
-        moveVisualPointer(cursorPointer_);
+        moveVisualPointer(&cursorPointer_);
     }
 
-    if (cursorSelector_->isVisible())
+    if (cursorSelector_.isVisible())
     {
-        moveVisualPointer(cursorSelector_);
+        moveVisualPointer(&cursorSelector_);
 
         if (anchorIsInRange())
         {
-            moveVisualPointer(anchorSelector_);
-            anchorSelector_->setVisible(true);
+            moveVisualPointer(&anchorSelector_);
+            anchorSelector_.setVisible(true);
         }
         else
         {
-            anchorSelector_->setVisible(false);
+            anchorSelector_.setVisible(false);
         }
     }
 }
@@ -359,14 +352,14 @@ void CodeViewer::matchPointerToCursorPosition()
 
 void CodeViewer::moveVisualPointer(CursorPointer* cursorPointer)
 {
-    if (cursorPointer == anchorSelector_)
+    if (cursorPointer == &anchorSelector_)
     {
         QTextCursor cursor{textCursor()};
         cursor.setPosition(cursor.anchor());
         QRect cursorRectangle{cursorRect(cursor)};
         QPoint anchorPos{mapToParent(cursorRectangle.topLeft()) +
                          positionShiftMain()};
-        anchorSelector_->moveVisualPointer(anchorPos.x(), anchorPos.y());
+        anchorSelector_.moveVisualPointer(anchorPos.x(), anchorPos.y());
     }
     else
     {
@@ -379,16 +372,16 @@ void CodeViewer::moveVisualPointer(CursorPointer* cursorPointer)
 
 void CodeViewer::hideAllPointersIfNotDragged()
 {
-    if ((!cursorPointer_->dragged()) && (!cursorSelector_->dragged()) &&
-        (!anchorSelector_->dragged()))
+    if ((!cursorPointer_.dragged()) && (!cursorSelector_.dragged()) &&
+        (!anchorSelector_.dragged()))
         hideAllCursorPointers();
 }
 
 void CodeViewer::hideAllCursorPointers()
 {
-    cursorPointer_->setVisible(false);
-    cursorSelector_->setVisible(false);
-    anchorSelector_->setVisible(false);
+    cursorPointer_.setVisible(false);
+    cursorSelector_.setVisible(false);
+    anchorSelector_.setVisible(false);
 }
 
 QPoint CodeViewer::positionShiftMain() const
@@ -552,24 +545,24 @@ bool CodeViewer::anchorIsInRange() const
 void CodeViewer::setVisibleCursorPointer(bool visible)
 {
     if (visible)
-        moveVisualPointer(cursorPointer_);
+        moveVisualPointer(&cursorPointer_);
 
-    cursorPointer_->setVisible(visible);
+    cursorPointer_.setVisible(visible);
 
-    cursorSelector_->setVisible(false);
-    anchorSelector_->setVisible(false);
+    cursorSelector_.setVisible(false);
+    anchorSelector_.setVisible(false);
 }
 
 void CodeViewer::setVisibleSelectionPointers(bool visible)
 {
-    cursorPointer_->setVisible(false);
+    cursorPointer_.setVisible(false);
 
     if (visible)
     {
-        moveVisualPointer(anchorSelector_);
-        moveVisualPointer(cursorSelector_);
+        moveVisualPointer(&anchorSelector_);
+        moveVisualPointer(&cursorSelector_);
     }
 
-    cursorSelector_->setVisible(visible);
-    anchorSelector_->setVisible(visible);
+    cursorSelector_.setVisible(visible);
+    anchorSelector_.setVisible(visible);
 }

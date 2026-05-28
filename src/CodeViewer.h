@@ -1,20 +1,20 @@
 #ifndef CODEVIEWER_H
 #define CODEVIEWER_H
 
-#include <qtclasshelpermacros.h>
 #include <QObject>
 #include <QPlainTextEdit>
+
+#include "CursorPointerSelector.h"
+#include "CursorPointerTextEdit.h"
 
 class QPaintEvent;
 class QResizeEvent;
 class QSize;
 class QWidget;
 class QGestureEvent;
-class CursorPointerTextEdit;
 class QPinchGesture;
 class QTapGesture;
 class QTapAndHoldGesture;
-class CursorPointerSelector;
 class CursorPointer;
 class Config;
 
@@ -24,7 +24,7 @@ class CodeViewer : public QPlainTextEdit
 public:
     CodeViewer(Config& config, QWidget* parent);
 
-    ~CodeViewer() override;
+    ~CodeViewer() override = default;
 
     void zoom(int zoomFactor);
 
@@ -51,13 +51,6 @@ private:
     int lineNumberAreaWidth() const;
 
     void lineNumberAreaPaintEvent(const QPaintEvent* event);
-
-    // Visual cursor.
-    CursorPointerTextEdit* cursorPointer_{nullptr};
-
-    CursorPointerSelector* cursorSelector_{nullptr};
-
-    CursorPointerSelector* anchorSelector_{nullptr};
 
     class LineNumberArea : public QWidget
     {
@@ -119,6 +112,12 @@ private:
     void grabGestures() const;
 
     Config& config_;
+
+    CursorPointerTextEdit cursorPointer_;
+
+    CursorPointerSelector cursorSelector_;
+
+    CursorPointerSelector anchorSelector_;
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);

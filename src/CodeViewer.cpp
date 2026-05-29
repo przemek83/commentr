@@ -247,17 +247,8 @@ void CodeViewer::managePinchGesture(const QPinchGesture* gesture)
     {
         case Qt::GestureUpdated:
         {
-            const float originalFontSize{config_.fontSize()};
-            const auto totalScaleFactor{
-                static_cast<float>(gesture->totalScaleFactor())};
-            const double expectedFontSize{std::round(
-                Common::normalizeFont(originalFontSize * totalScaleFactor))};
-            const double currentFontSize{fontInfo().pointSizeF()};
-            const auto change{static_cast<int>(
-                std::round(expectedFontSize - currentFontSize))};
-
-            zoom(change);
-
+            const int zoomFactor{calculateZoomFactor(gesture)};
+            zoom(zoomFactor);
             break;
         }
 
@@ -272,6 +263,19 @@ void CodeViewer::managePinchGesture(const QPinchGesture* gesture)
             break;
         }
     }
+}
+
+int CodeViewer::calculateZoomFactor(const QPinchGesture* gesture) const
+{
+    const float originalFontSize{config_.fontSize()};
+    const auto totalScaleFactor{
+        static_cast<float>(gesture->totalScaleFactor())};
+    const double expectedFontSize{
+        std::round(Common::normalizeFont(originalFontSize * totalScaleFactor))};
+    const double currentFontSize{fontInfo().pointSizeF()};
+    const auto change{
+        static_cast<int>(std::round(expectedFontSize - currentFontSize))};
+    return change;
 }
 
 void CodeViewer::manageTapGesture(const QTapGesture* gesture)

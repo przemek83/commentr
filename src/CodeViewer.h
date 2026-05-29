@@ -83,6 +83,8 @@ private:
 
     void managePinchGesture(const QPinchGesture* gesture);
 
+    int calculateZoomFactor(const QPinchGesture* gesture) const;
+
     void manageTapGesture(const QTapGesture* gesture);
 
     void manageTapAndHoldGesture(const QTapAndHoldGesture* gesture);

@@ -105,28 +105,17 @@ QGestureRecognizer::Result PanGestureRecognizer::manageTouchUpdate(
 QGestureRecognizer::Result PanGestureRecognizer::manageTouchEnd(
     QPanGesture* panGesture, QEvent* event)
 {
-    QGestureRecognizer::Result result{QGestureRecognizer::Ignore};
+    if (panGesture->state() == Qt::NoGesture)
+        return QGestureRecognizer::CancelGesture;
 
-    if (panGesture->state() != Qt::NoGesture)
+    if (const QList<QTouchEvent::TouchPoint>& points{getTouchPoints(event)};
+        points.size() == singleTouchPoint_)
     {
-        const QList<QTouchEvent::TouchPoint>& touchPoints{
-            getTouchPoints(event)};
-
-        if (touchPoints.size() == singleTouchPoint_)
-        {
-            panGesture->setLastOffset(panGesture->offset());
-
-            QPointF resultPoint = touchPoints.first().position() -
-                                  touchPoints.first().pressPosition();
-            panGesture->setOffset(resultPoint);
-        }
-
-        result = QGestureRecognizer::FinishGesture;
-    }
-    else
-    {
-        result = QGestureRecognizer::CancelGesture;
+        panGesture->setLastOffset(panGesture->offset());
+        QPointF resultPoint{points.first().position() -
+                            points.first().pressPosition()};
+        panGesture->setOffset(resultPoint);
     }
 
-    return result;
+    return QGestureRecognizer::FinishGesture;
 }

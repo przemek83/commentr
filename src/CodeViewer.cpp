@@ -144,14 +144,8 @@ bool CodeViewer::event(QEvent* e)
 
             case Qt::TapAndHoldGesture:
             {
-                if (Qt::GestureFinished != gesture->state())
-                    break;
-
-                const auto* tapAndHoldGesture{
-                    dynamic_cast<QTapAndHoldGesture*>(gesture)};
-
-                if (manageTapAndHoldGesture(tapAndHoldGesture))
-                    ignoreNextTapGesture_ = true;
+                manageTapAndHoldGesture(
+                    dynamic_cast<QTapAndHoldGesture*>(gesture));
 
                 break;
             }
@@ -282,51 +276,43 @@ void CodeViewer::managePinchGesture(const QPinchGesture* gesture)
 
 void CodeViewer::manageTapGesture(const QTapGesture* gesture)
 {
-    if (Qt::GestureFinished == gesture->state())
+    if (Qt::GestureFinished != gesture->state())
+        return;
+
+    if (ignoreNextTapGesture_)
     {
-        if (ignoreNextTapGesture_)
-        {
-            ignoreNextTapGesture_ = false;
-            return;
-        }
-
-        QTextCursor cursor = cursorForPosition(gesture->position().toPoint());
-        setTextCursor(cursor);
-
-        if (0 != document()->characterCount())
-        {
-            setVisibleCursorPointer(true);
-        }
+        ignoreNextTapGesture_ = false;
+        return;
     }
+
+    QTextCursor cursor{cursorForPosition(gesture->position().toPoint())};
+    setTextCursor(cursor);
+
+    if (document()->characterCount() != 0)
+        setVisibleCursorPointer(true);
 }
 
-bool CodeViewer::manageTapAndHoldGesture(const QTapAndHoldGesture* gesture)
+void CodeViewer::manageTapAndHoldGesture(const QTapAndHoldGesture* gesture)
 {
-    if (Qt::GestureFinished == gesture->state())
-    {
-        QPoint point{mapFromGlobal(gesture->position().toPoint())};
-        QPoint properPoint(point.x() - lineNumberArea_->width(), point.y());
-        QTextCursor cursor{cursorForPosition(properPoint)};
-        cursor.select(QTextCursor::WordUnderCursor);
-        setTextCursor(cursor);
+    if (Qt::GestureFinished != gesture->state())
+        return;
 
-        if (0 != document()->characterCount())
-        {
-            setVisibleSelectionPointers(true);
-        }
+    QPoint point{mapFromGlobal(gesture->position().toPoint())};
+    QPoint properPoint(point.x() - lineNumberArea_->width(), point.y());
+    QTextCursor cursor{cursorForPosition(properPoint)};
+    cursor.select(QTextCursor::WordUnderCursor);
+    setTextCursor(cursor);
 
-        return true;
-    }
+    if (document()->characterCount() != 0)
+        setVisibleSelectionPointers(true);
 
-    return false;
+    ignoreNextTapGesture_ = true;
 }
 
 void CodeViewer::updateVisualPointersPositions()
 {
     if (cursorPointer_.isVisible())
-    {
         moveVisualPointer(&cursorPointer_);
-    }
 
     if (cursorSelector_.isVisible())
     {

@@ -85,7 +85,7 @@ private:
 
     void manageTapGesture(const QTapGesture* gesture);
 
-    bool manageTapAndHoldGesture(const QTapAndHoldGesture* gesture);
+    void manageTapAndHoldGesture(const QTapAndHoldGesture* gesture);
 
     QPoint positionShiftMain() const;
 

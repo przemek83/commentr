@@ -65,8 +65,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent* event)
 {
     if (const int key{event->key()}; Qt::Key_Back == key)
     {
-        auto page{static_cast<StackedPage>(ui_->stackedWidget->currentIndex())};
-        if (PAGE_MAIN != page)
+        const int currentIndex{ui_->tabWidget->currentIndex()};
+        if (const auto page{static_cast<StackedPage>(currentIndex)};
+            PAGE_MAIN != page)
             showMainPage();
         else
             exitApplication();
@@ -84,7 +85,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     emit windowResized();
 }
 
-void MainWindow::showStatusMsg(QString msg)
+void MainWindow::showStatusMsg(const QString& msg)
 {
     QMessageBox::information(this, tr("Message"), msg);
 }

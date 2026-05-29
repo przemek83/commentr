@@ -147,7 +147,7 @@ private slots:
 
     void showMainPage();
 
-    void showStatusMsg(QString msg);
+    void showStatusMsg(const QString& msg);
 
     void focusHasChanged(QWidget* old, QWidget* now);
 

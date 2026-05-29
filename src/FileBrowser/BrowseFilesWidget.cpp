@@ -67,12 +67,12 @@ void BrowseFilesWidget::initLineEdit()
 
 void BrowseFilesWidget::filePathReturnPressed()
 {
-    QString filePath(filePathLineEdit_->text());
-    const auto source{
-        static_cast<Common::Source>(ui_->tabWidget->currentIndex())};
-    if (source != Common::Source::LOCAL)
+    const int currentIndex{ui_->tabWidget->currentIndex()};
+    if (const auto source{static_cast<Common::Source>(currentIndex)};
+        source != Common::Source::LOCAL)
         Q_ASSERT(false);
 
+    QString filePath(filePathLineEdit_->text());
     QFileInfo fileInfo(filePath);
 
     QString canonicalFilePath(fileInfo.canonicalFilePath());

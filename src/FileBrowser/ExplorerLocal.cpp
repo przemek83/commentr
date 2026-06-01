@@ -132,8 +132,8 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
         }
     }
 
-    File* file{new File(Common::Source::LOCAL, path, baseName, suffix,
-                        std::move(content))};
+    File file(Common::Source::LOCAL, path, baseName, suffix,
+              std::move(content));
 
     emit filePrepared(file);
 }

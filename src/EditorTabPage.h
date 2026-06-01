@@ -1,8 +1,11 @@
 #ifndef EDITORTABPAGE_H
 #define EDITORTABPAGE_H
 
-#include <QWidget>
 #include <memory>
+
+#include <QWidget>
+
+#include "File.h"
 
 namespace Ui
 {
@@ -11,7 +14,6 @@ class EditorTabPage;
 
 class CodeViewer;
 class Highlighter;
-class File;
 class Config;
 class SpellChecker;
 
@@ -33,7 +35,7 @@ public:
         JAVASCRIPT
     };
 
-    EditorTabPage(File* file, float fontSize, Config& config,
+    EditorTabPage(File file, float fontSize, Config& config,
                   SpellChecker& spellChecker, QWidget* parent);
 
     ~EditorTabPage() override;
@@ -62,7 +64,7 @@ public:
 
     /// @brief change path, base name and suffix of current File object.
     /// @param file file object.
-    void changeFile(const File* file);
+    void changeFile(const File& file);
 
     QString getCurrentText() const;
 
@@ -103,7 +105,7 @@ private:
 
     std::unique_ptr<Highlighter> highlighter_{nullptr};
 
-    File* file_;
+    File file_;
 
     Config& config_;
 

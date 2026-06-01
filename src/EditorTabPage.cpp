@@ -20,12 +20,12 @@
 #include "SpellChecker.h"
 #include "ui_EditorTabPage.h"
 
-EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config,
+EditorTabPage::EditorTabPage(File file, float fontSize, Config& config,
                              SpellChecker& spellChecker, QWidget* parent)
     : QWidget(parent),
       ui_{std::make_unique<Ui::EditorTabPage>()},
       codeViewer_(new CodeViewer(config, this)),
-      file_{file},
+      file_{std::move(file)},
       config_{config},
       spellChecker_{spellChecker}
 {
@@ -37,8 +37,8 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config,
 
     ui_->verticalLayout->insertWidget(0, codeViewer_);
 
-    codeViewer_->setPlainText(file->content());
-    file->clearContent();
+    codeViewer_->setPlainText(file_.content());
+    file_.clearContent();
 
     const QStyle* style{QApplication::style()};
     ui_->next->setIcon(style->standardIcon(QStyle::SP_ArrowRight));
@@ -68,7 +68,7 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config,
     connect(codeViewer_, &CodeViewer::copyAvailable, this,
             &EditorTabPage::copyAndCutAvailable);
 
-    setMode(detectModeUsingSuffix(file->suffix()));
+    setMode(detectModeUsingSuffix(file_.suffix()));
 
     ui_->searchLineEdit->setInputMethodHints(Qt::ImhNoPredictiveText);
 
@@ -77,7 +77,7 @@ EditorTabPage::EditorTabPage(File* file, float fontSize, Config& config,
     ui_->searchLineEdit->installEventFilter(backButtonHandler);
 }
 
-EditorTabPage::~EditorTabPage() { delete file_; }
+EditorTabPage::~EditorTabPage() = default;
 
 void EditorTabPage::keyPressEvent(QKeyEvent* event)
 {
@@ -207,12 +207,12 @@ void EditorTabPage::setLineWrap(bool wrap)
         codeViewer_->setLineWrapMode(QPlainTextEdit::NoWrap);
 }
 
-void EditorTabPage::changeFile(const File* file)
+void EditorTabPage::changeFile(const File& file)
 {
-    file_->setSource(file->source());
-    file_->setPath(file->path());
-    file_->setBaseName(file->baseName());
-    file_->setSuffix(file->suffix());
+    file_.setSource(file.source());
+    file_.setPath(file.path());
+    file_.setBaseName(file.baseName());
+    file_.setSuffix(file.suffix());
 }
 
 QString EditorTabPage::getCurrentText() const
@@ -267,8 +267,8 @@ void EditorTabPage::refreshVisualIndicators()
 
 File EditorTabPage::getCurrentFileCopy() const
 {
-    File file(file_->source(), file_->path(), file_->baseName(),
-              file_->suffix(), codeViewer_->toPlainText());
+    File file(file_.source(), file_.path(), file_.baseName(), file_.suffix(),
+              codeViewer_->toPlainText());
 
     return file;
 }

@@ -287,12 +287,22 @@ void MainWindow::showMainPage()
     }
 }
 
-void MainWindow::createNewTab(File* file)
+void MainWindow::createNewTab(File file)
 {
     showMainPage();
 
-    EditorTabPage* editorTabPage{new EditorTabPage(
-        file, config_.fontSize(), config_, spellChecker_, ui_->tabWidget)};
+    if (file.source() == Common::Source::LOCAL)
+    {
+        config_.addFilePathToRecentFiles(file.getFilePath());
+
+        setupRecentFiles(config_);
+    }
+
+    const QString baseName{file.baseName()};
+
+    EditorTabPage* editorTabPage{
+        new EditorTabPage(std::move(file), config_.fontSize(), config_,
+                          spellChecker_, ui_->tabWidget)};
 
     editorTabPage->setLineWrap(config_.lineWrap());
 
@@ -305,21 +315,14 @@ void MainWindow::createNewTab(File* file)
     connect(editorTabPage, &EditorTabPage::copyCutIsAvailable, this,
             &MainWindow::copyAndCutAvailabilityChanged);
 
-    int newestIndex = ui_->tabWidget->addTab(editorTabPage, file->baseName());
+    int newestIndex = ui_->tabWidget->addTab(editorTabPage, baseName);
 
     ui_->tabWidget->setCurrentIndex(newestIndex);
 
     manageActions(true);
-
-    if (file->source() == Common::Source::LOCAL)
-    {
-        config_.addFilePathToRecentFiles(file->getFilePath());
-
-        setupRecentFiles(config_);
-    }
 }
 
-void MainWindow::saveFileFromTab(File* file)
+void MainWindow::saveFileFromTab(File file)
 {
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -330,15 +333,14 @@ void MainWindow::saveFileFromTab(File* file)
         return;
     }
 
-    QString newBaseName = file->baseName();
-    if (file->source() == Common::Source::LOCAL)
+    if (file.source() == Common::Source::LOCAL)
     {
         QString content(currentTab->getCurrentText());
-        showStatusMsg(Common::saveFile(file->getFilePath(), content));
+        showStatusMsg(Common::saveFile(file.getFilePath(), content));
         currentTab->changeFile(file);
     }
-    delete file;
-    ui_->tabWidget->setTabText(ui_->tabWidget->currentIndex(), newBaseName);
+
+    ui_->tabWidget->setTabText(ui_->tabWidget->currentIndex(), file.baseName());
     showMainPage();
 }
 
@@ -364,12 +366,11 @@ void MainWindow::openRecentFile()
         return;
     }
 
-    File* file{new File(Common::Source::LOCAL, File::filePathToPath(filePath),
-                        File::filePathToBaseName(filePath),
-                        File::filePathToSuffix(filePath),
-                        Common::loadFile(filePath))};
+    File file(Common::Source::LOCAL, File::filePathToPath(filePath),
+              File::filePathToBaseName(filePath),
+              File::filePathToSuffix(filePath), Common::loadFile(filePath));
 
-    createNewTab(file);
+    createNewTab(std::move(file));
 }
 
 void MainWindow::connectActions()
@@ -948,27 +949,27 @@ void MainWindow::newFile()
 {
     showMainPage();
     ++newFileCounter_;
-    File* file{new File(Common::Source::NOT_SET, "",
-                        tr("File") + QString::number(newFileCounter_), "", "")};
+    File file(Common::Source::NOT_SET, "",
+              tr("File") + QString::number(newFileCounter_), "", "");
 
-    createNewTab(file);
+    createNewTab(std::move(file));
 }
 
 void MainWindow::showAbout()
 {
-    File* file{new File(Common::Source::NOT_SET, "",
-                        "About " + QCoreApplication::applicationName(), "",
-                        Common::loadFile(":/about.txt"))};
+    File file(Common::Source::NOT_SET, "",
+              "About " + QCoreApplication::applicationName(), "",
+              Common::loadFile(":/about.txt"));
 
-    createNewTab(file);
+    createNewTab(std::move(file));
 }
 
 void MainWindow::showQtLicense()
 {
-    File* file{new File(Common::Source::NOT_SET, "", "Qt license", "",
-                        Common::loadFile(":/LICENSE"))};
+    File file(Common::Source::NOT_SET, "", "Qt license", "",
+              Common::loadFile(":/LICENSE"));
 
-    createNewTab(file);
+    createNewTab(std::move(file));
 }
 
 void MainWindow::showHidenKeyboard() const

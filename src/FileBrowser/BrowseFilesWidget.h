@@ -5,9 +5,10 @@
 
 #include <QWidget>
 
+#include "../File.h"
+
 class EnhancedLineEdit;
 class Explorer;
-class File;
 class Config;
 
 namespace Ui
@@ -50,7 +51,7 @@ private slots:
 signals:
     void cancelAction();
 
-    void filePrepared(File* file);
+    void filePrepared(File file);
 };
 
 #endif  // BROWSEFILESWIDGET_H

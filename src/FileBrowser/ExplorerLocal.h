@@ -58,7 +58,7 @@ private slots:
 signals:
     void pathChanged(QString newPath);
 
-    void filePrepared(File* file);
+    void filePrepared(File file);
 };
 
 #endif  // EXPLORERLOCAL_H

@@ -151,9 +151,9 @@ private slots:
 
     void focusHasChanged(QWidget* old, QWidget* now);
 
-    void createNewTab(File* file);
+    void createNewTab(File file);
 
-    void saveFileFromTab(File* file);
+    void saveFileFromTab(File file);
 
     void openRecentFile();
 

@@ -12,10 +12,12 @@ public:
     File(Common::Source source, QString path, QString name, QString suffix,
          QString content);
     File(File&& other) = default;
+    File(const File& other) = default;
 
     virtual ~File() = default;
 
     File& operator=(File&& other) = default;
+    File& operator=(const File& other) = default;
 
     Common::Source source() const;
     void setSource(const Common::Source& source);
@@ -48,8 +50,6 @@ public:
     static QString fileNameToSuffix(const QString& fileName);
 
 private:
-    Q_DISABLE_COPY(File)
-
     Common::Source source_;
 
     QString path_;

@@ -322,7 +322,7 @@ void MainWindow::createNewTab(File file)
     manageActions(true);
 }
 
-void MainWindow::saveFileFromTab(File file)
+void MainWindow::saveFileFromTab(const File& file)
 {
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};

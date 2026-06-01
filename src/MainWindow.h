@@ -153,7 +153,7 @@ private slots:
 
     void createNewTab(File file);
 
-    void saveFileFromTab(File file);
+    void saveFileFromTab(const File& file);
 
     void openRecentFile();
 

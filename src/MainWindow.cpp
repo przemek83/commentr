@@ -454,10 +454,9 @@ void MainWindow::closeCurrentTab()
     int currentIndex{ui_->tabWidget->currentIndex()};
 
     QString msg{tr("Close ") + ui_->tabWidget->tabText(currentIndex) + "?"};
-    QMessageBox::StandardButton answer =
-        QMessageBox::question(this, tr("Confirm"), msg);
-
-    if (answer != QMessageBox::Yes)
+    if (QMessageBox::StandardButton answer{
+            QMessageBox::question(this, tr("Confirm"), msg)};
+        answer != QMessageBox::Yes)
         return;
 
     std::unique_ptr<QWidget> tabToDelete{ui_->tabWidget->widget(currentIndex)};
@@ -823,10 +822,9 @@ void MainWindow::lineWrap(bool checked)
 
 void MainWindow::exitApplication()
 {
-    QMessageBox::StandardButton answer{
-        QMessageBox::question(this, tr("Quit"), tr("Quit CommentR?"))};
-
-    if (answer == QMessageBox::No)
+    if (QMessageBox::StandardButton answer{
+            QMessageBox::question(this, tr("Quit"), tr("Quit CommentR?"))};
+        answer == QMessageBox::No)
         return;
 
     QCoreApplication::quit();

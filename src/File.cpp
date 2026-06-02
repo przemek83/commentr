@@ -86,7 +86,7 @@ QString File::fileNameToSuffix(const QString& fileName)
     if (lastDotIndex == 0)
         lastDotIndex = -1;
 
-    QString suffix("");
+    QString suffix(QLatin1String(""));
 
     // If found.
     if (lastDotIndex != -1)

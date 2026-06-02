@@ -283,38 +283,38 @@ EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
     const QString& suffix)
 {
     EditorTabPage::EditorMode mode{EditorTabPage::EditorMode::PLAIN_TEXT};
-    if (suffix == "java")
+    if (suffix == QLatin1String("java"))
         mode = EditorTabPage::EditorMode::JAVA;
 
-    const bool isCPlusPlusSourceFile{(suffix == "cpp") || (suffix == "cxx") ||
-                                     (suffix == "c++") || (suffix == "cc")};
-    const bool isCPlusPlusHeaderFile{(suffix == "h") || (suffix == "hpp")};
-    const bool isCSourceFile{suffix == "c"};
-    const bool isMocFile{suffix == "moc"};
+    const bool isCPlusPlusSourceFile{(suffix == QLatin1String("cpp")) || (suffix == QLatin1String("cxx")) ||
+                                     (suffix == QLatin1String("c++")) || (suffix == QLatin1String("cc"))};
+    const bool isCPlusPlusHeaderFile{(suffix == QLatin1String("h")) || (suffix == QLatin1String("hpp"))};
+    const bool isCSourceFile{suffix == QLatin1String("c")};
+    const bool isMocFile{suffix == QLatin1String("moc")};
 
     if (isCPlusPlusSourceFile || isCPlusPlusHeaderFile || isCSourceFile ||
         isMocFile)
         mode = EditorTabPage::EditorMode::C_CPP;
 
-    if (suffix == "m")
+    if (suffix == QLatin1String("m"))
         mode = EditorTabPage::EditorMode::OBJECTIVE_C;
 
-    if (suffix == "cs")
+    if (suffix == QLatin1String("cs"))
         mode = EditorTabPage::EditorMode::C_SHARP;
 
-    if (suffix == "php")
+    if (suffix == QLatin1String("php"))
         mode = EditorTabPage::EditorMode::PHP;
 
-    if ((suffix == "bas") || (suffix == "cls") || (suffix == "vb"))
+    if ((suffix == QLatin1String("bas")) || (suffix == QLatin1String("cls")) || (suffix == QLatin1String("vb")))
         mode = EditorTabPage::EditorMode::VISUAL_BASIC;
 
-    if (suffix == "py")
+    if (suffix == QLatin1String("py"))
         mode = EditorTabPage::EditorMode::PYTHON;
 
-    if (suffix == "sql")
+    if (suffix == QLatin1String("sql"))
         mode = EditorTabPage::EditorMode::SQL;
 
-    if (suffix == "js")
+    if (suffix == QLatin1String("js"))
         mode = EditorTabPage::EditorMode::JAVASCRIPT;
 
     return mode;

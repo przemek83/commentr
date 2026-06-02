@@ -17,7 +17,7 @@ namespace
 {
 void placeSamples()
 {
-    const QString samplesPath{":/samples/samples/"};
+    const QString samplesPath{QStringLiteral(":/samples/samples/")};
     const QStringList potentialPaths{QStandardPaths::standardLocations(
         QStandardPaths::AppLocalDataLocation)};
     for (const auto& path : potentialPaths)
@@ -30,7 +30,7 @@ void placeSamples()
         for (const auto& sample : allSamples.entryList())
         {
             QFile file(samplesPath + sample);
-            file.copy(currentPath.absoluteFilePath() + "/" + sample);
+            file.copy(currentPath.absoluteFilePath() + QStringLiteral("/") + sample);
         }
 
         return;
@@ -40,8 +40,8 @@ void placeSamples()
 
 int main(int argc, char* argv[])
 {
-    QCoreApplication::setOrganizationName("Ble");
-    QCoreApplication::setApplicationName("CommentR");
+    QCoreApplication::setOrganizationName(QStringLiteral("Ble"));
+    QCoreApplication::setApplicationName(QStringLiteral("CommentR"));
 
 #ifdef Q_OS_WIN
     qputenv("QT_QPA_PLATFORM", "windows:darkmode=0");
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
     }
 
     SpellChecker spellChecker;
-    spellChecker.initDictionary(Common::loadFile(":/uk.dic"));
+    spellChecker.initDictionary(Common::loadFile(QStringLiteral(":/uk.dic")));
 
     MainWindow w(std::move(config), std::move(spellChecker));
 

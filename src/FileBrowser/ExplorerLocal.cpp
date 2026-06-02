@@ -117,7 +117,7 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
     {
         if (QFile::exists(filePath))
         {
-            QString msg = tr("Overwrite ") + fileInfo.fileName() + "?";
+            QString msg = tr("Overwrite ") + fileInfo.fileName() + QStringLiteral("?");
             QMessageBox::StandardButton answer =
                 QMessageBox::question(this, tr("Overwrite"), msg);
 
@@ -155,7 +155,7 @@ void ExplorerLocal::itemWasActivated(QModelIndex index)
     QString canonicalFilePath(fileModel->fileInfo(index).canonicalFilePath());
     if (fileModel->isDir(index))
     {
-        if (index.data().toString() == "..")
+        if (index.data().toString() == QLatin1String(".."))
         {
             setRootIndex(fileModel->index(canonicalFilePath));
             QModelIndex newRootIndex = fileModel->index(0, 0, rootIndex());
@@ -201,7 +201,7 @@ bool ExplorerLocal::directoryIsAccessible(const QString& path)
         else
         {
             QMessageBox::information(this, tr("Error"), tr("I/O error..."));
-            setRootIndex(fileModel->index(""));
+            setRootIndex(fileModel->index(QLatin1String("")));
         }
 
         return false;

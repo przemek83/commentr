@@ -25,7 +25,7 @@ QString Common::loadFile(QString name)
     QFile file(name);
 
     if (!file.open(QIODevice::ReadOnly))
-        return "";
+        return QLatin1String("");
 
     QTextStream stream(&file);
     stream.setEncoding(QStringConverter::Utf8);
@@ -55,7 +55,8 @@ QString Common::saveFile(QString fileName, const QString& data)
 
 QString Common::getStyleSheet()
 {
-    static const QString stylesheet = Common::loadFile(":/style.css");
+    static const QString stylesheet =
+        Common::loadFile(QStringLiteral(":/style.css"));
     return stylesheet;
 }
 

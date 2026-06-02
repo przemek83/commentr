@@ -1,5 +1,7 @@
 #include "MainWindow.h"
 
+#include <memory>
+
 #include <QActionGroup>
 #include <QClipboard>
 #include <QFileDialog>
@@ -451,23 +453,18 @@ void MainWindow::closeCurrentTab()
 {
     int currentIndex{ui_->tabWidget->currentIndex()};
 
-    QWidget* tabToDelete{ui_->tabWidget->widget(currentIndex)};
-
-    if (tabToDelete == nullptr)
-        return;
-
     QString msg{tr("Close ") + ui_->tabWidget->tabText(currentIndex) + "?"};
     QMessageBox::StandardButton answer =
         QMessageBox::question(this, tr("Confirm"), msg);
 
-    if (answer == QMessageBox::Yes)
-    {
-        ui_->tabWidget->removeTab(currentIndex);
-        delete tabToDelete;
+    if (answer != QMessageBox::Yes)
+        return;
 
-        if (ui_->tabWidget->count() == 0)
-            manageActions(false);
-    }
+    std::unique_ptr<QWidget> tabToDelete{ui_->tabWidget->widget(currentIndex)};
+    ui_->tabWidget->removeTab(currentIndex);
+
+    if (ui_->tabWidget->count() == 0)
+        manageActions(false);
 }
 
 void MainWindow::qtStylePicked()

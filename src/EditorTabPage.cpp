@@ -286,9 +286,11 @@ EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
     if (suffix == QLatin1String("java"))
         mode = EditorTabPage::EditorMode::JAVA;
 
-    const bool isCPlusPlusSourceFile{(suffix == QLatin1String("cpp")) || (suffix == QLatin1String("cxx")) ||
-                                     (suffix == QLatin1String("c++")) || (suffix == QLatin1String("cc"))};
-    const bool isCPlusPlusHeaderFile{(suffix == QLatin1String("h")) || (suffix == QLatin1String("hpp"))};
+    const bool isCPlusPlusSourceFile{
+        (suffix == QLatin1String("cpp")) || (suffix == QLatin1String("cxx")) ||
+        (suffix == QLatin1String("c++")) || (suffix == QLatin1String("cc"))};
+    const bool isCPlusPlusHeaderFile{(suffix == QLatin1String("h")) ||
+                                     (suffix == QLatin1String("hpp"))};
     const bool isCSourceFile{suffix == QLatin1String("c")};
     const bool isMocFile{suffix == QLatin1String("moc")};
 
@@ -305,7 +307,8 @@ EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
     if (suffix == QLatin1String("php"))
         mode = EditorTabPage::EditorMode::PHP;
 
-    if ((suffix == QLatin1String("bas")) || (suffix == QLatin1String("cls")) || (suffix == QLatin1String("vb")))
+    if ((suffix == QLatin1String("bas")) || (suffix == QLatin1String("cls")) ||
+        (suffix == QLatin1String("vb")))
         mode = EditorTabPage::EditorMode::VISUAL_BASIC;
 
     if (suffix == QLatin1String("py"))

@@ -358,13 +358,15 @@ void MainWindow::openRecentFile()
 
     if (!fileInfo.exists())
     {
-        showStatusMsg(QLatin1String("File ") + filePath + QLatin1String(" not found."));
+        showStatusMsg(QLatin1String("File ") + filePath +
+                      QLatin1String(" not found."));
         return;
     }
 
     if (!fileInfo.isReadable())
     {
-        showStatusMsg(QLatin1String("File ") + filePath + QLatin1String(" not readable."));
+        showStatusMsg(QLatin1String("File ") + filePath +
+                      QLatin1String(" not readable."));
         return;
     }
 
@@ -453,7 +455,8 @@ void MainWindow::closeCurrentTab()
 {
     int currentIndex{ui_->tabWidget->currentIndex()};
 
-    QString msg{tr("Close ") + ui_->tabWidget->tabText(currentIndex) + QLatin1String("?")};
+    QString msg{tr("Close ") + ui_->tabWidget->tabText(currentIndex) +
+                QLatin1String("?")};
     if (QMessageBox::StandardButton answer{
             QMessageBox::question(this, tr("Confirm"), msg)};
         answer != QMessageBox::Yes)
@@ -951,7 +954,8 @@ void MainWindow::newFile()
     showMainPage();
     ++newFileCounter_;
     File file(Common::Source::NOT_SET, QLatin1String(""),
-              tr("File") + QString::number(newFileCounter_), QLatin1String(""), QLatin1String(""));
+              tr("File") + QString::number(newFileCounter_), QLatin1String(""),
+              QLatin1String(""));
 
     createNewTab(std::move(file));
 }
@@ -959,7 +963,8 @@ void MainWindow::newFile()
 void MainWindow::showAbout()
 {
     File file(Common::Source::NOT_SET, QLatin1String(""),
-              QLatin1String("About ") + QCoreApplication::applicationName(), QLatin1String(""),
+              QLatin1String("About ") + QCoreApplication::applicationName(),
+              QLatin1String(""),
               Common::loadFile(QStringLiteral(":/about.txt")));
 
     createNewTab(std::move(file));
@@ -967,7 +972,8 @@ void MainWindow::showAbout()
 
 void MainWindow::showQtLicense()
 {
-    File file(Common::Source::NOT_SET, QLatin1String(""), QStringLiteral("Qt license"), QLatin1String(""),
+    File file(Common::Source::NOT_SET, QLatin1String(""),
+              QStringLiteral("Qt license"), QLatin1String(""),
               Common::loadFile(QStringLiteral(":/LICENSE")));
 
     createNewTab(std::move(file));

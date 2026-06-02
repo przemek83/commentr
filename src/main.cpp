@@ -30,7 +30,8 @@ void placeSamples()
         for (const auto& sample : allSamples.entryList())
         {
             QFile file(samplesPath + sample);
-            file.copy(currentPath.absoluteFilePath() + QStringLiteral("/") + sample);
+            file.copy(currentPath.absoluteFilePath() + QStringLiteral("/") +
+                      sample);
         }
 
         return;

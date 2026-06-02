@@ -80,6 +80,8 @@ private:
 
     void setupEditorModeActions() const;
 
+    void resetStyle();
+
     std::unique_ptr<Ui::MainWindow> ui_;
 
     int newFileCounter_{0};

@@ -34,7 +34,7 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, Config& config, QWidget* parent)
             &BrowseFilesWidget::currentTabChanged);
 
     ui_->tabWidget->insertTab(static_cast<int>(Common::Source::LOCAL),
-                              localListView, "local");
+                              localListView, QStringLiteral("local"));
 
     setProperIconForViewButton();
 
@@ -54,7 +54,7 @@ void BrowseFilesWidget::initLineEdit()
     filePathLineEdit_ = new EnhancedLineEdit(config_, this);
 
     ui_->upperHorizontalLayout->insertWidget(1, filePathLineEdit_);
-    filePathLineEdit_->setStyleSheet("QLineEdit{background: #FFBFBF;}");
+    filePathLineEdit_->setStyleSheet(QStringLiteral("QLineEdit{background: #FFBFBF;}"));
 
     connect(filePathLineEdit_, &EnhancedLineEdit::returnPressed, this,
             &BrowseFilesWidget::filePathReturnPressed);
@@ -88,13 +88,13 @@ void BrowseFilesWidget::filePathReturnPressed()
 void BrowseFilesWidget::filePathTextChanged(const QString& arg1)
 {
     if (currentListView()->fileIsValid(arg1))
-        filePathLineEdit_->setStyleSheet("QLineEdit{background: white;}");
+        filePathLineEdit_->setStyleSheet(QStringLiteral("QLineEdit{background: white;}"));
     else
-        filePathLineEdit_->setStyleSheet("QLineEdit{background: #FFBFBF;}");
+        filePathLineEdit_->setStyleSheet(QStringLiteral("QLineEdit{background: #FFBFBF;}"));
 
     if (filePathLineEdit_->text().isEmpty())
     {
-        currentListView()->setPath("");
+        currentListView()->setPath(QLatin1String(""));
         filePathLineEdit_->setText(Common::rootPath());
     }
 }

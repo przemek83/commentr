@@ -41,8 +41,9 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
     constexpr int minSpellcheckWordLength{1};
 
     QString str{line.simplified()};
-    QStringList wordsList = str.split(
-        QRegularExpression(QStringLiteral(R"(([^\w,^\\]|(?=\\))+)")), Qt::SkipEmptyParts);
+    QStringList wordsList =
+        str.split(QRegularExpression(QStringLiteral(R"(([^\w,^\\]|(?=\\))+)")),
+                  Qt::SkipEmptyParts);
     for (const QString& word : wordsList)
     {
         if ((word.length() > minSpellcheckWordLength) &&
@@ -111,12 +112,14 @@ void Highlighter::processWord(const QString& word, int minIndex,
                               const QString& line)
 {
     int l{noMatchIndex_};
-    int number{
-        static_cast<int>(line.count(QRegularExpression(QLatin1String("\\b") + word + QLatin1String("\\b"))))};
+    int number{static_cast<int>(line.count(QRegularExpression(
+        QLatin1String("\\b") + word + QLatin1String("\\b"))))};
     for (int j = 0; j < number; ++j)
     {
-        l = static_cast<int>(line.indexOf(
-            QRegularExpression(QLatin1String("\\b") + word + QLatin1String("\\b")), minIndex + l + 1));
+        l = static_cast<int>(
+            line.indexOf(QRegularExpression(QLatin1String("\\b") + word +
+                                            QLatin1String("\\b")),
+                         minIndex + l + 1));
         if (l >= 0)
         {
             setFormat(l, static_cast<int>(word.length()), spellCheckFormat_);

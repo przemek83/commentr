@@ -759,7 +759,7 @@ void MainWindow::setupEditorModeActions() const
         { changeModeForCurrentTab(EditorTabPage::EditorMode::PLAIN_TEXT); });
 }
 
-void MainWindow::resetStyle()
+void MainWindow::resetStyle() const
 {
     auto* newStyle{new ProxyStyle(config_.style(), config_.uiSize())};
     QApplication::setStyle(newStyle);

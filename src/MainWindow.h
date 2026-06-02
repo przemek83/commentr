@@ -80,7 +80,7 @@ private:
 
     void setupEditorModeActions() const;
 
-    void resetStyle();
+    void resetStyle() const;
 
     std::unique_ptr<Ui::MainWindow> ui_;
 

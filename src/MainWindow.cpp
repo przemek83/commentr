@@ -141,7 +141,7 @@ void MainWindow::setupStyles(const Config& config)
     QActionGroup* actionsGroup{new QActionGroup(this)};
 
     QString styleSetInConfig{config.style()};
-    foreach (QString style, qtStylesList)
+    for (const QString& style : qtStylesList)
     {
         QAction* action{new QAction(style, ui_->menuOptions)};
         action->setCheckable(true);
@@ -358,13 +358,15 @@ void MainWindow::openRecentFile()
 
     if (!fileInfo.exists())
     {
-        showStatusMsg("File " + filePath + " not found.");
+        showStatusMsg(QLatin1String("File ") + filePath +
+                      QLatin1String(" not found."));
         return;
     }
 
     if (!fileInfo.isReadable())
     {
-        showStatusMsg("File " + filePath + " not readable.");
+        showStatusMsg(QLatin1String("File ") + filePath +
+                      QLatin1String(" not readable."));
         return;
     }
 
@@ -453,7 +455,8 @@ void MainWindow::closeCurrentTab()
 {
     int currentIndex{ui_->tabWidget->currentIndex()};
 
-    QString msg{tr("Close ") + ui_->tabWidget->tabText(currentIndex) + "?"};
+    QString msg{tr("Close ") + ui_->tabWidget->tabText(currentIndex) +
+                QLatin1String("?")};
     if (QMessageBox::StandardButton answer{
             QMessageBox::question(this, tr("Confirm"), msg)};
         answer != QMessageBox::Yes)
@@ -807,7 +810,7 @@ void MainWindow::checkSpellingInComments(bool checked)
     spellChecker_.setActive(checked);
 
     QList<EditorTabPage*> pages{findChildren<EditorTabPage*>()};
-    foreach (EditorTabPage* page, pages)
+    for (EditorTabPage* page : pages)
         page->refreshHighlighter();
 }
 
@@ -816,7 +819,7 @@ void MainWindow::lineWrap(bool checked)
     config_.setLineWrap(checked);
 
     QList<EditorTabPage*> pages{ui_->tabWidget->findChildren<EditorTabPage*>()};
-    foreach (EditorTabPage* page, pages)
+    for (EditorTabPage* page : pages)
         page->setLineWrap(checked);
 }
 
@@ -950,25 +953,28 @@ void MainWindow::newFile()
 {
     showMainPage();
     ++newFileCounter_;
-    File file(Common::Source::NOT_SET, "",
-              tr("File") + QString::number(newFileCounter_), "", "");
+    File file(Common::Source::NOT_SET, QLatin1String(""),
+              tr("File") + QString::number(newFileCounter_), QLatin1String(""),
+              QLatin1String(""));
 
     createNewTab(std::move(file));
 }
 
 void MainWindow::showAbout()
 {
-    File file(Common::Source::NOT_SET, "",
-              "About " + QCoreApplication::applicationName(), "",
-              Common::loadFile(":/about.txt"));
+    File file(Common::Source::NOT_SET, QLatin1String(""),
+              QLatin1String("About ") + QCoreApplication::applicationName(),
+              QLatin1String(""),
+              Common::loadFile(QStringLiteral(":/about.txt")));
 
     createNewTab(std::move(file));
 }
 
 void MainWindow::showQtLicense()
 {
-    File file(Common::Source::NOT_SET, "", "Qt license", "",
-              Common::loadFile(":/LICENSE"));
+    File file(Common::Source::NOT_SET, QLatin1String(""),
+              QStringLiteral("Qt license"), QLatin1String(""),
+              Common::loadFile(QStringLiteral(":/LICENSE")));
 
     createNewTab(std::move(file));
 }

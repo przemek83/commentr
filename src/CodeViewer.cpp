@@ -126,7 +126,7 @@ bool CodeViewer::event(QEvent* e)
     const auto* gestureEvent{dynamic_cast<QGestureEvent*>(e)};
     QList<QGesture*> gestures{gestureEvent->gestures()};
 
-    foreach (QGesture* gesture, gestures)
+    for (QGesture* gesture : gestures)
     {
         switch (gesture->gestureType())
         {

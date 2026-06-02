@@ -16,45 +16,65 @@ void CplusPlusHighlighter::initRules()
     keywordFormat.setForeground(Qt::darkBlue);
     keywordFormat.setFontWeight(QFont::Bold);
     QStringList keywordPatterns;
-    keywordPatterns << "\\balignas\\b" << "\\balignof\\b" << "\\band\\b"
-                    << "\\band_eq\\b" << "\\basm\\b" << "\\bauto\\b"
-                    << "\\bbitand\\b" << "\\bbitor\\b" << "\\bbool\\b"
-                    << "\\bbreak\\b" << "\\bcase\\b" << "\\bcatch\\b"
-                    << "\\bchar\\b" << "\\bchar16_t\\b" << "\\bchar32_t\\b"
-                    << "\\bclass\\b" << "\\bcompl\\b" << "\\bconst\\b"
-                    << "\\bconstexpr\\b" << "\\bconst_cast\\b"
-                    << "\\bcontinue\\b" << "\\bdecltype\\b" << "\\bdefault\\b"
-                    << "\\bdelete\\b" << "\\bdo\\b" << "\\bdouble\\b"
-                    << "\\bdynamic_cast\\b" << "\\belse\\b" << "\\benum\\b"
-                    << "\\bexplicit\\b" << "\\bexport\\b" << "\\bextern\\b"
-                    << "\\bfalse\\b" << "\\bfloat\\b" << "\\bfor\\b"
-                    << "\\bfriend\\b" << "\\bgoto\\b" << "\\bif\\b"
-                    << "\\binline\\b" << "\\bint\\b" << "\\blong\\b"
-                    << "\\bmutable\\b" << "\\bnamespace\\b" << "\\bnew\\b"
-                    << "\\bnoexcept\\b" << "\\bnot\\b" << "\\bnot_eq\\b"
-                    << "\\bnullptr\\b" << "\\boperator\\b" << "\\bor\\b"
-                    << "\\bor_eq\\b" << "\\bprivate\\b" << "\\bprotected\\b"
-                    << "\\bpublic\\b" << "\\bregister\\b"
-                    << "\\breinterpret_cast\\b" << "\\breturn\\b"
-                    << "\\bshort\\b" << "\\bsigned\\b" << "\\bsizeof\\b"
-                    << "\\bstatic\\b" << "\\bstatic_assert\\b"
-                    << "\\bstatic_cast\\b" << "\\bstruct\\b" << "\\bswitch\\b"
-                    << "\\btemplate\\b" << "\\bthis\\b" << "\\bthread_local\\b"
-                    << "\\bthrow\\b" << "\\btrue\\b" << "\\btry\\b"
-                    << "\\btypedef\\b" << "\\btypeid\\b" << "\\btypename\\b"
-                    << "\\bunion\\b" << "\\bunsigned\\b" << "\\busing\\b"
-                    << "\\bvirtual\\b" << "\\bvoid\\b" << "\\bvolatile\\b"
-                    << "\\bwchar_t\\b" << "\\bwhile\\b" << "\\bxor\\b"
-                    << "\\bxor_eq\\b";
+    keywordPatterns
+        << QStringLiteral("\\balignas\\b") << QStringLiteral("\\balignof\\b")
+        << QStringLiteral("\\band\\b") << QStringLiteral("\\band_eq\\b")
+        << QStringLiteral("\\basm\\b") << QStringLiteral("\\bauto\\b")
+        << QStringLiteral("\\bbitand\\b") << QStringLiteral("\\bbitor\\b")
+        << QStringLiteral("\\bbool\\b") << QStringLiteral("\\bbreak\\b")
+        << QStringLiteral("\\bcase\\b") << QStringLiteral("\\bcatch\\b")
+        << QStringLiteral("\\bchar\\b") << QStringLiteral("\\bchar16_t\\b")
+        << QStringLiteral("\\bchar32_t\\b") << QStringLiteral("\\bclass\\b")
+        << QStringLiteral("\\bcompl\\b") << QStringLiteral("\\bconst\\b")
+        << QStringLiteral("\\bconstexpr\\b")
+        << QStringLiteral("\\bconst_cast\\b")
+        << QStringLiteral("\\bcontinue\\b") << QStringLiteral("\\bdecltype\\b")
+        << QStringLiteral("\\bdefault\\b") << QStringLiteral("\\bdelete\\b")
+        << QStringLiteral("\\bdo\\b") << QStringLiteral("\\bdouble\\b")
+        << QStringLiteral("\\bdynamic_cast\\b") << QStringLiteral("\\belse\\b")
+        << QStringLiteral("\\benum\\b") << QStringLiteral("\\bexplicit\\b")
+        << QStringLiteral("\\bexport\\b") << QStringLiteral("\\bextern\\b")
+        << QStringLiteral("\\bfalse\\b") << QStringLiteral("\\bfloat\\b")
+        << QStringLiteral("\\bfor\\b") << QStringLiteral("\\bfriend\\b")
+        << QStringLiteral("\\bgoto\\b") << QStringLiteral("\\bif\\b")
+        << QStringLiteral("\\binline\\b") << QStringLiteral("\\bint\\b")
+        << QStringLiteral("\\blong\\b") << QStringLiteral("\\bmutable\\b")
+        << QStringLiteral("\\bnamespace\\b") << QStringLiteral("\\bnew\\b")
+        << QStringLiteral("\\bnoexcept\\b") << QStringLiteral("\\bnot\\b")
+        << QStringLiteral("\\bnot_eq\\b") << QStringLiteral("\\bnullptr\\b")
+        << QStringLiteral("\\boperator\\b") << QStringLiteral("\\bor\\b")
+        << QStringLiteral("\\bor_eq\\b") << QStringLiteral("\\bprivate\\b")
+        << QStringLiteral("\\bprotected\\b") << QStringLiteral("\\bpublic\\b")
+        << QStringLiteral("\\bregister\\b")
+        << QStringLiteral("\\breinterpret_cast\\b")
+        << QStringLiteral("\\breturn\\b") << QStringLiteral("\\bshort\\b")
+        << QStringLiteral("\\bsigned\\b") << QStringLiteral("\\bsizeof\\b")
+        << QStringLiteral("\\bstatic\\b")
+        << QStringLiteral("\\bstatic_assert\\b")
+        << QStringLiteral("\\bstatic_cast\\b") << QStringLiteral("\\bstruct\\b")
+        << QStringLiteral("\\bswitch\\b") << QStringLiteral("\\btemplate\\b")
+        << QStringLiteral("\\bthis\\b") << QStringLiteral("\\bthread_local\\b")
+        << QStringLiteral("\\bthrow\\b") << QStringLiteral("\\btrue\\b")
+        << QStringLiteral("\\btry\\b") << QStringLiteral("\\btypedef\\b")
+        << QStringLiteral("\\btypeid\\b") << QStringLiteral("\\btypename\\b")
+        << QStringLiteral("\\bunion\\b") << QStringLiteral("\\bunsigned\\b")
+        << QStringLiteral("\\busing\\b") << QStringLiteral("\\bvirtual\\b")
+        << QStringLiteral("\\bvoid\\b") << QStringLiteral("\\bvolatile\\b")
+        << QStringLiteral("\\bwchar_t\\b") << QStringLiteral("\\bwhile\\b")
+        << QStringLiteral("\\bxor\\b") << QStringLiteral("\\bxor_eq\\b");
 
     // Preprocessor keywords.
-    keywordPatterns << "(^|\\s)#if\\b" << "(^|\\s)#define\\b"
-                    << "(^|\\s)#include\\b" << "(^|\\s)#ifdef\\b"
-                    << "(^|\\s)#undef\\b" << "(^|\\s)#ifndef\\b"
-                    << "(^|\\s)#endif\\b" << "(^|\\s)#else\\b"
-                    << "(^|\\s)#elif\\b";
+    keywordPatterns << QStringLiteral("(^|\\s)#if\\b")
+                    << QStringLiteral("(^|\\s)#define\\b")
+                    << QStringLiteral("(^|\\s)#include\\b")
+                    << QStringLiteral("(^|\\s)#ifdef\\b")
+                    << QStringLiteral("(^|\\s)#undef\\b")
+                    << QStringLiteral("(^|\\s)#ifndef\\b")
+                    << QStringLiteral("(^|\\s)#endif\\b")
+                    << QStringLiteral("(^|\\s)#else\\b")
+                    << QStringLiteral("(^|\\s)#elif\\b");
 
-    foreach (const QString& pattern, keywordPatterns)
+    for (const QString& pattern : keywordPatterns)
     {
         rule.startPattern_ = QRegularExpression(pattern);
         rule.format_ = keywordFormat;
@@ -64,7 +84,7 @@ void CplusPlusHighlighter::initRules()
     QTextCharFormat classFormat;
     classFormat.setFontWeight(QFont::Bold);
     classFormat.setForeground(Qt::darkMagenta);
-    rule.startPattern_ = QRegularExpression("\\bQ[A-Za-z]+\\b");
+    rule.startPattern_ = QRegularExpression(QStringLiteral("\\bQ[A-Za-z]+\\b"));
     rule.format_ = classFormat;
     highlightingRules_.append(rule);
 

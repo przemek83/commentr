@@ -1,7 +1,7 @@
 #include "ObjectiveCHighlighter.h"
 
 ObjectiveCHighlighter::ObjectiveCHighlighter(const SpellChecker& spellChecker,
-                                               QObject* parent)
+                                             QObject* parent)
     : CFamilyHighlighter(spellChecker, parent)
 {
 }
@@ -18,41 +18,73 @@ void ObjectiveCHighlighter::initRules()
     QStringList keywordPatterns;
 
     keywordPatterns
-        << "\\bauto\\b" << "\\bBOOL\\b" << "\\bbreak\\b" << "\\bClass\\b"
-        << "\\bcase\\b" << "\\bbycopy\\b" << "\\bchar\\b" << "\\bbyref\\b"
-        << "\\bconst\\b" << "\\bid\\b" << "\\bcontinue\\b" << "\\bIMP\\b"
-        << "\\bdefault\\b" << "\\bin\\b" << "\\bdo\\b" << "\\binout\\b"
-        << "\\bdouble\\b" << "\\bnil\\b" << "\\belse\\b" << "\\bNO\\b"
-        << "\\benum\\b" << "\\bNULL\\b" << "\\bextern\\b" << "\\boneway\\b"
-        << "\\bfloat\\b" << "\\bout\\b" << "\\bfor\\b" << "\\bProtocol\\b"
-        << "\\bgoto\\b" << "\\bSEL\\b" << "\\bif\\b" << "\\bself\\b"
-        << "\\binline\\b" << "\\bsuper\\b" << "\\bint\\b" << "\\bYES\\b"
-        << "\\blong\\b" << "(^|\\s)@interface\\b" << "\\bregister\\b"
-        << "(^|\\s)@end\\b" << "\\brestrict\\b" << "(^|\\s)@implementation\\b"
-        << "\\breturn\\b" << "(^|\\s)@protocol\\b" << "\\bshort\\b"
-        << "(^|\\s)@class\\b" << "\\bsigned\\b" << "(^|\\s)@public\\b"
-        << "\\bsizeof\\b" << "(^|\\s)@protected\\b" << "\\bstatic\\b"
-        << "(^|\\s)@private\\b" << "\\bstruct\\b" << "(^|\\s)@property\\b"
-        << "\\bswitch\\b" << "(^|\\s)@try\\b" << "\\btypedef\\b"
-        << "(^|\\s)@throw\\b" << "\\bunion\\b" << "(^|\\s)@catch()\\b"
-        << "\\bunsigned\\b" << "(^|\\s)@finally\\b" << "\\bvoid\\b"
-        << "(^|\\s)@synthesize\\b" << "\\bvolatile\\b" << "(^|\\s)@dynamic\\b"
-        << "\\bwhile\\b" << "(^|\\s)@selector\\b" << "\\b_Bool\\b"
-        << "\\batomic\\b" << "\\b_Complex\\b" << "\\bnonatomic\\b"
-        << "\\b_Imaginery\\b" << "\\bretain\\b" << "(^|\\s)@defs"
-        << "(^|\\s)@required" << "(^|\\s)@optional" << "(^|\\s)@package"
-        << "(^|\\s)@synchronized" << "(^|\\s)@autoreleasepool"
-        << "(^|\\s)@encode" << "(^|\\s)@compatibility_alias"
-        << "(^|\\s)@encode";
+        << QStringLiteral("\\bauto\\b") << QStringLiteral("\\bBOOL\\b")
+        << QStringLiteral("\\bbreak\\b") << QStringLiteral("\\bClass\\b")
+        << QStringLiteral("\\bcase\\b") << QStringLiteral("\\bbycopy\\b")
+        << QStringLiteral("\\bchar\\b") << QStringLiteral("\\bbyref\\b")
+        << QStringLiteral("\\bconst\\b") << QStringLiteral("\\bid\\b")
+        << QStringLiteral("\\bcontinue\\b") << QStringLiteral("\\bIMP\\b")
+        << QStringLiteral("\\bdefault\\b") << QStringLiteral("\\bin\\b")
+        << QStringLiteral("\\bdo\\b") << QStringLiteral("\\binout\\b")
+        << QStringLiteral("\\bdouble\\b") << QStringLiteral("\\bnil\\b")
+        << QStringLiteral("\\belse\\b") << QStringLiteral("\\bNO\\b")
+        << QStringLiteral("\\benum\\b") << QStringLiteral("\\bNULL\\b")
+        << QStringLiteral("\\bextern\\b") << QStringLiteral("\\boneway\\b")
+        << QStringLiteral("\\bfloat\\b") << QStringLiteral("\\bout\\b")
+        << QStringLiteral("\\bfor\\b") << QStringLiteral("\\bProtocol\\b")
+        << QStringLiteral("\\bgoto\\b") << QStringLiteral("\\bSEL\\b")
+        << QStringLiteral("\\bif\\b") << QStringLiteral("\\bself\\b")
+        << QStringLiteral("\\binline\\b") << QStringLiteral("\\bsuper\\b")
+        << QStringLiteral("\\bint\\b") << QStringLiteral("\\bYES\\b")
+        << QStringLiteral("\\blong\\b")
+        << QStringLiteral("(^|\\s)@interface\\b")
+        << QStringLiteral("\\bregister\\b") << QStringLiteral("(^|\\s)@end\\b")
+        << QStringLiteral("\\brestrict\\b")
+        << QStringLiteral("(^|\\s)@implementation\\b")
+        << QStringLiteral("\\breturn\\b")
+        << QStringLiteral("(^|\\s)@protocol\\b")
+        << QStringLiteral("\\bshort\\b") << QStringLiteral("(^|\\s)@class\\b")
+        << QStringLiteral("\\bsigned\\b") << QStringLiteral("(^|\\s)@public\\b")
+        << QStringLiteral("\\bsizeof\\b")
+        << QStringLiteral("(^|\\s)@protected\\b")
+        << QStringLiteral("\\bstatic\\b")
+        << QStringLiteral("(^|\\s)@private\\b")
+        << QStringLiteral("\\bstruct\\b")
+        << QStringLiteral("(^|\\s)@property\\b")
+        << QStringLiteral("\\bswitch\\b") << QStringLiteral("(^|\\s)@try\\b")
+        << QStringLiteral("\\btypedef\\b") << QStringLiteral("(^|\\s)@throw\\b")
+        << QStringLiteral("\\bunion\\b") << QStringLiteral("(^|\\s)@catch()\\b")
+        << QStringLiteral("\\bunsigned\\b")
+        << QStringLiteral("(^|\\s)@finally\\b") << QStringLiteral("\\bvoid\\b")
+        << QStringLiteral("(^|\\s)@synthesize\\b")
+        << QStringLiteral("\\bvolatile\\b")
+        << QStringLiteral("(^|\\s)@dynamic\\b") << QStringLiteral("\\bwhile\\b")
+        << QStringLiteral("(^|\\s)@selector\\b")
+        << QStringLiteral("\\b_Bool\\b") << QStringLiteral("\\batomic\\b")
+        << QStringLiteral("\\b_Complex\\b") << QStringLiteral("\\bnonatomic\\b")
+        << QStringLiteral("\\b_Imaginery\\b") << QStringLiteral("\\bretain\\b")
+        << QStringLiteral("(^|\\s)@defs") << QStringLiteral("(^|\\s)@required")
+        << QStringLiteral("(^|\\s)@optional")
+        << QStringLiteral("(^|\\s)@package")
+        << QStringLiteral("(^|\\s)@synchronized")
+        << QStringLiteral("(^|\\s)@autoreleasepool")
+        << QStringLiteral("(^|\\s)@encode")
+        << QStringLiteral("(^|\\s)@compatibility_alias")
+        << QStringLiteral("(^|\\s)@encode");
 
     // Preprocessor keywords.
-    keywordPatterns << "(^|\\s)#if\\b" << "(^|\\s)#define\\b"
-                    << "(^|\\s)#include\\b" << "(^|\\s)#ifdef\\b"
-                    << "(^|\\s)#undef\\b" << "(^|\\s)#ifndef\\b"
-                    << "(^|\\s)#endif\\b" << "(^|\\s)#else\\b"
-                    << "(^|\\s)#import\\b" << "(^|\\s)#elif\\b";
+    keywordPatterns << QStringLiteral("(^|\\s)#if\\b")
+                    << QStringLiteral("(^|\\s)#define\\b")
+                    << QStringLiteral("(^|\\s)#include\\b")
+                    << QStringLiteral("(^|\\s)#ifdef\\b")
+                    << QStringLiteral("(^|\\s)#undef\\b")
+                    << QStringLiteral("(^|\\s)#ifndef\\b")
+                    << QStringLiteral("(^|\\s)#endif\\b")
+                    << QStringLiteral("(^|\\s)#else\\b")
+                    << QStringLiteral("(^|\\s)#import\\b")
+                    << QStringLiteral("(^|\\s)#elif\\b");
 
-    foreach (const QString& pattern, keywordPatterns)
+    for (const QString& pattern : keywordPatterns)
     {
         rule.startPattern_ = QRegularExpression(pattern);
         rule.format_ = keywordFormat;
@@ -62,7 +94,8 @@ void ObjectiveCHighlighter::initRules()
     QTextCharFormat classFormat;
     classFormat.setFontWeight(QFont::Bold);
     classFormat.setForeground(Qt::darkMagenta);
-    rule.startPattern_ = QRegularExpression("\\bNS[A-Za-z]+\\b");
+    rule.startPattern_ =
+        QRegularExpression(QStringLiteral("\\bNS[A-Za-z]+\\b"));
     rule.format_ = classFormat;
     highlightingRules_.append(rule);
 

@@ -47,7 +47,7 @@ void JavaScriptHighlighter::initRules()
                     << "\\bstatic\\b" << "\\bsynchronized\\b" << "\\bthrows\\b"
                     << "\\btransient\\b" << "\\blet\\b" << "\\byield\\b";
 
-    foreach (const QString& pattern, keywordPatterns)
+    for (const QString& pattern : keywordPatterns)
     {
         rule.startPattern_ = QRegularExpression(pattern);
         rule.format_ = keywordFormat;

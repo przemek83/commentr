@@ -27,7 +27,7 @@ void PythonHighlighter::initRules()
                     << "\\bfor\\b" << "\\blambda\\b" << "\\btry\\b";
 
     HighlightingRule rule;
-    foreach (const QString& pattern, keywordPatterns)
+    for (const QString& pattern : keywordPatterns)
     {
         rule.startPattern_ = QRegularExpression(pattern);
         rule.format_ = keywordFormat;

@@ -1,8 +1,8 @@
 project(highlighters)
 
 set(SOURCES
-    BasicHighlighter.cpp
-    BasicHighlighter.h
+    VisualBasicHighlighter.cpp
+    VisualBasicHighlighter.h
     CFamilyHighlighter.cpp
     CFamilyHighlighter.h
     CplusPlusHighlighter.cpp

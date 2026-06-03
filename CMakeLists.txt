@@ -68,8 +68,8 @@ set(${PROJECT_NAME}_SOURCES
     src/File.h
     src/PanGestureRecognizer.cpp
     src/PanGestureRecognizer.h
-    src/Highlighters/BasicHighlighter.cpp
-    src/Highlighters/BasicHighlighter.h
+    src/Highlighters/VisualBasicHighlighter.cpp
+    src/Highlighters/VisualBasicHighlighter.h
     src/Highlighters/CFamilyHighlighter.cpp
     src/Highlighters/CFamilyHighlighter.h
     src/Highlighters/CMakeLists.txt

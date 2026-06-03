@@ -1,4 +1,4 @@
-#include "BasicHighlighter.h"
+#include "VisualBasicHighlighter.h"
 
 VisualBasicHighlighter::VisualBasicHighlighter(const SpellChecker& spellChecker,
                                                QObject* parent)

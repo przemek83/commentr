@@ -7,7 +7,6 @@
 #include "CodeViewer.h"
 #include "Config.h"
 #include "File.h"
-#include "Highlighters/BasicHighlighter.h"
 #include "Highlighters/CSharpHighlighter.h"
 #include "Highlighters/CplusPlusHighlighter.h"
 #include "Highlighters/Highlighter.h"
@@ -17,6 +16,7 @@
 #include "Highlighters/PhpHighlighter.h"
 #include "Highlighters/PythonHighlighter.h"
 #include "Highlighters/SQLHighlighter.h"
+#include "Highlighters/VisualBasicHighlighter.h"
 #include "SpellChecker.h"
 #include "ui_EditorTabPage.h"
 

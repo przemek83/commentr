@@ -10,7 +10,6 @@
 #include "Common.h"
 #include "Config.h"
 #include "MainWindow.h"
-#include "ProxyStyle.h"
 #include "SpellChecker.h"
 
 namespace

@@ -22,6 +22,8 @@ private:
     HighlightingRule singleLineCommentRule_;
 
     HighlightingRule multiLineCommentRule_;
+
+    const QStringList keywords_;
 };
 
 #endif  // SQLHIGHLIGHTER_H

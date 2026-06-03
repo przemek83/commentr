@@ -37,5 +37,6 @@
         <file>keywords/python.txt</file>
         <file>keywords/php.txt</file>
         <file>keywords/visualBasic.txt</file>
+        <file>keywords/sql.txt</file>
     </qresource>
 </RCC>

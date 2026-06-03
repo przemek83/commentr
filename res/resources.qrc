@@ -33,4 +33,7 @@
         <file>samples/sample.sql</file>
         <file>samples/sample.vb</file>
     </qresource>
+    <qresource prefix="/keywords">
+        <file>keywords/python.txt</file>
+    </qresource>
 </RCC>

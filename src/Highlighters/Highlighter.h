@@ -31,6 +31,8 @@ protected:
 
     void checkSpellingInBlock(int minIndex, const QString& line);
 
+    static QStringList loadKeywordsFromFile(const QString& filePath);
+
     bool initialized_{false};
 
     void singleLineComment(const QString& text, const HighlightingRule& rule);

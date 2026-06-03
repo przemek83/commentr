@@ -2,7 +2,8 @@
 
 PythonHighlighter::PythonHighlighter(const SpellChecker& spellChecker,
                                      QObject* parent)
-    : Highlighter(spellChecker, parent)
+    : Highlighter(spellChecker, parent),
+      keywords_{loadKeywordsFromFile(":/keywords/keywords/python.txt")}
 {
     singleLineCommentRule_.format_.setForeground(Qt::red);
     singleLineCommentRule_.startPattern_ =
@@ -14,28 +15,9 @@ void PythonHighlighter::initRules()
     QTextCharFormat keywordFormat;
     keywordFormat.setForeground(Qt::darkBlue);
     keywordFormat.setFontWeight(QFont::Bold);
-    QStringList keywordPatterns;
-
-    keywordPatterns
-        << QStringLiteral("\\band\\b") << QStringLiteral("\\bdel\\b")
-        << QStringLiteral("\\bfrom\\b") << QStringLiteral("\\bnot\\b")
-        << QStringLiteral("\\bwhile\\b") << QStringLiteral("\\bas\\b")
-        << QStringLiteral("\\belif\\b") << QStringLiteral("\\bglobal\\b")
-        << QStringLiteral("\\bor\\b") << QStringLiteral("\\bwith\\b")
-        << QStringLiteral("\\bassert\\b") << QStringLiteral("\\belse\\b")
-        << QStringLiteral("\\bif\\b") << QStringLiteral("\\bpass\\b")
-        << QStringLiteral("\\byield\\b") << QStringLiteral("\\bbreak\\b")
-        << QStringLiteral("\\bexcept\\b") << QStringLiteral("\\bimport\\b")
-        << QStringLiteral("\\bprint\\b") << QStringLiteral("\\bclass\\b")
-        << QStringLiteral("\\bexec\\b") << QStringLiteral("\\bin\\b")
-        << QStringLiteral("\\braise\\b") << QStringLiteral("\\bcontinue\\b")
-        << QStringLiteral("\\bfinally\\b") << QStringLiteral("\\bis\\b")
-        << QStringLiteral("\\breturn\\b") << QStringLiteral("\\bdef\\b")
-        << QStringLiteral("\\bfor\\b") << QStringLiteral("\\blambda\\b")
-        << QStringLiteral("\\btry\\b");
 
     HighlightingRule rule;
-    for (const QString& pattern : keywordPatterns)
+    for (const QString& pattern : keywords_)
     {
         rule.startPattern_ = QRegularExpression(pattern);
         rule.format_ = keywordFormat;

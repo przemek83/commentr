@@ -1,5 +1,8 @@
 #include "Highlighter.h"
 
+#include <QFile>
+#include <QTextStream>
+
 #include "../SpellChecker.h"
 
 Highlighter::Highlighter(const SpellChecker& spellChecker, QObject* parent)
@@ -52,6 +55,25 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
             processWord(word, minIndex, line);
         }
     }
+}
+
+QStringList Highlighter::loadKeywordsFromFile(const QString& filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return {};
+
+    QStringList keywords;
+
+    QTextStream in(&file);
+    while (!in.atEnd())
+    {
+        QString line{QString::fromUtf8(file.readLine()).trimmed()};
+        if (!line.isEmpty())
+            keywords.append(line);
+    }
+
+    return keywords;
 }
 
 void Highlighter::singleLineComment(const QString& text,

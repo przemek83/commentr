@@ -243,7 +243,8 @@ std::unique_ptr<Highlighter> EditorTabPage::getHighlighterForEditorMode(
             return std::make_unique<PhpHighlighter>(spellChecker_, nullptr);
 
         case EditorMode::VISUAL_BASIC:
-            return std::make_unique<BasicHighlighter>(spellChecker_, nullptr);
+            return std::make_unique<VisualBasicHighlighter>(spellChecker_,
+                                                            nullptr);
 
         case EditorMode::PYTHON:
             return std::make_unique<PythonHighlighter>(spellChecker_, nullptr);

@@ -1,13 +1,13 @@
-#ifndef BASICHIGHLIGHTER_H
-#define BASICHIGHLIGHTER_H
+#ifndef VISUALBASICHIGHLIGHTER_H
+#define VISUALBASICHIGHLIGHTER_H
 
 #include "Highlighter.h"
 
-class BasicHighlighter : public Highlighter
+class VisualBasicHighlighter : public Highlighter
 {
 public:
-    BasicHighlighter(const SpellChecker& spellChecker, QObject* parent);
-    ~BasicHighlighter() override = default;
+    VisualBasicHighlighter(const SpellChecker& spellChecker, QObject* parent);
+    ~VisualBasicHighlighter() override = default;
 
 protected:
     void initRules() override;
@@ -15,9 +15,11 @@ protected:
     void commentBlock(const QString& text) override;
 
 private:
-    Q_DISABLE_COPY_MOVE(BasicHighlighter)
+    Q_DISABLE_COPY_MOVE(VisualBasicHighlighter)
 
     HighlightingRule singleLineCommentRule_;
+
+    const QStringList keywords_;
 };
 
-#endif  // BASICHIGHLIGHTER_H
+#endif  // VISUALBASICHIGHLIGHTER_H

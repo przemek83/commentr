@@ -157,7 +157,8 @@
      <property name="title">
       <string>Language</string>
      </property>
-     <addaction name="actionLangC_Cpp"/>
+     <addaction name="actionLangCpp"/>
+     <addaction name="actionLangC"/>
      <addaction name="actionLangCSharp"/>
      <addaction name="actionLangJava"/>
      <addaction name="actionLangJavaScript"/>
@@ -626,15 +627,15 @@
     <string>Save edited file as</string>
    </property>
   </action>
-  <action name="actionLangC_Cpp">
+  <action name="actionLangCpp">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>C/C++</string>
+    <string>C++</string>
    </property>
    <property name="toolTip">
-    <string>C/C++</string>
+    <string>C++</string>
    </property>
   </action>
   <action name="actionLangJava">
@@ -846,7 +847,18 @@
     <string>Menu</string>
    </property>
    <property name="menuRole">
-    <enum>QAction::MenuRole::NoRole</enum>
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionLangC">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>C</string>
+   </property>
+   <property name="toolTip">
+    <string>C</string>
    </property>
   </action>
  </widget>

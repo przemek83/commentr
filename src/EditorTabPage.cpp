@@ -7,6 +7,7 @@
 #include "CodeViewer.h"
 #include "Config.h"
 #include "File.h"
+#include "Highlighters/CHighlighter.h"
 #include "Highlighters/CSharpHighlighter.h"
 #include "Highlighters/CplusPlusHighlighter.h"
 #include "Highlighters/Highlighter.h"
@@ -225,9 +226,12 @@ std::unique_ptr<Highlighter> EditorTabPage::getHighlighterForEditorMode(
 {
     switch (mode)
     {
-        case EditorMode::C_CPP:
+        case EditorMode::CPP:
             return std::make_unique<CplusPlusHighlighter>(spellChecker_,
                                                           nullptr);
+
+        case EditorMode::C:
+            return std::make_unique<CHighlighter>(spellChecker_, nullptr);
 
         case EditorMode::JAVA:
             return std::make_unique<JavaHighlighter>(spellChecker_, nullptr);
@@ -292,12 +296,14 @@ EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
         (suffix == QLatin1String("c++")) || (suffix == QLatin1String("cc"))};
     const bool isCPlusPlusHeaderFile{(suffix == QLatin1String("h")) ||
                                      (suffix == QLatin1String("hpp"))};
-    const bool isCSourceFile{suffix == QLatin1String("c")};
     const bool isMocFile{suffix == QLatin1String("moc")};
 
-    if (isCPlusPlusSourceFile || isCPlusPlusHeaderFile || isCSourceFile ||
-        isMocFile)
-        mode = EditorTabPage::EditorMode::C_CPP;
+    if (isCPlusPlusSourceFile || isCPlusPlusHeaderFile || isMocFile)
+        mode = EditorTabPage::EditorMode::CPP;
+
+    const bool isCSourceFile{suffix == QLatin1String("c")};
+    if (isCSourceFile)
+        mode = EditorTabPage::EditorMode::C;
 
     if (suffix == QLatin1String("m"))
         mode = EditorTabPage::EditorMode::OBJECTIVE_C;

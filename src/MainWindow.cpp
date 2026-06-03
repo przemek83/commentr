@@ -261,7 +261,8 @@ void MainWindow::setupLanguageActionsMenu()
 {
     QActionGroup* actionsGroup{new QActionGroup(this)};
     actionsGroup->addAction(ui_->actionLangCSharp);
-    actionsGroup->addAction(ui_->actionLangC_Cpp);
+    actionsGroup->addAction(ui_->actionLangCpp);
+    actionsGroup->addAction(ui_->actionLangC);
     actionsGroup->addAction(ui_->actionLangJava);
     actionsGroup->addAction(ui_->actionLangJavaScript);
     actionsGroup->addAction(ui_->actionLangNone);
@@ -735,8 +736,10 @@ void MainWindow::setupToolbarPositionActions()
 
 void MainWindow::setupEditorModeActions() const
 {
-    connect(ui_->actionLangC_Cpp, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EditorMode::C_CPP); });
+    connect(ui_->actionLangCpp, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EditorMode::CPP); });
+    connect(ui_->actionLangC, &QAction::triggered, [this]()
+            { changeModeForCurrentTab(EditorTabPage::EditorMode::C); });
     connect(ui_->actionLangJava, &QAction::triggered, [this]()
             { changeModeForCurrentTab(EditorTabPage::EditorMode::JAVA); });
     connect(
@@ -882,9 +885,15 @@ void MainWindow::setProperLangActionForMode(EditorTabPage::EditorMode mode)
 {
     switch (mode)
     {
-        case EditorTabPage::EditorMode::C_CPP:
+        case EditorTabPage::EditorMode::CPP:
         {
-            ui_->actionLangC_Cpp->setChecked(true);
+            ui_->actionLangCpp->setChecked(true);
+            break;
+        }
+
+        case EditorTabPage::EditorMode::C:
+        {
+            ui_->actionLangC->setChecked(true);
             break;
         }
 

@@ -9,6 +9,8 @@ set(SOURCES
     CplusPlusHighlighter.h
     CSharpHighlighter.cpp
     CSharpHighlighter.h
+    CHighlighter.cpp
+    CHighlighter.h
     Highlighter.cpp
     Highlighter.h
     JavaHighlighter.cpp

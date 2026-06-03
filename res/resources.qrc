@@ -38,5 +38,6 @@
         <file>keywords/php.txt</file>
         <file>keywords/visualBasic.txt</file>
         <file>keywords/sql.txt</file>
+        <file>keywords/c.txt</file>
     </qresource>
 </RCC>

@@ -24,7 +24,8 @@ public:
     enum class EditorMode
     {
         PLAIN_TEXT = 0,
-        C_CPP,
+        C,
+        CPP,
         JAVA,
         OBJECTIVE_C,
         C_SHARP,

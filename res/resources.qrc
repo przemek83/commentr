@@ -35,5 +35,6 @@
     </qresource>
     <qresource prefix="/keywords">
         <file>keywords/python.txt</file>
+        <file>keywords/php.txt</file>
     </qresource>
 </RCC>

@@ -20,6 +20,8 @@ private:
     HighlightingRule singleLineCommentRule_;
 
     HighlightingRule multiLineCommentRule_;
+
+    const QStringList keywords_;
 };
 
 #endif  // PHPHIGHLIGHTER_H

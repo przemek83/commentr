@@ -14,6 +14,8 @@ protected:
 
 private:
     Q_DISABLE_COPY_MOVE(ObjectiveCHighlighter)
+
+    const QStringList keywords_{loadKeywords("objectiveC.txt")};
 };
 
 #endif  // OBJECTIVECHIGHLIGHTER_H

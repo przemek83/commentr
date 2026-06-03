@@ -39,5 +39,6 @@
         <file>keywords/visualBasic.txt</file>
         <file>keywords/sql.txt</file>
         <file>keywords/c.txt</file>
+        <file>keywords/objectiveC.txt</file>
     </qresource>
 </RCC>

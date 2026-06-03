@@ -66,11 +66,12 @@ QStringList Highlighter::loadKeywordsFromFile(const QString& filePath)
     QStringList keywords;
 
     QTextStream in(&file);
+    const QString boundary{QStringLiteral("\\b")};
     while (!in.atEnd())
     {
         QString line{QString::fromUtf8(file.readLine()).trimmed()};
         if (!line.isEmpty())
-            keywords.append(line);
+            keywords.append(boundary + line + boundary);
     }
 
     return keywords;

@@ -21,7 +21,7 @@ private:
 
     HighlightingRule multiLineCommentRule_;
 
-    const QStringList keywords_;
+    const QStringList keywords_{loadKeywords("python.txt")};
 };
 
 #endif  // PYTHONHIGHLIGHTER_H

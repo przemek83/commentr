@@ -19,7 +19,7 @@ private:
 
     HighlightingRule singleLineCommentRule_;
 
-    const QStringList keywords_;
+    const QStringList keywords_{loadKeywords("visualBasic.txt")};
 };
 
 #endif  // VISUALBASICHIGHLIGHTER_H

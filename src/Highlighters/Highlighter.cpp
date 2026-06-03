@@ -57,9 +57,9 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
     }
 }
 
-QStringList Highlighter::loadKeywordsFromFile(const QString& filePath)
+QStringList Highlighter::loadKeywords(const QString& fileName)
 {
-    QFile file(filePath);
+    QFile file(QStringLiteral(":/keywords/keywords/") + fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return {};
 

@@ -2,8 +2,7 @@
 
 SQLHighlighter::SQLHighlighter(const SpellChecker& spellChecker,
                                QObject* parent)
-    : Highlighter(spellChecker, parent),
-      keywords_{loadKeywordsFromFile(":/keywords/keywords/sql.txt")}
+    : Highlighter(spellChecker, parent)
 {
     singleLineCommentRule_.format_.setForeground(Qt::red);
     singleLineCommentRule_.startPattern_ =

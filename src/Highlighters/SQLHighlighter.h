@@ -23,7 +23,7 @@ private:
 
     HighlightingRule multiLineCommentRule_;
 
-    const QStringList keywords_;
+    const QStringList keywords_{loadKeywords("sql.txt")};
 };
 
 #endif  // SQLHIGHLIGHTER_H

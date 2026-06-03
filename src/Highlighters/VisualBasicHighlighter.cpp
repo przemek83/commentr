@@ -2,8 +2,7 @@
 
 VisualBasicHighlighter::VisualBasicHighlighter(const SpellChecker& spellChecker,
                                                QObject* parent)
-    : Highlighter(spellChecker, parent),
-      keywords_{loadKeywordsFromFile(":/keywords/keywords/visualBasic.txt")}
+    : Highlighter(spellChecker, parent)
 {
     singleLineCommentRule_.format_.setForeground(Qt::red);
     singleLineCommentRule_.startPattern_ =

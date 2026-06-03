@@ -117,7 +117,8 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
     {
         if (QFile::exists(filePath))
         {
-            QString msg = tr("Overwrite ") + fileInfo.fileName() + QStringLiteral("?");
+            QString msg =
+                tr("Overwrite ") + fileInfo.fileName() + QStringLiteral("?");
             QMessageBox::StandardButton answer =
                 QMessageBox::question(this, tr("Overwrite"), msg);
 

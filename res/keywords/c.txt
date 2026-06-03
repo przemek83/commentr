@@ -42,3 +42,16 @@ _imaginary
 _noreturn
 _static_assert
 _thread_local
+#if
+#ifdef
+#ifndef
+#else
+#elif
+#endif
+#define
+#undef
+#include
+#line
+#error
+#warning
+#pragma

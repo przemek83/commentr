@@ -14,6 +14,8 @@ protected:
 
 private:
     Q_DISABLE_COPY_MOVE(JavaHighlighter)
+
+    const QStringList keywords_{loadKeywords("java.txt")};
 };
 
 #endif  // JAVAHIGHLIGHTER_H

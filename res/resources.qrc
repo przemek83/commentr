@@ -40,5 +40,6 @@
         <file>keywords/sql.txt</file>
         <file>keywords/c.txt</file>
         <file>keywords/objectiveC.txt</file>
+        <file>keywords/javaScript.txt</file>
     </qresource>
 </RCC>

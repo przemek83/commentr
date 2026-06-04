@@ -21,6 +21,8 @@ private:
     HighlightingRule singleLineCommentRule_;
 
     HighlightingRule multiLineCommentRule_;
+
+    const QStringList keywords_{loadKeywords("javaScript.txt")};
 };
 
 #endif  // JAVASCRIPTHIGHLIGHTER_H

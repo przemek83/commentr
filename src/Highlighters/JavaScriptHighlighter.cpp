@@ -29,40 +29,8 @@ void JavaScriptHighlighter::initRules()
     QTextCharFormat keywordFormat;
     keywordFormat.setForeground(Qt::darkBlue);
     keywordFormat.setFontWeight(QFont::Bold);
-    QStringList keywordPatterns;
 
-    keywordPatterns
-        << QStringLiteral("\\break\\b") << QStringLiteral("\\bcase\\b")
-        << QStringLiteral("\\bcatch\\b") << QStringLiteral("\\bcontinue\\b")
-        << QStringLiteral("\\bdebugger\\b") << QStringLiteral("\\bdefault\\b")
-        << QStringLiteral("\\bdelete\\b") << QStringLiteral("\\bdo\\b")
-        << QStringLiteral("\\belse\\b") << QStringLiteral("\\bfinally\\b")
-        << QStringLiteral("\\bfor\\b") << QStringLiteral("\\bfunction\\b")
-        << QStringLiteral("\\bif\\b") << QStringLiteral("\\bin\\b")
-        << QStringLiteral("\\binstanceof\\b") << QStringLiteral("\\bnew\\b")
-        << QStringLiteral("\\breturn\\b") << QStringLiteral("\\bswitch\\b")
-        << QStringLiteral("\\bthis\\b") << QStringLiteral("\\bthrow\\b")
-        << QStringLiteral("\\btry\\b") << QStringLiteral("\\btypeof\\b")
-        << QStringLiteral("\\bvar\\b") << QStringLiteral("\\bvoid\\b")
-        << QStringLiteral("\\bwhile\\b") << QStringLiteral("\\bwith\\b")
-        << QStringLiteral("\\bconst\\b") << QStringLiteral("\\benum\\b")
-        << QStringLiteral("\\bexport\\b") << QStringLiteral("\\bextends\\b")
-        << QStringLiteral("\\bimport\\b") << QStringLiteral("\\bsuper\\b")
-        << QStringLiteral("\\babstract\\b") << QStringLiteral("\\bboolean\\b")
-        << QStringLiteral("\\bbyte\\b") << QStringLiteral("\\bchar\\b")
-        << QStringLiteral("\\bclass\\b") << QStringLiteral("\\bdouble\\b")
-        << QStringLiteral("\\bfinal\\b") << QStringLiteral("\\bfloat\\b")
-        << QStringLiteral("\\bgoto\\b") << QStringLiteral("\\bimplements\\b")
-        << QStringLiteral("\\bint\\b") << QStringLiteral("\\binterface\\b")
-        << QStringLiteral("\\blong\\b") << QStringLiteral("\\bnative\\b")
-        << QStringLiteral("\\bpackage\\b") << QStringLiteral("\\bprivate\\b")
-        << QStringLiteral("\\bprotected\\b") << QStringLiteral("\\bpublic\\b")
-        << QStringLiteral("\\bshort\\b") << QStringLiteral("\\bstatic\\b")
-        << QStringLiteral("\\bsynchronized\\b")
-        << QStringLiteral("\\bthrows\\b") << QStringLiteral("\\btransient\\b")
-        << QStringLiteral("\\blet\\b") << QStringLiteral("\\byield\\b");
-
-    for (const QString& pattern : keywordPatterns)
+    for (const QString& pattern : keywords_)
     {
         rule.startPattern_ = QRegularExpression(pattern);
         rule.format_ = keywordFormat;

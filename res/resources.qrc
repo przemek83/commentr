@@ -42,5 +42,6 @@
         <file>keywords/objectiveC.txt</file>
         <file>keywords/javaScript.txt</file>
         <file>keywords/java.txt</file>
+        <file>keywords/cSharp.txt</file>
     </qresource>
 </RCC>

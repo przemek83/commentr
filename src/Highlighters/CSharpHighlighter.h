@@ -14,6 +14,8 @@ protected:
 
 private:
     Q_DISABLE_COPY_MOVE(CSharpHighlighter)
+
+    const QStringList keywords_{loadKeywords("cSharp.txt")};
 };
 
 #endif  // CSHARPHIGHLIGHTER_H

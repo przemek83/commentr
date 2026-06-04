@@ -43,5 +43,6 @@
         <file>keywords/javaScript.txt</file>
         <file>keywords/java.txt</file>
         <file>keywords/cSharp.txt</file>
+        <file>keywords/cPlusPlus.txt</file>
     </qresource>
 </RCC>

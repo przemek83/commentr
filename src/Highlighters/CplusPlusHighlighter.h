@@ -14,6 +14,8 @@ protected:
 
 private:
     Q_DISABLE_COPY_MOVE(CplusPlusHighlighter)
+
+    const QStringList keywords_{loadKeywords("cPlusPlus.txt")};
 };
 
 #endif  // CPLUSPLUSHIGHLIGHTER_H

@@ -15,7 +15,8 @@ void CHighlighter::initRules()
     keywordFormat.setForeground(Qt::darkBlue);
     keywordFormat.setFontWeight(QFont::Bold);
 
-    for (const QString& pattern : keywords_)
+    const QStringList keywords{getKeywords()};
+    for (const QString& pattern : keywords)
     {
         rule.startPattern_ = QRegularExpression(pattern);
         rule.format_ = keywordFormat;
@@ -31,3 +32,5 @@ void CHighlighter::initRules()
 
     initQuotationRules();
 }
+
+QStringList CHighlighter::getKeywords() const { return keywords_; }

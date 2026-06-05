@@ -7,7 +7,8 @@ enum class SyntaxElement
     QUOTATION,
     COMMENT,
     FUNCTION,
-    CLASS
+    CLASS,
+    MISSPELLED_WORD
 };
 
 #endif  // SYNTAXELEMENT_H

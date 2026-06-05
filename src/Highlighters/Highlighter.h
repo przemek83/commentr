@@ -46,8 +46,6 @@ private:
 
     static constexpr int noMatchIndex_{-1};
 
-    QTextCharFormat spellCheckFormat_;
-
     const SpellChecker& spellChecker_;
 };
 

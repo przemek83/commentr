@@ -3,14 +3,12 @@
 #include <QFile>
 #include <QTextStream>
 
+#include "../Common.h"
 #include "../SpellChecker.h"
 
 Highlighter::Highlighter(const SpellChecker& spellChecker, QObject* parent)
     : QSyntaxHighlighter(parent), spellChecker_(spellChecker)
 {
-    spellCheckFormat_.setForeground(Qt::red);
-    spellCheckFormat_.setUnderlineColor(QColor(Qt::red));
-    spellCheckFormat_.setUnderlineStyle(QTextCharFormat::WaveUnderline);
 }
 
 void Highlighter::highlightBlock(const QString& text)
@@ -151,7 +149,8 @@ void Highlighter::processWord(const QString& word, int minIndex,
                          minIndex + l + 1));
         if (l >= 0)
         {
-            setFormat(l, static_cast<int>(word.length()), spellCheckFormat_);
+            setFormat(l, static_cast<int>(word.length()),
+                      Common::getFormat(SyntaxElement::MISSPELLED_WORD));
         }
     }
 }

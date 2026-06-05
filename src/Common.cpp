@@ -94,6 +94,12 @@ QTextCharFormat Common::getFormat(SyntaxElement element)
             format.setForeground(Qt::darkMagenta);
             format.setFontWeight(QFont::Bold);
             break;
+
+        case SyntaxElement::MISSPELLED_WORD:
+            format.setForeground(Qt::red);
+            format.setUnderlineColor(QColor(Qt::red));
+            format.setUnderlineStyle(QTextCharFormat::WaveUnderline);
+            break;
     }
 
     return format;

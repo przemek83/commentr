@@ -1,5 +1,7 @@
 #include "CHighlighter.h"
 
+#include "../Common.h"
+
 CHighlighter::CHighlighter(const SpellChecker& spellChecker, QObject* parent)
     : CFamilyHighlighter(spellChecker, parent)
 {
@@ -11,24 +13,13 @@ void CHighlighter::initRules()
 
     HighlightingRule rule;
 
-    QTextCharFormat keywordFormat;
-    keywordFormat.setForeground(Qt::darkBlue);
-    keywordFormat.setFontWeight(QFont::Bold);
-
     const QStringList keywords{getKeywords()};
     for (const QString& pattern : keywords)
     {
         rule.startPattern_ = QRegularExpression(pattern);
-        rule.format_ = keywordFormat;
+        rule.format_ = Common::getFormat(SyntaxElement::KEYWORD);
         highlightingRules_.append(rule);
     }
-
-    QTextCharFormat classFormat;
-    classFormat.setFontWeight(QFont::Bold);
-    classFormat.setForeground(Qt::darkMagenta);
-    rule.startPattern_ = QRegularExpression(QStringLiteral("\\bQ[A-Za-z]+\\b"));
-    rule.format_ = classFormat;
-    highlightingRules_.append(rule);
 
     initQuotationRules();
 }

@@ -6,7 +6,8 @@ enum class SyntaxElement
     KEYWORD,
     QUOTATION,
     COMMENT,
-    FUNCTION
+    FUNCTION,
+    CLASS
 };
 
 #endif  // SYNTAXELEMENT_H

@@ -89,6 +89,11 @@ QTextCharFormat Common::getFormat(SyntaxElement element)
             format.setFontItalic(true);
             format.setForeground(Qt::blue);
             break;
+
+        case SyntaxElement::CLASS:
+            format.setForeground(Qt::darkMagenta);
+            format.setFontWeight(QFont::Bold);
+            break;
     }
 
     return format;

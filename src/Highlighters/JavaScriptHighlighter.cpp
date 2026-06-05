@@ -1,10 +1,12 @@
 #include "JavaScriptHighlighter.h"
 
+#include "../Common.h"
+
 JavaScriptHighlighter::JavaScriptHighlighter(const SpellChecker& spellChecker,
                                              QObject* parent)
     : Highlighter(spellChecker, parent)
 {
-    singleLineCommentRule_.format_.setForeground(Qt::red);
+    singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =
         QRegularExpression(QStringLiteral("//[^\n]*"));
 
@@ -12,36 +14,27 @@ JavaScriptHighlighter::JavaScriptHighlighter(const SpellChecker& spellChecker,
         QRegularExpression(QStringLiteral("/\\*"));
     multiLineCommentRule_.endPattern_ =
         QRegularExpression(QStringLiteral("\\*/"));
-    multiLineCommentRule_.format_.setForeground(Qt::red);
+    multiLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
 }
 
 void JavaScriptHighlighter::initRules()
 {
     HighlightingRule rule;
-    QTextCharFormat functionFormat;
-    functionFormat.setFontItalic(true);
-    functionFormat.setForeground(Qt::blue);
     rule.startPattern_ =
         QRegularExpression(QStringLiteral(R"(\b[A-Za-z0-9_]+\s*(?=\())"));
-    rule.format_ = functionFormat;
+    rule.format_ = Common::getFormat(SyntaxElement::FUNCTION);
     highlightingRules_.append(rule);
-
-    QTextCharFormat keywordFormat;
-    keywordFormat.setForeground(Qt::darkBlue);
-    keywordFormat.setFontWeight(QFont::Bold);
 
     for (const QString& pattern : keywords_)
     {
         rule.startPattern_ = QRegularExpression(pattern);
-        rule.format_ = keywordFormat;
+        rule.format_ = Common::getFormat(SyntaxElement::KEYWORD);
         highlightingRules_.append(rule);
     }
 
-    QTextCharFormat quotationFormat;
-    quotationFormat.setForeground(Qt::darkGreen);
     rule.startPattern_ =
         QRegularExpression(QStringLiteral(R"(("([^"]|\\")*"|'([^']|\\')*'))"));
-    rule.format_ = quotationFormat;
+    rule.format_ = Common::getFormat(SyntaxElement::QUOTATION);
     highlightingRules_.append(rule);
 }
 

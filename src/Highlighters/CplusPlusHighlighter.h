@@ -1,16 +1,18 @@
 #ifndef CPLUSPLUSHIGHLIGHTER_H
 #define CPLUSPLUSHIGHLIGHTER_H
 
-#include "CHighlighter.h"
+#include "CFamilyHighlighter.h"
 
-class CplusPlusHighlighter : public CHighlighter
+class CplusPlusHighlighter : public CFamilyHighlighter
 {
 public:
     CplusPlusHighlighter(const SpellChecker& spellChecker, QObject* parent);
     ~CplusPlusHighlighter() override = default;
 
 protected:
-    QStringList getKeywords() const override;
+    void initRules() override;
+
+    QStringList getKeywords() const;
 
 private:
     Q_DISABLE_COPY_MOVE(CplusPlusHighlighter)

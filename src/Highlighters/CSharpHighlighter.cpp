@@ -1,5 +1,7 @@
 #include "CSharpHighlighter.h"
 
+#include "../Common.h"
+
 CSharpHighlighter::CSharpHighlighter(const SpellChecker& spellChecker,
                                      QObject* parent)
     : CFamilyHighlighter(spellChecker, parent)
@@ -12,14 +14,10 @@ void CSharpHighlighter::initRules()
 
     HighlightingRule rule;
 
-    QTextCharFormat keywordFormat;
-    keywordFormat.setForeground(Qt::darkBlue);
-    keywordFormat.setFontWeight(QFont::Bold);
-
     for (const QString& pattern : keywords_)
     {
         rule.startPattern_ = QRegularExpression(pattern);
-        rule.format_ = keywordFormat;
+        rule.format_ = Common::getFormat(SyntaxElement::KEYWORD);
         highlightingRules_.append(rule);
     }
 

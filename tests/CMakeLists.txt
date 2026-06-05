@@ -1,15 +1,21 @@
-SET(PROJECT_TEST ${PROJECT_NAME}-tests)
+SET(PROJECT_TESTS ${PROJECT_NAME}-tests)
 
-include_directories(${CMAKE_SOURCE_DIR})
-
-set(${PROJECT_TEST}_SOURCES
+set(${PROJECT_TESTS}_SOURCES
     Tests.cpp
     SomeTest.h
     SomeTest.cpp
+    JavaHighlighterTest.h
+    JavaHighlighterTest.cpp
 )
 
-add_executable(${PROJECT_TEST} ${${PROJECT_TEST}_SOURCES})
-target_link_libraries(${PROJECT_TEST} PRIVATE ${PROJECT_NAME}-lib Qt6::Core Qt6::Test)
+qt_add_resources(${PROJECT_TESTS}_SOURCES ../res/resources.qrc)
 
-add_test(NAME ${PROJECT_TEST} COMMAND ${PROJECT_TEST})
+add_executable(${PROJECT_TESTS} ${${PROJECT_TESTS}_SOURCES})
+
+target_include_directories(${PROJECT_TESTS} PRIVATE ${CMAKE_SOURCE_DIR}/src)
+
+target_link_libraries(${PROJECT_TESTS} PRIVATE ${PROJECT_NAME}-lib Qt6::Core Qt6::Widgets Qt6::Test)
+
+add_test(NAME ${PROJECT_TESTS} COMMAND ${PROJECT_TESTS})
+
 set_property(TEST ${PROJECT_TESTS} PROPERTY FAIL_REGULAR_EXPRESSION "FAIL!")

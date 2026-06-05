@@ -15,11 +15,11 @@ namespace
 bool hasFormatForText(const QTextBlock& block, const QString& text,
                       const QColor& color, int weight = -1, bool italic = false)
 {
-    const qsizetype position = block.text().indexOf(text);
+    const qsizetype position{block.text().indexOf(text)};
     if (position < 0)
         return false;
 
-    QTextLayout* layout = block.layout();
+    QTextLayout* layout{block.layout()};
     if (layout == nullptr)
         return false;
 
@@ -28,7 +28,7 @@ bool hasFormatForText(const QTextBlock& block, const QString& text,
         if ((range.start <= position) &&
             (position + text.length() <= range.start + range.length))
         {
-            const QTextCharFormat& format = range.format;
+            const QTextCharFormat& format{range.format};
             if ((format.foreground().color() == color) &&
                 ((weight < 0) || (format.fontWeight() == weight)) &&
                 ((!italic) || format.fontItalic()))
@@ -50,13 +50,13 @@ void JavaHighlighterTest::testKeywordHighlighting()
     QTextDocument document;
     JavaHighlighter highlighter(spellChecker, nullptr);
 
-    const QString source = QStringLiteral("public class Foo");
+    const QString source{QStringLiteral("public class Foo")};
     document.setPlainText(source);
     highlighter.setDocument(&document);
     QCOMPARE(highlighter.document(), &document);
     highlighter.rehighlight();
 
-    const QTextBlock block = document.firstBlock();
+    const QTextBlock block{document.firstBlock()};
     QCOMPARE(block.text(), source);
 
     QVERIFY(hasFormatForText(block, QStringLiteral("public"), Qt::darkBlue,
@@ -75,13 +75,13 @@ void JavaHighlighterTest::testQuotationAndCommentHighlighting()
     QTextDocument document;
     JavaHighlighter highlighter(spellChecker, nullptr);
 
-    const QString source = QStringLiteral("String s = \"hello\"; // comment");
+    const QString source{QStringLiteral("String s = \"hello\"; // comment")};
     document.setPlainText(source);
     highlighter.setDocument(&document);
     QCOMPARE(highlighter.document(), &document);
     highlighter.rehighlight();
 
-    const QTextBlock block = document.firstBlock();
+    const QTextBlock block{document.firstBlock()};
     QCOMPARE(block.text(), source);
 
     QVERIFY(

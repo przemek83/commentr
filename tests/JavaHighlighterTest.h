@@ -8,8 +8,8 @@ class JavaHighlighterTest : public QObject
     Q_OBJECT
 
 private slots:
-    void testKeywordHighlighting();
-    void testQuotationAndCommentHighlighting();
+    static void testKeywordHighlighting();
+    static void testQuotationAndCommentHighlighting();
 };
 
 #endif  // JAVAHIGHLIGHTERTEST_H

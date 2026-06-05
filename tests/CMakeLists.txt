@@ -8,6 +8,22 @@ set(${PROJECT_TESTS}_SOURCES
     PythonHighlighterTest.cpp
     HighlighterTestHelpers.h
     HighlighterTestHelpers.cpp
+    CHighlighterTest.h
+    CHighlighterTest.cpp
+    CplusPlusHighlighterTest.h
+    CplusPlusHighlighterTest.cpp
+    ObjectiveCHighlighterTest.h
+    ObjectiveCHighlighterTest.cpp
+    PhpHighlighterTest.h
+    PhpHighlighterTest.cpp
+    JavaScriptHighlighterTest.h
+    JavaScriptHighlighterTest.cpp
+    CSharpHighlighterTest.h
+    CSharpHighlighterTest.cpp
+    SQLHighlighterTest.h
+    SQLHighlighterTest.cpp
+    VisualBasicHighlighterTest.h
+    VisualBasicHighlighterTest.cpp
 )
 
 qt_add_resources(${PROJECT_TESTS}_SOURCES ../res/resources.qrc)

@@ -8,24 +8,15 @@
 #include "Common.h"
 #include "HighlighterTestHelpers.h"
 #include "Highlighters/JavaHighlighter.h"
-#include "SpellChecker.h"
+
+void JavaHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void JavaHighlighterTest::testKeywordHighlighting()
 {
-    SpellChecker spellChecker;
-    spellChecker.setActive(false);
-
-    QTextDocument document;
-    JavaHighlighter highlighter(spellChecker, nullptr);
+    JavaHighlighter highlighter(spellChecker_, nullptr);
 
     const QString source{QStringLiteral("public class Foo")};
-    document.setPlainText(source);
-    highlighter.setDocument(&document);
-    QCOMPARE(highlighter.document(), &document);
-    highlighter.rehighlight();
-
-    const QTextBlock block{document.firstBlock()};
-    QCOMPARE(block.text(), source);
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
 
     QTextCharFormat keywordFormat{Common::getFormat(SyntaxElement::KEYWORD)};
 
@@ -39,20 +30,10 @@ void JavaHighlighterTest::testKeywordHighlighting()
 
 void JavaHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    SpellChecker spellChecker;
-    spellChecker.setActive(false);
-
-    QTextDocument document;
-    JavaHighlighter highlighter(spellChecker, nullptr);
+    JavaHighlighter highlighter(spellChecker_, nullptr);
 
     const QString source{QStringLiteral("String s = \"hello\"; // comment")};
-    document.setPlainText(source);
-    highlighter.setDocument(&document);
-    QCOMPARE(highlighter.document(), &document);
-    highlighter.rehighlight();
-
-    const QTextBlock block{document.firstBlock()};
-    QCOMPARE(block.text(), source);
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
 
     QTextCharFormat quotationFormat{
         Common::getFormat(SyntaxElement::QUOTATION)};

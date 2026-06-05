@@ -35,3 +35,13 @@ bool hasFormatForText(const QTextBlock& block, const QString& text,
 
     return false;
 }
+
+QTextBlock setupHighlighter(Highlighter& highlighter, QTextDocument& document,
+                            const QString& source)
+
+{
+    document.setPlainText(source);
+    highlighter.setDocument(&document);
+    highlighter.rehighlight();
+    return document.firstBlock();
+}

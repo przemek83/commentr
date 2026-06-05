@@ -7,23 +7,15 @@
 #include "Common.h"
 #include "HighlighterTestHelpers.h"
 #include "Highlighters/PythonHighlighter.h"
-#include "SpellChecker.h"
+
+void PythonHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void PythonHighlighterTest::testKeywordHighlighting()
 {
-    SpellChecker spellChecker;
-    spellChecker.setActive(false);
-
-    QTextDocument document;
-    PythonHighlighter highlighter(spellChecker, nullptr);
+    PythonHighlighter highlighter(spellChecker_, nullptr);
 
     const QString source{QStringLiteral("def foo():")};
-    document.setPlainText(source);
-    highlighter.setDocument(&document);
-    QCOMPARE(highlighter.document(), &document);
-    highlighter.rehighlight();
-
-    const QTextBlock block{document.firstBlock()};
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
     QCOMPARE(block.text(), source);
 
     QTextCharFormat keywordFormat{Common::getFormat(SyntaxElement::KEYWORD)};
@@ -36,19 +28,10 @@ void PythonHighlighterTest::testKeywordHighlighting()
 
 void PythonHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    SpellChecker spellChecker;
-    spellChecker.setActive(false);
-
-    QTextDocument document;
-    PythonHighlighter highlighter(spellChecker, nullptr);
+    PythonHighlighter highlighter(spellChecker_, nullptr);
 
     const QString source{QStringLiteral("s = \"hello\"  # comment")};
-    document.setPlainText(source);
-    highlighter.setDocument(&document);
-    QCOMPARE(highlighter.document(), &document);
-    highlighter.rehighlight();
-
-    const QTextBlock block{document.firstBlock()};
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
     QCOMPARE(block.text(), source);
 
     QTextCharFormat quotationFormat{

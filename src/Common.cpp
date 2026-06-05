@@ -100,6 +100,9 @@ QTextCharFormat Common::getFormat(SyntaxElement element)
             format.setUnderlineColor(QColor(Qt::red));
             format.setUnderlineStyle(QTextCharFormat::WaveUnderline);
             break;
+
+        default:
+            break;
     }
 
     return format;

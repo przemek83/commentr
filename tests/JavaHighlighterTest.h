@@ -19,6 +19,7 @@ private slots:
     void testKeywordHighlighting();
     void testFunctionHighlighting();
     void testQuotationAndCommentHighlighting();
+    void testMultilineCommentHighlighting();
 };
 
 #endif  // JAVAHIGHLIGHTERTEST_H

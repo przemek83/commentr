@@ -19,6 +19,7 @@ private slots:
     void testKeywordHighlighting();
     void testClassHighlighting();
     void testQuotationAndCommentHighlighting();
+    void testMultilineCommentHighlighting();
 };
 
 #endif  // CPLUSPLUSHIGHLIGHTERTEST_H

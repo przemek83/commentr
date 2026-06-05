@@ -18,6 +18,7 @@ private slots:
     void init();
     void testKeywordHighlighting();
     void testQuotationAndCommentHighlighting();
+    void testMultilineCommentHighlighting();
 };
 
 #endif  // SQLHIGHLIGHTERTEST_H

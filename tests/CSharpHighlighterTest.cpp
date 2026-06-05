@@ -48,3 +48,22 @@ void CSharpHighlighterTest::testQuotationAndCommentHighlighting()
     QVERIFY(hasFormatForText(block, QStringLiteral("// comment"), commentFormat,
                              false));
 }
+
+void CSharpHighlighterTest::testMultilineCommentHighlighting()
+{
+    CSharpHighlighter highlighter(spellChecker_, nullptr);
+
+    const QString source{QStringLiteral("/* start\nmiddle\nend */")};
+    const QTextBlock first{setupHighlighter(highlighter, document_, source)};
+    const QTextBlock second{first.next()};
+    const QTextBlock third{second.next()};
+
+    QTextCharFormat commentFormat{Common::getFormat(SyntaxElement::COMMENT)};
+
+    QVERIFY(hasFormatForText(first, QStringLiteral("/* start"), commentFormat,
+                             false));
+    QVERIFY(hasFormatForText(second, QStringLiteral("middle"), commentFormat,
+                             false));
+    QVERIFY(hasFormatForText(third, QStringLiteral("end */"), commentFormat,
+                             false));
+}

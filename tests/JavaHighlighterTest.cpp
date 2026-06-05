@@ -7,13 +7,15 @@
 #include <QTextDocument>
 #include <QTextLayout>
 
+#include "Common.h"
 #include "Highlighters/JavaHighlighter.h"
 #include "SpellChecker.h"
 
 namespace
 {
 bool hasFormatForText(const QTextBlock& block, const QString& text,
-                      const QColor& color, int weight = -1, bool italic = false)
+                      const QTextCharFormat& expectedFormat,
+                      bool italic = false)
 {
     const qsizetype position{block.text().indexOf(text)};
     if (position < 0)
@@ -29,8 +31,10 @@ bool hasFormatForText(const QTextBlock& block, const QString& text,
             (position + text.length() <= range.start + range.length))
         {
             const QTextCharFormat& format{range.format};
-            if ((format.foreground().color() == color) &&
-                ((weight < 0) || (format.fontWeight() == weight)) &&
+            if ((format.foreground().color() ==
+                 expectedFormat.foreground().color()) &&
+                ((expectedFormat.fontWeight() < 0) ||
+                 (format.fontWeight() == expectedFormat.fontWeight())) &&
                 ((!italic) || format.fontItalic()))
             {
                 return true;
@@ -59,12 +63,14 @@ void JavaHighlighterTest::testKeywordHighlighting()
     const QTextBlock block{document.firstBlock()};
     QCOMPARE(block.text(), source);
 
-    QVERIFY(hasFormatForText(block, QStringLiteral("public"), Qt::darkBlue,
-                             QFont::Bold));
-    QVERIFY(hasFormatForText(block, QStringLiteral("class"), Qt::darkBlue,
-                             QFont::Bold));
-    QVERIFY(!hasFormatForText(block, QStringLiteral("Foo"), Qt::darkBlue,
-                              QFont::Bold));
+    QTextCharFormat keywordFormat{Common::getFormat(SyntaxElement::KEYWORD)};
+
+    QVERIFY(hasFormatForText(block, QStringLiteral("public"), keywordFormat,
+                             false));
+    QVERIFY(
+        hasFormatForText(block, QStringLiteral("class"), keywordFormat, false));
+    QVERIFY(
+        !hasFormatForText(block, QStringLiteral("Foo"), keywordFormat, false));
 }
 
 void JavaHighlighterTest::testQuotationAndCommentHighlighting()
@@ -84,7 +90,12 @@ void JavaHighlighterTest::testQuotationAndCommentHighlighting()
     const QTextBlock block{document.firstBlock()};
     QCOMPARE(block.text(), source);
 
-    QVERIFY(
-        hasFormatForText(block, QStringLiteral("\"hello\""), Qt::darkGreen));
-    QVERIFY(hasFormatForText(block, QStringLiteral("// comment"), Qt::red));
+    QTextCharFormat quotationFormat{
+        Common::getFormat(SyntaxElement::QUOTATION)};
+    QTextCharFormat commentFormat{Common::getFormat(SyntaxElement::COMMENT)};
+
+    QVERIFY(hasFormatForText(block, QStringLiteral("\"hello\""),
+                             quotationFormat, false));
+    QVERIFY(hasFormatForText(block, QStringLiteral("// comment"), commentFormat,
+                             false));
 }

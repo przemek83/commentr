@@ -1,5 +1,7 @@
 #include "JavaHighlighter.h"
 
+#include "../Common.h"
+
 JavaHighlighter::JavaHighlighter(const SpellChecker& spellChecker,
                                  QObject* parent)
     : CFamilyHighlighter(spellChecker, parent)
@@ -11,15 +13,10 @@ void JavaHighlighter::initRules()
     initFunctionsRules();
 
     HighlightingRule rule;
-
-    QTextCharFormat keywordFormat;
-    keywordFormat.setForeground(Qt::darkBlue);
-    keywordFormat.setFontWeight(QFont::Bold);
-
     for (const QString& pattern : keywords_)
     {
         rule.startPattern_ = QRegularExpression(pattern);
-        rule.format_ = keywordFormat;
+        rule.format_ = Common::getFormat(SyntaxElement::KEYWORD);
         highlightingRules_.append(rule);
     }
 

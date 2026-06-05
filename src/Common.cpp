@@ -66,6 +66,34 @@ int Common::timerFireInterval()
     return timerFireInterval;
 }
 
+QTextCharFormat Common::getFormat(SyntaxElement element)
+{
+    QTextCharFormat format;
+
+    switch (element)
+    {
+        case SyntaxElement::KEYWORD:
+            format.setForeground(Qt::darkBlue);
+            format.setFontWeight(QFont::Bold);
+            break;
+
+        case SyntaxElement::QUOTATION:
+            format.setForeground(Qt::darkGreen);
+            break;
+
+        case SyntaxElement::COMMENT:
+            format.setForeground(Qt::red);
+            break;
+
+        case SyntaxElement::FUNCTION:
+            format.setFontItalic(true);
+            format.setForeground(Qt::blue);
+            break;
+    }
+
+    return format;
+}
+
 QWidget* Common::getMainWindow(QObject* startObject)
 {
     QObject* object = startObject;

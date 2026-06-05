@@ -2,6 +2,9 @@
 #define COMMON_H
 
 #include <QString>
+#include <QTextCharFormat>
+
+#include "SyntaxElement.h"
 
 class QWidget;
 class QObject;
@@ -24,6 +27,8 @@ public:
         LOCAL = 0,
         NOT_SET
     };
+
+    static QTextCharFormat getFormat(SyntaxElement element);
 
     static QWidget* getMainWindow(QObject* startObject);
 

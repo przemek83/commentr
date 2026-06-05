@@ -17,6 +17,7 @@ private:
 private slots:
     void init();
     void testKeywordHighlighting();
+    void testClassHighlighting();
     void testQuotationAndCommentHighlighting();
 };
 

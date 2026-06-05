@@ -21,6 +21,17 @@ void JavaScriptHighlighterTest::testKeywordHighlighting()
         hasFormatForText(block, QStringLiteral("var"), keywordFormat, false));
 }
 
+void JavaScriptHighlighterTest::testFunctionHighlighting()
+{
+    JavaScriptHighlighter highlighter(spellChecker_, nullptr);
+
+    const QString source{QStringLiteral("foo()")};
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
+    QTextCharFormat functionFormat{Common::getFormat(SyntaxElement::FUNCTION)};
+    QVERIFY(
+        hasFormatForText(block, QStringLiteral("foo"), functionFormat, true));
+}
+
 void JavaScriptHighlighterTest::testQuotationAndCommentHighlighting()
 {
     JavaScriptHighlighter highlighter(spellChecker_, nullptr);

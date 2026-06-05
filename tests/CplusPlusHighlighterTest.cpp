@@ -21,6 +21,17 @@ void CplusPlusHighlighterTest::testKeywordHighlighting()
         hasFormatForText(block, QStringLiteral("class"), keywordFormat, false));
 }
 
+void CplusPlusHighlighterTest::testClassHighlighting()
+{
+    CplusPlusHighlighter highlighter(spellChecker_, nullptr);
+
+    const QString source{QStringLiteral("QWidget w;")};
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
+    QTextCharFormat classFormat{Common::getFormat(SyntaxElement::CLASS)};
+    QVERIFY(
+        hasFormatForText(block, QStringLiteral("QWidget"), classFormat, false));
+}
+
 void CplusPlusHighlighterTest::testQuotationAndCommentHighlighting()
 {
     CplusPlusHighlighter highlighter(spellChecker_, nullptr);

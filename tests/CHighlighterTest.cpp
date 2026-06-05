@@ -21,6 +21,18 @@ void CHighlighterTest::testKeywordHighlighting()
         hasFormatForText(block, QStringLiteral("int"), keywordFormat, false));
 }
 
+void CHighlighterTest::testFunctionHighlighting()
+{
+    CHighlighter highlighter(spellChecker_, nullptr);
+
+    const QString source{QStringLiteral("int main()")};
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
+
+    QTextCharFormat functionFormat{Common::getFormat(SyntaxElement::FUNCTION)};
+    QVERIFY(
+        hasFormatForText(block, QStringLiteral("main"), functionFormat, true));
+}
+
 void CHighlighterTest::testQuotationAndCommentHighlighting()
 {
     CHighlighter highlighter(spellChecker_, nullptr);

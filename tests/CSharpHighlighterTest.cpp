@@ -21,6 +21,17 @@ void CSharpHighlighterTest::testKeywordHighlighting()
                              false));
 }
 
+void CSharpHighlighterTest::testFunctionHighlighting()
+{
+    CSharpHighlighter highlighter(spellChecker_, nullptr);
+
+    const QString source{QStringLiteral("void foo()")};
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
+    QTextCharFormat functionFormat{Common::getFormat(SyntaxElement::FUNCTION)};
+    QVERIFY(
+        hasFormatForText(block, QStringLiteral("foo"), functionFormat, true));
+}
+
 void CSharpHighlighterTest::testQuotationAndCommentHighlighting()
 {
     CSharpHighlighter highlighter(spellChecker_, nullptr);

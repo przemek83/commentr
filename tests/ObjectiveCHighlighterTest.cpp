@@ -21,6 +21,17 @@ void ObjectiveCHighlighterTest::testKeywordHighlighting()
         hasFormatForText(block, QStringLiteral("if"), keywordFormat, false));
 }
 
+void ObjectiveCHighlighterTest::testClassHighlighting()
+{
+    ObjectiveCHighlighter highlighter(spellChecker_, nullptr);
+
+    const QString source{QStringLiteral("NSObject obj;")};
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
+    QTextCharFormat classFormat{Common::getFormat(SyntaxElement::CLASS)};
+    QVERIFY(hasFormatForText(block, QStringLiteral("NSObject"), classFormat,
+                             false));
+}
+
 void ObjectiveCHighlighterTest::testQuotationAndCommentHighlighting()
 {
     ObjectiveCHighlighter highlighter(spellChecker_, nullptr);

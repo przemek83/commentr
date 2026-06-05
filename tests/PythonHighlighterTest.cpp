@@ -26,6 +26,18 @@ void PythonHighlighterTest::testKeywordHighlighting()
         !hasFormatForText(block, QStringLiteral("foo"), keywordFormat, false));
 }
 
+void PythonHighlighterTest::testFunctionHighlighting()
+{
+    PythonHighlighter highlighter(spellChecker_, nullptr);
+
+    const QString source{QStringLiteral("def foo():")};
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
+
+    QTextCharFormat functionFormat{Common::getFormat(SyntaxElement::FUNCTION)};
+    QVERIFY(
+        hasFormatForText(block, QStringLiteral("foo"), functionFormat, true));
+}
+
 void PythonHighlighterTest::testQuotationAndCommentHighlighting()
 {
     PythonHighlighter highlighter(spellChecker_, nullptr);

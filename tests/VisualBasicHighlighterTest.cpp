@@ -21,6 +21,17 @@ void VisualBasicHighlighterTest::testKeywordHighlighting()
         hasFormatForText(block, QStringLiteral("If"), keywordFormat, false));
 }
 
+void VisualBasicHighlighterTest::testFunctionHighlighting()
+{
+    VisualBasicHighlighter highlighter(spellChecker_, nullptr);
+
+    const QString source{QStringLiteral("foo()")};
+    const QTextBlock block{setupHighlighter(highlighter, document_, source)};
+    QTextCharFormat functionFormat{Common::getFormat(SyntaxElement::FUNCTION)};
+    QVERIFY(
+        hasFormatForText(block, QStringLiteral("foo"), functionFormat, true));
+}
+
 void VisualBasicHighlighterTest::testQuotationAndCommentHighlighting()
 {
     VisualBasicHighlighter highlighter(spellChecker_, nullptr);

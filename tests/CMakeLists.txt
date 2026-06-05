@@ -2,10 +2,12 @@ SET(PROJECT_TESTS ${PROJECT_NAME}-tests)
 
 set(${PROJECT_TESTS}_SOURCES
     Tests.cpp
-    SomeTest.h
-    SomeTest.cpp
     JavaHighlighterTest.h
     JavaHighlighterTest.cpp
+    PythonHighlighterTest.h
+    PythonHighlighterTest.cpp
+    HighlighterTestHelpers.h
+    HighlighterTestHelpers.cpp
 )
 
 qt_add_resources(${PROJECT_TESTS}_SOURCES ../res/resources.qrc)

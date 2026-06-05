@@ -10,6 +10,7 @@
 #include "PhpHighlighterTest.h"
 #include "PythonHighlighterTest.h"
 #include "SQLHighlighterTest.h"
+#include "SpellCheckerTest.h"
 #include "VisualBasicHighlighterTest.h"
 
 int main(int argc, char* argv[])
@@ -43,6 +44,9 @@ int main(int argc, char* argv[])
 
     SQLHighlighterTest sqlHighlighterTest;
     status |= QTest::qExec(&sqlHighlighterTest);
+
+    SpellCheckerTest spellCheckerTest;
+    status |= QTest::qExec(&spellCheckerTest);
 
     VisualBasicHighlighterTest visualBasicHighlighterTest;
     status |= QTest::qExec(&visualBasicHighlighterTest);

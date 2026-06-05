@@ -22,6 +22,8 @@ set(${PROJECT_TESTS}_SOURCES
     CSharpHighlighterTest.cpp
     SQLHighlighterTest.h
     SQLHighlighterTest.cpp
+    SpellCheckerTest.h
+    SpellCheckerTest.cpp
     VisualBasicHighlighterTest.h
     VisualBasicHighlighterTest.cpp
 )

@@ -8,6 +8,7 @@
 #include "Config.h"
 #include "EditorTabPage.h"
 #include "SpellChecker.h"
+#include "SyntaxLang.h"
 
 namespace Ui
 {
@@ -60,9 +61,9 @@ private:
 
     void rebuildToolbar();
 
-    void changeModeForCurrentTab(EditorTabPage::EditorMode mode) const;
+    void changeModeForCurrentTab(SyntaxLang mode) const;
 
-    void setProperLangActionForMode(EditorTabPage::EditorMode mode);
+    void setProperLangActionForMode(SyntaxLang mode);
 
     void setAvailableFunctionalities(bool visible);
 

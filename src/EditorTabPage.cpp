@@ -88,9 +88,9 @@ void EditorTabPage::keyPressEvent(QKeyEvent* event)
     QWidget::keyPressEvent(event);
 }
 
-EditorTabPage::EditorMode EditorTabPage::mode() const { return mode_; }
+SyntaxLang EditorTabPage::mode() const { return mode_; }
 
-void EditorTabPage::setMode(const EditorMode& mode)
+void EditorTabPage::setMode(const SyntaxLang& mode)
 {
     if (mode == mode_)
         return;
@@ -222,41 +222,41 @@ QString EditorTabPage::getCurrentText() const
 }
 
 std::unique_ptr<Highlighter> EditorTabPage::getHighlighterForEditorMode(
-    EditorMode mode)
+    SyntaxLang mode)
 {
     switch (mode)
     {
-        case EditorMode::CPP:
+        case SyntaxLang::CPP:
             return std::make_unique<CplusPlusHighlighter>(spellChecker_,
                                                           nullptr);
 
-        case EditorMode::C:
+        case SyntaxLang::C:
             return std::make_unique<CHighlighter>(spellChecker_, nullptr);
 
-        case EditorMode::JAVA:
+        case SyntaxLang::JAVA:
             return std::make_unique<JavaHighlighter>(spellChecker_, nullptr);
 
-        case EditorMode::OBJECTIVE_C:
+        case SyntaxLang::OBJECTIVE_C:
             return std::make_unique<ObjectiveCHighlighter>(spellChecker_,
                                                            nullptr);
 
-        case EditorMode::C_SHARP:
+        case SyntaxLang::C_SHARP:
             return std::make_unique<CSharpHighlighter>(spellChecker_, nullptr);
 
-        case EditorMode::PHP:
+        case SyntaxLang::PHP:
             return std::make_unique<PhpHighlighter>(spellChecker_, nullptr);
 
-        case EditorMode::VISUAL_BASIC:
+        case SyntaxLang::VISUAL_BASIC:
             return std::make_unique<VisualBasicHighlighter>(spellChecker_,
                                                             nullptr);
 
-        case EditorMode::PYTHON:
+        case SyntaxLang::PYTHON:
             return std::make_unique<PythonHighlighter>(spellChecker_, nullptr);
 
-        case EditorMode::SQL:
+        case SyntaxLang::SQL:
             return std::make_unique<SQLHighlighter>(spellChecker_, nullptr);
 
-        case EditorMode::JAVASCRIPT:
+        case SyntaxLang::JAVASCRIPT:
             return std::make_unique<JavaScriptHighlighter>(spellChecker_,
                                                            nullptr);
 
@@ -284,12 +284,11 @@ void EditorTabPage::refreshHighlighter()
         highlighter_->rehighlight();
 }
 
-EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
-    const QString& suffix)
+SyntaxLang EditorTabPage::detectModeUsingSuffix(const QString& suffix)
 {
-    EditorTabPage::EditorMode mode{EditorTabPage::EditorMode::PLAIN_TEXT};
+    SyntaxLang mode{SyntaxLang::PLAIN_TEXT};
     if (suffix == QLatin1String("java"))
-        mode = EditorTabPage::EditorMode::JAVA;
+        mode = SyntaxLang::JAVA;
 
     const bool isCPlusPlusSourceFile{
         (suffix == QLatin1String("cpp")) || (suffix == QLatin1String("cxx")) ||
@@ -299,33 +298,33 @@ EditorTabPage::EditorMode EditorTabPage::detectModeUsingSuffix(
     const bool isMocFile{suffix == QLatin1String("moc")};
 
     if (isCPlusPlusSourceFile || isCPlusPlusHeaderFile || isMocFile)
-        mode = EditorTabPage::EditorMode::CPP;
+        mode = SyntaxLang::CPP;
 
     const bool isCSourceFile{suffix == QLatin1String("c")};
     if (isCSourceFile)
-        mode = EditorTabPage::EditorMode::C;
+        mode = SyntaxLang::C;
 
     if (suffix == QLatin1String("m"))
-        mode = EditorTabPage::EditorMode::OBJECTIVE_C;
+        mode = SyntaxLang::OBJECTIVE_C;
 
     if (suffix == QLatin1String("cs"))
-        mode = EditorTabPage::EditorMode::C_SHARP;
+        mode = SyntaxLang::C_SHARP;
 
     if (suffix == QLatin1String("php"))
-        mode = EditorTabPage::EditorMode::PHP;
+        mode = SyntaxLang::PHP;
 
     if ((suffix == QLatin1String("bas")) || (suffix == QLatin1String("cls")) ||
         (suffix == QLatin1String("vb")))
-        mode = EditorTabPage::EditorMode::VISUAL_BASIC;
+        mode = SyntaxLang::VISUAL_BASIC;
 
     if (suffix == QLatin1String("py"))
-        mode = EditorTabPage::EditorMode::PYTHON;
+        mode = SyntaxLang::PYTHON;
 
     if (suffix == QLatin1String("sql"))
-        mode = EditorTabPage::EditorMode::SQL;
+        mode = SyntaxLang::SQL;
 
     if (suffix == QLatin1String("js"))
-        mode = EditorTabPage::EditorMode::JAVASCRIPT;
+        mode = SyntaxLang::JAVASCRIPT;
 
     return mode;
 }

@@ -6,6 +6,7 @@
 #include <QWidget>
 
 #include "File.h"
+#include "SyntaxLang.h"
 
 namespace Ui
 {
@@ -21,21 +22,6 @@ class EditorTabPage : public QWidget
 {
     Q_OBJECT
 public:
-    enum class EditorMode
-    {
-        PLAIN_TEXT = 0,
-        C,
-        CPP,
-        JAVA,
-        OBJECTIVE_C,
-        C_SHARP,
-        PHP,
-        VISUAL_BASIC,
-        PYTHON,
-        SQL,
-        JAVASCRIPT
-    };
-
     EditorTabPage(File file, float fontSize, Config& config,
                   SpellChecker& spellChecker, QWidget* parent);
 
@@ -69,8 +55,8 @@ public:
 
     QString getCurrentText() const;
 
-    EditorMode mode() const;
-    void setMode(const EditorMode& mode);
+    SyntaxLang mode() const;
+    void setMode(const SyntaxLang& mode);
 
     void refreshVisualIndicators();
 
@@ -94,15 +80,15 @@ private:
 
     bool selectionEmpty_{true};
 
-    EditorMode mode_{EditorMode::PLAIN_TEXT};
+    SyntaxLang mode_{SyntaxLang::PLAIN_TEXT};
 
-    std::unique_ptr<Highlighter> getHighlighterForEditorMode(EditorMode mode);
+    std::unique_ptr<Highlighter> getHighlighterForEditorMode(SyntaxLang mode);
 
     const std::array<QString, 10> modeNames_ = {
         "Plain text", "C/C++",        "Java",   "Objective-C", "C#",
         "PHP",        "Visual Basic", "Python", "SQL",         "JavaScript"};
 
-    static EditorMode detectModeUsingSuffix(const QString& suffix);
+    static SyntaxLang detectModeUsingSuffix(const QString& suffix);
 
     std::unique_ptr<Highlighter> highlighter_{nullptr};
 

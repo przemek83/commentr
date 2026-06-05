@@ -736,32 +736,28 @@ void MainWindow::setupToolbarPositionActions()
 
 void MainWindow::setupEditorModeActions() const
 {
-    connect(ui_->actionLangCpp, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EditorMode::CPP); });
-    connect(ui_->actionLangC, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EditorMode::C); });
-    connect(ui_->actionLangJava, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EditorMode::JAVA); });
-    connect(
-        ui_->actionLangObjective_C, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EditorMode::OBJECTIVE_C); });
-    connect(ui_->actionLangCSharp, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EditorMode::C_SHARP); });
-    connect(ui_->actionLangPHP, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EditorMode::PHP); });
-    connect(
-        ui_->actionLangVBasic, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EditorMode::VISUAL_BASIC); });
-    connect(ui_->actionLangPython, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EditorMode::PYTHON); });
-    connect(ui_->actionLangSQL, &QAction::triggered, [this]()
-            { changeModeForCurrentTab(EditorTabPage::EditorMode::SQL); });
-    connect(
-        ui_->actionLangJavaScript, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EditorMode::JAVASCRIPT); });
-    connect(
-        ui_->actionLangNone, &QAction::triggered, [this]()
-        { changeModeForCurrentTab(EditorTabPage::EditorMode::PLAIN_TEXT); });
+    connect(ui_->actionLangCpp, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::CPP); });
+    connect(ui_->actionLangC, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::C); });
+    connect(ui_->actionLangJava, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::JAVA); });
+    connect(ui_->actionLangObjective_C, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::OBJECTIVE_C); });
+    connect(ui_->actionLangCSharp, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::C_SHARP); });
+    connect(ui_->actionLangPHP, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::PHP); });
+    connect(ui_->actionLangVBasic, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::VISUAL_BASIC); });
+    connect(ui_->actionLangPython, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::PYTHON); });
+    connect(ui_->actionLangSQL, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::SQL); });
+    connect(ui_->actionLangJavaScript, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::JAVASCRIPT); });
+    connect(ui_->actionLangNone, &QAction::triggered,
+            [this]() { changeModeForCurrentTab(SyntaxLang::PLAIN_TEXT); });
 }
 
 void MainWindow::resetStyle() const
@@ -872,7 +868,7 @@ void MainWindow::showToolbar(bool checked)
     ui_->mainToolBar->setVisible(checked);
 }
 
-void MainWindow::changeModeForCurrentTab(EditorTabPage::EditorMode mode) const
+void MainWindow::changeModeForCurrentTab(SyntaxLang mode) const
 {
     auto* currentTab{
         dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
@@ -881,71 +877,71 @@ void MainWindow::changeModeForCurrentTab(EditorTabPage::EditorMode mode) const
         currentTab->setMode(mode);
 }
 
-void MainWindow::setProperLangActionForMode(EditorTabPage::EditorMode mode)
+void MainWindow::setProperLangActionForMode(SyntaxLang mode)
 {
     switch (mode)
     {
-        case EditorTabPage::EditorMode::CPP:
+        case SyntaxLang::CPP:
         {
             ui_->actionLangCpp->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::C:
+        case SyntaxLang::C:
         {
             ui_->actionLangC->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::JAVA:
+        case SyntaxLang::JAVA:
         {
             ui_->actionLangJava->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::OBJECTIVE_C:
+        case SyntaxLang::OBJECTIVE_C:
         {
             ui_->actionLangObjective_C->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::C_SHARP:
+        case SyntaxLang::C_SHARP:
         {
             ui_->actionLangCSharp->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::PHP:
+        case SyntaxLang::PHP:
         {
             ui_->actionLangPHP->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::VISUAL_BASIC:
+        case SyntaxLang::VISUAL_BASIC:
         {
             ui_->actionLangVBasic->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::PYTHON:
+        case SyntaxLang::PYTHON:
         {
             ui_->actionLangPython->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::SQL:
+        case SyntaxLang::SQL:
         {
             ui_->actionLangSQL->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::JAVASCRIPT:
+        case SyntaxLang::JAVASCRIPT:
         {
             ui_->actionLangJavaScript->setChecked(true);
             break;
         }
 
-        case EditorTabPage::EditorMode::PLAIN_TEXT:
+        case SyntaxLang::PLAIN_TEXT:
         {
             ui_->actionLangNone->setChecked(true);
             break;

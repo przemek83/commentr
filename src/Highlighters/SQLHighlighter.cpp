@@ -1,10 +1,12 @@
 #include "SQLHighlighter.h"
 
+#include "../Common.h"
+
 SQLHighlighter::SQLHighlighter(const SpellChecker& spellChecker,
                                QObject* parent)
     : Highlighter(spellChecker, parent)
 {
-    singleLineCommentRule_.format_.setForeground(Qt::red);
+    singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =
         QRegularExpression(QStringLiteral("--[^\n]*"));
 
@@ -12,28 +14,22 @@ SQLHighlighter::SQLHighlighter(const SpellChecker& spellChecker,
         QRegularExpression(QStringLiteral("/\\*"));
     multiLineCommentRule_.endPattern_ =
         QRegularExpression(QStringLiteral("\\*/"));
-    multiLineCommentRule_.format_.setForeground(Qt::red);
+    multiLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
 }
 
 void SQLHighlighter::initRules()
 {
-    QTextCharFormat keywordFormat;
-    keywordFormat.setForeground(Qt::darkBlue);
-    keywordFormat.setFontWeight(QFont::Bold);
-
     HighlightingRule rule;
     for (const QString& pattern : keywords_)
     {
         rule.startPattern_ = QRegularExpression(pattern);
-        rule.format_ = keywordFormat;
+        rule.format_ = Common::getFormat(SyntaxElement::KEYWORD);
         highlightingRules_.append(rule);
     }
 
-    QTextCharFormat quotationFormat;
-    quotationFormat.setForeground(Qt::darkGreen);
     rule.startPattern_ =
         QRegularExpression(QStringLiteral(R"(("[^"]*"|'[^']*'))"));
-    rule.format_ = quotationFormat;
+    rule.format_ = Common::getFormat(SyntaxElement::QUOTATION);
     highlightingRules_.append(rule);
 }
 

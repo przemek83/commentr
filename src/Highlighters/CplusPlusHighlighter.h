@@ -12,8 +12,6 @@ public:
 protected:
     void initRules() override;
 
-    QStringList getKeywords() const;
-
 private:
     Q_DISABLE_COPY_MOVE(CplusPlusHighlighter)
 

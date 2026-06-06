@@ -14,8 +14,7 @@ void CplusPlusHighlighter::initRules()
 
     HighlightingRule rule;
 
-    const QStringList keywords{getKeywords()};
-    for (const QString& pattern : keywords)
+    for (const QString& pattern : keywords_)
     {
         rule.startPattern_ = QRegularExpression(pattern);
         rule.format_ = Common::getFormat(SyntaxElement::KEYWORD);
@@ -29,5 +28,3 @@ void CplusPlusHighlighter::initRules()
 
     initQuotationRules();
 }
-
-QStringList CplusPlusHighlighter::getKeywords() const { return keywords_; }

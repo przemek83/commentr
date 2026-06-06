@@ -20,6 +20,11 @@ private:
     HighlightingRule singleLineCommentRule_;
 
     const QStringList keywords_{loadKeywords("visualBasic.txt")};
+
+    const QString functionPattern_{
+        QStringLiteral(R"(\b[A-Za-z0-9_]+\s*(?=\())")};
+    const QString quotationPattern_{QStringLiteral("\".*\"")};
+    const QString singleLineCommentPattern_{QStringLiteral("'[^\n]*")};
 };
 
 #endif  // VISUALBASICHIGHLIGHTER_H

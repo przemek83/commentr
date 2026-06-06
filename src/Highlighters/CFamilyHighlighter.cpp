@@ -8,32 +8,23 @@ CFamilyHighlighter::CFamilyHighlighter(const SpellChecker& spellChecker,
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =
-        QRegularExpression(QStringLiteral("//[^\n]*"));
+        QRegularExpression(singleLineCommentPattern_);
 
     multiLineCommentRule_.startPattern_ =
-        QRegularExpression(QStringLiteral("/\\*"));
+        QRegularExpression(multiLineCommentPatternStart_);
     multiLineCommentRule_.endPattern_ =
-        QRegularExpression(QStringLiteral("\\*/"));
+        QRegularExpression(multiLineCommentPatternEnd_);
     multiLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
 }
 
 void CFamilyHighlighter::initFunctionsRules()
 {
-    HighlightingRule rule;
-
-    rule.startPattern_ =
-        QRegularExpression(QStringLiteral(R"(\b[A-Za-z0-9_]+\s*(?=\())"));
-    rule.format_ = Common::getFormat(SyntaxElement::FUNCTION);
-    highlightingRules_.append(rule);
+    addRule(functionPattern_, SyntaxElement::FUNCTION);
 }
 
 void CFamilyHighlighter::initQuotationRules()
 {
-    HighlightingRule rule;
-    rule.startPattern_ =
-        QRegularExpression(QStringLiteral(R"(("([^"]|\\")*"|'([^']|\\')*'))"));
-    rule.format_ = Common::getFormat(SyntaxElement::QUOTATION);
-    highlightingRules_.append(rule);
+    addRule(quotationPattern_, SyntaxElement::QUOTATION);
 }
 
 void CFamilyHighlighter::commentBlock(const QString& text)

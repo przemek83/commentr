@@ -4,6 +4,8 @@
 #include <QRegularExpression>
 #include <QSyntaxHighlighter>
 
+#include "../SyntaxElement.h"
+
 class SpellChecker;
 
 class Highlighter : public QSyntaxHighlighter
@@ -25,8 +27,6 @@ protected:
         QTextCharFormat format_;
     };
 
-    QVector<HighlightingRule> highlightingRules_;
-
     virtual void commentBlock(const QString& text) = 0;
 
     void checkSpellingInBlock(int minIndex, const QString& line);
@@ -38,6 +38,10 @@ protected:
     void singleLineComment(const QString& text, const HighlightingRule& rule);
 
     void multiLineComment(const QString& text, const HighlightingRule& rule);
+
+    void addRule(const QString& pattern, SyntaxElement element);
+
+    QVector<HighlightingRule> highlightingRules_;
 
 private:
     Q_DISABLE_COPY_MOVE(Highlighter)

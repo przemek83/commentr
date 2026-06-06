@@ -135,6 +135,14 @@ void Highlighter::multiLineComment(const QString& text,
     }
 }
 
+void Highlighter::addRule(const QString& pattern, SyntaxElement element)
+{
+    HighlightingRule rule;
+    rule.startPattern_ = QRegularExpression(pattern);
+    rule.format_ = Common::getFormat(element);
+    highlightingRules_.append(rule);
+}
+
 void Highlighter::processWord(const QString& word, int minIndex,
                               const QString& line)
 {

@@ -23,10 +23,8 @@ private:
 
     const QString functionPattern_{
         QStringLiteral(R"(\b[A-Za-z0-9_]+\s*(?=\())")};
-
     const QString quotationPattern_{
         QStringLiteral(R"(("[^"]*"|'[^']*'|'''[^''']*'''|"""[^"""]*"""))")};
-
     const QString singleLineCommentPattern_{QStringLiteral("#[^\n]*")};
 };
 

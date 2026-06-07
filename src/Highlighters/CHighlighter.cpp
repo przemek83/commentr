@@ -11,13 +11,8 @@ void CHighlighter::initRules()
 {
     initFunctionsRules();
 
-    HighlightingRule rule;
     for (const QString& pattern : keywords_)
-    {
-        rule.startPattern_ = QRegularExpression(pattern);
-        rule.format_ = Common::getFormat(SyntaxElement::KEYWORD);
-        highlightingRules_.append(rule);
-    }
+        addRule(pattern, SyntaxElement::KEYWORD);
 
     initQuotationRules();
 }

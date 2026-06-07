@@ -16,6 +16,8 @@ private:
     Q_DISABLE_COPY_MOVE(ObjectiveCHighlighter)
 
     const QStringList keywords_{loadKeywords("objectiveC.txt")};
+
+    const QString classPattern_{QStringLiteral("\\bNS[A-Za-z]+\\b")};
 };
 
 #endif  // OBJECTIVECHIGHLIGHTER_H

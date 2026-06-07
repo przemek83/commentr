@@ -12,19 +12,10 @@ void CplusPlusHighlighter::initRules()
 {
     initFunctionsRules();
 
-    HighlightingRule rule;
-
     for (const QString& pattern : keywords_)
-    {
-        rule.startPattern_ = QRegularExpression(pattern);
-        rule.format_ = Common::getFormat(SyntaxElement::KEYWORD);
-        highlightingRules_.append(rule);
-    }
+        addRule(pattern, SyntaxElement::KEYWORD);
 
-    // For Qt classes
-    rule.startPattern_ = QRegularExpression(QStringLiteral("\\bQ[A-Za-z]+\\b"));
-    rule.format_ = Common::getFormat(SyntaxElement::CLASS);
-    highlightingRules_.append(rule);
+    addRule(qtClassPattern_, SyntaxElement::CLASS);
 
     initQuotationRules();
 }

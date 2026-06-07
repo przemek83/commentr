@@ -3,7 +3,7 @@
 #include "../Common.h"
 
 SQLHighlighter::SQLHighlighter(const SpellChecker& spellChecker)
-    : Highlighter(spellChecker)
+    : Highlighter(spellChecker, "sql.txt")
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =
@@ -18,8 +18,7 @@ SQLHighlighter::SQLHighlighter(const SpellChecker& spellChecker)
 
 void SQLHighlighter::initRules()
 {
-    for (const QString& pattern : keywords_)
-        addRule(pattern, SyntaxElement::KEYWORD);
+    Highlighter::initRules();
 
     addRule(quotationPattern_, SyntaxElement::QUOTATION);
 }

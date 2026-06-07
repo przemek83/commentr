@@ -11,14 +11,14 @@ class SpellChecker;
 class Highlighter : public QSyntaxHighlighter
 {
 public:
-    explicit Highlighter(const SpellChecker& spellChecker);
+    Highlighter(const SpellChecker& spellChecker, const QString& file);
 
     ~Highlighter() override = default;
 
 protected:
     void highlightBlock(const QString& text) override;
 
-    virtual void initRules() = 0;
+    virtual void initRules();
 
     struct HighlightingRule
     {
@@ -49,6 +49,8 @@ private:
     const SpellChecker& spellChecker_;
 
     QVector<HighlightingRule> highlightingRules_;
+
+    const QStringList keywords_;
 };
 
 #endif  // HIGHLIGHTER_H

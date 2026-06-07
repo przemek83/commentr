@@ -13,7 +13,7 @@ class TestHighlighter : public Highlighter
 {
 public:
     explicit TestHighlighter(const SpellChecker& spellChecker)
-        : Highlighter(spellChecker)
+        : Highlighter(spellChecker, QString())
     {
     }
 

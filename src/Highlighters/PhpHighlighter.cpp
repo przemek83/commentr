@@ -3,7 +3,7 @@
 #include "../Common.h"
 
 PhpHighlighter::PhpHighlighter(const SpellChecker& spellChecker)
-    : Highlighter(spellChecker)
+    : Highlighter(spellChecker, "php.txt")
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =
@@ -18,10 +18,8 @@ PhpHighlighter::PhpHighlighter(const SpellChecker& spellChecker)
 
 void PhpHighlighter::initRules()
 {
-    for (const QString& pattern : keywords_)
-        addRule(pattern, SyntaxElement::KEYWORD);
-
     addRule(functionPattern_, SyntaxElement::FUNCTION);
+    Highlighter::initRules();
     addRule(quotationPattern_, SyntaxElement::QUOTATION);
 }
 

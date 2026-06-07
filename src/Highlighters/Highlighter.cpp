@@ -6,9 +6,10 @@
 #include "../Common.h"
 #include "../SpellChecker.h"
 
-Highlighter::Highlighter(const SpellChecker& spellChecker)
+Highlighter::Highlighter(const SpellChecker& spellChecker, const QString& file)
     : QSyntaxHighlighter(static_cast<QObject*>(nullptr)),
-      spellChecker_(spellChecker)
+      spellChecker_(spellChecker),
+      keywords_{loadKeywords(file)}
 {
 }
 
@@ -30,6 +31,12 @@ void Highlighter::highlightBlock(const QString& text)
 
     // Add comments highlight.
     commentBlock(text);
+}
+
+void Highlighter::initRules()
+{
+    for (const QString& pattern : keywords_)
+        addRule(pattern, SyntaxElement::KEYWORD);
 }
 
 void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)

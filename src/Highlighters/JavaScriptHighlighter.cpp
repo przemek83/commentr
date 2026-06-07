@@ -3,7 +3,7 @@
 #include "../Common.h"
 
 JavaScriptHighlighter::JavaScriptHighlighter(const SpellChecker& spellChecker)
-    : Highlighter(spellChecker)
+    : Highlighter(spellChecker, "javaScript.txt")
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =
@@ -18,10 +18,8 @@ JavaScriptHighlighter::JavaScriptHighlighter(const SpellChecker& spellChecker)
 
 void JavaScriptHighlighter::initRules()
 {
-    for (const QString& pattern : keywords_)
-        addRule(pattern, SyntaxElement::KEYWORD);
-
     addRule(functionPattern_, SyntaxElement::FUNCTION);
+    Highlighter::initRules();
     addRule(quotationPattern_, SyntaxElement::QUOTATION);
 }
 

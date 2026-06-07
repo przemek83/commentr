@@ -23,8 +23,6 @@ private:
 
     HighlightingRule multiLineCommentRule_;
 
-    const QStringList keywords_;
-
     const QString functionPattern_{
         QStringLiteral(R"(\b[A-Za-z0-9_]+\s*(?=\())")};
     const QString quotationPattern_{

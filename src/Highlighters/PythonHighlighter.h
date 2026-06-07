@@ -19,8 +19,6 @@ private:
 
     HighlightingRule singleLineCommentRule_;
 
-    const QStringList keywords_{loadKeywords("python.txt")};
-
     const QString functionPattern_{
         QStringLiteral(R"(\b[A-Za-z0-9_]+\s*(?=\())")};
     const QString quotationPattern_{

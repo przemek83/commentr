@@ -21,8 +21,6 @@ private:
 
     HighlightingRule multiLineCommentRule_;
 
-    const QStringList keywords_{loadKeywords("php.txt")};
-
     const QString functionPattern_{
         QStringLiteral(R"(\b[A-Za-z0-9_]+\s*(?=\())")};
     const QString quotationPattern_{

@@ -23,8 +23,6 @@ private:
 
     HighlightingRule multiLineCommentRule_;
 
-    const QStringList keywords_{loadKeywords("sql.txt")};
-
     const QString quotationPattern_{QStringLiteral(R"(("[^"]*"|'[^']*'))")};
     const QString singleLineCommentPattern_{QStringLiteral("--[^\n]*")};
     const QString multiLineCommentPatternStart_{QStringLiteral("/\\*")};

@@ -3,7 +3,7 @@
 #include "../Common.h"
 
 PythonHighlighter::PythonHighlighter(const SpellChecker& spellChecker)
-    : Highlighter(spellChecker)
+    : Highlighter(spellChecker, "python.txt")
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =
@@ -12,10 +12,8 @@ PythonHighlighter::PythonHighlighter(const SpellChecker& spellChecker)
 
 void PythonHighlighter::initRules()
 {
-    for (const QString& pattern : keywords_)
-        addRule(pattern, SyntaxElement::KEYWORD);
-
     addRule(functionPattern_, SyntaxElement::FUNCTION);
+    Highlighter::initRules();
     addRule(quotationPattern_, SyntaxElement::QUOTATION);
 }
 

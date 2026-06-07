@@ -4,7 +4,7 @@
 
 CFamilyHighlighter::CFamilyHighlighter(const SpellChecker& spellChecker,
                                        const QString& file)
-    : Highlighter(spellChecker), keywords_{loadKeywords(file)}
+    : Highlighter(spellChecker, file)
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =
@@ -20,10 +20,7 @@ CFamilyHighlighter::CFamilyHighlighter(const SpellChecker& spellChecker,
 void CFamilyHighlighter::initRules()
 {
     addRule(functionPattern_, SyntaxElement::FUNCTION);
-
-    for (const QString& pattern : keywords_)
-        addRule(pattern, SyntaxElement::KEYWORD);
-
+    Highlighter::initRules();
     addRule(quotationPattern_, SyntaxElement::QUOTATION);
 }
 

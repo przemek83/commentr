@@ -14,11 +14,8 @@ Highlighter::Highlighter(const SpellChecker& spellChecker)
 
 void Highlighter::highlightBlock(const QString& text)
 {
-    if (!initialized_)
-    {
+    if (highlightingRules_.empty())
         initRules();
-        initialized_ = true;
-    }
 
     for (const HighlightingRule& rule : highlightingRules_)
     {

@@ -33,15 +33,11 @@ protected:
 
     static QStringList loadKeywords(const QString& fileName);
 
-    bool initialized_{false};
-
     void singleLineComment(const QString& text, const HighlightingRule& rule);
 
     void multiLineComment(const QString& text, const HighlightingRule& rule);
 
     void addRule(const QString& pattern, SyntaxElement element);
-
-    QVector<HighlightingRule> highlightingRules_;
 
 private:
     Q_DISABLE_COPY_MOVE(Highlighter)
@@ -51,6 +47,8 @@ private:
     static constexpr int noMatchIndex_{-1};
 
     const SpellChecker& spellChecker_;
+
+    QVector<HighlightingRule> highlightingRules_;
 };
 
 #endif  // HIGHLIGHTER_H

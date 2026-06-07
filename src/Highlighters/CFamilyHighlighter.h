@@ -16,10 +16,6 @@ protected:
 
     void commentBlock(const QString& text) override;
 
-    void initFunctionsRules();
-
-    void initQuotationRules();
-
 private:
     Q_DISABLE_COPY_MOVE(CFamilyHighlighter)
 

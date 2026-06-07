@@ -6,7 +6,7 @@
 class SQLHighlighter : public Highlighter
 {
 public:
-    SQLHighlighter(const SpellChecker& spellChecker, QObject* parent);
+    explicit SQLHighlighter(const SpellChecker& spellChecker);
     ~SQLHighlighter() override = default;
 
 protected:

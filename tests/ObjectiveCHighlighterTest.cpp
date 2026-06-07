@@ -10,7 +10,7 @@ void ObjectiveCHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void ObjectiveCHighlighterTest::testKeywordHighlighting()
 {
-    ObjectiveCHighlighter highlighter(spellChecker_, nullptr);
+    ObjectiveCHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("if (true)")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -23,7 +23,7 @@ void ObjectiveCHighlighterTest::testKeywordHighlighting()
 
 void ObjectiveCHighlighterTest::testClassHighlighting()
 {
-    ObjectiveCHighlighter highlighter(spellChecker_, nullptr);
+    ObjectiveCHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("NSObject obj;")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -34,7 +34,7 @@ void ObjectiveCHighlighterTest::testClassHighlighting()
 
 void ObjectiveCHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    ObjectiveCHighlighter highlighter(spellChecker_, nullptr);
+    ObjectiveCHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("char* s = \"hello\"; // comment")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -51,7 +51,7 @@ void ObjectiveCHighlighterTest::testQuotationAndCommentHighlighting()
 
 void ObjectiveCHighlighterTest::testMultilineCommentHighlighting()
 {
-    ObjectiveCHighlighter highlighter(spellChecker_, nullptr);
+    ObjectiveCHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("/* start\nmiddle\nend */")};
     const QTextBlock first{setupHighlighter(highlighter, document_, source)};

@@ -1,18 +1,6 @@
 #include "CHighlighter.h"
 
-#include "../Common.h"
-
-CHighlighter::CHighlighter(const SpellChecker& spellChecker, QObject* parent)
-    : CFamilyHighlighter(spellChecker, parent)
+CHighlighter::CHighlighter(const SpellChecker& spellChecker)
+    : CFamilyHighlighter(spellChecker, "c.txt")
 {
-}
-
-void CHighlighter::initRules()
-{
-    initFunctionsRules();
-
-    for (const QString& pattern : keywords_)
-        addRule(pattern, SyntaxElement::KEYWORD);
-
-    initQuotationRules();
 }

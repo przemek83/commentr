@@ -227,38 +227,34 @@ std::unique_ptr<Highlighter> EditorTabPage::getHighlighterForEditorMode(
     switch (mode)
     {
         case SyntaxLang::CPP:
-            return std::make_unique<CplusPlusHighlighter>(spellChecker_,
-                                                          nullptr);
+            return std::make_unique<CplusPlusHighlighter>(spellChecker_);
 
         case SyntaxLang::C:
-            return std::make_unique<CHighlighter>(spellChecker_, nullptr);
+            return std::make_unique<CHighlighter>(spellChecker_);
 
         case SyntaxLang::JAVA:
-            return std::make_unique<JavaHighlighter>(spellChecker_, nullptr);
+            return std::make_unique<JavaHighlighter>(spellChecker_);
 
         case SyntaxLang::OBJECTIVE_C:
-            return std::make_unique<ObjectiveCHighlighter>(spellChecker_,
-                                                           nullptr);
+            return std::make_unique<ObjectiveCHighlighter>(spellChecker_);
 
         case SyntaxLang::C_SHARP:
-            return std::make_unique<CSharpHighlighter>(spellChecker_, nullptr);
+            return std::make_unique<CSharpHighlighter>(spellChecker_);
 
         case SyntaxLang::PHP:
-            return std::make_unique<PhpHighlighter>(spellChecker_, nullptr);
+            return std::make_unique<PhpHighlighter>(spellChecker_);
 
         case SyntaxLang::VISUAL_BASIC:
-            return std::make_unique<VisualBasicHighlighter>(spellChecker_,
-                                                            nullptr);
+            return std::make_unique<VisualBasicHighlighter>(spellChecker_);
 
         case SyntaxLang::PYTHON:
-            return std::make_unique<PythonHighlighter>(spellChecker_, nullptr);
+            return std::make_unique<PythonHighlighter>(spellChecker_);
 
         case SyntaxLang::SQL:
-            return std::make_unique<SQLHighlighter>(spellChecker_, nullptr);
+            return std::make_unique<SQLHighlighter>(spellChecker_);
 
         case SyntaxLang::JAVASCRIPT:
-            return std::make_unique<JavaScriptHighlighter>(spellChecker_,
-                                                           nullptr);
+            return std::make_unique<JavaScriptHighlighter>(spellChecker_);
 
         default:
             return nullptr;

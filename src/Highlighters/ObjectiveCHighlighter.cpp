@@ -1,21 +1,12 @@
 #include "ObjectiveCHighlighter.h"
 
-#include "../Common.h"
-
-ObjectiveCHighlighter::ObjectiveCHighlighter(const SpellChecker& spellChecker,
-                                             QObject* parent)
-    : CFamilyHighlighter(spellChecker, parent)
+ObjectiveCHighlighter::ObjectiveCHighlighter(const SpellChecker& spellChecker)
+    : CFamilyHighlighter(spellChecker, "objectiveC.txt")
 {
 }
 
 void ObjectiveCHighlighter::initRules()
 {
-    initFunctionsRules();
-
-    for (const QString& pattern : keywords_)
-        addRule(pattern, SyntaxElement::KEYWORD);
-
+    CFamilyHighlighter::initRules();
     addRule(classPattern_, SyntaxElement::CLASS);
-
-    initQuotationRules();
 }

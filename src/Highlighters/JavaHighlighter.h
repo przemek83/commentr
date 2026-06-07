@@ -6,16 +6,7 @@
 class JavaHighlighter : public CFamilyHighlighter
 {
 public:
-    JavaHighlighter(const SpellChecker& spellChecker, QObject* parent);
-    ~JavaHighlighter() override = default;
-
-protected:
-    void initRules() override;
-
-private:
-    Q_DISABLE_COPY_MOVE(JavaHighlighter)
-
-    const QStringList keywords_{loadKeywords("java.txt")};
+    explicit JavaHighlighter(const SpellChecker& spellChecker);
 };
 
 #endif  // JAVAHIGHLIGHTER_H

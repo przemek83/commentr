@@ -6,7 +6,7 @@
 class PhpHighlighter : public Highlighter
 {
 public:
-    PhpHighlighter(const SpellChecker& spellChecker, QObject* parent);
+    explicit PhpHighlighter(const SpellChecker& spellChecker);
     ~PhpHighlighter() override = default;
 
 protected:

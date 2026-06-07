@@ -2,9 +2,8 @@
 
 #include "../Common.h"
 
-VisualBasicHighlighter::VisualBasicHighlighter(const SpellChecker& spellChecker,
-                                               QObject* parent)
-    : Highlighter(spellChecker, parent)
+VisualBasicHighlighter::VisualBasicHighlighter(const SpellChecker& spellChecker)
+    : Highlighter(spellChecker)
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =

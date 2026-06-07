@@ -10,7 +10,7 @@ void PhpHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void PhpHighlighterTest::testKeywordHighlighting()
 {
-    PhpHighlighter highlighter(spellChecker_, nullptr);
+    PhpHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("function foo()")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -23,7 +23,7 @@ void PhpHighlighterTest::testKeywordHighlighting()
 
 void PhpHighlighterTest::testFunctionHighlighting()
 {
-    PhpHighlighter highlighter(spellChecker_, nullptr);
+    PhpHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("function foo()")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -35,7 +35,7 @@ void PhpHighlighterTest::testFunctionHighlighting()
 
 void PhpHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    PhpHighlighter highlighter(spellChecker_, nullptr);
+    PhpHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("$s = \"hello\"; // comment")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -52,7 +52,7 @@ void PhpHighlighterTest::testQuotationAndCommentHighlighting()
 
 void PhpHighlighterTest::testMultilineCommentHighlighting()
 {
-    PhpHighlighter highlighter(spellChecker_, nullptr);
+    PhpHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("/* start\nmiddle\nend */")};
     const QTextBlock first{setupHighlighter(highlighter, document_, source)};

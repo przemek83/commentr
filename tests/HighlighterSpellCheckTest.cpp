@@ -12,9 +12,8 @@ namespace
 class TestHighlighter : public Highlighter
 {
 public:
-    explicit TestHighlighter(const SpellChecker& spellChecker,
-                             QObject* parent = nullptr)
-        : Highlighter(spellChecker, parent)
+    explicit TestHighlighter(const SpellChecker& spellChecker)
+        : Highlighter(spellChecker)
     {
     }
 
@@ -35,7 +34,7 @@ void HighlighterSpellCheckTest::init() { spellChecker_.setActive(true); }
 void HighlighterSpellCheckTest::testMisspelledWordIsMarked()
 {
     spellChecker_.initDictionary(QStringLiteral("hello\nworld"));
-    TestHighlighter highlighter(spellChecker_, nullptr);
+    TestHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("hello badword world")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -48,7 +47,7 @@ void HighlighterSpellCheckTest::testMisspelledWordIsMarked()
 void HighlighterSpellCheckTest::testSingleLetterWordIgnored()
 {
     spellChecker_.initDictionary(QStringLiteral("hello"));
-    TestHighlighter highlighter(spellChecker_, nullptr);
+    TestHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("x")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -61,7 +60,7 @@ void HighlighterSpellCheckTest::testSingleLetterWordIgnored()
 void HighlighterSpellCheckTest::testCorrectlySpelledWordNotMarked()
 {
     spellChecker_.initDictionary(QStringLiteral("hello\nworld"));
-    TestHighlighter highlighter(spellChecker_, nullptr);
+    TestHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("hello world")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};

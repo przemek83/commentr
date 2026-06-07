@@ -10,7 +10,7 @@ void VisualBasicHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void VisualBasicHighlighterTest::testKeywordHighlighting()
 {
-    VisualBasicHighlighter highlighter(spellChecker_, nullptr);
+    VisualBasicHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("If True Then")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -23,7 +23,7 @@ void VisualBasicHighlighterTest::testKeywordHighlighting()
 
 void VisualBasicHighlighterTest::testFunctionHighlighting()
 {
-    VisualBasicHighlighter highlighter(spellChecker_, nullptr);
+    VisualBasicHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("foo()")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -34,7 +34,7 @@ void VisualBasicHighlighterTest::testFunctionHighlighting()
 
 void VisualBasicHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    VisualBasicHighlighter highlighter(spellChecker_, nullptr);
+    VisualBasicHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("s = \"hello\" ' comment")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};

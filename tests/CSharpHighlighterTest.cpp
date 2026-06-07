@@ -10,7 +10,7 @@ void CSharpHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void CSharpHighlighterTest::testKeywordHighlighting()
 {
-    CSharpHighlighter highlighter(spellChecker_, nullptr);
+    CSharpHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("public class Foo")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -23,7 +23,7 @@ void CSharpHighlighterTest::testKeywordHighlighting()
 
 void CSharpHighlighterTest::testFunctionHighlighting()
 {
-    CSharpHighlighter highlighter(spellChecker_, nullptr);
+    CSharpHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("void foo()")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -34,7 +34,7 @@ void CSharpHighlighterTest::testFunctionHighlighting()
 
 void CSharpHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    CSharpHighlighter highlighter(spellChecker_, nullptr);
+    CSharpHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("string s = \"hello\"; // comment")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -51,7 +51,7 @@ void CSharpHighlighterTest::testQuotationAndCommentHighlighting()
 
 void CSharpHighlighterTest::testMultilineCommentHighlighting()
 {
-    CSharpHighlighter highlighter(spellChecker_, nullptr);
+    CSharpHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("/* start\nmiddle\nend */")};
     const QTextBlock first{setupHighlighter(highlighter, document_, source)};

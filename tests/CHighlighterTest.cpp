@@ -10,7 +10,7 @@ void CHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void CHighlighterTest::testKeywordHighlighting()
 {
-    CHighlighter highlighter(spellChecker_, nullptr);
+    CHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("int main()")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -23,7 +23,7 @@ void CHighlighterTest::testKeywordHighlighting()
 
 void CHighlighterTest::testFunctionHighlighting()
 {
-    CHighlighter highlighter(spellChecker_, nullptr);
+    CHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("int main()")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -35,7 +35,7 @@ void CHighlighterTest::testFunctionHighlighting()
 
 void CHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    CHighlighter highlighter(spellChecker_, nullptr);
+    CHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("char* s = \"hello\"; // comment")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};

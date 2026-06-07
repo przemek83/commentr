@@ -2,9 +2,8 @@
 
 #include "../Common.h"
 
-PhpHighlighter::PhpHighlighter(const SpellChecker& spellChecker,
-                               QObject* parent)
-    : Highlighter(spellChecker, parent)
+PhpHighlighter::PhpHighlighter(const SpellChecker& spellChecker)
+    : Highlighter(spellChecker)
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =

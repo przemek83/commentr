@@ -10,7 +10,7 @@ void SQLHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void SQLHighlighterTest::testKeywordHighlighting()
 {
-    SQLHighlighter highlighter(spellChecker_, nullptr);
+    SQLHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("SELECT * FROM table")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -23,7 +23,7 @@ void SQLHighlighterTest::testKeywordHighlighting()
 
 void SQLHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    SQLHighlighter highlighter(spellChecker_, nullptr);
+    SQLHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("SELECT 'hello' -- comment")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -40,7 +40,7 @@ void SQLHighlighterTest::testQuotationAndCommentHighlighting()
 
 void SQLHighlighterTest::testMultilineCommentHighlighting()
 {
-    SQLHighlighter highlighter(spellChecker_, nullptr);
+    SQLHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("/* start\nmiddle\nend */")};
     const QTextBlock first{setupHighlighter(highlighter, document_, source)};

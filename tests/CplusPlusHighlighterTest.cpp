@@ -10,7 +10,7 @@ void CplusPlusHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void CplusPlusHighlighterTest::testKeywordHighlighting()
 {
-    CplusPlusHighlighter highlighter(spellChecker_, nullptr);
+    CplusPlusHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("class Foo")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -23,7 +23,7 @@ void CplusPlusHighlighterTest::testKeywordHighlighting()
 
 void CplusPlusHighlighterTest::testClassHighlighting()
 {
-    CplusPlusHighlighter highlighter(spellChecker_, nullptr);
+    CplusPlusHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("QWidget w;")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -34,7 +34,7 @@ void CplusPlusHighlighterTest::testClassHighlighting()
 
 void CplusPlusHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    CplusPlusHighlighter highlighter(spellChecker_, nullptr);
+    CplusPlusHighlighter highlighter(spellChecker_);
 
     const QString source{
         QStringLiteral("std::string s = \"hello\"; // comment")};
@@ -52,7 +52,7 @@ void CplusPlusHighlighterTest::testQuotationAndCommentHighlighting()
 
 void CplusPlusHighlighterTest::testMultilineCommentHighlighting()
 {
-    CplusPlusHighlighter highlighter(spellChecker_, nullptr);
+    CplusPlusHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("/* start\nmiddle\nend */")};
     const QTextBlock first{setupHighlighter(highlighter, document_, source)};

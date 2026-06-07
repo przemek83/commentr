@@ -12,7 +12,7 @@ void PythonHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void PythonHighlighterTest::testKeywordHighlighting()
 {
-    PythonHighlighter highlighter(spellChecker_, nullptr);
+    PythonHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("def foo():")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -28,7 +28,7 @@ void PythonHighlighterTest::testKeywordHighlighting()
 
 void PythonHighlighterTest::testFunctionHighlighting()
 {
-    PythonHighlighter highlighter(spellChecker_, nullptr);
+    PythonHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("def foo():")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -40,7 +40,7 @@ void PythonHighlighterTest::testFunctionHighlighting()
 
 void PythonHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    PythonHighlighter highlighter(spellChecker_, nullptr);
+    PythonHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("s = \"hello\"  # comment")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};

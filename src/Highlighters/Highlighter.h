@@ -11,7 +11,7 @@ class SpellChecker;
 class Highlighter : public QSyntaxHighlighter
 {
 public:
-    explicit Highlighter(const SpellChecker& spellChecker, QObject* parent);
+    explicit Highlighter(const SpellChecker& spellChecker);
 
     ~Highlighter() override = default;
 

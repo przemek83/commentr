@@ -8,10 +8,12 @@
 class CFamilyHighlighter : public Highlighter
 {
 public:
-    CFamilyHighlighter(const SpellChecker& spellChecker, QObject* parent);
+    CFamilyHighlighter(const SpellChecker& spellChecker, const QString& file);
     ~CFamilyHighlighter() override = default;
 
 protected:
+    void initRules() override;
+
     void commentBlock(const QString& text) override;
 
     void initFunctionsRules();
@@ -24,6 +26,8 @@ private:
     HighlightingRule singleLineCommentRule_;
 
     HighlightingRule multiLineCommentRule_;
+
+    const QStringList keywords_;
 
     const QString functionPattern_{
         QStringLiteral(R"(\b[A-Za-z0-9_]+\s*(?=\())")};

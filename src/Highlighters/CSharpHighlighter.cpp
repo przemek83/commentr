@@ -1,19 +1,6 @@
 #include "CSharpHighlighter.h"
 
-#include "../Common.h"
-
-CSharpHighlighter::CSharpHighlighter(const SpellChecker& spellChecker,
-                                     QObject* parent)
-    : CFamilyHighlighter(spellChecker, parent)
+CSharpHighlighter::CSharpHighlighter(const SpellChecker& spellChecker)
+    : CFamilyHighlighter(spellChecker, "cSharp.txt")
 {
-}
-
-void CSharpHighlighter::initRules()
-{
-    initFunctionsRules();
-
-    for (const QString& pattern : keywords_)
-        addRule(pattern, SyntaxElement::KEYWORD);
-
-    initQuotationRules();
 }

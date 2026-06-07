@@ -10,7 +10,7 @@ void JavaScriptHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void JavaScriptHighlighterTest::testKeywordHighlighting()
 {
-    JavaScriptHighlighter highlighter(spellChecker_, nullptr);
+    JavaScriptHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("var x = 1;")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -23,7 +23,7 @@ void JavaScriptHighlighterTest::testKeywordHighlighting()
 
 void JavaScriptHighlighterTest::testFunctionHighlighting()
 {
-    JavaScriptHighlighter highlighter(spellChecker_, nullptr);
+    JavaScriptHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("foo()")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -34,7 +34,7 @@ void JavaScriptHighlighterTest::testFunctionHighlighting()
 
 void JavaScriptHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    JavaScriptHighlighter highlighter(spellChecker_, nullptr);
+    JavaScriptHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("var s = \"hello\"; // comment")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -51,7 +51,7 @@ void JavaScriptHighlighterTest::testQuotationAndCommentHighlighting()
 
 void JavaScriptHighlighterTest::testMultilineCommentHighlighting()
 {
-    JavaScriptHighlighter highlighter(spellChecker_, nullptr);
+    JavaScriptHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("/* start\nmiddle\nend */")};
     const QTextBlock first{setupHighlighter(highlighter, document_, source)};

@@ -13,7 +13,7 @@ void JavaHighlighterTest::init() { spellChecker_.setActive(false); }
 
 void JavaHighlighterTest::testKeywordHighlighting()
 {
-    JavaHighlighter highlighter(spellChecker_, nullptr);
+    JavaHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("public class Foo")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -30,7 +30,7 @@ void JavaHighlighterTest::testKeywordHighlighting()
 
 void JavaHighlighterTest::testFunctionHighlighting()
 {
-    JavaHighlighter highlighter(spellChecker_, nullptr);
+    JavaHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("void foo()")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -41,7 +41,7 @@ void JavaHighlighterTest::testFunctionHighlighting()
 
 void JavaHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    JavaHighlighter highlighter(spellChecker_, nullptr);
+    JavaHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("String s = \"hello\"; // comment")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -58,7 +58,7 @@ void JavaHighlighterTest::testQuotationAndCommentHighlighting()
 
 void JavaHighlighterTest::testMultilineCommentHighlighting()
 {
-    JavaHighlighter highlighter(spellChecker_, nullptr);
+    JavaHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("/* start\nmiddle\nend */")};
     const QTextBlock first{setupHighlighter(highlighter, document_, source)};

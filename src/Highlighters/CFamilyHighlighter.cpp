@@ -3,8 +3,8 @@
 #include "../Common.h"
 
 CFamilyHighlighter::CFamilyHighlighter(const SpellChecker& spellChecker,
-                                       QObject* parent)
-    : Highlighter(spellChecker, parent)
+                                       const QString& file)
+    : Highlighter(spellChecker), keywords_{loadKeywords(file)}
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =
@@ -25,6 +25,16 @@ void CFamilyHighlighter::initFunctionsRules()
 void CFamilyHighlighter::initQuotationRules()
 {
     addRule(quotationPattern_, SyntaxElement::QUOTATION);
+}
+
+void CFamilyHighlighter::initRules()
+{
+    initFunctionsRules();
+
+    for (const QString& pattern : keywords_)
+        addRule(pattern, SyntaxElement::KEYWORD);
+
+    initQuotationRules();
 }
 
 void CFamilyHighlighter::commentBlock(const QString& text)

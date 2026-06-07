@@ -6,8 +6,9 @@
 #include "../Common.h"
 #include "../SpellChecker.h"
 
-Highlighter::Highlighter(const SpellChecker& spellChecker, QObject* parent)
-    : QSyntaxHighlighter(parent), spellChecker_(spellChecker)
+Highlighter::Highlighter(const SpellChecker& spellChecker)
+    : QSyntaxHighlighter(static_cast<QObject*>(nullptr)),
+      spellChecker_(spellChecker)
 {
 }
 

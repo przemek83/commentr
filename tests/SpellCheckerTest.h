@@ -17,6 +17,11 @@ private slots:
     static void testDefaultActive();
     static void testSetActive();
     static void testInitDictionaryAndCheckWord();
+    static void testSimpleSplit();
+    static void testUnicodeAndPunctuation();
+    static void testNumbersRemoved();
+    static void testPlusPlus();
+    static void testLeadingSymbols();
 };
 
 #endif  // SPELLCHECKERTEST_H

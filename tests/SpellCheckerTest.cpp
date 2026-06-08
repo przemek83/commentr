@@ -28,3 +28,46 @@ void SpellCheckerTest::testInitDictionaryAndCheckWord()
     QVERIFY(sc.checkWord(QStringLiteral("Foo")));
     QVERIFY(!sc.checkWord(QStringLiteral("bar")));
 }
+
+void SpellCheckerTest::testSimpleSplit()
+{
+    const QString source{QStringLiteral("hello badword world")};
+    const QStringList words = SpellChecker::extractWords(source);
+    const QStringList expected{QStringLiteral("hello"),
+                               QStringLiteral("badword"),
+                               QStringLiteral("world")};
+    QCOMPARE(words, expected);
+}
+
+void SpellCheckerTest::testUnicodeAndPunctuation()
+{
+    const QString source{QStringLiteral("héllo, мир!")};
+    const QStringList words = SpellChecker::extractWords(source);
+    const QStringList expected{QStringLiteral("héllo"), QStringLiteral("мир")};
+    QCOMPARE(words, expected);
+}
+
+void SpellCheckerTest::testNumbersRemoved()
+{
+    const QString source{QStringLiteral("123 abc 456")};
+    const QStringList words = SpellChecker::extractWords(source);
+    const QStringList expected{QStringLiteral("abc")};
+    QCOMPARE(words, expected);
+}
+
+void SpellCheckerTest::testPlusPlus()
+{
+    const QString source{QStringLiteral("C++ is fun")};
+    const QStringList words = SpellChecker::extractWords(source);
+    const QStringList expected{QStringLiteral("C"), QStringLiteral("is"),
+                               QStringLiteral("fun")};
+    QCOMPARE(words, expected);
+}
+
+void SpellCheckerTest::testLeadingSymbols()
+{
+    const QString source{QStringLiteral("@test #foo")};
+    const QStringList words = SpellChecker::extractWords(source);
+    const QStringList expected{QStringLiteral("test"), QStringLiteral("foo")};
+    QCOMPARE(words, expected);
+}

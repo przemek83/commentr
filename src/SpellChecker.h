@@ -21,6 +21,8 @@ public:
     bool active() const;
     void setActive(bool active);
 
+    static QStringList extractWords(const QString& text);
+
 private:
     Q_DISABLE_COPY(SpellChecker)
 

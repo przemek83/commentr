@@ -44,6 +44,8 @@ private:
 
     void processWord(const QString& word, int minIndex, const QString& line);
 
+    void applyRule(const QString& text, const HighlightingRule& rule);
+
     static constexpr int noMatchIndex_{-1};
 
     const SpellChecker& spellChecker_;

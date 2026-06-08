@@ -19,17 +19,8 @@ void Highlighter::highlightBlock(const QString& text)
         initRules();
 
     for (const HighlightingRule& rule : highlightingRules_)
-    {
-        const QRegularExpression& expression = rule.startPattern_;
-        for (const auto& match : expression.globalMatch(text))
-        {
-            int length{static_cast<int>(match.capturedLength())};
-            int index{static_cast<int>(match.capturedStart())};
-            setFormat(index, length, rule.format_);
-        }
-    }
+        applyRule(text, rule);
 
-    // Add comments highlight.
     commentBlock(text);
 }
 
@@ -45,12 +36,8 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
         return;
 
     constexpr int minSpellcheckWordLength{1};
-
-    QString str{line.simplified()};
-    QStringList wordsList =
-        str.split(QRegularExpression(QStringLiteral(R"(([^\w,^\\]|(?=\\))+)")),
-                  Qt::SkipEmptyParts);
-    for (const QString& word : wordsList)
+    QStringList words{SpellChecker::extractWords(line)};
+    for (const QString& word : words)
     {
         if ((word.length() > minSpellcheckWordLength) &&
             (!word.startsWith('\\')) && (!spellChecker_.checkWord(word)))
@@ -165,5 +152,15 @@ void Highlighter::processWord(const QString& word, int minIndex,
             setFormat(l, static_cast<int>(word.length()),
                       Common::getFormat(SyntaxElement::MISSPELLED_WORD));
         }
+    }
+}
+
+void Highlighter::applyRule(const QString& text, const HighlightingRule& rule)
+{
+    for (const auto& match : rule.startPattern_.globalMatch(text))
+    {
+        int length{static_cast<int>(match.capturedLength())};
+        int index{static_cast<int>(match.capturedStart())};
+        setFormat(index, length, rule.format_);
     }
 }

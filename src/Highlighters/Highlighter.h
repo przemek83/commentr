@@ -31,7 +31,7 @@ protected:
 
     void checkSpellingInBlock(int minIndex, const QString& line);
 
-    static QStringList loadKeywords(const QString& fileName);
+    QStringList loadKeywords(const QString& fileName) const;
 
     void singleLineComment(const QString& text, const HighlightingRule& rule);
 
@@ -49,6 +49,12 @@ private:
     int processCommentMatch(const QString& text, const HighlightingRule& rule,
                             int startIndex);
 
+    static int getCommentLength(const QString& text,
+                                const QRegularExpressionMatch& match,
+                                int startIndex);
+
+    static bool isStartCaptured(const QRegularExpressionMatch& match);
+
     static constexpr int noMatchIndex_{-1};
 
     static constexpr int noCommentBlockState_{0};
@@ -58,6 +64,8 @@ private:
     const SpellChecker& spellChecker_;
 
     QVector<HighlightingRule> highlightingRules_;
+
+    const QString wordBoundary_{QStringLiteral("\\b")};
 
     const QStringList keywords_;
 };

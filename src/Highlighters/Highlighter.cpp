@@ -47,7 +47,7 @@ void Highlighter::checkSpellingInBlock(int minIndex, const QString& line)
     }
 }
 
-QStringList Highlighter::loadKeywords(const QString& fileName)
+QStringList Highlighter::loadKeywords(const QString& fileName) const
 {
     QFile file(QStringLiteral(":/keywords/keywords/") + fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -56,17 +56,16 @@ QStringList Highlighter::loadKeywords(const QString& fileName)
     QStringList keywords;
 
     QTextStream in(&file);
-    const QString wordBoundary{QStringLiteral("\\b")};
     const QString specialSignPrefix{QStringLiteral("(^|\\s)")};
     while (!in.atEnd())
     {
         QString line{QString::fromUtf8(file.readLine()).trimmed()};
         if (!line.isEmpty())
         {
-            QString prefix{wordBoundary};
+            QString prefix{wordBoundary_};
             if (!line.at(0).isLetter())
                 prefix = specialSignPrefix;
-            keywords.append(prefix + line + wordBoundary);
+            keywords.append(prefix + line + wordBoundary_);
         }
     }
 
@@ -114,18 +113,16 @@ void Highlighter::addRule(const QString& pattern, SyntaxElement element)
 void Highlighter::processWord(const QString& word, int minIndex,
                               const QString& line)
 {
-    int l{noMatchIndex_};
-    int number{static_cast<int>(line.count(QRegularExpression(
-        QLatin1String("\\b") + word + QLatin1String("\\b"))))};
-    for (int j = 0; j < number; ++j)
+    int startIndex{noMatchIndex_};
+    const QRegularExpression expression(wordBoundary_ + word + wordBoundary_);
+    const qsizetype occurrenceCount{line.count(expression)};
+    for (qsizetype occurrence{0}; occurrence < occurrenceCount; ++occurrence)
     {
-        l = static_cast<int>(
-            line.indexOf(QRegularExpression(QLatin1String("\\b") + word +
-                                            QLatin1String("\\b")),
-                         minIndex + l + 1));
-        if (l >= 0)
+        startIndex = static_cast<int>(
+            line.indexOf(expression, minIndex + startIndex + 1));
+        if (startIndex >= 0)
         {
-            setFormat(l, static_cast<int>(word.length()),
+            setFormat(startIndex, static_cast<int>(word.length()),
                       Common::getFormat(SyntaxElement::MISSPELLED_WORD));
         }
     }
@@ -145,24 +142,41 @@ int Highlighter::processCommentMatch(const QString& text,
                                      const HighlightingRule& rule,
                                      int startIndex)
 {
-    const QRegularExpressionMatch endMatch{
-        rule.endPattern_.match(text, startIndex)};
-    const qsizetype endIndex{endMatch.capturedStart()};
-    qsizetype commentLength{0};
-    if (endIndex == noMatchIndex_)
-    {
+    QRegularExpressionMatch endMatch{rule.endPattern_.match(text, startIndex)};
+    const int commentLength{getCommentLength(text, endMatch, startIndex)};
+
+    if (!isStartCaptured(endMatch))
         setCurrentBlockState(insideCommentBlockState_);
-        commentLength = text.length() - startIndex;
-    }
-    else
-    {
-        commentLength = (endIndex - startIndex) + endMatch.capturedLength();
-    }
 
     setFormat(startIndex, static_cast<int>(commentLength), rule.format_);
     checkSpellingInBlock(startIndex, text);
+
     const QRegularExpressionMatch startMatch{
         rule.startPattern_.match(text, startIndex + commentLength)};
     startIndex = static_cast<int>(startMatch.capturedStart());
     return startIndex;
+}
+
+int Highlighter::getCommentLength(const QString& text,
+                                  const QRegularExpressionMatch& match,
+                                  int startIndex)
+{
+    qsizetype commentLength{0};
+    if (isStartCaptured(match))
+    {
+        const qsizetype index{match.capturedStart()};
+        commentLength = (index - startIndex) + match.capturedLength();
+    }
+    else
+    {
+        commentLength = text.length() - startIndex;
+    }
+
+    return static_cast<int>(commentLength);
+}
+
+bool Highlighter::isStartCaptured(const QRegularExpressionMatch& match)
+{
+    const qsizetype index{match.capturedStart()};
+    return index != noMatchIndex_;
 }

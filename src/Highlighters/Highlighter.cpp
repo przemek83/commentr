@@ -145,8 +145,9 @@ int Highlighter::processCommentMatch(const QString& text,
                                      const HighlightingRule& rule,
                                      int startIndex)
 {
-    QRegularExpressionMatch endMatch{rule.endPattern_.match(text, startIndex)};
-    qsizetype endIndex{endMatch.capturedStart()};
+    const QRegularExpressionMatch endMatch{
+        rule.endPattern_.match(text, startIndex)};
+    const qsizetype endIndex{endMatch.capturedStart()};
     qsizetype commentLength{0};
     if (endIndex == noMatchIndex_)
     {
@@ -160,7 +161,7 @@ int Highlighter::processCommentMatch(const QString& text,
 
     setFormat(startIndex, static_cast<int>(commentLength), rule.format_);
     checkSpellingInBlock(startIndex, text);
-    QRegularExpressionMatch startMatch{
+    const QRegularExpressionMatch startMatch{
         rule.startPattern_.match(text, startIndex + commentLength)};
     startIndex = static_cast<int>(startMatch.capturedStart());
     return startIndex;

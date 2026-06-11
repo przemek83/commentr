@@ -148,7 +148,7 @@ int Highlighter::processCommentMatch(const QString& text,
     if (!isStartCaptured(endMatch))
         setCurrentBlockState(insideCommentBlockState_);
 
-    setFormat(startIndex, static_cast<int>(commentLength), rule.format_);
+    setFormat(startIndex, commentLength, rule.format_);
     checkSpellingInBlock(startIndex, text);
 
     const QRegularExpressionMatch startMatch{

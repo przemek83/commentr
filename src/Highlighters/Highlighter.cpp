@@ -90,41 +90,17 @@ void Highlighter::singleLineComment(const QString& text,
 void Highlighter::multiLineComment(const QString& text,
                                    const HighlightingRule& rule)
 {
-    constexpr int noCommentBlockState{0};
-    constexpr int insideCommentBlockState{1};
-
-    setCurrentBlockState(noCommentBlockState);
+    setCurrentBlockState(noCommentBlockState_);
 
     int startIndex{0};
-    if (previousBlockState() != insideCommentBlockState)
+    if (previousBlockState() != insideCommentBlockState_)
     {
         QRegularExpressionMatch match{rule.startPattern_.match(text)};
         startIndex = static_cast<int>(match.capturedStart());
     }
 
     while (startIndex >= 0)
-    {
-        QRegularExpressionMatch endMatch{
-            rule.endPattern_.match(text, startIndex)};
-        auto endIndex{static_cast<int>(endMatch.capturedStart())};
-        int commentLength{0};
-        if (endIndex == noMatchIndex_)
-        {
-            setCurrentBlockState(insideCommentBlockState);
-            commentLength = static_cast<int>(text.length() - startIndex);
-        }
-        else
-        {
-            commentLength = (endIndex - startIndex) +
-                            static_cast<int>(endMatch.capturedLength());
-        }
-
-        setFormat(startIndex, commentLength, rule.format_);
-        checkSpellingInBlock(startIndex, text);
-        QRegularExpressionMatch startMatch{
-            rule.startPattern_.match(text, startIndex + commentLength)};
-        startIndex = static_cast<int>(startMatch.capturedStart());
-    }
+        startIndex = processCommentMatch(text, rule, startIndex);
 }
 
 void Highlighter::addRule(const QString& pattern, SyntaxElement element)
@@ -163,4 +139,29 @@ void Highlighter::applyRule(const QString& text, const HighlightingRule& rule)
         int index{static_cast<int>(match.capturedStart())};
         setFormat(index, length, rule.format_);
     }
+}
+
+int Highlighter::processCommentMatch(const QString& text,
+                                     const HighlightingRule& rule,
+                                     int startIndex)
+{
+    QRegularExpressionMatch endMatch{rule.endPattern_.match(text, startIndex)};
+    qsizetype endIndex{endMatch.capturedStart()};
+    qsizetype commentLength{0};
+    if (endIndex == noMatchIndex_)
+    {
+        setCurrentBlockState(insideCommentBlockState_);
+        commentLength = text.length() - startIndex;
+    }
+    else
+    {
+        commentLength = (endIndex - startIndex) + endMatch.capturedLength();
+    }
+
+    setFormat(startIndex, static_cast<int>(commentLength), rule.format_);
+    checkSpellingInBlock(startIndex, text);
+    QRegularExpressionMatch startMatch{
+        rule.startPattern_.match(text, startIndex + commentLength)};
+    startIndex = static_cast<int>(startMatch.capturedStart());
+    return startIndex;
 }

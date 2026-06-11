@@ -46,7 +46,14 @@ private:
 
     void applyRule(const QString& text, const HighlightingRule& rule);
 
+    int processCommentMatch(const QString& text, const HighlightingRule& rule,
+                            int startIndex);
+
     static constexpr int noMatchIndex_{-1};
+
+    static constexpr int noCommentBlockState_{0};
+
+    static constexpr int insideCommentBlockState_{1};
 
     const SpellChecker& spellChecker_;
 

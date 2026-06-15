@@ -33,10 +33,12 @@ protected:
 
     virtual void listViewItemClicked(const QModelIndex& index) = 0;
 
-    bool open_;
+    bool isOpen() const { return open_; }
 
 private:
     Q_DISABLE_COPY(Explorer)
+
+    bool open_;
 };
 
 #endif  // EXPLORER_H

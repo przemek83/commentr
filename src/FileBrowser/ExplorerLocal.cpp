@@ -109,7 +109,7 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
     QString suffix(fileInfo.suffix());
     QString content;
 
-    if (open_)
+    if (isOpen())
     {
         content = Common::loadFile(filePath);
     }
@@ -234,7 +234,7 @@ bool ExplorerLocal::fileIsValid(QString file)
 {
     QFileInfo fileInfo(file);
 
-    if (open_)
+    if (isOpen())
         return (QFile::exists(file) && fileInfo.isFile() &&
                 fileInfo.isReadable());
 

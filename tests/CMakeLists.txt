@@ -28,6 +28,8 @@ set(${PROJECT_TESTS}_SOURCES
     HighlighterSpellCheckTest.cpp
     VisualBasicHighlighterTest.h
     VisualBasicHighlighterTest.cpp
+    FileTest.h
+    FileTest.cpp
 )
 
 qt_add_resources(${PROJECT_TESTS}_SOURCES ../res/resources.qrc)

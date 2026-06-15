@@ -4,6 +4,7 @@
 #include "CHighlighterTest.h"
 #include "CSharpHighlighterTest.h"
 #include "CplusPlusHighlighterTest.h"
+#include "FileTest.h"
 #include "HighlighterSpellCheckTest.h"
 #include "JavaHighlighterTest.h"
 #include "JavaScriptHighlighterTest.h"
@@ -54,6 +55,9 @@ int main(int argc, char* argv[])
 
     VisualBasicHighlighterTest visualBasicHighlighterTest;
     status |= QTest::qExec(&visualBasicHighlighterTest);
+
+    FileTest fileTest;
+    status |= QTest::qExec(&fileTest);
 
     return status;
 }

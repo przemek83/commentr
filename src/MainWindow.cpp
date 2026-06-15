@@ -371,9 +371,8 @@ void MainWindow::openRecentFile()
         return;
     }
 
-    File file(Common::Source::LOCAL, File::filePathToPath(filePath),
-              File::filePathToBaseName(filePath),
-              File::filePathToSuffix(filePath), Common::loadFile(filePath));
+    File file(Common::Source::LOCAL, fileInfo.filePath(),
+              Common::loadFile(filePath));
 
     createNewTab(std::move(file));
 }
@@ -958,18 +957,16 @@ void MainWindow::newFile()
 {
     showMainPage();
     ++newFileCounter_;
-    File file(Common::Source::NOT_SET, QLatin1String(""),
-              tr("File") + QString::number(newFileCounter_), QLatin1String(""),
-              QLatin1String(""));
+    File file(Common::Source::NOT_SET,
+              tr("File") + QString::number(newFileCounter_), QLatin1String(""));
 
     createNewTab(std::move(file));
 }
 
 void MainWindow::showAbout()
 {
-    File file(Common::Source::NOT_SET, QLatin1String(""),
+    File file(Common::Source::NOT_SET,
               QLatin1String("About ") + QCoreApplication::applicationName(),
-              QLatin1String(""),
               Common::loadFile(QStringLiteral(":/about.txt")));
 
     createNewTab(std::move(file));
@@ -977,8 +974,7 @@ void MainWindow::showAbout()
 
 void MainWindow::showQtLicense()
 {
-    File file(Common::Source::NOT_SET, QLatin1String(""),
-              QStringLiteral("Qt license"), QLatin1String(""),
+    File file(Common::Source::NOT_SET, QStringLiteral("Qt license"),
               Common::loadFile(QStringLiteral(":/LICENSE")));
 
     createNewTab(std::move(file));

@@ -1,11 +1,10 @@
 #include "File.h"
 
-File::File(Common::Source source, QString path, QString name, QString suffix,
-           QString content)
+#include <QFileInfo>
+
+File::File(Common::Source source, QString filePath, QString content)
     : source_(source),
-      path_(std::move(path)),
-      baseName_(std::move(name)),
-      suffix_(std::move(suffix)),
+      filePath_(std::move(filePath)),
       content_(std::move(content))
 {
 }
@@ -14,86 +13,15 @@ Common::Source File::source() const { return source_; }
 
 void File::setSource(const Common::Source& source) { source_ = source; }
 
-QString File::path() const { return path_; }
+QString File::getFilePath() const { return filePath_; }
+void File::setFilePath(const QString& filePath) { filePath_ = filePath; }
 
-void File::setPath(const QString& path) { path_ = path; }
+QString File::path() const { return QFileInfo(filePath_).path(); }
 
-QString File::baseName() const { return baseName_; }
+QString File::baseName() const { return QFileInfo(filePath_).baseName(); }
 
-void File::setBaseName(const QString& baseName) { baseName_ = baseName; }
-
-QString File::suffix() const { return suffix_; }
-
-void File::setSuffix(const QString& suffix) { suffix_ = suffix; }
+QString File::suffix() const { return QFileInfo(filePath_).suffix(); }
 
 const QString& File::content() const { return content_; }
 
 void File::clearContent() { content_ = QString(); }
-
-QString File::getFilePath() const
-{
-    QString filePath(path());
-    filePath += '/';
-    filePath += baseName();
-    if (!suffix().isEmpty())
-    {
-        filePath += '.';
-        filePath += suffix();
-    }
-    return filePath;
-}
-
-QString File::filePathToPath(const QString& filePath)
-{
-    return filePath.left(filePath.lastIndexOf('/'));
-}
-
-QString File::filePathToFileName(const QString& filePath)
-{
-    return filePath.right(filePath.size() - filePath.lastIndexOf('/') - 1);
-}
-
-QString File::filePathToBaseName(const QString& filePath)
-{
-    return fileNameToBaseName(filePathToFileName(filePath));
-}
-
-QString File::filePathToSuffix(const QString& filePath)
-{
-    return fileNameToSuffix(filePathToFileName(filePath));
-}
-
-QString File::fileNameToBaseName(const QString& fileName)
-{
-    qsizetype lastDotIndex{fileName.lastIndexOf('.')};
-    // In case when file start with '.'.
-    if (lastDotIndex == 0)
-        lastDotIndex = -1;
-
-    QString baseName = fileName;
-
-    // If found.
-    if (lastDotIndex != -1)
-        baseName.truncate(lastDotIndex);
-
-    return baseName;
-}
-
-QString File::fileNameToSuffix(const QString& fileName)
-{
-    qsizetype lastDotIndex{fileName.lastIndexOf('.')};
-    // In case when file start with '.'.
-    if (lastDotIndex == 0)
-        lastDotIndex = -1;
-
-    QString suffix(QLatin1String(""));
-
-    // If found.
-    if (lastDotIndex != -1)
-    {
-        suffix = fileName;
-        suffix.remove(0, lastDotIndex + 1);
-    }
-
-    return suffix;
-}

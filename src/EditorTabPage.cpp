@@ -210,10 +210,7 @@ void EditorTabPage::setLineWrap(bool wrap)
 
 void EditorTabPage::changeFile(const File& file)
 {
-    file_.setSource(file.source());
-    file_.setPath(file.path());
-    file_.setBaseName(file.baseName());
-    file_.setSuffix(file.suffix());
+    file_.setFilePath(file.getFilePath());
 }
 
 QString EditorTabPage::getCurrentText() const
@@ -268,8 +265,7 @@ void EditorTabPage::refreshVisualIndicators()
 
 File EditorTabPage::getCurrentFileCopy() const
 {
-    File file(file_.source(), file_.path(), file_.baseName(), file_.suffix(),
-              codeViewer_->toPlainText());
+    File file(file_.source(), file_.getFilePath(), codeViewer_->toPlainText());
 
     return file;
 }

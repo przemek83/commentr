@@ -104,9 +104,7 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
     }
 
     QFileInfo fileInfo(filePath);
-    QString path(fileInfo.canonicalPath());
-    QString baseName(fileInfo.completeBaseName());
-    QString suffix(fileInfo.suffix());
+    QString filePathToUse{fileInfo.filePath()};
     QString content;
 
     if (isOpen())
@@ -125,16 +123,9 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
             if (answer == QMessageBox::No)
                 return;
         }
-        else
-        {
-            path = File::filePathToPath(filePath);
-            baseName = File::filePathToBaseName(filePath);
-            suffix = File::filePathToSuffix(filePath);
-        }
     }
 
-    File file(Common::Source::LOCAL, path, baseName, suffix,
-              std::move(content));
+    File file(Common::Source::LOCAL, filePathToUse, std::move(content));
 
     emit filePrepared(file);
 }

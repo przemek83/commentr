@@ -1,13 +1,14 @@
 #include "FileTest.h"
 
+#include <QFileInfo>
 #include <QTest>
 
-#include "../src/File.h"
+#include "File.h"
 
 void FileTest::testConstructorAndAccessors()
 {
-    File f(Common::Source::LOCAL, QString("/path/to"), QString("name"),
-           QString("txt"), QString("content"));
+    File f(Common::Source::LOCAL, QString("/path/to/name.txt"),
+           QString("content"));
     QCOMPARE(f.source(), Common::Source::LOCAL);
     QCOMPARE(f.path(), QString("/path/to"));
     QCOMPARE(f.baseName(), QString("name"));
@@ -17,18 +18,17 @@ void FileTest::testConstructorAndAccessors()
 
 void FileTest::testSetters()
 {
-    File f(Common::Source::LOCAL, QString("/p"), QString("b"), QString("suf"),
-           QString("c"));
+    File f(Common::Source::LOCAL, QString("/p/b.suf"), QString("c"));
     f.setSource(Common::Source::NOT_SET);
     QCOMPARE(f.source(), Common::Source::NOT_SET);
 
-    f.setPath(QString("/new/path"));
+    f.setFilePath(QString("/new/path/"));
     QCOMPARE(f.path(), QString("/new/path"));
 
-    f.setBaseName(QString("base"));
+    f.setFilePath(QString("base"));
     QCOMPARE(f.baseName(), QString("base"));
 
-    f.setSuffix(QString("cpp"));
+    f.setFilePath(QString(".cpp"));
     QCOMPARE(f.suffix(), QString("cpp"));
 
     f.clearContent();
@@ -37,32 +37,53 @@ void FileTest::testSetters()
 
 void FileTest::testGetFilePath()
 {
-    File f(Common::Source::LOCAL, QString("/a/b"), QString("file"),
-           QString("h"), QString());
+    File f(Common::Source::LOCAL, QString("/a/b/file.h"), QString());
     QCOMPARE(f.getFilePath(), QString("/a/b/file.h"));
 
-    File f2(Common::Source::LOCAL, QString("/a"), QString("dotfile"),
-            QString(""), QString());
+    File f2(Common::Source::LOCAL, QString("/a/dotfile"), QString());
     QCOMPARE(f2.getFilePath(), QString("/a/dotfile"));
 }
 
-void FileTest::testFilePathHelpers()
+void FileTest::testNoDirectoryPath()
 {
-    QCOMPARE(File::filePathToPath(QString("/a/b/c.txt")), QString("/a/b"));
-    QCOMPARE(File::filePathToFileName(QString("/a/b/c.txt")), QString("c.txt"));
-    QCOMPARE(File::filePathToBaseName(QString("/a/b/c.txt")), QString("c"));
-    QCOMPARE(File::filePathToSuffix(QString("/a/b/c.txt")), QString("txt"));
+    File f(Common::Source::LOCAL, QString("file.txt"), QString("c"));
+    QCOMPARE(f.path(), QString("."));
+    QCOMPARE(f.baseName(), QString("file"));
+    QCOMPARE(f.suffix(), QString("txt"));
 }
 
-void FileTest::testFileNameEdgeCases()
+void FileTest::testDotfileAndNoSuffix()
 {
-    QCOMPARE(File::fileNameToBaseName(QString(".bashrc")), QString(".bashrc"));
-    QCOMPARE(File::fileNameToSuffix(QString(".bashrc")), QString(""));
+    File f(Common::Source::LOCAL, QString(".bashrc"), QString());
+    const QFileInfo fi(QStringLiteral(".bashrc"));
+    QCOMPARE(f.baseName(), fi.baseName());
+    QCOMPARE(f.suffix(), fi.suffix());
+}
 
-    QCOMPARE(File::fileNameToBaseName(QString("archive.tar.gz")),
-             QString("archive.tar"));
-    QCOMPARE(File::fileNameToSuffix(QString("archive.tar.gz")), QString("gz"));
+void FileTest::testMultipleDotsBaseNameAndSuffix()
+{
+    File f(Common::Source::LOCAL, QString("archive.tar.gz"), QString());
+    const QFileInfo fi(QStringLiteral("archive.tar.gz"));
+    QCOMPARE(f.baseName(), fi.baseName());
+    QCOMPARE(f.suffix(), fi.suffix());
+}
 
-    QCOMPARE(File::fileNameToBaseName(QString("file")), QString("file"));
-    QCOMPARE(File::fileNameToSuffix(QString("file")), QString(""));
+void FileTest::testTrailingAndRepeatedSlashes()
+{
+    File f1(Common::Source::LOCAL, QString("/a/b/"), QString());
+    QCOMPARE(f1.baseName(), QString(""));
+
+    File f2(Common::Source::LOCAL, QString("/a//b///file.txt"), QString());
+    const QFileInfo fi2(QStringLiteral("/a//b///file.txt"));
+    QCOMPARE(f2.path(), fi2.path());
+    QCOMPARE(f2.baseName(), fi2.baseName());
+}
+
+void FileTest::testEmptyPathBehavior()
+{
+    File f(Common::Source::LOCAL, QString(""), QString());
+    QCOMPARE(f.getFilePath(), QString(""));
+    QCOMPARE(f.path(), QString(""));
+    QCOMPARE(f.baseName(), QString(""));
+    QCOMPARE(f.suffix(), QString(""));
 }

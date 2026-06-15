@@ -59,7 +59,7 @@ QStringList Highlighter::loadKeywords(const QString& fileName) const
     const QString specialSignPrefix{QStringLiteral("(^|\\s)")};
     while (!in.atEnd())
     {
-        QString line{QString::fromUtf8(file.readLine()).trimmed()};
+        QString line{in.readLine().trimmed()};
         if (!line.isEmpty())
         {
             QString prefix{wordBoundary_};

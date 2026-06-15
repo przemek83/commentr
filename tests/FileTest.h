@@ -11,8 +11,11 @@ private slots:
     static void testConstructorAndAccessors();
     static void testSetters();
     static void testGetFilePath();
-    static void testFilePathHelpers();
-    static void testFileNameEdgeCases();
+    static void testNoDirectoryPath();
+    static void testDotfileAndNoSuffix();
+    static void testMultipleDotsBaseNameAndSuffix();
+    static void testTrailingAndRepeatedSlashes();
+    static void testEmptyPathBehavior();
 };
 
 #endif  // FILETEST_H

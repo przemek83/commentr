@@ -9,8 +9,7 @@
 class File
 {
 public:
-    File(Common::Source source, QString path, QString name, QString suffix,
-         QString content);
+    File(Common::Source source, QString filePath, QString content);
     File(File&& other) = default;
     File(const File& other) = default;
 
@@ -22,41 +21,23 @@ public:
     Common::Source source() const;
     void setSource(const Common::Source& source);
 
+    QString getFilePath() const;
+    void setFilePath(const QString& filePath);
+
     QString path() const;
-    void setPath(const QString& path);
 
     QString baseName() const;
-    void setBaseName(const QString& baseName);
 
     QString suffix() const;
-    void setSuffix(const QString& suffix);
 
     const QString& content() const;
 
     void clearContent();
 
-    QString getFilePath() const;
-
-    static QString filePathToPath(const QString& filePath);
-
-    static QString filePathToFileName(const QString& filePath);
-
-    static QString filePathToBaseName(const QString& filePath);
-
-    static QString filePathToSuffix(const QString& filePath);
-
-    static QString fileNameToBaseName(const QString& fileName);
-
-    static QString fileNameToSuffix(const QString& fileName);
-
 private:
     Common::Source source_;
 
-    QString path_;
-
-    QString baseName_;
-
-    QString suffix_;
+    QString filePath_;
 
     QString content_;
 };

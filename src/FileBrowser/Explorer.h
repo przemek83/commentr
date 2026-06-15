@@ -36,7 +36,7 @@ protected:
     bool isOpen() const { return open_; }
 
 private:
-    Q_DISABLE_COPY(Explorer)
+    Q_DISABLE_COPY_MOVE(Explorer)
 
     bool open_;
 };

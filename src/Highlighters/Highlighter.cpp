@@ -1,5 +1,8 @@
 #include "Highlighter.h"
 
+// MSVC temp fix.
+#include <iterator>
+
 #include <QFile>
 #include <QTextStream>
 

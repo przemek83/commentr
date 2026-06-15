@@ -1,5 +1,8 @@
 #include "SpellChecker.h"
 
+// MSVC temp fix.
+#include <iterator>
+
 #include <QRegularExpression>
 #include <QStringList>
 

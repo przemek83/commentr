@@ -1,4 +1,4 @@
-#include "ExplorerLocal.h"
+#include "FileExplorer.h"
 
 #include <QEvent>
 #include <QFileSystemModel>
@@ -13,8 +13,8 @@
 #include "../Config.h"
 #include "../File.h"
 
-ExplorerLocal::ExplorerLocal(bool open, Config& config, QWidget* parent)
-    : QListView(parent), Explorer(open), config_(config)
+FileExplorer::FileExplorer(bool open, Config& config, QWidget* parent)
+    : QListView(parent), config_(config), open_{open}
 {
     horizontalScrollBar()->setStyleSheet(Common::getStyleSheet());
     verticalScrollBar()->setStyleSheet(Common::getStyleSheet());
@@ -25,7 +25,7 @@ ExplorerLocal::ExplorerLocal(bool open, Config& config, QWidget* parent)
     setupList();
 }
 
-ExplorerLocal::~ExplorerLocal()
+FileExplorer::~FileExplorer()
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
@@ -35,7 +35,7 @@ ExplorerLocal::~ExplorerLocal()
     config_.setLastPickedDir(lastDir);
 }
 
-void ExplorerLocal::setupList()
+void FileExplorer::setupList()
 {
 #ifdef Q_OS_ANDROID
     QScroller* scroller = QScroller::scroller(viewport());
@@ -43,11 +43,11 @@ void ExplorerLocal::setupList()
     scroller->grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
 #endif
 
-    QObject::connect(this, &ExplorerLocal::clicked, this,
-                     &ExplorerLocal::itemWasActivated);
+    QObject::connect(this, &FileExplorer::clicked, this,
+                     &FileExplorer::itemWasActivated);
 
-    QObject::connect(this, &ExplorerLocal::doubleClicked, this,
-                     &ExplorerLocal::itemWasActivated);
+    QObject::connect(this, &FileExplorer::doubleClicked, this,
+                     &FileExplorer::itemWasActivated);
 
     setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -59,7 +59,7 @@ void ExplorerLocal::setupList()
     setDragDropMode(QAbstractItemView::NoDragDrop);
 }
 
-void ExplorerLocal::setPath(QString path)
+void FileExplorer::setPath(QString path)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
@@ -71,7 +71,7 @@ void ExplorerLocal::setPath(QString path)
     setCurrentIndex(newRootIndex);
 }
 
-void ExplorerLocal::initialize()
+void FileExplorer::initialize()
 {
     auto* fileModel{new QFileSystemModel(this)};
 
@@ -81,7 +81,7 @@ void ExplorerLocal::initialize()
     fileModel->setRootPath(Common::rootPath());
 
     connect(fileModel, &QFileSystemModel::directoryLoaded, this,
-            &ExplorerLocal::directoryLoaded);
+            &FileExplorer::directoryLoaded);
 
     setModel(fileModel);
 
@@ -93,9 +93,9 @@ void ExplorerLocal::initialize()
     setRootIndex(fileModel->index(initPath));
 }
 
-bool ExplorerLocal::initialized() { return model() != nullptr; }
+bool FileExplorer::initialized() { return model() != nullptr; }
 
-void ExplorerLocal::performOperationOnFile(QString filePath)
+void FileExplorer::performOperationOnFile(QString filePath)
 {
     if (!fileIsValid(filePath))
     {
@@ -107,7 +107,7 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
     QString filePathToUse{fileInfo.filePath()};
     QString content;
 
-    if (isOpen())
+    if (open_)
     {
         content = Common::loadFile(filePath);
     }
@@ -130,9 +130,9 @@ void ExplorerLocal::performOperationOnFile(QString filePath)
     emit filePrepared(file);
 }
 
-QListView* ExplorerLocal::getListView() { return this; }
+QListView* FileExplorer::getListView() { return this; }
 
-void ExplorerLocal::itemWasActivated(QModelIndex index)
+void FileExplorer::itemWasActivated(QModelIndex index)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
@@ -167,7 +167,7 @@ void ExplorerLocal::itemWasActivated(QModelIndex index)
     }
 }
 
-void ExplorerLocal::directoryLoaded(const QString& path)
+void FileExplorer::directoryLoaded(const QString& path)
 {
     QString oldCurrentPath = getCurrentPath();
 
@@ -178,7 +178,7 @@ void ExplorerLocal::directoryLoaded(const QString& path)
         emit pathChanged(newCurrentPath);
 }
 
-bool ExplorerLocal::directoryIsAccessible(const QString& path)
+bool FileExplorer::directoryIsAccessible(const QString& path)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
@@ -202,7 +202,7 @@ bool ExplorerLocal::directoryIsAccessible(const QString& path)
     return true;
 }
 
-void ExplorerLocal::listViewItemClicked(const QModelIndex& index)
+void FileExplorer::listViewItemClicked(const QModelIndex& index)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
@@ -210,9 +210,9 @@ void ExplorerLocal::listViewItemClicked(const QModelIndex& index)
         emit pathChanged(fileModel->filePath(index));
 }
 
-void ExplorerLocal::mouseMoveEvent(QMouseEvent* e) { e->accept(); }
+void FileExplorer::mouseMoveEvent(QMouseEvent* e) { e->accept(); }
 
-QString ExplorerLocal::getCurrentPath()
+QString FileExplorer::getCurrentPath()
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
@@ -221,11 +221,11 @@ QString ExplorerLocal::getCurrentPath()
     return path;
 }
 
-bool ExplorerLocal::fileIsValid(QString file)
+bool FileExplorer::fileIsValid(QString file)
 {
     QFileInfo fileInfo(file);
 
-    if (isOpen())
+    if (open_)
         return (QFile::exists(file) && fileInfo.isFile() &&
                 fileInfo.isReadable());
 
@@ -237,4 +237,4 @@ bool ExplorerLocal::fileIsValid(QString file)
     return (dirExists && writable);
 }
 
-bool ExplorerLocal::isWrappingContent() { return QListView::isWrapping(); }
+bool FileExplorer::isWrappingContent() { return QListView::isWrapping(); }

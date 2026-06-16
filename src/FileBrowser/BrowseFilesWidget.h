@@ -8,7 +8,7 @@
 #include "../File.h"
 
 class EnhancedLineEdit;
-class Explorer;
+class FileExplorer;
 class Config;
 
 namespace Ui
@@ -31,7 +31,7 @@ private:
 
     void setProperIconForViewButton();
 
-    Explorer* currentListView();
+    FileExplorer* currentListView();
 
     std::unique_ptr<Ui::BrowseFilesWidget> ui_;
 

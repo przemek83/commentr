@@ -6,8 +6,7 @@
 #include "../Common.h"
 #include "../Config.h"
 #include "../EnhancedLineEdit.h"
-#include "Explorer.h"
-#include "ExplorerLocal.h"
+#include "FileExplorer.h"
 #include "ui_BrowseFilesWidget.h"
 
 BrowseFilesWidget::BrowseFilesWidget(bool open, Config& config, QWidget* parent)
@@ -19,12 +18,12 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, Config& config, QWidget* parent)
 
     initLineEdit();
 
-    auto* localListView{new ExplorerLocal(open, config_, ui_->tabWidget)};
+    auto* localListView{new FileExplorer(open, config_, ui_->tabWidget)};
 
-    connect(localListView, &ExplorerLocal::filePrepared, this,
+    connect(localListView, &FileExplorer::filePrepared, this,
             &BrowseFilesWidget::filePrepared);
 
-    connect(localListView, &ExplorerLocal::pathChanged, filePathLineEdit_,
+    connect(localListView, &FileExplorer::pathChanged, filePathLineEdit_,
             &EnhancedLineEdit::setText);
 
     connect(ui_->changeView, &QPushButton::clicked, this,
@@ -118,9 +117,9 @@ void BrowseFilesWidget::setProperIconForViewButton()
     }
 }
 
-Explorer* BrowseFilesWidget::currentListView()
+FileExplorer* BrowseFilesWidget::currentListView()
 {
-    return dynamic_cast<Explorer*>(ui_->tabWidget->currentWidget());
+    return dynamic_cast<FileExplorer*>(ui_->tabWidget->currentWidget());
 }
 
 void BrowseFilesWidget::changeView()
@@ -139,7 +138,7 @@ void BrowseFilesWidget::changeView()
 
 void BrowseFilesWidget::currentTabChanged([[maybe_unused]] int index)
 {
-    Explorer* explorer = currentListView();
+    FileExplorer* explorer = currentListView();
     if (!explorer->initialized())
         explorer->initialize();
 

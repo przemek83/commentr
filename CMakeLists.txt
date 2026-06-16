@@ -60,10 +60,8 @@ set(${PROJECT_NAME}_SOURCES
     src/Common.h
     src/FileBrowser/BrowseFilesWidget.cpp
     src/FileBrowser/BrowseFilesWidget.h
-    src/FileBrowser/Explorer.cpp
-    src/FileBrowser/Explorer.h
-    src/FileBrowser/ExplorerLocal.cpp
-    src/FileBrowser/ExplorerLocal.h
+    src/FileBrowser/FileExplorer.cpp
+    src/FileBrowser/FileExplorer.h
     src/File.cpp
     src/File.h
     src/PanGestureRecognizer.cpp

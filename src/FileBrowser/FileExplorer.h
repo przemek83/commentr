@@ -14,9 +14,9 @@ public:
 
     ~FileExplorer() override;
 
-    void setPath(QString path);
+    void setPath(const QString& path);
 
-    bool fileIsValid(QString file) const;
+    bool fileIsValid(const QString& file) const;
 
     bool isWrappingContent() const;
 
@@ -26,7 +26,7 @@ public:
 
     bool initialized() const;
 
-    void performOperationOnFile(QString filePath);
+    void performOperationOnFile(const QString& filePath);
 
 protected:
     void mouseMoveEvent(QMouseEvent* e) override;

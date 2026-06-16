@@ -59,7 +59,7 @@ void FileExplorer::setupList()
     setDragDropMode(QAbstractItemView::NoDragDrop);
 }
 
-void FileExplorer::setPath(QString path)
+void FileExplorer::setPath(const QString& path)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
@@ -95,7 +95,7 @@ void FileExplorer::initialize()
 
 bool FileExplorer::initialized() const { return model() != nullptr; }
 
-void FileExplorer::performOperationOnFile(QString filePath)
+void FileExplorer::performOperationOnFile(const QString& filePath)
 {
     if (!fileIsValid(filePath))
     {
@@ -211,7 +211,7 @@ QString FileExplorer::getCurrentPath() const
     return path;
 }
 
-bool FileExplorer::fileIsValid(QString file) const
+bool FileExplorer::fileIsValid(const QString& file) const
 {
     QFileInfo fileInfo(file);
 

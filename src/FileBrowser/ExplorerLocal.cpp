@@ -80,8 +80,8 @@ void ExplorerLocal::initialize()
 
     fileModel->setRootPath(Common::rootPath());
 
-    connect(fileModel, SIGNAL(directoryLoaded(QString)), this,
-            SLOT(directoryLoaded(QString)));
+    connect(fileModel, &QFileSystemModel::directoryLoaded, this,
+            &ExplorerLocal::directoryLoaded);
 
     setModel(fileModel);
 

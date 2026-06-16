@@ -27,9 +27,6 @@ private:
     static constexpr int pointerHalfDivisor_{2};
 
     bool canEmitPointerMoved_{true};
-
-private slots:
-    void allowEmitPointerMoved();
 };
 
 #endif  // CURSORPOINTERTEXTEDIT_H

@@ -34,7 +34,8 @@ void CursorPointerTextEdit::positionChanged(QMouseEvent* event)
             emit pointerMoved(calculateNewPosition(movePoint));
             static const int timerFireInterval = Common::timerFireInterval();
             QTimer::singleShot(timerFireInterval, this,
-                               SLOT(allowEmitPointerMoved()));
+                               [&canEmit = canEmitPointerMoved_]()
+                               { canEmit = true; });
         }
 
         canEmitPointerMoved_ = false;
@@ -44,9 +45,4 @@ void CursorPointerTextEdit::positionChanged(QMouseEvent* event)
 QPoint CursorPointerTextEdit::calculateNewPosition(QPoint movePoint)
 {
     return QPoint(movePoint.x() + (size_ / pointerHalfDivisor_), movePoint.y());
-}
-
-void CursorPointerTextEdit::allowEmitPointerMoved()
-{
-    canEmitPointerMoved_ = true;
 }

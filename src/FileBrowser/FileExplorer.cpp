@@ -93,7 +93,7 @@ void FileExplorer::initialize()
     setRootIndex(fileModel->index(initPath));
 }
 
-bool FileExplorer::initialized() { return model() != nullptr; }
+bool FileExplorer::initialized() const { return model() != nullptr; }
 
 void FileExplorer::performOperationOnFile(QString filePath)
 {
@@ -212,7 +212,7 @@ void FileExplorer::listViewItemClicked(const QModelIndex& index)
 
 void FileExplorer::mouseMoveEvent(QMouseEvent* e) { e->accept(); }
 
-QString FileExplorer::getCurrentPath()
+QString FileExplorer::getCurrentPath() const
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
@@ -221,7 +221,7 @@ QString FileExplorer::getCurrentPath()
     return path;
 }
 
-bool FileExplorer::fileIsValid(QString file)
+bool FileExplorer::fileIsValid(QString file) const
 {
     QFileInfo fileInfo(file);
 
@@ -237,4 +237,4 @@ bool FileExplorer::fileIsValid(QString file)
     return (dirExists && writable);
 }
 
-bool FileExplorer::isWrappingContent() { return QListView::isWrapping(); }
+bool FileExplorer::isWrappingContent() const { return QListView::isWrapping(); }

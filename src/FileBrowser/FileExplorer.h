@@ -16,15 +16,15 @@ public:
 
     void setPath(QString path);
 
-    bool fileIsValid(QString file);
+    bool fileIsValid(QString file) const;
 
-    bool isWrappingContent();
+    bool isWrappingContent() const;
 
-    QString getCurrentPath();
+    QString getCurrentPath() const;
 
     void initialize();
 
-    bool initialized();
+    bool initialized() const;
 
     void performOperationOnFile(QString filePath);
 

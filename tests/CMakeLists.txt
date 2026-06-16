@@ -30,6 +30,8 @@ set(${PROJECT_TESTS}_SOURCES
     VisualBasicHighlighterTest.cpp
     FileTest.h
     FileTest.cpp
+    TestFileExplorer.h
+    TestFileExplorer.cpp
 )
 
 qt_add_resources(${PROJECT_TESTS}_SOURCES ../res/resources.qrc)

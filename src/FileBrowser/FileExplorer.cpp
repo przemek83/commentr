@@ -130,8 +130,6 @@ void FileExplorer::performOperationOnFile(QString filePath)
     emit filePrepared(file);
 }
 
-QListView* FileExplorer::getListView() { return this; }
-
 void FileExplorer::itemWasActivated(QModelIndex index)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
@@ -200,14 +198,6 @@ bool FileExplorer::directoryIsAccessible(const QString& path)
     }
 
     return true;
-}
-
-void FileExplorer::listViewItemClicked(const QModelIndex& index)
-{
-    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
-
-    if (!fileModel->isDir(index))
-        emit pathChanged(fileModel->filePath(index));
 }
 
 void FileExplorer::mouseMoveEvent(QMouseEvent* e) { e->accept(); }

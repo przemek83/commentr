@@ -29,10 +29,6 @@ public:
     void performOperationOnFile(QString filePath);
 
 protected:
-    QListView* getListView();
-
-    void listViewItemClicked(const QModelIndex& index);
-
     void mouseMoveEvent(QMouseEvent* e) override;
 
 private slots:

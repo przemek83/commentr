@@ -1,13 +1,9 @@
 #include "FileExplorer.h"
 
-#include <QEvent>
 #include <QFileSystemModel>
 #include <QMessageBox>
 #include <QMouseEvent>
-#include <QProgressDialog>
 #include <QScrollBar>
-#include <QScroller>
-#include <QTimer>
 
 #include "../Common.h"
 #include "../Config.h"

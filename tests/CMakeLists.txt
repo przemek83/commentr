@@ -32,6 +32,8 @@ set(${PROJECT_TESTS}_SOURCES
     FileTest.cpp
     TestFileExplorer.h
     TestFileExplorer.cpp
+    TestConfig.h
+    TestConfig.cpp
 )
 
 qt_add_resources(${PROJECT_TESTS}_SOURCES ../res/resources.qrc)

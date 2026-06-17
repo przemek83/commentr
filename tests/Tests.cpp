@@ -13,6 +13,7 @@
 #include "PythonHighlighterTest.h"
 #include "SQLHighlighterTest.h"
 #include "SpellCheckerTest.h"
+#include "TestConfig.h"
 #include "TestFileExplorer.h"
 #include "VisualBasicHighlighterTest.h"
 
@@ -62,6 +63,9 @@ int main(int argc, char* argv[])
 
     TestFileExplorer fileExplorerTest;
     status |= QTest::qExec(&fileExplorerTest);
+
+    TestConfig testConfig;
+    status |= QTest::qExec(&testConfig);
 
     return status;
 }

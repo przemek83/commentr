@@ -139,7 +139,7 @@ void BrowseFilesWidget::changeView()
 void BrowseFilesWidget::currentTabChanged([[maybe_unused]] int index)
 {
     FileExplorer* explorer = currentListView();
-    if (!explorer->initialized())
+    if (!explorer->isInitialized())
         explorer->initialize();
 
     // Set current file path on tab switch.

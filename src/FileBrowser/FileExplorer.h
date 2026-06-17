@@ -5,6 +5,7 @@
 
 class File;
 class Config;
+class QFileSystemModel;
 
 class FileExplorer : public QListView
 {
@@ -24,7 +25,7 @@ public:
 
     void initialize();
 
-    bool initialized() const;
+    bool isInitialized() const;
 
     void performOperationOnFile(const QString& filePath);
 
@@ -38,6 +39,8 @@ private:
     Q_DISABLE_COPY_MOVE(FileExplorer)
 
     void setupList();
+
+    void changeRootIndex(const QFileSystemModel& model, const QString& path);
 
     QString currentItem_;
 

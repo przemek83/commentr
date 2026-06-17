@@ -15,7 +15,6 @@ FileExplorer::FileExplorer(bool open, Config& config, QWidget* parent)
     horizontalScrollBar()->setStyleSheet(Common::getStyleSheet());
     verticalScrollBar()->setStyleSheet(Common::getStyleSheet());
 
-    // Set proper initial icon.
     setWrapping(!config_.listViewInBrowser());
 
     setupList();
@@ -24,10 +23,8 @@ FileExplorer::FileExplorer(bool open, Config& config, QWidget* parent)
 FileExplorer::~FileExplorer()
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
-
-    QModelIndex currentIndex = rootIndex();
-
-    QString lastDir = fileModel->fileInfo(currentIndex).absoluteFilePath();
+    QModelIndex currentIndex{rootIndex()};
+    QString lastDir{fileModel->fileInfo(currentIndex).absoluteFilePath()};
     config_.setLastPickedDir(lastDir);
 }
 
@@ -55,25 +52,28 @@ void FileExplorer::setupList()
     setDragDropMode(QAbstractItemView::NoDragDrop);
 }
 
-void FileExplorer::setPath(const QString& path)
+void FileExplorer::changeRootIndex(const QFileSystemModel& model,
+                                   const QString& path)
 {
-    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
-
     QString pathToUse{path};
     if (pathToUse.isEmpty())
         pathToUse = Common::rootPath();
-    setRootIndex(fileModel->index(pathToUse));
-    QModelIndex newRootIndex = fileModel->index(0, 0, rootIndex());
+    setRootIndex(model.index(pathToUse));
+}
+
+void FileExplorer::setPath(const QString& path)
+{
+    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
+    changeRootIndex(*fileModel, path);
+    QModelIndex newRootIndex{fileModel->index(0, 0, rootIndex())};
     setCurrentIndex(newRootIndex);
 }
 
 void FileExplorer::initialize()
 {
     auto* fileModel{new QFileSystemModel(this)};
-
     fileModel->setFilter(QDir::AllEntries | QDir::AllDirs | QDir::NoDot |
                          QDir::System | QDir::Hidden);
-
     fileModel->setRootPath(Common::rootPath());
 
     connect(fileModel, &QFileSystemModel::directoryLoaded, this,
@@ -81,15 +81,10 @@ void FileExplorer::initialize()
 
     setModel(fileModel);
 
-    // Set proper initialization path.
-    QString initPath = config_.lastPickedDir();
-    if (initPath.isEmpty())
-        initPath = Common::rootPath();
-
-    setRootIndex(fileModel->index(initPath));
+    changeRootIndex(*fileModel, config_.lastPickedDir());
 }
 
-bool FileExplorer::initialized() const { return model() != nullptr; }
+bool FileExplorer::isInitialized() const { return model() != nullptr; }
 
 void FileExplorer::performOperationOnFile(const QString& filePath)
 {

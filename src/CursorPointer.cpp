@@ -75,7 +75,7 @@ void CursorPointer::mouseReleaseEvent(QMouseEvent* event)
 {
     dragged_ = false;
 
-    emit mouseReleased();
+    Q_EMIT mouseReleased();
 
     QWidget::mouseReleaseEvent(event);
 }

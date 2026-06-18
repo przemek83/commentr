@@ -31,7 +31,7 @@ void CursorPointerTextEdit::positionChanged(QMouseEvent* event)
         move(movePoint.x(), movePoint.y());
         if (canEmitPointerMoved_)
         {
-            emit pointerMoved(calculateNewPosition(movePoint));
+            Q_EMIT pointerMoved(calculateNewPosition(movePoint));
             static const int timerFireInterval = Common::timerFireInterval();
             QTimer::singleShot(timerFireInterval, this,
                                [&canEmit = canEmitPointerMoved_]()

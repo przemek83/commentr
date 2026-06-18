@@ -118,7 +118,7 @@ void FileExplorer::performOperationOnFile(const QString& filePath)
 
     File file(Common::Source::LOCAL, filePathToUse, std::move(content));
 
-    emit filePrepared(file);
+    Q_EMIT filePrepared(file);
 }
 
 void FileExplorer::itemWasActivated(QModelIndex index)
@@ -148,7 +148,7 @@ void FileExplorer::itemWasActivated(QModelIndex index)
                 setRootIndex(index);
         }
 
-        emit pathChanged(getCurrentPath());
+        Q_EMIT pathChanged(getCurrentPath());
     }
     else
     {
@@ -164,7 +164,7 @@ void FileExplorer::directoryLoaded(const QString& path)
 
     QString newCurrentPath = getCurrentPath();
     if (oldCurrentPath != newCurrentPath)
-        emit pathChanged(newCurrentPath);
+        Q_EMIT pathChanged(newCurrentPath);
 }
 
 bool FileExplorer::directoryIsAccessible(const QString& path)

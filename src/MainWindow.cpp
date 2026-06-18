@@ -84,7 +84,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 {
     QMainWindow::resizeEvent(event);
 
-    emit windowResized();
+    Q_EMIT windowResized();
 }
 
 void MainWindow::showStatusMsg(const QString& msg)

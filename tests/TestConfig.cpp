@@ -22,8 +22,8 @@ Config TestConfig::prepareTestConfig(const QString& lastPickedDir,
 void TestConfig::initTestCase()
 {
     QSettings::setDefaultFormat(QSettings::IniFormat);
-    QCoreApplication::setOrganizationName("commentr_test_org");
-    QCoreApplication::setApplicationName("commentr_test_app");
+    QCoreApplication::setOrganizationName(QStringLiteral("commentr_test_org"));
+    QCoreApplication::setApplicationName(QStringLiteral("commentr_test_app"));
 }
 
 void TestConfig::checkRecentFiles(const QStringList& current,

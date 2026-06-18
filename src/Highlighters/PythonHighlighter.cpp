@@ -3,7 +3,7 @@
 #include "../Common.h"
 
 PythonHighlighter::PythonHighlighter(const SpellChecker& spellChecker)
-    : Highlighter(spellChecker, "python.txt")
+    : Highlighter(spellChecker, QStringLiteral("python.txt"))
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =

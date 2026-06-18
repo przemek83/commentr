@@ -3,7 +3,7 @@
 #include "../Common.h"
 
 VisualBasicHighlighter::VisualBasicHighlighter(const SpellChecker& spellChecker)
-    : Highlighter(spellChecker, "visualBasic.txt")
+    : Highlighter(spellChecker, QStringLiteral("visualBasic.txt"))
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =

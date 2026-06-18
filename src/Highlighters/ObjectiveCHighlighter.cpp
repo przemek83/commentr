@@ -1,7 +1,7 @@
 #include "ObjectiveCHighlighter.h"
 
 ObjectiveCHighlighter::ObjectiveCHighlighter(const SpellChecker& spellChecker)
-    : CFamilyHighlighter(spellChecker, "objectiveC.txt")
+    : CFamilyHighlighter(spellChecker, QStringLiteral("objectiveC.txt"))
 {
 }
 

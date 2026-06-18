@@ -28,7 +28,7 @@ void TestFileExplorer::testFileIsValidOpenPositive()
 
     QTemporaryDir tmpDir;
     const QString filePath{QDir(tmpDir.path()).filePath("t.txt")};
-    prepareFile(filePath, "hello");
+    prepareFile(filePath, QStringLiteral("hello"));
 
     QVERIFY(explorer.fileIsValid(filePath));
 }
@@ -40,7 +40,7 @@ void TestFileExplorer::testFileIsValidOpenNegative()
 
     QTemporaryDir tmpDir;
     const QString filePath{QDir(tmpDir.path()).filePath("t.txt")};
-    prepareFile(filePath, "hello");
+    prepareFile(filePath, QStringLiteral("hello"));
 
     const QString nonExist{QDir(tmpDir.path()).filePath("does_not_exist.txt")};
     QVERIFY(!explorer.fileIsValid(nonExist));
@@ -52,7 +52,7 @@ void TestFileExplorer::testPerformOperationOpen()
     explorer.initialize();
 
     QTemporaryDir tmpDir;
-    const QString content{"world"};
+    const QString content{QStringLiteral("world")};
     const QString filePath{QDir(tmpDir.path()).filePath("t2.txt")};
     prepareFile(filePath, content);
 

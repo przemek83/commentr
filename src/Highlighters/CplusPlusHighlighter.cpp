@@ -1,7 +1,7 @@
 #include "CplusPlusHighlighter.h"
 
 CplusPlusHighlighter::CplusPlusHighlighter(const SpellChecker& spellChecker)
-    : CFamilyHighlighter(spellChecker, "cPlusPlus.txt")
+    : CFamilyHighlighter(spellChecker, QStringLiteral("cPlusPlus.txt"))
 {
 }
 

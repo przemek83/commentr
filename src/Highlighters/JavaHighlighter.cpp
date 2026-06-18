@@ -1,6 +1,6 @@
 #include "JavaHighlighter.h"
 
 JavaHighlighter::JavaHighlighter(const SpellChecker& spellChecker)
-    : CFamilyHighlighter(spellChecker, "java.txt")
+    : CFamilyHighlighter(spellChecker, QStringLiteral("java.txt"))
 {
 }

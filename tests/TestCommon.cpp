@@ -26,7 +26,7 @@ QString TestCommon::prepareTestFile(QTemporaryFile& tmp, const QString& content)
 void TestCommon::testLoadFile()
 {
     QTemporaryFile tmp;
-    const QString expectedContent{"hello_common"};
+    const QString expectedContent{QStringLiteral("hello_common")};
     const QString path{prepareTestFile(tmp, expectedContent)};
 
     const QString currentContent{Common::loadFile(path)};

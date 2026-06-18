@@ -3,7 +3,7 @@
 #include "../Common.h"
 
 PhpHighlighter::PhpHighlighter(const SpellChecker& spellChecker)
-    : Highlighter(spellChecker, "php.txt")
+    : Highlighter(spellChecker, QStringLiteral("php.txt"))
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =

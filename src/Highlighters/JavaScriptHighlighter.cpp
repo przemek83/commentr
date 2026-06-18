@@ -3,7 +3,7 @@
 #include "../Common.h"
 
 JavaScriptHighlighter::JavaScriptHighlighter(const SpellChecker& spellChecker)
-    : Highlighter(spellChecker, "javaScript.txt")
+    : Highlighter(spellChecker, QStringLiteral("javaScript.txt"))
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =

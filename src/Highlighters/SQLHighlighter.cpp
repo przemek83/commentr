@@ -3,7 +3,7 @@
 #include "../Common.h"
 
 SQLHighlighter::SQLHighlighter(const SpellChecker& spellChecker)
-    : Highlighter(spellChecker, "sql.txt")
+    : Highlighter(spellChecker, QStringLiteral("sql.txt"))
 {
     singleLineCommentRule_.format_ = Common::getFormat(SyntaxElement::COMMENT);
     singleLineCommentRule_.startPattern_ =

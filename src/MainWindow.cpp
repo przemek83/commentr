@@ -359,15 +359,15 @@ void MainWindow::openRecentFile()
 
     if (!fileInfo.exists())
     {
-        showStatusMsg(QLatin1String("File ") + filePath +
-                      QLatin1String(" not found."));
+        showStatusMsg(QStringLiteral("File ") + filePath +
+                      QStringLiteral(" not found."));
         return;
     }
 
     if (!fileInfo.isReadable())
     {
-        showStatusMsg(QLatin1String("File ") + filePath +
-                      QLatin1String(" not readable."));
+        showStatusMsg(QStringLiteral("File ") + filePath +
+                      QStringLiteral(" not readable."));
         return;
     }
 
@@ -966,7 +966,7 @@ void MainWindow::newFile()
 void MainWindow::showAbout()
 {
     File file(Common::Source::NOT_SET,
-              QLatin1String("About ") + QCoreApplication::applicationName(),
+              QStringLiteral("About ") + QCoreApplication::applicationName(),
               Common::loadFile(QStringLiteral(":/about.txt")));
 
     createNewTab(std::move(file));

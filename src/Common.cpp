@@ -110,7 +110,7 @@ QTextCharFormat Common::getFormat(SyntaxElement element)
 
 QWidget* Common::getMainWindow(QObject* startObject)
 {
-    QObject* object = startObject;
+    QObject* object{startObject};
     while (object->parent() != nullptr)
         object = object->parent();
 

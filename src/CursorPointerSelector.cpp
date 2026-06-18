@@ -46,7 +46,7 @@ void CursorPointerSelector::paintEvent([[maybe_unused]] QPaintEvent* event)
 QPoint CursorPointerSelector::calculateOffset(QMouseEvent* event)
 {
     constexpr int pointerHalfDivisor{2};
-    return QPoint(size_ / pointerHalfDivisor, event->pos().y());
+    return {size_ / pointerHalfDivisor, event->pos().y()};
 }
 
 void CursorPointerSelector::moveVisualPointer(int x, int y)
@@ -60,7 +60,7 @@ void CursorPointerSelector::moveVisualPointer(int x, int y)
 QPoint CursorPointerSelector::calculateNewPosition(QPoint movePoint)
 {
     if (CursorDirection::RIGHT == diretion_)
-        return QPoint(movePoint.x(), movePoint.y());
+        return {movePoint.x(), movePoint.y()};
 
-    return QPoint(movePoint.x() + size_, movePoint.y());
+    return {movePoint.x() + size_, movePoint.y()};
 }

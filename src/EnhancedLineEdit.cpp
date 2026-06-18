@@ -3,16 +3,17 @@
 #include <QGestureEvent>
 #include <QGuiApplication>
 
+#include "Common.h"
 #include "Config.h"
 #include "CursorPointerLineEdit.h"
 
 EnhancedLineEdit::EnhancedLineEdit(Config& config, QWidget* parent)
-    : QLineEdit(parent), config_(config)
+    : QLineEdit(parent),
+      mainWindow_{Common::getMainWindow(parent)},
+      config_(config)
 {
     cursorPointer_ = new CursorPointerLineEdit(
         leftTextMargin_ + pointerHorizontalAdjustment_, config_, parent);
-
-    mainWindow_ = getMainWindow();
 
     connect(this, &EnhancedLineEdit::textChanged, this,
             &EnhancedLineEdit::textWasChanged);
@@ -58,15 +59,6 @@ void EnhancedLineEdit::mouseReleaseEvent(QMouseEvent* e)
     // If toolbar is shown on main screen wrong results generated.
     // Problem wil be solved when file browser will be rebuild on show.
     resetPointerRange();
-}
-
-QWidget* EnhancedLineEdit::getMainWindow()
-{
-    QWidget* widget = this;
-    while (widget->parentWidget() != nullptr)
-        widget = widget->parentWidget();
-
-    return widget;
 }
 
 void EnhancedLineEdit::focusOutEvent(QFocusEvent* event)
@@ -122,7 +114,7 @@ QPoint EnhancedLineEdit::getPositionForVisualPointer() const
     int newX = lineEditPosInMain.x() - frameWidth - visualPointerXCorrection;
     int newY = lineEditPosInMain.y() + shiftY + height();
 
-    return QPoint(newX, newY);
+    return {newX, newY};
 }
 
 void EnhancedLineEdit::textWasChanged([[maybe_unused]] QString newText)

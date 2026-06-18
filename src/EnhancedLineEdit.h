@@ -27,18 +27,15 @@ protected:
 private:
     Q_DISABLE_COPY(EnhancedLineEdit)
 
-    /// Visual cursor.
-    CursorPointerLineEdit* cursorPointer_;
-
-    QWidget* mainWindow_;
-
-    QWidget* getMainWindow();
-
     QPoint getPositionForVisualPointer() const;
 
     void resetPointerRange();
 
     void updateMarginSize();
+
+    CursorPointerLineEdit* cursorPointer_;
+
+    QWidget* mainWindow_;
 
     static constexpr int leftTextMargin_{5};
 

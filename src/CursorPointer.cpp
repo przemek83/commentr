@@ -57,7 +57,7 @@ void CursorPointer::mousePressEvent(QMouseEvent* event)
 
 QPoint CursorPointer::calculateOffset(QMouseEvent* event)
 {
-    return QPoint(size_ / pointerHalfDivisor_, event->pos().y());
+    return {size_ / pointerHalfDivisor_, event->pos().y()};
 }
 
 void CursorPointer::mouseMoveEvent(QMouseEvent* event)

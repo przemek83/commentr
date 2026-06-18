@@ -44,5 +44,5 @@ void CursorPointerTextEdit::positionChanged(QMouseEvent* event)
 
 QPoint CursorPointerTextEdit::calculateNewPosition(QPoint movePoint)
 {
-    return QPoint(movePoint.x() + (size_ / pointerHalfDivisor_), movePoint.y());
+    return {movePoint.x() + (size_ / pointerHalfDivisor_), movePoint.y()};
 }

@@ -121,7 +121,7 @@ void FileExplorer::performOperationOnFile(const QString& filePath)
     Q_EMIT filePrepared(file);
 }
 
-void FileExplorer::itemWasActivated(QModelIndex index)
+void FileExplorer::itemWasActivated(const QModelIndex& index)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 

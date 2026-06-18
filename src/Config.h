@@ -118,34 +118,34 @@ private:
 
     QString style_;
 
-    float uiSize_;
+    float uiSize_{};
 
-    bool toolbarFileAdded_;
+    bool toolbarFileAdded_{};
 
-    bool toolbarUndoRedoAdded_;
+    bool toolbarUndoRedoAdded_{};
 
-    bool toolbarCopyPasteCutAdded_;
+    bool toolbarCopyPasteCutAdded_{};
 
-    bool toolbarZoomAdded_;
+    bool toolbarZoomAdded_{};
 
-    bool toolbarSearchAdded_;
+    bool toolbarSearchAdded_{};
 
-    bool toolbarKeyboardAdded_;
+    bool toolbarKeyboardAdded_{};
 
-    bool checkSpelling_;
+    bool checkSpelling_{};
 
-    bool lineWrap_;
+    bool lineWrap_{};
 
-    bool firstUse_;
+    bool firstUse_{};
 
-    bool showToolbar_;
+    bool showToolbar_{};
 
     Qt::ToolBarArea toolbarArea_;
 
-    float fontSize_;
+    float fontSize_{};
 
     // If true one column list view in file browser, if false multi column view.
-    bool listViewInBrowser_;
+    bool listViewInBrowser_{};
 
     QString lastPickedDir_;
 

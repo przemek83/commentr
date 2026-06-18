@@ -90,7 +90,7 @@ void EditorTabPage::keyPressEvent(QKeyEvent* event)
 
 SyntaxLang EditorTabPage::mode() const { return mode_; }
 
-void EditorTabPage::setMode(const SyntaxLang& mode)
+void EditorTabPage::setMode(SyntaxLang mode)
 {
     if (mode == mode_)
         return;

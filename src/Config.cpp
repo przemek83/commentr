@@ -159,7 +159,7 @@ void Config::setFontSize(float fontSize)
 
 Qt::ToolBarArea Config::toolbarArea() const { return toolbarArea_; }
 
-void Config::setToolbarArea(const Qt::ToolBarArea& toolbarArea)
+void Config::setToolbarArea(Qt::ToolBarArea toolbarArea)
 {
     toolbarArea_ = toolbarArea;
 }
@@ -227,7 +227,7 @@ void Config::setStyle(const QString& style) { style_ = style; }
 
 float Config::uiSize() const { return uiSize_; }
 
-void Config::setUiSize(const float& uiSize) { uiSize_ = uiSize; }
+void Config::setUiSize(float uiSize) { uiSize_ = uiSize; }
 
 QTabWidget::TabPosition Config::getTabPosition() const { return tabsPosition_; }
 

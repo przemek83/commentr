@@ -20,7 +20,7 @@ QString Common::rootPath()
     return potentialPaths.constFirst();
 }
 
-QString Common::loadFile(QString name)
+QString Common::loadFile(const QString& name)
 {
     QFile file(name);
 
@@ -33,7 +33,7 @@ QString Common::loadFile(QString name)
     return stream.readAll();
 }
 
-QString Common::saveFile(QString fileName, const QString& data)
+QString Common::saveFile(const QString& fileName, const QString& data)
 {
     QFile file(fileName);
 

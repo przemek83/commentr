@@ -20,7 +20,7 @@ public:
     void setTabPosition(QTabWidget::TabPosition position);
 
     float uiSize() const;
-    void setUiSize(const float& uiSize);
+    void setUiSize(float uiSize);
 
     QString style() const;
     void setStyle(const QString& style);
@@ -55,7 +55,7 @@ public:
     void setShowToolbar(bool showToolbar);
 
     Qt::ToolBarArea toolbarArea() const;
-    void setToolbarArea(const Qt::ToolBarArea& toolbarArea);
+    void setToolbarArea(Qt::ToolBarArea toolbarArea);
 
     float fontSize() const;
     void setFontSize(float fontSize);

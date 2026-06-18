@@ -11,7 +11,7 @@ File::File(Common::Source source, QString filePath, QString content)
 
 Common::Source File::source() const { return source_; }
 
-void File::setSource(const Common::Source& source) { source_ = source; }
+void File::setSource(Common::Source source) { source_ = source; }
 
 QString File::getFilePath() const { return filePath_; }
 void File::setFilePath(const QString& filePath) { filePath_ = filePath; }

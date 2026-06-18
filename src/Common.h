@@ -12,9 +12,9 @@ class QObject;
 class Common
 {
 public:
-    static QString loadFile(QString name);
+    static QString loadFile(const QString& name);
 
-    static QString saveFile(QString fileName, const QString& data);
+    static QString saveFile(const QString& fileName, const QString& data);
 
     static QString getStyleSheet();
 

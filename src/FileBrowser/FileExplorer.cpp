@@ -171,7 +171,7 @@ bool FileExplorer::directoryIsAccessible(const QString& path)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
 
-    if (QDir newDir(path); newDir.entryList(QDir::AllEntries).count() == 0)
+    if (QDir newDir(path); newDir.entryList(QDir::AllEntries).empty())
     {
         QMessageBox::information(this, tr("Error"), tr("Not accessible..."));
 

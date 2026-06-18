@@ -56,7 +56,7 @@ public:
     QString getCurrentText() const;
 
     SyntaxLang mode() const;
-    void setMode(const SyntaxLang& mode);
+    void setMode(SyntaxLang mode);
 
     void refreshVisualIndicators();
 

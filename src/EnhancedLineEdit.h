@@ -12,6 +12,7 @@ class EnhancedLineEdit : public QLineEdit
     Q_OBJECT
 public:
     EnhancedLineEdit(Config& config, QWidget* parent);
+    ~EnhancedLineEdit() override = default;
 
 protected:
     void mouseReleaseEvent(QMouseEvent* e) override;
@@ -25,7 +26,7 @@ protected:
     void changeEvent(QEvent* event) override;
 
 private:
-    Q_DISABLE_COPY(EnhancedLineEdit)
+    Q_DISABLE_COPY_MOVE(EnhancedLineEdit)
 
     QPoint getPositionForVisualPointer() const;
 

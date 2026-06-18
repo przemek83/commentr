@@ -22,7 +22,7 @@ public:
 
     static QString rootPath();
 
-    enum class Source
+    enum class Source : uint8_t
     {
         LOCAL = 0,
         NOT_SET

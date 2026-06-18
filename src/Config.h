@@ -89,7 +89,7 @@ private:
         "listViewInBrowser", "lastdir",          "recentFileList"};
 
     /// Enum used for names.
-    enum ConfigNames
+    enum ConfigNames : uint8_t
     {
         CONFIG_TABS_POSITION = 0,
         CONFIG_UI_SIZE,

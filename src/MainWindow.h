@@ -41,7 +41,7 @@ private:
 
     void manageActions(bool tabExist);
 
-    enum StackedPage
+    enum StackedPage : uint8_t
     {
         PAGE_MAIN = 0,
         PAGE_FILE_BROWSER,

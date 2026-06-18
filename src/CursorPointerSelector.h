@@ -9,7 +9,7 @@ class CursorPointerSelector : public CursorPointerTextEdit
 {
     Q_OBJECT
 public:
-    enum class CursorDirection
+    enum class CursorDirection : uint8_t
     {
         LEFT,
         RIGHT

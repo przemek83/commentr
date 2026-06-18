@@ -14,7 +14,7 @@ class Config;
 namespace Ui
 {
 class BrowseFilesWidget;
-}
+}  // namespace Ui
 
 class BrowseFilesWidget : public QWidget
 {

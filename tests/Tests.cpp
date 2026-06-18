@@ -24,52 +24,52 @@ int main(int argc, char* argv[])
 
     int status{EXIT_SUCCESS};
     JavaHighlighterTest javaHighlighterTest;
-    status |= QTest::qExec(&javaHighlighterTest);
+    status = std::max(status, QTest::qExec(&javaHighlighterTest));
 
     PythonHighlighterTest pythonHighlighterTest;
-    status |= QTest::qExec(&pythonHighlighterTest);
+    status = std::max(status, QTest::qExec(&pythonHighlighterTest));
 
     CHighlighterTest cHighlighterTest;
-    status |= QTest::qExec(&cHighlighterTest);
+    status = std::max(status, QTest::qExec(&cHighlighterTest));
 
     CplusPlusHighlighterTest cPlusPlusHighlighterTest;
-    status |= QTest::qExec(&cPlusPlusHighlighterTest);
+    status = std::max(status, QTest::qExec(&cPlusPlusHighlighterTest));
 
     ObjectiveCHighlighterTest objectiveCHighlighterTest;
-    status |= QTest::qExec(&objectiveCHighlighterTest);
+    status = std::max(status, QTest::qExec(&objectiveCHighlighterTest));
 
     PhpHighlighterTest phpHighlighterTest;
-    status |= QTest::qExec(&phpHighlighterTest);
+    status = std::max(status, QTest::qExec(&phpHighlighterTest));
 
     JavaScriptHighlighterTest javaScriptHighlighterTest;
-    status |= QTest::qExec(&javaScriptHighlighterTest);
+    status = std::max(status, QTest::qExec(&javaScriptHighlighterTest));
 
     CSharpHighlighterTest cSharpHighlighterTest;
-    status |= QTest::qExec(&cSharpHighlighterTest);
+    status = std::max(status, QTest::qExec(&cSharpHighlighterTest));
 
     SQLHighlighterTest sqlHighlighterTest;
-    status |= QTest::qExec(&sqlHighlighterTest);
+    status = std::max(status, QTest::qExec(&sqlHighlighterTest));
 
     SpellCheckerTest spellCheckerTest;
-    status |= QTest::qExec(&spellCheckerTest);
+    status = std::max(status, QTest::qExec(&spellCheckerTest));
 
     HighlighterSpellCheckTest highlighterSpellCheckTest;
-    status |= QTest::qExec(&highlighterSpellCheckTest);
+    status = std::max(status, QTest::qExec(&highlighterSpellCheckTest));
 
     VisualBasicHighlighterTest visualBasicHighlighterTest;
-    status |= QTest::qExec(&visualBasicHighlighterTest);
+    status = std::max(status, QTest::qExec(&visualBasicHighlighterTest));
 
     FileTest fileTest;
-    status |= QTest::qExec(&fileTest);
+    status = std::max(status, QTest::qExec(&fileTest));
 
     TestFileExplorer fileExplorerTest;
-    status |= QTest::qExec(&fileExplorerTest);
+    status = std::max(status, QTest::qExec(&fileExplorerTest));
 
     TestConfig testConfig;
-    status |= QTest::qExec(&testConfig);
+    status = std::max(status, QTest::qExec(&testConfig));
 
     TestCommon testCommon;
-    status |= QTest::qExec(&testCommon);
+    status = std::max(status, QTest::qExec(&testCommon));
 
     return status;
 }

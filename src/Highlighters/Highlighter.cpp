@@ -1,5 +1,7 @@
 #include "Highlighter.h"
 
+#include <utility>
+
 #include <QFile>
 #include <QTextStream>
 
@@ -18,7 +20,7 @@ void Highlighter::highlightBlock(const QString& text)
     if (highlightingRules_.empty())
         initRules();
 
-    for (const HighlightingRule& rule : highlightingRules_)
+    for (const HighlightingRule& rule : std::as_const(highlightingRules_))
         applyRule(text, rule);
 
     commentBlock(text);

@@ -34,6 +34,8 @@ QPoint CursorPointer::getOffset() const { return offset_; }
 
 QRect CursorPointer::getRange() const { return range_; }
 
+int CursorPointer::getHalfOfSize() const { return size_ / pointerHalfDivisor_; }
+
 QPainterPath CursorPointer::createPath() const
 {
     QPainterPath path;
@@ -61,7 +63,7 @@ void CursorPointer::mousePressEvent(QMouseEvent* event)
 
 QPoint CursorPointer::calculateOffset(QMouseEvent* event)
 {
-    return {size_ / pointerHalfDivisor_, event->pos().y()};
+    return {getHalfOfSize(), event->pos().y()};
 }
 
 void CursorPointer::mouseMoveEvent(QMouseEvent* event)

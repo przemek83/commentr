@@ -12,7 +12,7 @@ CursorPointerTextEdit::CursorPointerTextEdit(Config& config, QWidget* parent)
 
 void CursorPointerTextEdit::moveVisualPointer(int x, int y)
 {
-    move(x - (size_ / pointerHalfDivisor_), y);
+    move(x - getHalfOfSize(), y);
 }
 
 QPoint CursorPointerTextEdit::calcMovePoint(QPoint mousePos)
@@ -44,5 +44,5 @@ void CursorPointerTextEdit::positionChanged(QMouseEvent* event)
 
 QPoint CursorPointerTextEdit::calculateNewPosition(QPoint movePoint)
 {
-    return {movePoint.x() + (size_ / pointerHalfDivisor_), movePoint.y()};
+    return {movePoint.x() + getHalfOfSize(), movePoint.y()};
 }

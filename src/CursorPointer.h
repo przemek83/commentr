@@ -39,6 +39,8 @@ protected:
 
     QRect getRange() const;
 
+    int getHalfOfSize() const;
+
     /// Size of pointer.
     int size_{0};
 

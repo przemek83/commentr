@@ -16,7 +16,7 @@ QPoint CursorPointerLineEdit::calcMovePoint(QPoint mousePos)
     if (range.height() == 0)
         movePoint.setY(range.y());
 
-    int baseLeftBoundary{range.x() - (size_ / pointerHalfDivisor_)};
+    int baseLeftBoundary{range.x() - getHalfOfSize()};
     if (movePoint.x() > (range.width() + baseLeftBoundary))
         movePoint.setX(range.width() + baseLeftBoundary);
 
@@ -39,7 +39,7 @@ void CursorPointerLineEdit::positionChanged(QMouseEvent* event)
 
         move(movePoint.x(), movePoint.y());
 
-        const int pointerCenterOffset{size_ / pointerHalfDivisor_};
+        const int pointerCenterOffset{getHalfOfSize()};
         const int textXOrigin{getRange().x() - pointerMargin_};
         const QPoint textPosition{
             movePoint.x() + (pointerCenterOffset - textXOrigin), movePoint.y()};
@@ -50,7 +50,7 @@ void CursorPointerLineEdit::positionChanged(QMouseEvent* event)
 
 void CursorPointerLineEdit::moveVisualPointer(int x, int y)
 {
-    move(x - (size_ / pointerHalfDivisor_) - pointerMargin_, y);
+    move(x - getHalfOfSize() - pointerMargin_, y);
 }
 
 void CursorPointerLineEdit::setScrollingNeeded(bool scrollingNeeded)

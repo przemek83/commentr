@@ -24,8 +24,6 @@ protected:
 private:
     Q_DISABLE_COPY_MOVE(CursorPointerLineEdit)
 
-    static constexpr int pointerHalfDivisor_{2};
-
     /// Magic margin needed in some situations.
     static constexpr int pointerMargin_{2};
 

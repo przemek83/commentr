@@ -36,6 +36,8 @@ QRect CursorPointer::getRange() const { return range_; }
 
 int CursorPointer::getHalfOfSize() const { return size_ / pointerHalfDivisor_; }
 
+int CursorPointer::getSize() const { return size_; }
+
 QPainterPath CursorPointer::createPath() const
 {
     QPainterPath path;

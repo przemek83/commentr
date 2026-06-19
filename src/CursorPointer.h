@@ -41,8 +41,7 @@ protected:
 
     int getHalfOfSize() const;
 
-    /// Size of pointer.
-    int size_{0};
+    int getSize() const;
 
     virtual QPoint calculateOffset(QMouseEvent* event);
 
@@ -65,6 +64,9 @@ private:
 
     /// Range of text in lineedit where pointer can move.
     QRect range_;
+
+    /// Size of pointer.
+    int size_{0};
 
 signals:
     void pointerMoved(QPoint pos);

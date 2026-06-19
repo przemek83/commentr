@@ -9,7 +9,7 @@ CursorPointerSelector::CursorPointerSelector(CursorDirection direction,
                                              Config& config, QWidget* parent)
     : CursorPointerTextEdit(config, parent), diretion_{direction}
 {
-    resize(size_, size_ + (size_ / pointerBodyDivisor_));
+    resize(getSize(), getSize() + getQuarterOfSize());
 }
 
 void CursorPointerSelector::paintEvent([[maybe_unused]] QPaintEvent* event)
@@ -22,22 +22,23 @@ void CursorPointerSelector::paintEvent([[maybe_unused]] QPaintEvent* event)
     QBrush brush(color);
     QPainterPath path;
     constexpr int pointerRoundDivisor{6};
-    const int roundSize = size_ / pointerRoundDivisor;
+    const int size{getSize()};
+    const int roundSize = size / pointerRoundDivisor;
     if (CursorDirection::RIGHT == diretion_)
     {
         path.moveTo(0, 0);
-        path.lineTo(size_, size_ / pointerBodyDivisor_);
-        path.lineTo(size_, (size_ + (size_ / pointerBodyDivisor_)) - roundSize);
-        path.lineTo(size_ - roundSize, size_ + (size_ / pointerBodyDivisor_));
-        path.lineTo(0, size_ + (size_ / pointerBodyDivisor_));
+        path.lineTo(size, getQuarterOfSize());
+        path.lineTo(size, (size + getQuarterOfSize()) - roundSize);
+        path.lineTo(size - roundSize, size + getQuarterOfSize());
+        path.lineTo(0, size + getQuarterOfSize());
     }
     else
     {
-        path.moveTo(0, size_ / pointerBodyDivisor_);
-        path.lineTo(size_, 0);
-        path.lineTo(size_, size_ + (size_ / pointerBodyDivisor_));
-        path.lineTo(roundSize, size_ + (size_ / pointerBodyDivisor_));
-        path.lineTo(0, (size_ + (size_ / pointerBodyDivisor_)) - roundSize);
+        path.moveTo(0, getQuarterOfSize());
+        path.lineTo(size, 0);
+        path.lineTo(size, size + getQuarterOfSize());
+        path.lineTo(roundSize, size + getQuarterOfSize());
+        path.lineTo(0, (size + getQuarterOfSize()) - roundSize);
     }
     path.closeSubpath();
     painter.fillPath(path, brush);
@@ -45,8 +46,7 @@ void CursorPointerSelector::paintEvent([[maybe_unused]] QPaintEvent* event)
 
 QPoint CursorPointerSelector::calculateOffset(QMouseEvent* event)
 {
-    constexpr int pointerHalfDivisor{2};
-    return {size_ / pointerHalfDivisor, event->pos().y()};
+    return {getHalfOfSize(), event->pos().y()};
 }
 
 void CursorPointerSelector::moveVisualPointer(int x, int y)
@@ -54,7 +54,7 @@ void CursorPointerSelector::moveVisualPointer(int x, int y)
     if (CursorDirection::RIGHT == diretion_)
         move(x, y);
     else
-        move(x - size_, y);
+        move(x - getSize(), y);
 }
 
 QPoint CursorPointerSelector::calculateNewPosition(QPoint movePoint)
@@ -62,5 +62,10 @@ QPoint CursorPointerSelector::calculateNewPosition(QPoint movePoint)
     if (CursorDirection::RIGHT == diretion_)
         return {movePoint.x(), movePoint.y()};
 
-    return {movePoint.x() + size_, movePoint.y()};
+    return {movePoint.x() + getSize(), movePoint.y()};
+}
+
+int CursorPointerSelector::getQuarterOfSize() const
+{
+    return getSize() / pointerBodyDivisor_;
 }

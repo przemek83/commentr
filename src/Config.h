@@ -114,7 +114,7 @@ private:
     void setValue(QSettings& settings, ConfigNames name,
                   const QVariant& value) const;
 
-    QTabWidget::TabPosition tabsPosition_;
+    QTabWidget::TabPosition tabsPosition_{QTabWidget::TabPosition::North};
 
     QString style_;
 
@@ -140,7 +140,7 @@ private:
 
     bool showToolbar_{};
 
-    Qt::ToolBarArea toolbarArea_;
+    Qt::ToolBarArea toolbarArea_{Qt::ToolBarArea::NoToolBarArea};
 
     float fontSize_{};
 

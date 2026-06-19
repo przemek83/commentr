@@ -39,7 +39,7 @@ void Config::save() const
 void Config::setValue(QSettings& settings, ConfigNames name,
                       const QVariant& value) const
 {
-    settings.setValue(configNames_[name], value);
+    settings.setValue(configNames_.at(static_cast<size_t>(name)), value);
 }
 
 void Config::load()

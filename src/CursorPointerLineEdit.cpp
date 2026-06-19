@@ -10,14 +10,15 @@ CursorPointerLineEdit::CursorPointerLineEdit(int addLeftMargin, Config& config,
 
 QPoint CursorPointerLineEdit::calcMovePoint(QPoint mousePos)
 {
-    QPoint movePoint = mapToParent(mousePos - offset_);
+    QPoint movePoint = mapToParent(mousePos - getOffset());
 
-    if (range_.height() == 0)
-        movePoint.setY(range_.y());
+    const QRect range{getRange()};
+    if (range.height() == 0)
+        movePoint.setY(range.y());
 
-    int baseLeftBoundary{range_.x() - (size_ / pointerHalfDivisor_)};
-    if (movePoint.x() > (range_.width() + baseLeftBoundary))
-        movePoint.setX(range_.width() + baseLeftBoundary);
+    int baseLeftBoundary{range.x() - (size_ / pointerHalfDivisor_)};
+    if (movePoint.x() > (range.width() + baseLeftBoundary))
+        movePoint.setX(range.width() + baseLeftBoundary);
 
     // Margins added to able to scroll.
     int minCursorX{baseLeftBoundary};
@@ -39,7 +40,7 @@ void CursorPointerLineEdit::positionChanged(QMouseEvent* event)
         move(movePoint.x(), movePoint.y());
 
         const int pointerCenterOffset{size_ / pointerHalfDivisor_};
-        const int textXOrigin{range_.x() - pointerMargin_};
+        const int textXOrigin{getRange().x() - pointerMargin_};
         const QPoint textPosition{
             movePoint.x() + (pointerCenterOffset - textXOrigin), movePoint.y()};
 

@@ -35,11 +35,9 @@ protected:
 
     virtual void positionChanged(QMouseEvent* event) = 0;
 
-    /// Middle of pointer saved on click.
-    QPoint offset_;
+    QPoint getOffset() const;
 
-    /// Range of text in lineedit where pointer can move.
-    QRect range_;
+    QRect getRange() const;
 
     /// Size of pointer.
     int size_{0};
@@ -59,6 +57,12 @@ private:
     bool dragged_{false};
 
     Config& config_;
+
+    /// Middle of pointer saved on click.
+    QPoint offset_;
+
+    /// Range of text in lineedit where pointer can move.
+    QRect range_;
 
 signals:
     void pointerMoved(QPoint pos);

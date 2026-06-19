@@ -30,6 +30,10 @@ void CursorPointer::paintEvent([[maybe_unused]] QPaintEvent* event)
     painter.fillPath(path, brush);
 }
 
+QPoint CursorPointer::getOffset() const { return offset_; }
+
+QRect CursorPointer::getRange() const { return range_; }
+
 QPainterPath CursorPointer::createPath() const
 {
     QPainterPath path;

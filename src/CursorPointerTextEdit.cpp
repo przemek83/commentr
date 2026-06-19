@@ -17,7 +17,7 @@ void CursorPointerTextEdit::moveVisualPointer(int x, int y)
 
 QPoint CursorPointerTextEdit::calcMovePoint(QPoint mousePos)
 {
-    QPoint movePoint{mapToParent(mousePos - offset_)};
+    QPoint movePoint{mapToParent(mousePos - getOffset())};
 
     return movePoint;
 }

@@ -1,16 +1,16 @@
-#include "CplusPlusHighlighterTest.h"
+#include "CPlusPlusHighlighterTest.h"
 
 #include <QTest>
 
 #include "Common.h"
 #include "HighlighterTestHelpers.h"
-#include "Highlighters/CplusPlusHighlighter.h"
+#include "Highlighters/CPlusPlusHighlighter.h"
 
-void CplusPlusHighlighterTest::init() { spellChecker_.setActive(false); }
+void CPlusPlusHighlighterTest::init() { spellChecker_.setActive(false); }
 
-void CplusPlusHighlighterTest::testKeywordHighlighting()
+void CPlusPlusHighlighterTest::testKeywordHighlighting()
 {
-    CplusPlusHighlighter highlighter(spellChecker_);
+    CPlusPlusHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("class Foo")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -21,9 +21,9 @@ void CplusPlusHighlighterTest::testKeywordHighlighting()
         hasFormatForText(block, QStringLiteral("class"), keywordFormat, false));
 }
 
-void CplusPlusHighlighterTest::testClassHighlighting()
+void CPlusPlusHighlighterTest::testClassHighlighting()
 {
-    CplusPlusHighlighter highlighter(spellChecker_);
+    CPlusPlusHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("QWidget w;")};
     const QTextBlock block{setupHighlighter(highlighter, document_, source)};
@@ -32,9 +32,9 @@ void CplusPlusHighlighterTest::testClassHighlighting()
         hasFormatForText(block, QStringLiteral("QWidget"), classFormat, false));
 }
 
-void CplusPlusHighlighterTest::testQuotationAndCommentHighlighting()
+void CPlusPlusHighlighterTest::testQuotationAndCommentHighlighting()
 {
-    CplusPlusHighlighter highlighter(spellChecker_);
+    CPlusPlusHighlighter highlighter(spellChecker_);
 
     const QString source{
         QStringLiteral("std::string s = \"hello\"; // comment")};
@@ -50,9 +50,9 @@ void CplusPlusHighlighterTest::testQuotationAndCommentHighlighting()
                              false));
 }
 
-void CplusPlusHighlighterTest::testMultilineCommentHighlighting()
+void CPlusPlusHighlighterTest::testMultilineCommentHighlighting()
 {
-    CplusPlusHighlighter highlighter(spellChecker_);
+    CPlusPlusHighlighter highlighter(spellChecker_);
 
     const QString source{QStringLiteral("/* start\nmiddle\nend */")};
     const QTextBlock first{setupHighlighter(highlighter, document_, source)};

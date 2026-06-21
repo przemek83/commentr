@@ -6,7 +6,7 @@
 
 #include "SpellChecker.h"
 
-class CplusPlusHighlighterTest : public QObject
+class CPlusPlusHighlighterTest : public QObject
 {
     Q_OBJECT
 

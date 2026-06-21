@@ -10,8 +10,8 @@ set(${PROJECT_TESTS}_SOURCES
     HighlighterTestHelpers.cpp
     CHighlighterTest.h
     CHighlighterTest.cpp
-    CplusPlusHighlighterTest.h
-    CplusPlusHighlighterTest.cpp
+    CPlusPlusHighlighterTest.h
+    CPlusPlusHighlighterTest.cpp
     ObjectiveCHighlighterTest.h
     ObjectiveCHighlighterTest.cpp
     PhpHighlighterTest.h

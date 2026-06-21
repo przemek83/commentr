@@ -3,10 +3,10 @@
 
 #include "CFamilyHighlighter.h"
 
-class CplusPlusHighlighter : public CFamilyHighlighter
+class CPlusPlusHighlighter : public CFamilyHighlighter
 {
 public:
-    explicit CplusPlusHighlighter(const SpellChecker& spellChecker);
+    explicit CPlusPlusHighlighter(const SpellChecker& spellChecker);
 
 protected:
     void initRules() override;

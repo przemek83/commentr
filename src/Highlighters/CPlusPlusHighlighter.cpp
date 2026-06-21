@@ -1,11 +1,11 @@
-#include "CplusPlusHighlighter.h"
+#include "CPlusPlusHighlighter.h"
 
-CplusPlusHighlighter::CplusPlusHighlighter(const SpellChecker& spellChecker)
+CPlusPlusHighlighter::CPlusPlusHighlighter(const SpellChecker& spellChecker)
     : CFamilyHighlighter(spellChecker, QStringLiteral("cPlusPlus.txt"))
 {
 }
 
-void CplusPlusHighlighter::initRules()
+void CPlusPlusHighlighter::initRules()
 {
     CFamilyHighlighter::initRules();
     addRule(qtClassPattern_, SyntaxElement::CLASS);

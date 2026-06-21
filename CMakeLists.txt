@@ -73,8 +73,8 @@ set(${PROJECT_NAME}_SOURCES
     src/Highlighters/CFamilyHighlighter.cpp
     src/Highlighters/CFamilyHighlighter.h
     src/Highlighters/CMakeLists.txt
-    src/Highlighters/CplusPlusHighlighter.cpp
-    src/Highlighters/CplusPlusHighlighter.h
+    src/Highlighters/CPlusPlusHighlighter.cpp
+    src/Highlighters/CPlusPlusHighlighter.h
     src/Highlighters/CHighlighter.cpp
     src/Highlighters/CHighlighter.h
     src/Highlighters/CSharpHighlighter.cpp

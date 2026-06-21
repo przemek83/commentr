@@ -5,8 +5,8 @@ set(SOURCES
     VisualBasicHighlighter.h
     CFamilyHighlighter.cpp
     CFamilyHighlighter.h
-    CplusPlusHighlighter.cpp
-    CplusPlusHighlighter.h
+    CPlusPlusHighlighter.cpp
+    CPlusPlusHighlighter.h
     CSharpHighlighter.cpp
     CSharpHighlighter.h
     CHighlighter.cpp

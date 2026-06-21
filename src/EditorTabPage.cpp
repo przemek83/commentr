@@ -8,8 +8,8 @@
 #include "Config.h"
 #include "File.h"
 #include "Highlighters/CHighlighter.h"
+#include "Highlighters/CPlusPlusHighlighter.h"
 #include "Highlighters/CSharpHighlighter.h"
-#include "Highlighters/CplusPlusHighlighter.h"
 #include "Highlighters/Highlighter.h"
 #include "Highlighters/JavaHighlighter.h"
 #include "Highlighters/JavaScriptHighlighter.h"
@@ -224,7 +224,7 @@ std::unique_ptr<Highlighter> EditorTabPage::getHighlighterForEditorMode(
     switch (mode)
     {
         case SyntaxLang::CPP:
-            return std::make_unique<CplusPlusHighlighter>(spellChecker_);
+            return std::make_unique<CPlusPlusHighlighter>(spellChecker_);
 
         case SyntaxLang::C:
             return std::make_unique<CHighlighter>(spellChecker_);

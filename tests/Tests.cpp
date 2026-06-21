@@ -2,8 +2,8 @@
 #include <QTest>
 
 #include "CHighlighterTest.h"
+#include "CPlusPlusHighlighterTest.h"
 #include "CSharpHighlighterTest.h"
-#include "CplusPlusHighlighterTest.h"
 #include "FileTest.h"
 #include "HighlighterSpellCheckTest.h"
 #include "JavaHighlighterTest.h"
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     CHighlighterTest cHighlighterTest;
     status = std::max(status, QTest::qExec(&cHighlighterTest));
 
-    CplusPlusHighlighterTest cPlusPlusHighlighterTest;
+    CPlusPlusHighlighterTest cPlusPlusHighlighterTest;
     status = std::max(status, QTest::qExec(&cPlusPlusHighlighterTest));
 
     ObjectiveCHighlighterTest objectiveCHighlighterTest;

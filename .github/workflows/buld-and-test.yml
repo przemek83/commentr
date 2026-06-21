@@ -9,7 +9,7 @@ jobs:
   build-and-test:
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-2022]
+        platform: [ubuntu-latest, windows-latest]
         qt-version: [6.8.*]
     uses: przemek83/workflows/.github/workflows/build-and-test-qt.yml@main
     with:

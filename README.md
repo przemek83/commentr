@@ -20,13 +20,13 @@ Clone and use CMake with GCC/Clang/MSVC to compile the project and tests from an
 - compile and create binaries.
 
 ## Used tools and libs
-| Tool |  Windows | Ubuntu |
-| --- | --- | --- |
-| OS version | 11 26H1 | 24.04 |
-|Qt | 6.8.3 | 6.8.3 |
-| GCC | 13.1.0 | 13.3.0 |
-| CMake | 4.3.4 | 4.3.4 |
-| Git | 2.46.0 | 2.43.0 |
+| |  Windows | Windows | Ubuntu |
+| --- | --- | --- | --- | 
+| OS version | 11 24H2 | 11 24H2 | 24.04 |
+| Qt | 6.8.3 | 6.8.3 | 6.8.3 |
+| compiler | GCC 13.1.0 | MSVC 19.44 | GCC 13.3.0 |
+| CMake | 4.3.4 | 4.3.4 | 4.3.4 |
+| Git | 2.46.0 | 2.46.0 | 2.43.0 |
 
 # Usage:  
 ## Launching:  

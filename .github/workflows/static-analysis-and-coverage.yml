@@ -10,4 +10,4 @@ jobs:
     uses: przemek83/workflows/.github/workflows/static-analysis-and-coverage-qt.yml@main
     secrets: inherit
     with:
-      qt-version: 6.5.*
+      qt-version: 6.8.*

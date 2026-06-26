@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QScrollBar>
+#include <QScroller>
 
 #include "../Common.h"
 #include "../Config.h"

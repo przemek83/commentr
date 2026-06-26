@@ -258,11 +258,6 @@ std::unique_ptr<Highlighter> EditorTabPage::getHighlighterForEditorMode(
     }
 }
 
-void EditorTabPage::refreshVisualIndicators()
-{
-    codeViewer_->updateVisualPointersPositions();
-}
-
 File EditorTabPage::getCurrentFileCopy() const
 {
     File file(file_.source(), file_.getFilePath(), codeViewer_->toPlainText());

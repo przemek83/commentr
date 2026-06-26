@@ -654,12 +654,6 @@ void MainWindow::changeTabPosition(QTabWidget::TabPosition position)
 {
     ui_->tabWidget->setTabPosition(position);
     config_.setTabPosition(position);
-
-    auto* currentTab{
-        dynamic_cast<EditorTabPage*>(ui_->tabWidget->currentWidget())};
-
-    if (currentTab != nullptr)
-        currentTab->refreshVisualIndicators();
 }
 
 void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)

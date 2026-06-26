@@ -58,8 +58,6 @@ public:
     SyntaxLang mode() const;
     void setMode(SyntaxLang mode);
 
-    void refreshVisualIndicators();
-
     File getCurrentFileCopy() const;
 
     void refreshHighlighter();

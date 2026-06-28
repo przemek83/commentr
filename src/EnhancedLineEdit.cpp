@@ -32,7 +32,7 @@ void EnhancedLineEdit::changeEvent(QEvent* event)
 {
     QLineEdit::changeEvent(event);
 
-    // If toolbar is shown on main screen wrong results generated.
+    // Wrong results are generated if toolbar is shown on main screen.
     if (QEvent::StyleChange == event->type())
         updateMarginSize();
 }

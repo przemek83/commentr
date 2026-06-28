@@ -48,14 +48,8 @@ set(${PROJECT_NAME}_SOURCES
     src/ProxyStyle.h
     src/BackButtonHandler.cpp
     src/BackButtonHandler.h
-    src/CursorPointer.cpp
-    src/CursorPointer.h
     src/EnhancedLineEdit.cpp
     src/EnhancedLineEdit.h
-    src/CursorPointerTextEdit.cpp
-    src/CursorPointerTextEdit.h
-    src/CursorPointerSelector.cpp
-    src/CursorPointerSelector.h
     src/Common.cpp
     src/Common.h
     src/FileBrowser/BrowseFilesWidget.cpp

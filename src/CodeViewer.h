@@ -4,9 +4,6 @@
 #include <QObject>
 #include <QPlainTextEdit>
 
-#include "CursorPointerSelector.h"
-#include "CursorPointerTextEdit.h"
-
 class QPaintEvent;
 class QResizeEvent;
 class QSize;
@@ -28,8 +25,6 @@ public:
 
     void zoom(int zoomFactor);
 
-    void updateVisualPointersPositions();
-
 protected:
     void resizeEvent(QResizeEvent* e) override;
 
@@ -38,12 +33,6 @@ protected:
     void keyPressEvent(QKeyEvent* e) override;
 
     bool event(QEvent* e) override;
-
-    void scrollContentsBy(int dx, int dy) override;
-
-    void focusOutEvent(QFocusEvent* e) override;
-
-    void focusInEvent(QFocusEvent* e) override;
 
 private:
     Q_DISABLE_COPY_MOVE(CodeViewer)
@@ -77,8 +66,6 @@ private:
 
     LineNumberArea* lineNumberArea_;
 
-    friend class LineNumberArea;
-
     QWidget* mainWindow_;
 
     void managePinchGesture(const QPinchGesture* gesture);
@@ -93,42 +80,14 @@ private:
 
     bool ignoreNextTapGesture_{false};
 
-    void initVisualPointers() const;
-
-    void moveVisualPointer(CursorPointer* cursorPointer);
-
-    void hideAllCursorPointers();
-
-    void setVisibleCursorPointer(bool visible);
-
-    void setVisibleSelectionPointers(bool visible);
-
-    bool cursorShownBeforeFocusLost_{false};
-
-    bool selectorsShownBeforeFocusLost_{false};
-
-    bool anchorIsInRange() const;
-
-    void hideAllPointersIfNotDragged();
-
     void grabGestures() const;
 
     Config& config_;
-
-    CursorPointerTextEdit cursorPointer_;
-
-    CursorPointerSelector cursorSelector_;
-
-    CursorPointerSelector anchorSelector_;
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
 
     void updateLineNumberArea(const QRect& rect, int dy);
-
-    void matchPointerToCursorPosition();
-
-    void pointerMoved(QPoint pos);
 
     void cursorPosHasChanged();
 };

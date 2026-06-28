@@ -52,8 +52,6 @@ set(${PROJECT_NAME}_SOURCES
     src/CursorPointer.h
     src/EnhancedLineEdit.cpp
     src/EnhancedLineEdit.h
-    src/CursorPointerLineEdit.cpp
-    src/CursorPointerLineEdit.h
     src/CursorPointerTextEdit.cpp
     src/CursorPointerTextEdit.h
     src/CursorPointerSelector.cpp

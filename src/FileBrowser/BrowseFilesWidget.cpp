@@ -56,8 +56,13 @@ void BrowseFilesWidget::initLineEdit()
     filePathLineEdit_->setStyleSheet(
         QStringLiteral("QLineEdit{background: #FFBFBF;}"));
 
+#ifdef Q_OS_ANDROID
+    connect(filePathLineEdit_, &EnhancedLineEdit::editingFinished, this,
+            &BrowseFilesWidget::filePathReturnPressed);
+#else
     connect(filePathLineEdit_, &EnhancedLineEdit::returnPressed, this,
             &BrowseFilesWidget::filePathReturnPressed);
+#endif
 
     connect(filePathLineEdit_, &EnhancedLineEdit::textChanged, this,
             &BrowseFilesWidget::filePathTextChanged);

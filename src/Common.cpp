@@ -60,12 +60,6 @@ QString Common::getStyleSheet()
     return stylesheet;
 }
 
-int Common::timerFireInterval()
-{
-    const int timerFireInterval{200};
-    return timerFireInterval;
-}
-
 QTextCharFormat Common::getFormat(SyntaxElement element)
 {
     QTextCharFormat format;

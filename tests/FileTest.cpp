@@ -10,7 +10,6 @@ void FileTest::testConstructorAndAccessors()
     File f(Common::Source::LOCAL, QStringLiteral("/path/to/name.txt"),
            QStringLiteral("content"));
     QCOMPARE(f.source(), Common::Source::LOCAL);
-    QCOMPARE(f.path(), QString("/path/to"));
     QCOMPARE(f.getFileName(), QString("name.txt"));
     QCOMPARE(f.suffix(), QString("txt"));
     QCOMPARE(f.content(), QString("content"));
@@ -19,11 +18,9 @@ void FileTest::testConstructorAndAccessors()
 void FileTest::testSetters()
 {
     File f(Common::Source::LOCAL, QStringLiteral("/p/b.suf"), QStringLiteral("c"));
-    f.setSource(Common::Source::NOT_SET);
-    QCOMPARE(f.source(), Common::Source::NOT_SET);
 
     f.setFilePath(QStringLiteral("/new/path/"));
-    QCOMPARE(f.path(), QString("/new/path"));
+    QCOMPARE(f.getFilePath(), QString("/new/path/"));
 
     f.setFilePath(QStringLiteral("base"));
     QCOMPARE(f.getFileName(), QString("base"));
@@ -47,7 +44,7 @@ void FileTest::testGetFilePath()
 void FileTest::testNoDirectoryPath()
 {
     File f(Common::Source::LOCAL, QStringLiteral("file.txt"), QStringLiteral("c"));
-    QCOMPARE(f.path(), QString("."));
+    QCOMPARE(f.getFilePath(), QString("file.txt"));
     QCOMPARE(f.getFileName(), QString("file.txt"));
     QCOMPARE(f.suffix(), QString("txt"));
 }
@@ -75,7 +72,7 @@ void FileTest::testTrailingAndRepeatedSlashes()
 
     File f2(Common::Source::LOCAL, QStringLiteral("/a//b///file.txt"), QString());
     const QFileInfo fi2(QStringLiteral("/a//b///file.txt"));
-    QCOMPARE(f2.path(), fi2.path());
+    QCOMPARE(f2.getFilePath(), fi2.filePath());
     QCOMPARE(f2.getFileName(), fi2.fileName());
 }
 
@@ -83,7 +80,6 @@ void FileTest::testEmptyPathBehavior()
 {
     File f(Common::Source::LOCAL, QLatin1String(""), QString());
     QCOMPARE(f.getFilePath(), QLatin1String(""));
-    QCOMPARE(f.path(), QLatin1String(""));
     QCOMPARE(f.getFileName(), QLatin1String(""));
     QCOMPARE(f.suffix(), QLatin1String(""));
 }

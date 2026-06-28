@@ -18,8 +18,6 @@ public:
 
     static QString getStyleSheet();
 
-    static int timerFireInterval();
-
     static QString rootPath();
 
     enum class Source : uint8_t

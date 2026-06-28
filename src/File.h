@@ -19,12 +19,9 @@ public:
     File& operator=(const File& other) = default;
 
     Common::Source source() const;
-    void setSource(Common::Source source);
 
     QString getFilePath() const;
     void setFilePath(const QString& filePath);
-
-    QString path() const;
 
     QString getFileName() const;
 

@@ -301,7 +301,7 @@ void MainWindow::createNewTab(File file)
         setupRecentFiles(config_);
     }
 
-    const QString baseName{file.baseName()};
+    const QString fileName{file.getFileName()};
 
     EditorTabPage* editorTabPage{
         new EditorTabPage(std::move(file), config_.fontSize(), config_,
@@ -318,7 +318,7 @@ void MainWindow::createNewTab(File file)
     connect(editorTabPage, &EditorTabPage::copyCutIsAvailable, this,
             &MainWindow::copyAndCutAvailabilityChanged);
 
-    int newestIndex = ui_->tabWidget->addTab(editorTabPage, baseName);
+    int newestIndex = ui_->tabWidget->addTab(editorTabPage, fileName);
 
     ui_->tabWidget->setCurrentIndex(newestIndex);
 
@@ -343,7 +343,8 @@ void MainWindow::saveFileFromTab(const File& file)
         currentTab->changeFile(file);
     }
 
-    ui_->tabWidget->setTabText(ui_->tabWidget->currentIndex(), file.baseName());
+    ui_->tabWidget->setTabText(ui_->tabWidget->currentIndex(),
+                               file.getFileName());
     showMainPage();
 }
 
@@ -844,7 +845,7 @@ void MainWindow::saveFile()
 
         case Common::Source::LOCAL:
         {
-            showStatusMsg(Common::saveFile(file.path(), file.content()));
+            showStatusMsg(Common::saveFile(file.getFilePath(), file.content()));
             break;
         }
 

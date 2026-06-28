@@ -18,7 +18,7 @@ void File::setFilePath(const QString& filePath) { filePath_ = filePath; }
 
 QString File::path() const { return QFileInfo(filePath_).path(); }
 
-QString File::baseName() const { return QFileInfo(filePath_).baseName(); }
+QString File::getFileName() const { return QFileInfo(filePath_).fileName(); }
 
 QString File::suffix() const { return QFileInfo(filePath_).suffix(); }
 

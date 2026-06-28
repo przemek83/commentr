@@ -26,7 +26,7 @@ public:
 
     QString path() const;
 
-    QString baseName() const;
+    QString getFileName() const;
 
     QString suffix() const;
 

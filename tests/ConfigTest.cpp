@@ -1,4 +1,4 @@
-#include "TestConfig.h"
+#include "ConfigTest.h"
 
 #include <QCoreApplication>
 #include <QSettings>

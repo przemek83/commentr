@@ -30,12 +30,12 @@ set(${PROJECT_TESTS}_SOURCES
     VisualBasicHighlighterTest.cpp
     FileTest.h
     FileTest.cpp
-    TestFileExplorer.h
-    TestFileExplorer.cpp
-    TestConfig.h
-    TestConfig.cpp
-    TestCommon.h
-    TestCommon.cpp
+    FileExplorerTest.h
+    FileExplorerTest.cpp
+    ConfigTest.h
+    ConfigTest.cpp
+    CommonTest.h
+    CommonTest.cpp
 )
 
 qt_add_resources(${PROJECT_TESTS}_SOURCES ../res/resources.qrc)

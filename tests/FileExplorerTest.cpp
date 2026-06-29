@@ -1,4 +1,4 @@
-#include "TestFileExplorer.h"
+#include "FileExplorerTest.h"
 
 #include <QDir>
 #include <QFile>

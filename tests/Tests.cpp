@@ -4,6 +4,9 @@
 #include "CHighlighterTest.h"
 #include "CPlusPlusHighlighterTest.h"
 #include "CSharpHighlighterTest.h"
+#include "CommonTest.h"
+#include "ConfigTest.h"
+#include "FileExplorerTest.h"
 #include "FileTest.h"
 #include "HighlighterSpellCheckTest.h"
 #include "JavaHighlighterTest.h"
@@ -13,9 +16,6 @@
 #include "PythonHighlighterTest.h"
 #include "SQLHighlighterTest.h"
 #include "SpellCheckerTest.h"
-#include "TestCommon.h"
-#include "TestConfig.h"
-#include "TestFileExplorer.h"
 #include "VisualBasicHighlighterTest.h"
 
 int main(int argc, char* argv[])

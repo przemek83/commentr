@@ -1,5 +1,4 @@
-#include "TestCommon.h"
-#include <qtestcase.h>
+#include "CommonTest.h"
 
 #include <QFile>
 #include <QFileInfo>

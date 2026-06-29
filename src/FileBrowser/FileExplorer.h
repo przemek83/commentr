@@ -3,6 +3,8 @@
 
 #include <QListView>
 
+#include "FileAccessMode.h"
+
 class File;
 class Config;
 class QFileSystemModel;
@@ -11,7 +13,7 @@ class FileExplorer : public QListView
 {
     Q_OBJECT
 public:
-    FileExplorer(bool open, Config& config, QWidget* parent);
+    FileExplorer(FileAccessMode mode, Config& config, QWidget* parent);
 
     ~FileExplorer() override;
 
@@ -46,7 +48,7 @@ private:
 
     Config& config_;
 
-    bool open_;
+    FileAccessMode mode_;
 
 private slots:
     void directoryLoaded(const QString& path);

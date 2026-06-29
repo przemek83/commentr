@@ -7,6 +7,7 @@
 
 #include "Config.h"
 #include "EditorTabPage.h"
+#include "FileBrowser/FileAccessMode.h"
 #include "SpellChecker.h"
 #include "SyntaxLang.h"
 
@@ -69,7 +70,7 @@ private:
 
     void changeTabPosition(QTabWidget::TabPosition position);
 
-    void createAndShowBrowseFilesWidget(bool openFileMode);
+    void createAndShowBrowseFilesWidget(FileAccessMode mode);
 
     void changeSize(float factor);
 

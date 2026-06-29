@@ -6,6 +6,7 @@
 #include <QWidget>
 
 #include "../File.h"
+#include "FileAccessMode.h"
 
 class EnhancedLineEdit;
 class FileExplorer;
@@ -20,7 +21,7 @@ class BrowseFilesWidget : public QWidget
 {
     Q_OBJECT
 public:
-    BrowseFilesWidget(bool open, Config& config, QWidget* parent);
+    BrowseFilesWidget(FileAccessMode mode, Config& config, QWidget* parent);
 
     ~BrowseFilesWidget() override;
 

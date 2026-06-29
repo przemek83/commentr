@@ -9,7 +9,8 @@
 #include "FileExplorer.h"
 #include "ui_BrowseFilesWidget.h"
 
-BrowseFilesWidget::BrowseFilesWidget(bool open, Config& config, QWidget* parent)
+BrowseFilesWidget::BrowseFilesWidget(FileAccessMode mode, Config& config,
+                                     QWidget* parent)
     : QWidget(parent),
       ui_{std::make_unique<Ui::BrowseFilesWidget>()},
       config_(config)
@@ -18,7 +19,7 @@ BrowseFilesWidget::BrowseFilesWidget(bool open, Config& config, QWidget* parent)
 
     initLineEdit();
 
-    auto* localListView{new FileExplorer(open, config_, ui_->tabWidget)};
+    auto* localListView{new FileExplorer(mode, config_, ui_->tabWidget)};
 
     connect(localListView, &FileExplorer::filePrepared, this,
             &BrowseFilesWidget::filePrepared);

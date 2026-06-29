@@ -56,6 +56,7 @@ set(${PROJECT_NAME}_SOURCES
     src/FileBrowser/BrowseFilesWidget.h
     src/FileBrowser/FileExplorer.cpp
     src/FileBrowser/FileExplorer.h
+    src/FileBrowser/FileAccessMode.h
     src/File.cpp
     src/File.h
     src/PanGestureRecognizer.cpp

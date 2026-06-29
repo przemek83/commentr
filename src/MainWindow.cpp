@@ -381,7 +381,7 @@ void MainWindow::openRecentFile()
 void MainWindow::connectActions()
 {
     connect(ui_->actionOpen_file, &QAction::triggered,
-            [this]() { createAndShowBrowseFilesWidget(true); });
+            [this]() { createAndShowBrowseFilesWidget(FileAccessMode::Read); });
     connect(ui_->actionSave_file, &QAction::triggered, this,
             &MainWindow::saveFile);
     connect(ui_->actionSearch, &QAction::triggered, this, &MainWindow::search);
@@ -424,8 +424,8 @@ void MainWindow::connectActions()
     connect(ui_->actionShowToolbar, &QAction::triggered, this,
             &MainWindow::showToolbar);
     connect(ui_->actionNew, &QAction::triggered, this, &MainWindow::newFile);
-    connect(ui_->actionSave_as, &QAction::triggered,
-            [this]() { createAndShowBrowseFilesWidget(false); });
+    connect(ui_->actionSave_as, &QAction::triggered, [this]()
+            { createAndShowBrowseFilesWidget(FileAccessMode::Write); });
 
     setupEditorModeActions();
 
@@ -657,17 +657,17 @@ void MainWindow::changeTabPosition(QTabWidget::TabPosition position)
     config_.setTabPosition(position);
 }
 
-void MainWindow::createAndShowBrowseFilesWidget(bool openFileMode)
+void MainWindow::createAndShowBrowseFilesWidget(FileAccessMode mode)
 {
     setAvailableFunctionalities(false);
 
     auto* browseFilesWidget{
-        new BrowseFilesWidget(openFileMode, config_, ui_->stackedWidget)};
+        new BrowseFilesWidget(mode, config_, ui_->stackedWidget)};
 
     connect(browseFilesWidget, &BrowseFilesWidget::cancelAction, this,
             &MainWindow::showMainPage);
 
-    if (openFileMode)
+    if (mode == FileAccessMode::Read)
         connect(browseFilesWidget, &BrowseFilesWidget::filePrepared, this,
                 &MainWindow::createNewTab);
     else
@@ -839,7 +839,7 @@ void MainWindow::saveFile()
     {
         case Common::Source::NOT_SET:
         {
-            createAndShowBrowseFilesWidget(false);
+            createAndShowBrowseFilesWidget(FileAccessMode::Write);
             break;
         }
 

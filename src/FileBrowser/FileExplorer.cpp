@@ -10,8 +10,8 @@
 #include "../Config.h"
 #include "../File.h"
 
-FileExplorer::FileExplorer(bool open, Config& config, QWidget* parent)
-    : QListView(parent), config_(config), open_{open}
+FileExplorer::FileExplorer(FileAccessMode mode, Config& config, QWidget* parent)
+    : QListView(parent), config_(config), mode_{mode}
 {
     horizontalScrollBar()->setStyleSheet(Common::getStyleSheet());
     verticalScrollBar()->setStyleSheet(Common::getStyleSheet());
@@ -99,7 +99,7 @@ void FileExplorer::performOperationOnFile(const QString& filePath)
     QString filePathToUse{fileInfo.filePath()};
     QString content;
 
-    if (open_)
+    if (mode_ == FileAccessMode::Read)
     {
         content = Common::loadFile(filePath);
     }
@@ -207,7 +207,7 @@ bool FileExplorer::fileIsValid(const QString& file) const
 {
     QFileInfo fileInfo(file);
 
-    if (open_)
+    if (mode_ == FileAccessMode::Read)
         return (QFile::exists(file) && fileInfo.isFile() &&
                 fileInfo.isReadable());
 

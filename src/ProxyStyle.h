@@ -24,9 +24,9 @@ private:
 
     int adjustSize(int size) const;
 
-    static bool isScrollBarMetric(QStyle::PixelMetric metric);
+    static bool isScrollBarMetric(PixelMetric metric);
 
-    static bool isUiScaledMetric(QStyle::PixelMetric metric);
+    static bool isUiScaledMetric(PixelMetric metric);
 
     float actualUiSize_;
 };

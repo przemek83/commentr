@@ -28,13 +28,13 @@ QSize ProxyStyle::sizeFromContents(ContentsType type,
     return defaultSize;
 }
 
-bool ProxyStyle::isScrollBarMetric(QStyle::PixelMetric metric)
+bool ProxyStyle::isScrollBarMetric(PixelMetric metric)
 {
-    return metric == QStyle::PM_ScrollBarExtent ||
-           metric == QStyle::PM_TabBarScrollButtonWidth;
+    return (metric == PM_ScrollBarExtent) ||
+           (metric == PM_TabBarScrollButtonWidth);
 }
 
-bool ProxyStyle::isUiScaledMetric(QStyle::PixelMetric metric)
+bool ProxyStyle::isUiScaledMetric(PixelMetric metric)
 {
     const bool isToolBarExtent{(metric == PM_ToolBarHandleExtent) ||
                                (metric == PM_ToolBarExtensionExtent)};

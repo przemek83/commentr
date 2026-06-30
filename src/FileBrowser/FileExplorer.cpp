@@ -116,7 +116,8 @@ void FileExplorer::performOperationOnFile(const QString& filePath)
         return;
     }
 
-    if (QFile::exists(filePath) && !doesUserWantsToOverwriteFile(filePathToUse))
+    if (QFile::exists(filePath) &&
+        (!doesUserWantsToOverwriteFile(filePathToUse)))
         return;
 
     File file(Common::Source::LOCAL, filePathToUse, {});

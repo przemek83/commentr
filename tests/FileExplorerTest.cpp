@@ -23,7 +23,7 @@ void prepareFile(const QString& filePath, const QString& content)
 
 void TestFileExplorer::testFileIsValidOpenPositive()
 {
-    FileExplorer explorer(FileAccessMode::Read, config_, nullptr);
+    FileExplorer explorer(FileAccessMode::READ, config_, nullptr);
     explorer.initialize();
 
     QTemporaryDir tmpDir;
@@ -35,7 +35,7 @@ void TestFileExplorer::testFileIsValidOpenPositive()
 
 void TestFileExplorer::testFileIsValidOpenNegative()
 {
-    FileExplorer explorer(FileAccessMode::Read, config_, nullptr);
+    FileExplorer explorer(FileAccessMode::READ, config_, nullptr);
     explorer.initialize();
 
     QTemporaryDir tmpDir;
@@ -48,7 +48,7 @@ void TestFileExplorer::testFileIsValidOpenNegative()
 
 void TestFileExplorer::testPerformOperationOpen()
 {
-    FileExplorer explorer(FileAccessMode::Read, config_, nullptr);
+    FileExplorer explorer(FileAccessMode::READ, config_, nullptr);
     explorer.initialize();
 
     QTemporaryDir tmpDir;

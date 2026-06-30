@@ -101,8 +101,8 @@ QGestureRecognizer::Result PanGestureRecognizer::manageTouchEnd(
 
 bool PanGestureRecognizer::isPanThresholdExceeded(QPointF offset)
 {
-    return std::abs(offset.x()) > panTriggerDistance_ ||
-           std::abs(offset.y()) > panTriggerDistance_;
+    return (std::abs(offset.x()) > panTriggerDistance_) ||
+           (std::abs(offset.y()) > panTriggerDistance_);
 }
 
 void PanGestureRecognizer::rotateOffset(QPanGesture* panGesture,

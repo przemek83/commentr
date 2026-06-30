@@ -5,8 +5,8 @@
 
 enum class FileAccessMode : uint8_t
 {
-    Read,
-    Write
+    READ,
+    WRITE
 };
 
 #endif  // FILEACCESSMODE_H

@@ -108,7 +108,7 @@ void FileExplorer::performOperationOnFile(const QString& filePath)
     QFileInfo fileInfo(filePath);
     QString filePathToUse{fileInfo.filePath()};
 
-    if (mode_ == FileAccessMode::Read)
+    if (mode_ == FileAccessMode::READ)
     {
         QString content{Common::loadFile(filePath)};
         File file(Common::Source::LOCAL, filePathToUse, std::move(content));
@@ -209,7 +209,7 @@ bool FileExplorer::fileIsValid(const QString& file) const
 {
     QFileInfo fileInfo(file);
 
-    if (mode_ == FileAccessMode::Read)
+    if (mode_ == FileAccessMode::READ)
         return (QFile::exists(file) && fileInfo.isFile() &&
                 fileInfo.isReadable());
 

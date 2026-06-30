@@ -381,7 +381,7 @@ void MainWindow::openRecentFile()
 void MainWindow::connectActions()
 {
     connect(ui_->actionOpen_file, &QAction::triggered,
-            [this]() { createAndShowBrowseFilesWidget(FileAccessMode::Read); });
+            [this]() { createAndShowBrowseFilesWidget(FileAccessMode::READ); });
     connect(ui_->actionSave_file, &QAction::triggered, this,
             &MainWindow::saveFile);
     connect(ui_->actionSearch, &QAction::triggered, this, &MainWindow::search);
@@ -425,7 +425,7 @@ void MainWindow::connectActions()
             &MainWindow::showToolbar);
     connect(ui_->actionNew, &QAction::triggered, this, &MainWindow::newFile);
     connect(ui_->actionSave_as, &QAction::triggered, [this]()
-            { createAndShowBrowseFilesWidget(FileAccessMode::Write); });
+            { createAndShowBrowseFilesWidget(FileAccessMode::WRITE); });
 
     setupEditorModeActions();
 
@@ -667,7 +667,7 @@ void MainWindow::createAndShowBrowseFilesWidget(FileAccessMode mode)
     connect(browseFilesWidget, &BrowseFilesWidget::cancelAction, this,
             &MainWindow::showMainPage);
 
-    if (mode == FileAccessMode::Read)
+    if (mode == FileAccessMode::READ)
         connect(browseFilesWidget, &BrowseFilesWidget::filePrepared, this,
                 &MainWindow::createNewTab);
     else
@@ -839,7 +839,7 @@ void MainWindow::saveFile()
     {
         case Common::Source::NOT_SET:
         {
-            createAndShowBrowseFilesWidget(FileAccessMode::Write);
+            createAndShowBrowseFilesWidget(FileAccessMode::WRITE);
             break;
         }
 

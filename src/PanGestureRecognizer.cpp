@@ -21,9 +21,7 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(
 
     auto* panGesture{dynamic_cast<QPanGesture*>(state)};
     if (panGesture == nullptr)
-    {
         return result;
-    }
 
     switch (event->type())
     {
@@ -57,46 +55,33 @@ QGestureRecognizer::Result PanGestureRecognizer::recognize(
 QGestureRecognizer::Result PanGestureRecognizer::manageTouchBegin(
     QPanGesture* panGesture, QEvent* event)
 {
-    const QList<QTouchEvent::TouchPoint>& touchPoints{getTouchPoints(event)};
+    if (isMultiTouchEvent(event))
+        return QGestureRecognizer::Ignore;
 
-    QGestureRecognizer::Result result{QGestureRecognizer::Ignore};
+    panGesture->setLastOffset(QPointF());
+    panGesture->setOffset(QPointF());
 
-    if (touchPoints.size() == singleTouchPoint_)
-    {
-        result = MayBeGesture;
-        panGesture->setLastOffset(QPointF());
-        panGesture->setOffset(QPointF());
-    }
-
-    return result;
+    return MayBeGesture;
 }
 
 QGestureRecognizer::Result PanGestureRecognizer::manageTouchUpdate(
     QPanGesture* panGesture, QEvent* event)
 {
-    const QList<QTouchEvent::TouchPoint>& touchPoints{getTouchPoints(event)};
+    if (isMultiTouchEvent(event))
+        return QGestureRecognizer::Ignore;
+
+    const QEventPoint touchPoint{getTouchPoints(event).first()};
+    rotateOffset(panGesture, touchPoint);
 
     QGestureRecognizer::Result result{QGestureRecognizer::Ignore};
-    if (touchPoints.size() == singleTouchPoint_)
+    if (isPanThresholdExceeded(panGesture->offset()))
     {
-        panGesture->setLastOffset(panGesture->offset());
-
-        QPointF resultPoint = touchPoints.first().position() -
-                              touchPoints.first().pressPosition();
-        panGesture->setOffset(resultPoint);
-
-        if ((panGesture->offset().x() > panTriggerDistance_) ||
-            (panGesture->offset().y() > panTriggerDistance_) ||
-            (panGesture->offset().x() < -panTriggerDistance_) ||
-            (panGesture->offset().y() < -panTriggerDistance_))
-        {
-            panGesture->setHotSpot(touchPoints.first().globalPressPosition());
-            result = QGestureRecognizer::TriggerGesture;
-        }
-        else
-        {
-            result = QGestureRecognizer::MayBeGesture;
-        }
+        panGesture->setHotSpot(touchPoint.globalPressPosition());
+        result = QGestureRecognizer::TriggerGesture;
+    }
+    else
+    {
+        result = QGestureRecognizer::MayBeGesture;
     }
 
     return result;
@@ -108,14 +93,29 @@ QGestureRecognizer::Result PanGestureRecognizer::manageTouchEnd(
     if (panGesture->state() == Qt::NoGesture)
         return QGestureRecognizer::CancelGesture;
 
-    if (const QList<QTouchEvent::TouchPoint>& points{getTouchPoints(event)};
-        points.size() == singleTouchPoint_)
-    {
-        panGesture->setLastOffset(panGesture->offset());
-        QPointF resultPoint{points.first().position() -
-                            points.first().pressPosition()};
-        panGesture->setOffset(resultPoint);
-    }
+    if (!isMultiTouchEvent(event))
+        rotateOffset(panGesture, getTouchPoints(event).first());
 
     return QGestureRecognizer::FinishGesture;
+}
+
+bool PanGestureRecognizer::isPanThresholdExceeded(QPointF offset)
+{
+    return std::abs(offset.x()) > panTriggerDistance_ ||
+           std::abs(offset.y()) > panTriggerDistance_;
+}
+
+void PanGestureRecognizer::rotateOffset(QPanGesture* panGesture,
+                                        const QEventPoint& eventPoint)
+{
+    panGesture->setLastOffset(panGesture->offset());
+    const QPointF resultPoint{eventPoint.position() -
+                              eventPoint.pressPosition()};
+    panGesture->setOffset(resultPoint);
+}
+
+bool PanGestureRecognizer::isMultiTouchEvent(QEvent* event)
+{
+    const QList<QTouchEvent::TouchPoint>& points{getTouchPoints(event)};
+    return points.size() != singleTouchPoint_;
 }

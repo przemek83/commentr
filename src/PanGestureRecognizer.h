@@ -27,6 +27,13 @@ private:
     static QGestureRecognizer::Result manageTouchEnd(QPanGesture* panGesture,
                                                      QEvent* event);
 
+    static bool isPanThresholdExceeded(QPointF offset);
+
+    static void rotateOffset(QPanGesture* panGesture,
+                             const QEventPoint& eventPoint);
+
+    static bool isMultiTouchEvent(QEvent* event);
+
     static constexpr int singleTouchPoint_{1};
     static constexpr int panTriggerDistance_{10};
 };

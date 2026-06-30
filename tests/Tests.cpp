@@ -13,6 +13,7 @@
 #include "JavaScriptHighlighterTest.h"
 #include "ObjectiveCHighlighterTest.h"
 #include "PhpHighlighterTest.h"
+#include "ProxyStyleTest.h"
 #include "PythonHighlighterTest.h"
 #include "SQLHighlighterTest.h"
 #include "SpellCheckerTest.h"
@@ -67,6 +68,9 @@ int main(int argc, char* argv[])
 
     TestConfig testConfig;
     status = std::max(status, QTest::qExec(&testConfig));
+
+    ProxyStyleTest proxyStyleTest;
+    status = std::max(status, QTest::qExec(&proxyStyleTest));
 
     TestCommon testCommon;
     status = std::max(status, QTest::qExec(&testCommon));

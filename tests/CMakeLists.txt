@@ -36,6 +36,8 @@ set(${PROJECT_TESTS}_SOURCES
     ConfigTest.cpp
     CommonTest.h
     CommonTest.cpp
+    ProxyStyleTest.h
+    ProxyStyleTest.cpp
 )
 
 qt_add_resources(${PROJECT_TESTS}_SOURCES ../res/resources.qrc)

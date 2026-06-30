@@ -24,7 +24,11 @@ private:
 
     int adjustSize(int size) const;
 
-    float actualUisize_;
+    static bool isScrollBarMetric(QStyle::PixelMetric metric);
+
+    static bool isUiScaledMetric(QStyle::PixelMetric metric);
+
+    float actualUiSize_;
 };
 
 #endif  // PROXYSTYLE_H

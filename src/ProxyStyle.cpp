@@ -4,7 +4,7 @@
 #include <QStyleOption>
 
 ProxyStyle::ProxyStyle(const QString& style, float uiSize)
-    : QProxyStyle(style), actualUisize_(uiSize)
+    : QProxyStyle(style), actualUiSize_(uiSize)
 {
 }
 
@@ -28,19 +28,14 @@ QSize ProxyStyle::sizeFromContents(ContentsType type,
     return defaultSize;
 }
 
-int ProxyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option,
-                            const QWidget* widget) const
+bool ProxyStyle::isScrollBarMetric(QStyle::PixelMetric metric)
 {
-    int pixelMetric{QProxyStyle::pixelMetric(metric, option, widget)};
+    return metric == QStyle::PM_ScrollBarExtent ||
+           metric == QStyle::PM_TabBarScrollButtonWidth;
+}
 
-    constexpr double scrollBarScaleNumerator{5.0};
-    constexpr double scrollBarScaleDenominator{6.0};
-
-    if ((metric == PM_ScrollBarExtent) ||
-        (metric == PM_TabBarScrollButtonWidth))
-        return ::qRound(adjustSize(pixelMetric) *
-                        (scrollBarScaleNumerator / scrollBarScaleDenominator));
-
+bool ProxyStyle::isUiScaledMetric(QStyle::PixelMetric metric)
+{
     const bool isToolBarExtent{(metric == PM_ToolBarHandleExtent) ||
                                (metric == PM_ToolBarExtensionExtent)};
     const bool isCheckBoxIndicator{(metric == PM_IndicatorWidth) ||
@@ -49,10 +44,25 @@ int ProxyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option,
                                 (metric == PM_ToolBarIconSize) ||
                                 (metric == PM_ButtonIconSize)};
 
-    if (isToolBarExtent || isCheckBoxIndicator || isIconSizeMetric)
-        return adjustSize(pixelMetric);
+    return isToolBarExtent || isCheckBoxIndicator || isIconSizeMetric;
+}
 
-    return pixelMetric;
+int ProxyStyle::pixelMetric(PixelMetric metric, const QStyleOption* option,
+                            const QWidget* widget) const
+{
+    const int baseMetric{QProxyStyle::pixelMetric(metric, option, widget)};
+
+    if (isScrollBarMetric(metric))
+    {
+        constexpr double numerator{5.0};
+        constexpr double denominator{6.0};
+        return ::qRound(adjustSize(baseMetric) * (numerator / denominator));
+    }
+
+    if (isUiScaledMetric(metric))
+        return adjustSize(baseMetric);
+
+    return baseMetric;
 }
 
 void ProxyStyle::drawPrimitive(QStyle::PrimitiveElement element,
@@ -69,5 +79,5 @@ void ProxyStyle::drawPrimitive(QStyle::PrimitiveElement element,
 
 int ProxyStyle::adjustSize(int size) const
 {
-    return ::qRound(static_cast<float>(size) * actualUisize_);
+    return ::qRound(static_cast<float>(size) * actualUiSize_);
 }

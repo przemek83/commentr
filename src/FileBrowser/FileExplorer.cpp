@@ -62,6 +62,16 @@ void FileExplorer::changeRootIndex(const QFileSystemModel& model,
     setRootIndex(model.index(pathToUse));
 }
 
+bool FileExplorer::doesUserWantsToOverwriteFile(const QString& filePath)
+{
+    QFileInfo fileInfo(filePath);
+    QString msg = tr("Overwrite ") + fileInfo.fileName() + QStringLiteral("?");
+    QMessageBox::StandardButton answer =
+        QMessageBox::question(this, tr("Overwrite"), msg);
+
+    return answer == QMessageBox::Yes;
+}
+
 void FileExplorer::setPath(const QString& path)
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
@@ -97,28 +107,19 @@ void FileExplorer::performOperationOnFile(const QString& filePath)
 
     QFileInfo fileInfo(filePath);
     QString filePathToUse{fileInfo.filePath()};
-    QString content;
 
     if (mode_ == FileAccessMode::Read)
     {
-        content = Common::loadFile(filePath);
-    }
-    else
-    {
-        if (QFile::exists(filePath))
-        {
-            QString msg =
-                tr("Overwrite ") + fileInfo.fileName() + QStringLiteral("?");
-            QMessageBox::StandardButton answer =
-                QMessageBox::question(this, tr("Overwrite"), msg);
-
-            if (answer == QMessageBox::No)
-                return;
-        }
+        QString content{Common::loadFile(filePath)};
+        File file(Common::Source::LOCAL, filePathToUse, std::move(content));
+        Q_EMIT filePrepared(file);
+        return;
     }
 
-    File file(Common::Source::LOCAL, filePathToUse, std::move(content));
+    if (QFile::exists(filePath) && !doesUserWantsToOverwriteFile(filePathToUse))
+        return;
 
+    File file(Common::Source::LOCAL, filePathToUse, {});
     Q_EMIT filePrepared(file);
 }
 

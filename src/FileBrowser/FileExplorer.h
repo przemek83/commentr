@@ -44,6 +44,8 @@ private:
 
     void changeRootIndex(const QFileSystemModel& model, const QString& path);
 
+    bool doesUserWantsToOverwriteFile(const QString& filePath);
+
     QString currentItem_;
 
     Config& config_;

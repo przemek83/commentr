@@ -12,6 +12,7 @@
 #include "JavaHighlighterTest.h"
 #include "JavaScriptHighlighterTest.h"
 #include "ObjectiveCHighlighterTest.h"
+#include "PanGestureRecognizerTest.h"
 #include "PhpHighlighterTest.h"
 #include "ProxyStyleTest.h"
 #include "PythonHighlighterTest.h"
@@ -71,6 +72,9 @@ int main(int argc, char* argv[])
 
     ProxyStyleTest proxyStyleTest;
     status = std::max(status, QTest::qExec(&proxyStyleTest));
+
+    PanGestureRecognizerTest panGestureRecognizerTest;
+    status = std::max(status, QTest::qExec(&panGestureRecognizerTest));
 
     TestCommon testCommon;
     status = std::max(status, QTest::qExec(&testCommon));

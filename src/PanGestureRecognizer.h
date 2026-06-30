@@ -13,11 +13,12 @@ public:
     PanGestureRecognizer() = default;
     ~PanGestureRecognizer() override = default;
 
+    QGesture* create(QObject* target) override;
+    Result recognize(QGesture* state, QObject* watched, QEvent* event) override;
+
 private:
     Q_DISABLE_COPY_MOVE(PanGestureRecognizer)
 
-    QGesture* create(QObject* target) override;
-    Result recognize(QGesture* state, QObject* watched, QEvent* event) override;
     static const QList<QTouchEvent::TouchPoint>& getTouchPoints(QEvent* event);
 
     static QGestureRecognizer::Result manageTouchBegin(QPanGesture* panGesture,

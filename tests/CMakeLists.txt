@@ -38,6 +38,8 @@ set(${PROJECT_TESTS}_SOURCES
     CommonTest.cpp
     ProxyStyleTest.h
     ProxyStyleTest.cpp
+    PanGestureRecognizerTest.h
+    PanGestureRecognizerTest.cpp
 )
 
 qt_add_resources(${PROJECT_TESTS}_SOURCES ../res/resources.qrc)

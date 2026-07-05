@@ -100,7 +100,6 @@ void PanGestureRecognizerTest::recognizeTouchUpdateBelowThresholdMayBeGesture()
 
 void PanGestureRecognizerTest::recognizeTouchEndCompletesGesture()
 {
-    QSKIP("Skip temporarily.");
     PanGestureRecognizer recognizer;
     const std::unique_ptr<QPanGesture> gesture{createGesture(recognizer)};
 

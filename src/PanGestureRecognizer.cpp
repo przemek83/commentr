@@ -90,7 +90,8 @@ QGestureRecognizer::Result PanGestureRecognizer::manageTouchUpdate(
 QGestureRecognizer::Result PanGestureRecognizer::manageTouchEnd(
     QPanGesture* panGesture, QEvent* event)
 {
-    if (panGesture->state() == Qt::NoGesture)
+    if (panGesture->state() == Qt::NoGesture &&
+        !isPanThresholdExceeded(panGesture->offset()))
         return QGestureRecognizer::CancelGesture;
 
     if (!isMultiTouchEvent(event))

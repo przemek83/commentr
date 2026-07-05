@@ -52,7 +52,8 @@ EditorTabPage::EditorTabPage(File file, float fontSize, Config& config,
 
     connect(ui_->next, &QPushButton::clicked, this, &EditorTabPage::searchNext);
 
-    connect(ui_->prev, &QPushButton::clicked, this, &EditorTabPage::searchPrev);
+    connect(ui_->prev, &QPushButton::clicked, this,
+            &EditorTabPage::searchPrevious);
 
     connect(ui_->searchLineEdit, &QLineEdit::textChanged, this,
             &EditorTabPage::searchStringChanged);
@@ -88,7 +89,7 @@ void EditorTabPage::keyPressEvent(QKeyEvent* event)
     QWidget::keyPressEvent(event);
 }
 
-SyntaxLang EditorTabPage::mode() const { return mode_; }
+SyntaxLang EditorTabPage::getMode() const { return mode_; }
 
 void EditorTabPage::setMode(SyntaxLang mode)
 {
@@ -139,7 +140,7 @@ void EditorTabPage::searchNext()
     }
 }
 
-void EditorTabPage::searchPrev()
+void EditorTabPage::searchPrevious()
 {
     QTextDocument::FindFlags flags = QTextDocument::FindBackward;
     if (!ui_->ignoreCase->isChecked())
@@ -208,9 +209,9 @@ void EditorTabPage::setLineWrap(bool wrap)
         codeViewer_->setLineWrapMode(QPlainTextEdit::NoWrap);
 }
 
-void EditorTabPage::changeFile(const File& file)
+void EditorTabPage::adjustFilePath(const QString& filePath)
 {
-    file_.setFilePath(file.getFilePath());
+    file_.setFilePath(filePath);
 }
 
 QString EditorTabPage::getCurrentText() const

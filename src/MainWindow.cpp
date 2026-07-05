@@ -340,7 +340,7 @@ void MainWindow::saveFileFromTab(const File& file)
     {
         QString content(currentTab->getCurrentText());
         showStatusMsg(Common::saveFile(file.getFilePath(), content));
-        currentTab->changeFile(file);
+        currentTab->adjustFilePath(file.getFilePath());
     }
 
     ui_->tabWidget->setTabText(ui_->tabWidget->currentIndex(),
@@ -573,7 +573,7 @@ void MainWindow::currentTabPageChanged(int index)
             ui_->actionCopy->setEnabled(!currentTab->selectionEmpty());
             ui_->actionCut->setEnabled(!currentTab->selectionEmpty());
             clipboardDataChanged();
-            setProperLangActionForMode(currentTab->mode());
+            setProperLangActionForMode(currentTab->getMode());
             ui_->menuLanguage_mode->setEnabled(true);
             return;
         }

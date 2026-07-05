@@ -49,13 +49,11 @@ public:
 
     void setLineWrap(bool wrap);
 
-    /// @brief change path, base name and suffix of current File object.
-    /// @param file file object.
-    void changeFile(const File& file);
+    void adjustFilePath(const QString& filePath);
 
     QString getCurrentText() const;
 
-    SyntaxLang mode() const;
+    SyntaxLang getMode() const;
     void setMode(SyntaxLang mode);
 
     File getCurrentFileCopy() const;
@@ -101,7 +99,7 @@ private slots:
 
     void searchNext();
 
-    void searchPrev();
+    void searchPrevious();
 
     void redoAvailabilityChanged(bool available);
 

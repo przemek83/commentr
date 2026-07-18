@@ -61,8 +61,8 @@ void CodeViewer::grabGestures() const
 
     QGestureRecognizer::unregisterRecognizer(Qt::PanGesture);
     auto* panGestureRecognizer{new PanGestureRecognizer()};
-    Qt::GestureType gestureType =
-        QGestureRecognizer::registerRecognizer(panGestureRecognizer);
+    Qt::GestureType gestureType{
+        QGestureRecognizer::registerRecognizer(panGestureRecognizer)};
     viewport()->grabGesture(gestureType);
 }
 
@@ -70,11 +70,10 @@ void CodeViewer::cursorPosHasChanged()
 {
     QList<QTextEdit::ExtraSelection> extraSelections;
 
-    QTextEdit::ExtraSelection selection;
-
     constexpr int currentLineLightness{160};
     const QColor lineColor{QColor(Qt::yellow).lighter(currentLineLightness)};
 
+    QTextEdit::ExtraSelection selection;
     selection.format.setBackground(lineColor);
     selection.format.setProperty(QTextFormat::FullWidthSelection, true);
     selection.cursor = textCursor();
@@ -90,7 +89,7 @@ bool CodeViewer::event(QEvent* e)
         return QPlainTextEdit::event(e);
 
     const auto* gestureEvent{dynamic_cast<QGestureEvent*>(e)};
-    QList<QGesture*> gestures{gestureEvent->gestures()};
+    const QList<QGesture*> gestures{gestureEvent->gestures()};
 
     for (QGesture* gesture : gestures)
     {
@@ -180,7 +179,7 @@ void CodeViewer::manageTapGesture(const QTapGesture* gesture)
         return;
     }
 
-    QTextCursor cursor{cursorForPosition(gesture->position().toPoint())};
+    const QTextCursor cursor{cursorForPosition(gesture->position().toPoint())};
     setTextCursor(cursor);
 }
 
@@ -189,8 +188,8 @@ void CodeViewer::manageTapAndHoldGesture(const QTapAndHoldGesture* gesture)
     if (Qt::GestureFinished != gesture->state())
         return;
 
-    QPoint point{mapFromGlobal(gesture->position().toPoint())};
-    QPoint properPoint(point.x() - lineNumberArea_->width(), point.y());
+    const QPoint point{mapFromGlobal(gesture->position().toPoint())};
+    const QPoint properPoint(point.x() - lineNumberArea_->width(), point.y());
     QTextCursor cursor{cursorForPosition(properPoint)};
     cursor.select(QTextCursor::WordUnderCursor);
     setTextCursor(cursor);
@@ -200,7 +199,7 @@ void CodeViewer::manageTapAndHoldGesture(const QTapAndHoldGesture* gesture)
 
 QPoint CodeViewer::positionShiftMain() const
 {
-    QPoint positionInMain(mapToGlobal(QPoint(0, 0)) - mainWindow_->pos());
+    const QPoint positionInMain(mapToGlobal(QPoint(0, 0)) - mainWindow_->pos());
 
     const int cursorRectangleHeight{cursorRect().height()};
 
@@ -233,8 +232,8 @@ void CodeViewer::zoom(int zoomFactor)
 
 int CodeViewer::lineNumberAreaWidth() const
 {
-    const auto digits =
-        static_cast<int>(QString::number(::qMax(1, blockCount())).length());
+    const auto digits{
+        static_cast<int>(QString::number(::qMax(1, blockCount())).length())};
     constexpr int lineNumberPadding{3};
     const double digitWidth{QFontMetricsF(QGuiApplication::font())
                                 .horizontalAdvance(QLatin1Char('9'))};
@@ -268,7 +267,7 @@ void CodeViewer::resizeEvent(QResizeEvent* e)
 {
     QPlainTextEdit::resizeEvent(e);
 
-    QRect cr = contentsRect();
+    const QRect cr{contentsRect()};
     lineNumberArea_->setGeometry(
         QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 
@@ -285,17 +284,17 @@ void CodeViewer::lineNumberAreaPaintEvent(const QPaintEvent* event)
     QPainter painter(lineNumberArea_);
     painter.fillRect(event->rect(), Qt::lightGray);
 
-    QTextBlock block = firstVisibleBlock();
-    int blockNumber = block.blockNumber();
-    int top = ::qRound(
-        blockBoundingGeometry(block).translated(contentOffset()).top());
-    int bottom = top + ::qRound(blockBoundingRect(block).height());
+    QTextBlock block{firstVisibleBlock()};
+    int blockNumber{block.blockNumber()};
+    int top{::qRound(
+        blockBoundingGeometry(block).translated(contentOffset()).top())};
+    int bottom{top + ::qRound(blockBoundingRect(block).height())};
 
     while (block.isValid() && (top <= event->rect().bottom()))
     {
         if (block.isVisible() && (bottom >= event->rect().top()))
         {
-            QString number = QString::number(blockNumber + 1);
+            const QString number{QString::number(blockNumber + 1)};
             painter.setPen(Qt::black);
             painter.drawText(0, top, lineNumberArea_->width(),
                              fontMetrics().height(), Qt::AlignRight, number);
@@ -316,8 +315,8 @@ void CodeViewer::paintEvent(QPaintEvent* e)
     constexpr double rightGuideColumn{80.0};
     const double sizeOf80Chars{QFontMetricsF(font).averageCharWidth() *
                                rightGuideColumn};
-    int x80{::qRound(sizeOf80Chars + contentOffset().x() +
-                     document()->documentMargin())};
+    const int x80{::qRound(sizeOf80Chars + contentOffset().x() +
+                           document()->documentMargin())};
     QPainter painter(viewport());
     painter.setPen(QPen("gray"));
     painter.drawLine(x80, rect.top(), x80, rect.bottom());
@@ -328,7 +327,7 @@ void CodeViewer::keyPressEvent(QKeyEvent* e)
     if (const int key{e->key()};
         (Qt::Key_Return == key) || (Qt::Key_Enter == key))
     {
-        QString line{textCursor().block().text()};
+        const QString line{textCursor().block().text()};
 
         QPlainTextEdit::keyPressEvent(e);
         insertPlainText(

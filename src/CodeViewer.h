@@ -19,7 +19,7 @@ class CodeViewer : public QPlainTextEdit
 {
     Q_OBJECT
 public:
-    CodeViewer(Config& config, QWidget* parent);
+    explicit CodeViewer(Config& config);
 
     ~CodeViewer() override = default;
 

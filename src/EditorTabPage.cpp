@@ -25,7 +25,7 @@ EditorTabPage::EditorTabPage(File file, float fontSize, Config& config,
                              SpellChecker& spellChecker, QWidget* parent)
     : QWidget(parent),
       ui_{std::make_unique<Ui::EditorTabPage>()},
-      codeViewer_(new CodeViewer(config, this)),
+      codeViewer_(new CodeViewer(config)),
       file_{std::move(file)},
       config_{config},
       spellChecker_{spellChecker}

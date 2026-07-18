@@ -15,9 +15,8 @@
 #include "Config.h"
 #include "PanGestureRecognizer.h"
 
-CodeViewer::CodeViewer(Config& config, QWidget* parent)
-    : QPlainTextEdit(parent),
-      lineNumberArea_(new LineNumberArea(this)),
+CodeViewer::CodeViewer(Config& config)
+    : lineNumberArea_(new LineNumberArea(this)),
       mainWindow_(Common::getMainWindow(this)),
       config_{config}
 {
@@ -201,21 +200,22 @@ void CodeViewer::manageTapAndHoldGesture(const QTapAndHoldGesture* gesture)
 
 QPoint CodeViewer::positionShiftMain() const
 {
-    QPoint positonInMain(mapToGlobal(QPoint(0, 0)) - mainWindow_->pos());
+    QPoint positionInMain(mapToGlobal(QPoint(0, 0)) - mainWindow_->pos());
 
-    QRect cursorRectangle = cursorRect();
+    const int cursorRectangleHeight{cursorRect().height()};
 
-    QRect mainGeometry = mainWindow_->geometry();
-    QRect mainFrameGeometry = mainWindow_->frameGeometry();
+    const QRect mainGeometry{mainWindow_->geometry()};
+    const QRect mainFrameGeometry{mainWindow_->frameGeometry()};
 
     // Difference between frame and mainwindow.
-    int shiftY = mainFrameGeometry.y() - mainGeometry.y();
+    const int shiftY{mainFrameGeometry.y() - mainGeometry.y()};
 
     // Width of Application frame (desktops).
-    int frameWidth = (mainFrameGeometry.width() - mainGeometry.width()) / 2;
+    const int frameWidth{(mainFrameGeometry.width() - mainGeometry.width()) /
+                         2};
 
-    QPoint shift = positonInMain + QPoint(lineNumberArea_->width() - frameWidth,
-                                          cursorRectangle.height() + shiftY);
+    QPoint shift{positionInMain + QPoint(lineNumberArea_->width() - frameWidth,
+                                         cursorRectangleHeight + shiftY)};
 
     return shift;
 }

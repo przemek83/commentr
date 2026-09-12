@@ -199,25 +199,22 @@ void FileExplorer::mouseMoveEvent(QMouseEvent* e) { e->accept(); }
 QString FileExplorer::getCurrentPath() const
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
-
-    QString path{fileModel->fileInfo(rootIndex()).canonicalFilePath()};
-
-    return path;
+    return fileModel->fileInfo(rootIndex()).canonicalFilePath();
 }
 
 bool FileExplorer::fileIsValid(const QString& file) const
 {
-    QFileInfo fileInfo(file);
+    const QFileInfo fileInfo(file);
+    const bool exists{QFile::exists(file)};
 
     if (mode_ == FileAccessMode::READ)
-        return (QFile::exists(file) && fileInfo.isFile() &&
-                fileInfo.isReadable());
+        return (exists && fileInfo.isFile() && fileInfo.isReadable());
 
-    if (QFile::exists(file))
+    if (exists)
         return (fileInfo.isFile() && fileInfo.isWritable());
 
-    bool dirExists{fileInfo.dir().exists()};
-    bool writable{QFileInfo(fileInfo.dir().canonicalPath()).isWritable()};
+    const bool dirExists{fileInfo.dir().exists()};
+    const bool writable{QFileInfo(fileInfo.dir().canonicalPath()).isWritable()};
     return (dirExists && writable);
 }
 

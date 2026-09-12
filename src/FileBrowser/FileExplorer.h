@@ -1,5 +1,5 @@
-#ifndef FILEEXPLORER_H
-#define FILEEXPLORER_H
+#ifndef FILE_EXPLORER_H
+#define FILE_EXPLORER_H
 
 #include <QListView>
 
@@ -46,6 +46,8 @@ private:
 
     bool doesUserWantsToOverwriteFile(const QString& filePath);
 
+    const QFileSystemModel* getCurrentFileModel() const;
+
     QString currentItem_;
 
     Config& config_;
@@ -63,4 +65,4 @@ signals:
     void filePrepared(File file);
 };
 
-#endif  // FILEEXPLORER_H
+#endif  // FILE_EXPLORER_H

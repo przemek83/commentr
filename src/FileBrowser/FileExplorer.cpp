@@ -23,7 +23,7 @@ FileExplorer::FileExplorer(FileAccessMode mode, Config& config, QWidget* parent)
 
 FileExplorer::~FileExplorer()
 {
-    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
+    const auto* fileModel{getCurrentFileModel()};
     QModelIndex currentIndex{rootIndex()};
     QString lastDir{fileModel->fileInfo(currentIndex).absoluteFilePath()};
     config_.setLastPickedDir(lastDir);
@@ -72,9 +72,15 @@ bool FileExplorer::doesUserWantsToOverwriteFile(const QString& filePath)
     return answer == QMessageBox::Yes;
 }
 
-void FileExplorer::setPath(const QString& path)
+const QFileSystemModel* FileExplorer::getCurrentFileModel() const
 {
     const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
+    return fileModel;
+}
+
+void FileExplorer::setPath(const QString& path)
+{
+    const auto* fileModel{getCurrentFileModel()};
     changeRootIndex(*fileModel, path);
     QModelIndex newRootIndex{fileModel->index(0, 0, rootIndex())};
     setCurrentIndex(newRootIndex);
@@ -126,8 +132,7 @@ void FileExplorer::performOperationOnFile(const QString& filePath)
 
 void FileExplorer::itemWasActivated(const QModelIndex& index)
 {
-    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
-
+    const auto* fileModel{getCurrentFileModel()};
     if (currentItem_ != index.data())
     {
         currentItem_ = index.data().toString();
@@ -136,7 +141,8 @@ void FileExplorer::itemWasActivated(const QModelIndex& index)
 
     currentItem_.clear();
 
-    QString canonicalFilePath(fileModel->fileInfo(index).canonicalFilePath());
+    const QString canonicalFilePath(
+        fileModel->fileInfo(index).canonicalFilePath());
     if (fileModel->isDir(index))
     {
         if (index.data().toString() == QLatin1String(".."))
@@ -161,44 +167,42 @@ void FileExplorer::itemWasActivated(const QModelIndex& index)
 
 void FileExplorer::directoryLoaded(const QString& path)
 {
-    QString oldCurrentPath = getCurrentPath();
+    const QString oldCurrentPath{getCurrentPath()};
 
     directoryIsAccessible(path);
 
-    QString newCurrentPath = getCurrentPath();
+    const QString newCurrentPath{getCurrentPath()};
     if (oldCurrentPath != newCurrentPath)
         Q_EMIT pathChanged(newCurrentPath);
 }
 
 bool FileExplorer::directoryIsAccessible(const QString& path)
 {
-    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
+    const auto* fileModel{getCurrentFileModel()};
+    QDir newDir(path);
+    if (!newDir.entryList(QDir::AllEntries).empty())
+        return true;
 
-    if (QDir newDir(path); newDir.entryList(QDir::AllEntries).empty())
+    QMessageBox::information(this, tr("Error"), tr("Not accessible..."));
+
+    if (newDir.cdUp())
     {
-        QMessageBox::information(this, tr("Error"), tr("Not accessible..."));
-
-        if (newDir.cdUp())
-        {
-            setRootIndex(fileModel->index(newDir.absolutePath()));
-        }
-        else
-        {
-            QMessageBox::information(this, tr("Error"), tr("I/O error..."));
-            setRootIndex(fileModel->index(QLatin1String("")));
-        }
-
-        return false;
+        setRootIndex(fileModel->index(newDir.absolutePath()));
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Error"), tr("I/O error..."));
+        setRootIndex(fileModel->index(QLatin1String("")));
     }
 
-    return true;
+    return false;
 }
 
 void FileExplorer::mouseMoveEvent(QMouseEvent* e) { e->accept(); }
 
 QString FileExplorer::getCurrentPath() const
 {
-    const auto* fileModel{dynamic_cast<QFileSystemModel*>(model())};
+    const auto* fileModel{getCurrentFileModel()};
     return fileModel->fileInfo(rootIndex()).canonicalFilePath();
 }
 

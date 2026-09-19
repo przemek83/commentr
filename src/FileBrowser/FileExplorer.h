@@ -48,6 +48,8 @@ private:
 
     const QFileSystemModel* getCurrentFileModel() const;
 
+    void handleActivation(const QModelIndex& index);
+
     QString currentItem_;
 
     Config& config_;

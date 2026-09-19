@@ -65,9 +65,9 @@ void FileExplorer::changeRootIndex(const QFileSystemModel& model,
 bool FileExplorer::doesUserWantsToOverwriteFile(const QString& filePath)
 {
     QFileInfo fileInfo(filePath);
-    QString msg = tr("Overwrite ") + fileInfo.fileName() + QStringLiteral("?");
-    QMessageBox::StandardButton answer =
-        QMessageBox::question(this, tr("Overwrite"), msg);
+    QString msg{tr("Overwrite ") + fileInfo.fileName() + QStringLiteral("?")};
+    QMessageBox::StandardButton answer{
+        QMessageBox::question(this, tr("Overwrite"), msg)};
 
     return answer == QMessageBox::Yes;
 }
@@ -130,39 +130,44 @@ void FileExplorer::performOperationOnFile(const QString& filePath)
     Q_EMIT filePrepared(file);
 }
 
-void FileExplorer::itemWasActivated(const QModelIndex& index)
+void FileExplorer::handleActivation(const QModelIndex& index)
 {
     const auto* fileModel{getCurrentFileModel()};
-    if (currentItem_ != index.data())
+    const QString filePath{fileModel->fileInfo(index).canonicalFilePath()};
+
+    if (!fileModel->isDir(index))
     {
-        currentItem_ = index.data().toString();
+        performOperationOnFile(filePath);
         return;
     }
 
-    currentItem_.clear();
-
-    const QString canonicalFilePath(
-        fileModel->fileInfo(index).canonicalFilePath());
-    if (fileModel->isDir(index))
+    const QString value{index.data().toString()};
+    if (value == QLatin1String(".."))
     {
-        if (index.data().toString() == QLatin1String(".."))
-        {
-            setRootIndex(fileModel->index(canonicalFilePath));
-            QModelIndex newRootIndex = fileModel->index(0, 0, rootIndex());
-            setCurrentIndex(newRootIndex);
-        }
-        else
-        {
-            if (directoryIsAccessible(canonicalFilePath))
-                setRootIndex(index);
-        }
-
-        Q_EMIT pathChanged(getCurrentPath());
+        setRootIndex(fileModel->index(filePath));
+        QModelIndex newRootIndex{fileModel->index(0, 0, rootIndex())};
+        setCurrentIndex(newRootIndex);
     }
     else
     {
-        performOperationOnFile(canonicalFilePath);
+        if (directoryIsAccessible(filePath))
+            setRootIndex(index);
     }
+
+    Q_EMIT pathChanged(getCurrentPath());
+}
+
+void FileExplorer::itemWasActivated(const QModelIndex& index)
+{
+    const QString value{index.data().toString()};
+    if (currentItem_ == value)
+    {
+        currentItem_.clear();
+        handleActivation(index);
+        return;
+    }
+
+    currentItem_ = value;
 }
 
 void FileExplorer::directoryLoaded(const QString& path)

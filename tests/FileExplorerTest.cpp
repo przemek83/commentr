@@ -74,3 +74,32 @@ void TestFileExplorer::testPerformOperationOpen()
     QCOMPARE(capturedFile.getFilePath(), filePath);
     QCOMPARE(capturedFile.content(), content);
 }
+
+void TestFileExplorer::testWrappingOffRespectsConfig()
+{
+    config_.setListViewInBrowser(true);
+    FileExplorer wrappedExplorer(FileAccessMode::READ, config_, nullptr);
+    wrappedExplorer.initialize();
+    QCOMPARE(wrappedExplorer.isWrappingContent(), false);
+}
+
+void TestFileExplorer::testWrappingOnRespectsConfig()
+{
+    config_.setListViewInBrowser(false);
+    FileExplorer expandedExplorer(FileAccessMode::READ, config_, nullptr);
+    expandedExplorer.initialize();
+    QCOMPARE(expandedExplorer.isWrappingContent(), true);
+}
+
+void TestFileExplorer::testDestructorStoresCurrentDir()
+{
+    Config localConfig;
+    {
+        FileExplorer explorer(FileAccessMode::READ, localConfig, nullptr);
+        explorer.initialize();
+        explorer.setPath(QDir::homePath());
+        QVERIFY(!explorer.getCurrentPath().isEmpty());
+    }
+
+    QCOMPARE(localConfig.lastPickedDir(), QDir::homePath());
+}

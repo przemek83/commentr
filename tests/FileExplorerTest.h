@@ -18,6 +18,9 @@ private slots:
     void testFileIsValidOpenPositive();
     void testFileIsValidOpenNegative();
     void testPerformOperationOpen();
+    void testWrappingOffRespectsConfig();
+    void testWrappingOnRespectsConfig();
+    void testDestructorStoresCurrentDir();
 };
 
 #endif  // TESTFILEEXPLORER_H

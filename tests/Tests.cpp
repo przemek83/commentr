@@ -6,6 +6,7 @@
 #include "CSharpHighlighterTest.h"
 #include "CommonTest.h"
 #include "ConfigTest.h"
+#include "EnhancedLineEditTest.h"
 #include "FileExplorerTest.h"
 #include "FileTest.h"
 #include "HighlighterSpellCheckTest.h"
@@ -69,6 +70,9 @@ int main(int argc, char* argv[])
 
     TestConfig testConfig;
     status = std::max(status, QTest::qExec(&testConfig));
+
+    EnhancedLineEditTest enhancedLineEditTest;
+    status = std::max(status, QTest::qExec(&enhancedLineEditTest));
 
     ProxyStyleTest proxyStyleTest;
     status = std::max(status, QTest::qExec(&proxyStyleTest));

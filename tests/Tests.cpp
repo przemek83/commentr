@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QTest>
 
+#include "BackButtonHandlerTest.h"
 #include "CHighlighterTest.h"
 #include "CPlusPlusHighlighterTest.h"
 #include "CSharpHighlighterTest.h"
@@ -82,6 +83,9 @@ int main(int argc, char* argv[])
 
     TestCommon testCommon;
     status = std::max(status, QTest::qExec(&testCommon));
+
+    BackButtonHandlerTest backButtonHandlerTest;
+    status = std::max(status, QTest::qExec(&backButtonHandlerTest));
 
     return status;
 }

@@ -36,6 +36,8 @@ set(${PROJECT_TESTS}_SOURCES
     ConfigTest.cpp
     CommonTest.h
     CommonTest.cpp
+    BackButtonHandlerTest.h
+    BackButtonHandlerTest.cpp
     EnhancedLineEditTest.h
     EnhancedLineEditTest.cpp
     ProxyStyleTest.h
